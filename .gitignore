@@ -6,6 +6,26 @@ compiled/
 unreal/
 /build/
 
+# Local Codex workspace metadata.
+.codex/
+
+# Alice Web Viewer now lives in its own repository.
+demo/alice_web_viewer/
+demo/alice_web_viewer/viewer/node_modules/
+demo/alice_web_viewer/viewer/dist/
+demo/alice_web_viewer/viewer/.vite*.log
+demo/alice_web_viewer/exports/*
+!demo/alice_web_viewer/exports/.gitkeep
+demo/alice_web_viewer/viewer/public/wasm/*
+!demo/alice_web_viewer/viewer/public/wasm/.gitkeep
+
+# zSpace WASM build outputs.
+wasm/build/
+wasm/tmp/
+wasm/cache/
+wasm/out/*
+!wasm/out/.gitkeep
+
 # Third-party dependency build outputs should be rebuilt or fetched locally.
 third_party/**/build/
 third_party/**/*.lib
