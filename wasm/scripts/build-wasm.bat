@@ -1,5 +1,5 @@
 @echo off
-setlocal EnableExtensions
+setlocal EnableExtensions EnableDelayedExpansion
 
 set "REPO_ROOT=%~dp0..\.."
 for %%I in ("%REPO_ROOT%") do set "REPO_ROOT=%%~fI"
@@ -41,6 +41,19 @@ set "TMP=%WASM_TMP%"
 set "EMCC_TEMP_DIR=%WASM_TMP%"
 set "EM_CACHE=%WASM_CACHE%"
 
+set "ZSPACE_SOURCES="
+for /R "%REPO_ROOT%\src\zCore" %%F in (*.cpp) do (
+  set "ZSPACE_SOURCES=!ZSPACE_SOURCES! "%%F""
+)
+for /R "%REPO_ROOT%\src\zInterface" %%F in (*.cpp) do (
+  if /I not "%%~nxF"=="zFnComputeMesh.cpp" if /I not "%%~nxF"=="zObjectComputeMesh.cpp" if /I not "%%~nxF"=="zFnMeshField.cpp" if /I not "%%~nxF"=="zFnPointField.cpp" if /I not "%%~nxF"=="zObjectMeshField.cpp" if /I not "%%~nxF"=="zObjectPointField.cpp" if /I not "%%~nxF"=="zObjectComputeField2D.cpp" (
+    set "ZSPACE_SOURCES=!ZSPACE_SOURCES! "%%F""
+  )
+)
+for /R "%REPO_ROOT%\src\zIO" %%F in (*.cpp) do (
+  set "ZSPACE_SOURCES=!ZSPACE_SOURCES! "%%F""
+)
+
 em++ ^
   "%BRIDGE_DIR%\zspace_core_wasm_bridge.cpp" ^
   -include "%BRIDGE_DIR%\zspace_wasm_compat.h" ^
@@ -72,48 +85,9 @@ em++ ^
 if errorlevel 1 exit /b 1
 
 em++ ^
-  "%REPO_ROOT%\src\zCore\geometry\detail\zMeshFaceListStorage.cpp" ^
-  -include "%BRIDGE_DIR%\zspace_wasm_compat.h" ^
-  -DZSPACE_STATIC_LIBRARY ^
-  -I"%BRIDGE_DIR%" ^
-  -I"%REPO_ROOT%" ^
-  -I"%REPO_ROOT%\include" ^
-  -I"%REPO_ROOT%\third_party" ^
-  -I"%REPO_ROOT%\third_party\depends" ^
-  -std=c++17 ^
-  -O0 ^
-  -c ^
-  -o "%WASM_BUILD%\zMeshFaceListStorage.o"
-if errorlevel 1 exit /b 1
-
-em++ ^
-  "%REPO_ROOT%\src\zCore\geometry\zGraphEdgeListStorage.cpp" ^
-  -include "%BRIDGE_DIR%\zspace_wasm_compat.h" ^
-  -DZSPACE_STATIC_LIBRARY ^
-  -I"%BRIDGE_DIR%" ^
-  -I"%REPO_ROOT%" ^
-  -I"%REPO_ROOT%\include" ^
-  -I"%REPO_ROOT%\third_party" ^
-  -I"%REPO_ROOT%\third_party\depends" ^
-  -std=c++17 ^
-  -O0 ^
-  -c ^
-  -o "%WASM_BUILD%\zGraphEdgeListStorage.o"
-if errorlevel 1 exit /b 1
-
-em++ ^
-  "%REPO_ROOT%\src\zCore\base\zColor.cpp" ^
-  "%REPO_ROOT%\src\zIO\zIOResult.cpp" ^
-  "%REPO_ROOT%\src\zIO\zIO.cpp" ^
-  "%REPO_ROOT%\src\zIO\codecs\zCodecOBJ.cpp" ^
-  "%REPO_ROOT%\src\zIO\codecs\zCodecJSON.cpp" ^
-  "%REPO_ROOT%\src\zIO\codecs\zCodecUSD.cpp" ^
-  "%REPO_ROOT%\src\zIO\codecs\zCodecGraphTXT.cpp" ^
-  "%REPO_ROOT%\src\zIO\codecs\zCodecPointCloudCSV.cpp" ^
+  !ZSPACE_SOURCES! ^
   "%WASM_BUILD%\zspace_core_wasm_bridge.o" ^
   "%WASM_BUILD%\default_live_sketch.o" ^
-  "%WASM_BUILD%\zMeshFaceListStorage.o" ^
-  "%WASM_BUILD%\zGraphEdgeListStorage.o" ^
   -include "%BRIDGE_DIR%\zspace_wasm_compat.h" ^
   -DZSPACE_STATIC_LIBRARY ^
   -I"%BRIDGE_DIR%" ^
