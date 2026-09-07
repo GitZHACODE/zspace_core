@@ -76,6 +76,7 @@ namespace
 
 	struct SolverParams
 	{
+		int mode = 0;
 		double gravity = 0.0;
 		zSpace::zVector direction = zSpace::zVector(0, 0, -1);
 		double value = 0.0;
@@ -897,6 +898,65 @@ namespace
 		gSolverEquilibriumReached = false;
 
 		if (positions.empty()) return;
+		if (gSolverParams.mode == 1)
+		{
+			if (!gSolverReady) return;
+			const double meshScale = std::max(gMeshDynamics.cachedMeshScale, 1.0e-6);
+			zSpace::zVectorArray gradients(positions.size(), zSpace::zVector(0, 0, 0));
+			std::vector<double> areas(positions.size(), 0.0);
+			zSpace::zInt2DArray faceTriangles;
+			gMeshDynamics.getMeshTriangles(faceTriangles);
+			for (const auto& triangles : faceTriangles)
+			{
+				for (std::size_t j = 0; j + 2 < triangles.size(); j += 3)
+				{
+					const int a = triangles[j], b = triangles[j + 1], c = triangles[j + 2];
+					zSpace::zVector ab = positions[b]; ab -= positions[a];
+					zSpace::zVector bc = positions[c]; bc -= positions[b];
+					zSpace::zVector ca = positions[a]; ca -= positions[c];
+					zSpace::zVector normal = ab ^ bc;
+					const double twiceArea = normal.length();
+					if (!std::isfinite(twiceArea) || twiceArea <= 0.0) return;
+					normal /= twiceArea;
+					zSpace::zVector ga = (bc ^ normal) * 0.5;
+					zSpace::zVector gb = (ca ^ normal) * 0.5;
+					gradients[a] += ga;
+					gradients[b] += gb;
+					gradients[c] += (ga + gb) * -1.0;
+					areas[a] += twiceArea / 6.0;
+					areas[b] += twiceArea / 6.0;
+					areas[c] += twiceArea / 6.0;
+				}
+			}
+			bool hasResidual = false;
+			double minResidual = 0.0;
+			double maxResidual = 0.0;
+			for (std::size_t vertexId = 0; vertexId < positions.size(); ++vertexId)
+			{
+				if (isSolverSupportVertex(static_cast<int>(vertexId))) continue;
+				if (areas[vertexId] <= 0.0) return;
+				// |grad A| / (2 * vertex area) is the discrete mean-curvature vector magnitude.
+				const double residual = gradients[vertexId].length() * meshScale / (2.0 * areas[vertexId]);
+				if (!std::isfinite(residual)) return;
+				if (!hasResidual)
+				{
+					minResidual = residual;
+					maxResidual = residual;
+					hasResidual = true;
+				}
+				else
+				{
+					minResidual = std::min(minResidual, residual);
+					maxResidual = std::max(maxResidual, residual);
+				}
+				++gSolverResidualCount;
+			}
+			if (!hasResidual) return;
+			gSolverMinResidual = minResidual;
+			gSolverMaxResidual = maxResidual;
+			gSolverEquilibriumReached = maxResidual < std::max(0.0, gSolverParams.residualThreshold);
+			return;
+		}
 		if ((!gSolverParams.gravityEnabled || std::abs(gSolverParams.gravity) <= 1.0e-12) &&
 			(!gSolverParams.vectorForceEnabled || std::abs(gSolverParams.value) <= 1.0e-12) &&
 			(!gSolverParams.edgeForceEnabled || std::abs(gSolverParams.springStiffness) <= 1.0e-12)) return;
@@ -1677,6 +1737,26 @@ extern "C"
 		return 0;
 	}
 
+	ZSPACE_WASM_EXPORT int zspace_solver_set_mode(int mode)
+	{
+		try
+		{
+			gBuffers.lastError.clear();
+			gSolverParams.mode = mode == 1 ? 1 : 0;
+			if (!gSolverConfigUpdateBatch) copySolverPreviewToPrimitiveBuffers();
+			return 1;
+		}
+		catch (const std::exception& error)
+		{
+			gBuffers.lastError = error.what();
+		}
+		catch (...)
+		{
+			gBuffers.lastError = "Unknown zSpace mesh solver mode error.";
+		}
+		return 0;
+	}
+
 	ZSPACE_WASM_EXPORT int zspace_solver_set_params(
 		double gravity,
 		double directionX, double directionY, double directionZ,
@@ -1888,16 +1968,23 @@ extern "C"
 					if (gravityVector.length() <= 1.0e-9f) gravityVector = zSpace::zVector(0, 0, -1);
 					gravityVector.normalize();
 
-					if (gSolverParams.gravityEnabled && std::abs(gSolverParams.gravity) > 1.0e-12)
-						gMeshDynamics.addMassScaledGravityForce(gSolverParams.gravity, gravityVector);
-					if (gSolverParams.vectorForceEnabled && std::abs(gSolverParams.value) > 1.0e-12)
-						gMeshDynamics.addLoadForce(gSolverParams.value, 0, gSolverParams.direction);
-					if (gSolverParams.edgeForceEnabled)
-						gMeshDynamics.addGuardedSpringForce(
-							gSolverParams.springStiffness,
-							gSolverParams.edgeLengthMultiplier,
-							gSolverParams.fixXY ? zSpace::zConstraintXY : zSpace::zConstraintFree
-						);
+					if (gSolverParams.mode == 1)
+					{
+						gMeshDynamics.addMinimizeAreaForce(gSolverParams.springStiffness);
+					}
+					else
+					{
+						if (gSolverParams.gravityEnabled && std::abs(gSolverParams.gravity) > 1.0e-12)
+							gMeshDynamics.addMassScaledGravityForce(gSolverParams.gravity, gravityVector);
+						if (gSolverParams.vectorForceEnabled && std::abs(gSolverParams.value) > 1.0e-12)
+							gMeshDynamics.addLoadForce(gSolverParams.value, 0, gSolverParams.direction);
+						if (gSolverParams.edgeForceEnabled)
+							gMeshDynamics.addGuardedSpringForce(
+								gSolverParams.springStiffness,
+								gSolverParams.edgeLengthMultiplier,
+								gSolverParams.fixXY ? zSpace::zConstraintXY : zSpace::zConstraintFree
+							);
+					}
 					gMeshDynamics.addDragForce(gSolverParams.dragStrength, gSolverParams.drag);
 
 					if (!gMeshDynamics.limitForces(meshStepScale, subTimeStep, 0.25) ||

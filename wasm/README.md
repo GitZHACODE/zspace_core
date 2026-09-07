@@ -33,3 +33,17 @@ Generated files are written to:
 wasm/out/zspace_core.js
 wasm/out/zspace_core.wasm
 ```
+
+## Minimal Surface Convergence
+
+Mode 1 minimizes triangulated surface area. Its residual is the maximum of
+`|gradient(area)| * referenceEdgeLength / (2 * vertexArea)` over free vertices.
+Vertex area is one third of each incident triangle's area; reference edge length
+is the average edge length when dynamics are created. This dimensionless discrete
+mean-curvature magnitude is independent of timestep, mass, drag, and area strength.
+Support vertices are excluded because their constraint reactions can balance
+nonzero curvature. Equilibrium means residual below the configured tolerance,
+not exactly zero curvature everywhere. Invalid or zero-area geometry cannot
+declare equilibrium. The analysis visualizer may use a different curvature estimator.
+
+Run the runtime regression after building with `node wasm/scripts/test-minimal-surface.mjs`.

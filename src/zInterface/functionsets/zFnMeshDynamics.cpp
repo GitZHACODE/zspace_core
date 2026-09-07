@@ -757,11 +757,13 @@ namespace zSpace
 				zVector CA = PA - PC;
 
 				zVector Normal = AB ^ BC;
+				if (Normal.length() <= EPS) continue;
 				Normal.normalize();
 
 				zVector V0 = (BC ^ Normal) * 0.5;
 				zVector V1 = (CA ^ Normal) * 0.5;
 
+				// Edge crossed with the unit normal is the negative area gradient.
 				zVector pForce0 = V0 * strength;
 				zFnParticle fnParticle0(particlesObj[faceTris[i][j + 0]]);			
 				fnParticle0.addForce(pForce0);
