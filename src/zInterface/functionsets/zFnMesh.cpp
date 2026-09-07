@@ -1207,7 +1207,7 @@ namespace zSpace
 		for (std::size_t i = 0; i < data.vertexNormals.size(); ++i)
 		{
 			if (contributions[i] > 0) data.vertexNormals[i] /= static_cast<float>(contributions[i]);
-			data.vertexNormals[i].normalize();
+			if (data.vertexNormals[i].length() > 1.0e-9f) data.vertexNormals[i].normalize();
 		}
 	}
 
@@ -1230,7 +1230,7 @@ namespace zSpace
 				normal += (data.positions[data.faceVertexIndices[i]] - center) ^
 					(data.positions[data.faceVertexIndices[next]] - center);
 			}
-			normal.normalize();
+			if (normal.length() > 1.0e-9f) normal.normalize();
 			data.faceNormals[faceId] = normal;
 		}
 		// compute vertex normal
@@ -1304,7 +1304,6 @@ namespace zSpace
 			pts.push_back(zVector(mesh.vertices[i + 2].x, mesh.vertices[i + 2].y, mesh.vertices[i + 2].z));*/
 			//addPolygon(pts, f);
 
-			printf("\n ");
 			for (int j = 0; j < 3; j += 1)
 			{
 				int vID = -1;
@@ -1319,12 +1318,10 @@ namespace zSpace
 				}
 
 				pConnects.push_back(vID);
-				printf(" %i ", vID);
 			}
 
 			pCounts.push_back(3);
 		}
-		printf("\n Working %i %i %i ", positions.size(), pCounts.size(), pConnects.size());
 		create(positions, pCounts, pConnects);
 		
 
@@ -2512,19 +2509,85 @@ namespace zSpace
 
 	ZSPACE_INLINE void zFnMesh::getGaussianCurvature(zDoubleArray &vertexCurvatures)
 	{	
+		const auto& data = zMeshObjectStorage::read(*meshObj);
+		const int nV = data.numVertices();
+		const int nF = data.numFaces();
+
 		vertexCurvatures.clear();
-		vertexCurvatures.assign(numVertices(), -1);
+		vertexCurvatures.assign(nV, 0);
 
-		for (zItMeshVertex v(*meshObj); !v.end(); v++)
+		if (nV == 0 || nF == 0 || data.faceOffsets.size() < static_cast<size_t>(nF + 1)) return;
+
+		vector<double> angleSums(nV, 0.0);
+		vector<double> vertexAreas(nV, 0.0);
+		vector<bool> boundaryVertices(nV, false);
+		map<pair<int, int>, int> edgeUseCounts;
+
+		for (int faceId = 0; faceId < nF; ++faceId)
 		{
-			int id = v.getId();
-			if (!v.isActive()) continue;
+			const int begin = data.faceOffsets[faceId];
+			const int end = data.faceOffsets[faceId + 1];
+			const int count = end - begin;
+			if (count < 3 || begin < 0 || end > static_cast<int>(data.faceVertexIndices.size())) continue;
 
-			double gaussianCurvature = 0.0;
-			double meanCurvature = 0.0;
-			zVector tangentDirection;
-			computeVertexCurvatureData(*this, v, gaussianCurvature, meanCurvature, tangentDirection);
-			vertexCurvatures[id] = gaussianCurvature;
+			zIntArray faceVertices;
+			faceVertices.reserve(count);
+			bool validFace = true;
+			for (int i = begin; i < end; ++i)
+			{
+				const int vertexId = data.faceVertexIndices[i];
+				if (vertexId < 0 || vertexId >= nV)
+				{
+					validFace = false;
+					break;
+				}
+				faceVertices.push_back(vertexId);
+			}
+			if (!validFace) continue;
+
+			for (int i = 1; i + 1 < count; ++i)
+			{
+				const int a = faceVertices[0];
+				const int b = faceVertices[i];
+				const int c = faceVertices[i + 1];
+				const zVector& pa = data.positions[a];
+				const zVector& pb = data.positions[b];
+				const zVector& pc = data.positions[c];
+				const double area = triangleArea(pa, pb, pc);
+				if (area <= ZSPACE_CURVATURE_EPS) continue;
+
+				angleSums[a] += angleAtVertex(pa, pc, pb);
+				angleSums[b] += angleAtVertex(pb, pa, pc);
+				angleSums[c] += angleAtVertex(pc, pb, pa);
+
+				const double areaShare = area / 3.0;
+				vertexAreas[a] += areaShare;
+				vertexAreas[b] += areaShare;
+				vertexAreas[c] += areaShare;
+			}
+
+			for (int i = 0; i < count; ++i)
+			{
+				const int a = faceVertices[i];
+				const int b = faceVertices[(i + 1) % count];
+				if (a == b) continue;
+				edgeUseCounts[std::minmax(a, b)] += 1;
+			}
+		}
+
+		for (const auto& item : edgeUseCounts)
+		{
+			if (item.second > 1) continue;
+			boundaryVertices[item.first.first] = true;
+			boundaryVertices[item.first.second] = true;
+		}
+
+		for (int vertexId = 0; vertexId < nV; ++vertexId)
+		{
+			if (vertexAreas[vertexId] <= ZSPACE_CURVATURE_EPS) continue;
+			const double targetAngle = boundaryVertices[vertexId] ? Z_PI : Z_TWO_PI;
+			const double curvature = (targetAngle - angleSums[vertexId]) / vertexAreas[vertexId];
+			vertexCurvatures[vertexId] = std::isfinite(curvature) ? curvature : 0.0;
 		}
 	}
 

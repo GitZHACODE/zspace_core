@@ -194,19 +194,19 @@ namespace zSpace
 		{
 			zIntArray eVerts;
 			e.getVertices(eVerts);
+			if (eVerts.size() < 2) continue;
 
 			zVector eVec = vPositions[eVerts[1]] - vPositions[eVerts[0]];
 			float eLen = e.getLength();
+			if (eLen <= 1.0e-6f) continue;
 			eVec.normalize();
 
 			float restLen = restLength[e.getId()];
 
 			float val = strength * (eLen - restLen);
 			zVector pForceA = eVec * (val * 0.5);
-			pForceA *= strength;
 
 			zVector pForceB = pForceA * -1;
-			pForceB *= strength;
 			
 			zFnParticle fnParticle1(particlesObj[eVerts[0]]);
 			zFnParticle fnParticle2(particlesObj[eVerts[1]]);
@@ -781,7 +781,6 @@ namespace zSpace
 	{
 		if (vertexDistances.size() != vertexIDs.size())
 		{
-			printf("\n vertexDistances %i | vertexIDs %i ", vertexDistances.size(), vertexIDs.size());
 			throw std::invalid_argument(" error: vertexDistance and VertexIDs to be of the same size");
 			
 		}
@@ -853,6 +852,7 @@ namespace zSpace
 		zItMeshEdge e(*meshObj, eId);
 		zIntArray vertices;
 		e.getVertices(vertices);
+		if (vertices.size() < 2) return;
 		int v0 = vertices[0];
 		int v1 = vertices[1];
 
@@ -866,7 +866,9 @@ namespace zSpace
 		zVector vec_v0 = *pos_v0 - *pos_v1;
 		zVector vec_v1 = vec_v0 * -1;
 
-		float displacement = restLength - vec_v0.length();
+		float edgeLength = vec_v0.length();
+		if (edgeLength <= 1.0e-6f) return;
+		float displacement = restLength - edgeLength;
 		displacement /= 2;
 
 		vec_v0.normalize();
