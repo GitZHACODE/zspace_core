@@ -57,3 +57,35 @@ assert.equal(m._zspace_solver_step(1), 1);
 assert.equal(m._zspace_solver_equilibrium_reached(), 0, 'zero movement is not equilibrium');
 assert(Math.abs(patch(1, 0.35, 0.02, 10) - initial) < 1e-6, 'residual must be scale invariant');
 console.log(JSON.stringify({ initial, afterOne, convergedFrame, centerHeight: positions[14], result: 'passed' }));
+
+// Compare actual first-step forces with independent central differences of triangle area.
+function triangleArea(p) {
+  const ab = p.slice(3, 6).map((x, i) => x - p[i]);
+  const ac = p.slice(6, 9).map((x, i) => x - p[i]);
+  return Math.hypot(ab[1]*ac[2]-ab[2]*ac[1], ab[2]*ac[0]-ab[0]*ac[2], ab[0]*ac[1]-ab[1]*ac[0]) / 2;
+}
+let maximumForceError = 0;
+for (const face of ['f 1 2 3', 'f 3 2 1']) {
+  const p = [0,0,0,2,1,0,0,1,3];
+  m.FS.writeFile('/triangle.obj', 'v 0 0 0\nv 2 1 0\nv 0 1 3\n' + face + '\n');
+  assert.equal(m.ccall('zspace_mesh_read', 'number', ['string'], ['/triangle.obj']), 1);
+  m._zspace_solver_create_dynamics();
+  m._zspace_solver_begin_config_update();
+  m._zspace_solver_set_mode(1);
+  m._zspace_solver_clear_supports();
+  m._zspace_solver_set_params(0,0,0,1,0,1,0,1,1,0.01,1,1,0,0,1,0,0,0,0,1);
+  m._zspace_solver_end_config_update();
+  assert.equal(m._zspace_solver_step(1), 1);
+  const next = Array.from(m.HEAPF32.subarray(m._zspace_positions_ptr()/4, m._zspace_positions_ptr()/4+9));
+  assert(triangleArea(next) < triangleArea(p));
+  for (let k = 0; k < 9; k++) {
+    const plus = [...p], minus = [...p];
+    plus[k] += 1e-5;
+    minus[k] -= 1e-5;
+    const negativeGradient = -(triangleArea(plus) - triangleArea(minus)) / 2e-5;
+    const measuredForce = (next[k] - p[k]) / 0.0001;
+    maximumForceError = Math.max(maximumForceError, Math.abs(measuredForce - negativeGradient));
+    assert(Math.abs(measuredForce - negativeGradient) < 0.003, 'force must match the negative numerical area gradient');
+  }
+}
+console.log(JSON.stringify({ maximumForceError, windingChecks: 2, forceDerivativeCheck: 'passed' }));
