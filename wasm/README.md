@@ -42,7 +42,11 @@ The existing `zFnMeshDynamics::addMinimizeAreaForce` supplies both the particle
 forces and yellow force arrows; preview sampling restores the particle forces.
 Polygons are internally triangulated for force evaluation without changing the
 viewer mesh topology. This uses the element calculation with zSpace particle
-integration, not Kangaroo's global goal-weight averaging solver.
+updates, not Kangaroo's global goal-weight averaging solver. Minimal-surface
+updates use force/mass descent with backtracking: each accepted substep must
+not increase triangulated area or reverse an element orientation. They do not
+reuse the particle integrator's velocity/derivative history. Euler/RK4 remains
+a dynamic-relaxation setting only.
 
 Residual is `abs((k1 + k2) / 2)`, computed by `getPrincipalCurvatures`, exactly
 as in the mean-curvature analyzer. Equilibrium requires the maximum over free
@@ -53,5 +57,10 @@ on sparse or degenerate neighborhoods also apply to this stopping criterion.
 
 Display Forces and SoapFilm Force (the existing residual-force flag) enable the
 arrows. Display Length Scale scales them; fixed vertices have no force arrows.
+
+Curvature analysis uses the requested threshold directly as the white band;
+it does not clamp that band to a fraction of the current color range. At solver
+equilibrium, free vertices are white at an equal analysis threshold. Supports
+may remain colored because the solver does not constrain their curvature.
 
 Run the runtime regression after building with `node wasm/scripts/test-minimal-surface.mjs`.

@@ -52,6 +52,9 @@ const positions = Array.from(m.HEAPF32.subarray(m._zspace_positions_ptr() / 4, m
 assert(Math.abs(positions[14]) < 0.02, 'center must approach the boundary plane');
 assert.deepEqual(positions.slice(0, 12), [-1,-1,0,1,-1,0,1,1,0,-1,1,0]);
 const convergedFrame = m._zspace_solver_frame();
+assert.equal(m._zspace_mesh_curvature_analysis(1,0.02,0,0,1,1,1,1,1,0,0), 1);
+const centerColor = Array.from(m.HEAPF32.subarray(m._zspace_colors_ptr()/4+12, m._zspace_colors_ptr()/4+15));
+assert.deepEqual(centerColor, [1,1,1], 'converged free vertex must be white at the same analysis threshold');
 assert.equal(patch(0), 0);
 assert.equal(m._zspace_solver_equilibrium_reached(), 1, 'flat patch is already minimal');
 assert(Math.abs(patch(1, 0, 0.0001) - initial) < 1e-6);
@@ -83,6 +86,9 @@ m._zspace_solver_clear_supports();
 const solverMean = m._zspace_solver_max_residual();
 assert.equal(m._zspace_mesh_curvature_analysis(1,0,0,0,1,1,1,1,1,0,0), 1);
 assert.equal(solverMean, m._zspace_analysis_max_abs_value(), 'solver and analyzer must use identical mean curvature');
+assert.equal(m._zspace_mesh_curvature_analysis(1,solverMean,0,0,1,1,1,1,1,0,0), 1);
+assert(Array.from(m.HEAPF32.subarray(m._zspace_colors_ptr()/4,
+  m._zspace_colors_ptr()/4+m._zspace_colors_count())).every(c => c === 1), 'threshold must not be capped to a fraction of the range');
 assert.equal(m._zspace_solver_update_preview(), 1);
 assert(m._zspace_vector_directions_count() > 0, 'force preview must rebuild after analysis');
 console.log(JSON.stringify({ initial, afterOne, convergedFrame, centerHeight: positions[14], result: 'passed' }));
@@ -112,7 +118,7 @@ for (const face of ['f 1 2 3', 'f 3 2 1']) {
     plus[k] += 1e-5;
     minus[k] -= 1e-5;
     const negativeGradient = -(triangleArea(plus) - triangleArea(minus)) / 2e-5;
-    const measuredForce = (next[k] - p[k]) / 0.0001;
+    const measuredForce = (next[k] - p[k]) / 0.01;
     maximumForceError = Math.max(maximumForceError, Math.abs(measuredForce - negativeGradient));
     assert(Math.abs(measuredForce - negativeGradient) < 0.003, 'force must match the negative numerical area gradient');
   }
@@ -146,3 +152,42 @@ for (const obj of [
   assert.deepEqual(arrows(), before, 'preview must not accumulate particle forces');
 }
 console.log('Mean-curvature thresholds, SoapFilm arrows, and internal quad/n-gon triangulation passed.');
+
+// Stress the stored RK4 setting from existing scenes with a perturbed multi-vertex patch.
+const side = 7, grid = [], faces = [], supports = [];
+for (let y = 0; y < side; y++) for (let x = 0; x < side; x++) {
+  const edge = x === 0 || y === 0 || x === side-1 || y === side-1;
+  grid.push([x,y,edge ? 0 : 0.4*Math.sin(x*2.1+y*1.7)]);
+  if (edge) supports.push(y*side+x);
+  if (x < side-1 && y < side-1) {
+    const a=y*side+x+1;
+    faces.push(`f ${a} ${a+1} ${a+side+1} ${a+side}`);
+  }
+}
+m.FS.writeFile('/grid.obj', grid.map(p => `v ${p.join(' ')}`).join('\n')+'\n'+faces.join('\n')+'\n');
+assert.equal(m.ccall('zspace_mesh_read','number',['string'],['/grid.obj']),1);
+configureUnconstrainedPreview();
+m._zspace_solver_begin_config_update();
+for (const i of supports) m._zspace_solver_add_support(i);
+m._zspace_solver_set_params(0,0,0,1,0,1,0,0.3,0.3,0.05,1,10,0,61,1,0,0,0,0,1);
+m._zspace_solver_end_config_update();
+function meshArea() {
+  const p=m.HEAPF32.subarray(m._zspace_positions_ptr()/4,m._zspace_positions_ptr()/4+m._zspace_positions_count());
+  const ids=m.HEAPU32.subarray(m._zspace_indices_ptr()/4,m._zspace_indices_ptr()/4+m._zspace_indices_count());
+  let area=0;
+  for(let i=0;i<ids.length;i+=3) area+=triangleArea([...p.slice(ids[i]*3,ids[i]*3+3),...p.slice(ids[i+1]*3,ids[i+1]*3+3),...p.slice(ids[i+2]*3,ids[i+2]*3+3)]);
+  return area;
+}
+const initialArea=meshArea();
+let previousArea=initialArea;
+for(let frame=0;frame<80;frame++) {
+  assert.equal(m._zspace_solver_step(1),1);
+  const nextArea=meshArea();
+  assert(nextArea <= previousArea+1e-7, 'every accepted frame must decrease area');
+  previousArea=nextArea;
+}
+assert(previousArea < initialArea-0.1, 'perturbed patch must smooth');
+const finalGrid=m.HEAPF32.subarray(m._zspace_positions_ptr()/4,m._zspace_positions_ptr()/4+m._zspace_positions_count());
+for(const i of supports) assert.deepEqual(Array.from(finalGrid.slice(i*3,i*3+3)),grid[i]);
+assert(Math.max(...grid.map((_,i)=>Math.abs(finalGrid[i*3+2]))) < 0.05, 'interior must approach the boundary plane');
+console.log(JSON.stringify({initialArea,finalArea:previousArea,areaDescent:'passed'}));

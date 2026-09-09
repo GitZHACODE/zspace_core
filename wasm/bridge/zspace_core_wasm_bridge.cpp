@@ -361,6 +361,73 @@ namespace
 			return true;
 		}
 
+		bool updateAreaDescent(double dT, double maxVertexStep)
+		{
+			const auto previous = dynamicPositions;
+			zSpace::zInt2DArray triangles;
+			getMeshTriangles(triangles);
+			// Evaluate the same triangulation throughout backtracking and reject element flips.
+			auto area = [&](const zSpace::zPointArray& points, bool checkOrientation) {
+				double total = 0.0;
+				for (const auto& face : triangles) for (std::size_t j = 0; j + 2 < face.size(); j += 3)
+				{
+					const int a = face[j], b = face[j + 1], c = face[j + 2];
+					auto cross = [&](const zSpace::zPointArray& p) {
+						const double ux = double(p[b].x)-p[a].x, uy = double(p[b].y)-p[a].y, uz = double(p[b].z)-p[a].z;
+						const double vx = double(p[c].x)-p[a].x, vy = double(p[c].y)-p[a].y, vz = double(p[c].z)-p[a].z;
+						return std::array<double, 3>{uy*vz-uz*vy, uz*vx-ux*vz, ux*vy-uy*vx};
+					};
+					const auto n = cross(points);
+					const double twiceArea = std::hypot(n[0], n[1], n[2]);
+					if (!std::isfinite(twiceArea) || twiceArea <= 0.0) return -1.0;
+					if (checkOrientation)
+					{
+						const auto old = cross(previous);
+						if (n[0]*old[0] + n[1]*old[1] + n[2]*old[2] <= 0.0) return -1.0;
+					}
+					total += twiceArea * 0.5;
+				}
+				return total;
+			};
+			const double previousArea = area(previous, false);
+			if (previousArea <= 0.0) return false;
+			zSpace::zVectorArray moves(previous.size(), zSpace::zVector());
+			double largestMove = 0.0;
+			for (std::size_t i = 0; i < particlesObj.size(); ++i)
+			{
+				zSpace::zFnParticle particle(particlesObj[i]);
+				if (particle.getFixed()) continue;
+				moves[i] = particle.getForce() * static_cast<float>(dT / std::max(1.0e-6, particle.getMass()));
+				const double length = moves[i].length();
+				if (!std::isfinite(length)) return false;
+				largestMove = std::max(largestMove, length);
+			}
+			double scale = largestMove > maxVertexStep ? maxVertexStep / largestMove : 1.0;
+			bool accepted = largestMove == 0.0;
+			for (int attempt = 0; !accepted && attempt < 30; ++attempt, scale *= 0.5)
+			{
+				for (std::size_t i = 0; i < previous.size(); ++i)
+				{
+					dynamicPositions[i] = previous[i];
+					dynamicPositions[i] += moves[i] * static_cast<float>(scale);
+				}
+				const double nextArea = area(dynamicPositions, true);
+				accepted = nextArea > 0.0 && nextArea <= previousArea;
+			}
+			lastUpdateDisplacements.assign(previous.size(), 0.0);
+			for (std::size_t i = 0; i < previous.size(); ++i)
+			{
+				if (!accepted) dynamicPositions[i] = previous[i];
+				zSpace::zVector delta = dynamicPositions[i]; delta -= previous[i];
+				lastUpdateDisplacements[i] = delta.length();
+			}
+			clearVelocityAndForce();
+			zSpace::zFnMesh meshFn(*meshObj);
+			meshFn.setVertexPositions(dynamicPositions);
+			meshFn.computeMeshNormals();
+			return accepted;
+		}
+
 		bool updateGuarded(double dT, zSpace::zIntergrationType type, double maxVertexStep)
 		{
 			zSpace::zPoint* positions = dynamicPositions.empty() ? nullptr : dynamicPositions.data();
@@ -1643,9 +1710,7 @@ extern "C"
 			gBuffers.analysisMinValue = minValue;
 			gBuffers.analysisMaxValue = maxValue;
 			gBuffers.analysisMaxAbsValue = maxAbsValue;
-			const double displayThreshold = maxAbsValue > 1.0e-12
-				? std::min(std::max(0.0, threshold), maxAbsValue * 0.05)
-				: 0.0;
+			const double displayThreshold = std::max(0.0, threshold);
 
 			const zSpace::zColor negativeColor(negativeR, negativeG, negativeB, 1.0f);
 			const zSpace::zColor zeroColor(zeroR, zeroG, zeroB, 1.0f);
@@ -1991,6 +2056,12 @@ extern "C"
 					if (gSolverParams.mode == 1)
 					{
 						gMeshDynamics.addMinimizeAreaForce(gSolverParams.springStiffness);
+						if (!gMeshDynamics.updateAreaDescent(subTimeStep, maxVertexStep))
+						{
+							frameValid = false;
+							break;
+						}
+						continue;
 					}
 					else
 					{
