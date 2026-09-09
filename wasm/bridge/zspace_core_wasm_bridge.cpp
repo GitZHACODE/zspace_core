@@ -68,6 +68,9 @@ namespace
 	};
 
 	RenderBuffers gBuffers;
+	zSpace::zOrigamiSettings gOrigamiSettings;
+	zSpace::zOrigamiDiagnostics gOrigamiDiagnostics;
+	std::map<int, std::pair<int, double>> gOrigamiCreases;
 	zSpace::zObjectMesh gMeshObject;
 	zSpace::zObjectMesh* gActiveMeshObject = &gMeshObject;
 	zspace_live::SketchScene gSketchScene;
@@ -577,6 +580,8 @@ namespace
 
 	void resetSolverState()
 	{
+		gOrigamiCreases.clear();
+		gOrigamiDiagnostics = {};
 		gSolverReady = false;
 		gMeshDynamics.clearParticles();
 		gSolverFrame = 0;
@@ -1009,6 +1014,12 @@ namespace
 	{
 		if (!gHasMesh) throw std::runtime_error("No active mesh for dynamic relaxation.");
 		gMeshDynamics.createLinked(activeMeshObject());
+		if (gSolverParams.mode == 2)
+		{
+			gMeshDynamics.prepareOrigami();
+			for (const auto& crease : gOrigamiCreases)
+				gMeshDynamics.setOrigamiCrease(crease.first, crease.second.first, crease.second.second);
+		}
 		gSolverReady = true;
 		refreshSolverSupportMask();
 		applySolverParticleProperties();
@@ -1024,6 +1035,18 @@ namespace
 		gSolverEquilibriumReached = false;
 
 		if (positions.empty()) return;
+		if (gSolverParams.mode == 2)
+		{
+			if (!gSolverReady) return;
+			zSpace::zVectorArray forces;
+			gMeshDynamics.getOrigamiForces(gOrigamiSettings, forces, gOrigamiDiagnostics);
+			gSolverMaxResidual = gOrigamiDiagnostics.maxAngleError * 180.0 / 3.141592653589793;
+			gSolverResidualCount = static_cast<int>(positions.size());
+			gSolverEquilibriumReached = gSolverMaxResidual < gSolverParams.residualThreshold
+				&& gOrigamiDiagnostics.maxStrain < 0.01
+				&& gOrigamiDiagnostics.maxSpeed < 0.001 * gMeshDynamics.cachedMeshScale;
+			return;
+		}
 		if (gSolverParams.mode == 1)
 		{
 			if (!gSolverReady) return;
@@ -1187,6 +1210,33 @@ namespace
 		}
 
 		const float displayLengthScale = static_cast<float>(std::max(0.0, gSolverParams.vectorScale));
+		if (gSolverParams.mode == 2)
+		{
+			const auto& data = zSpace::zMeshObjectStorage::read(activeMeshObject());
+			for (const auto& entry : gOrigamiCreases)
+			{
+				if (entry.second.first == 0) continue;
+				const std::size_t offset = static_cast<std::size_t>(entry.first) * 2;
+				if (offset + 1 >= data.edgeVertexIndices.size()) continue;
+				for (int endpoint = 0; endpoint < 2; ++endpoint)
+				{
+					const auto& p = positions[data.edgeVertexIndices[offset + endpoint]];
+					gBuffers.linePositions.insert(gBuffers.linePositions.end(), {p.x,p.y,p.z});
+					const bool valley = entry.second.first == 1;
+					if (entry.second.first == 2) gBuffers.lineColors.insert(gBuffers.lineColors.end(), {0.5f,0.5f,0.5f});
+					else gBuffers.lineColors.insert(gBuffers.lineColors.end(), {valley?0.05f:1.0f,0.1f,valley?1.0f:0.1f});
+				}
+				gBuffers.lineWeights.push_back(3.0f);
+			}
+			if (gSolverReady && gSolverParams.displayForceVectors && displayLengthScale > 0)
+			{
+				zSpace::zVectorArray forces;
+				gMeshDynamics.getOrigamiForces(gOrigamiSettings, forces, gOrigamiDiagnostics);
+				for (std::size_t i=0;i<forces.size();++i)
+					if (!isSolverSupportVertex(static_cast<int>(i))) appendVectorPrimitive(positions[i], forces[i]*displayLengthScale, zSpace::zColor(1,0.6f,0));
+			}
+			return;
+		}
 		if (!gSolverParams.displayForceVectors || displayLengthScale <= 1.0e-9f || positions.empty()) return;
 
 		if (gSolverParams.mode == 1)
@@ -1570,6 +1620,7 @@ extern "C"
 			zSpace::zIOResult result = zSpace::zIO::readMesh(inputPath, activeMeshObject());
 
 			if (!result) throw std::runtime_error(result.message());
+			resetSolverState();
 			gHasMesh = true;
 			clearPrimitiveBuffers();
 			copyActiveMeshToRenderBuffers();
@@ -1866,7 +1917,9 @@ extern "C"
 		try
 		{
 			gBuffers.lastError.clear();
-			gSolverParams.mode = mode == 1 ? 1 : 0;
+			if (mode < 0 || mode > 2) throw std::invalid_argument("Unknown mesh solver mode.");
+			if (gSolverParams.mode != mode && gSolverReady && mode == 2) gMeshDynamics.prepareOrigami();
+			gSolverParams.mode = mode;
 			if (!gSolverConfigUpdateBatch) copySolverPreviewToPrimitiveBuffers();
 			return 1;
 		}
@@ -1885,6 +1938,35 @@ extern "C"
 	{
 		return gSolverReady && gSolverParams.mode == 1 ? gSolverMaxAreaForceResidual : 0.0;
 	}
+
+	ZSPACE_WASM_EXPORT int zspace_origami_set_params(double axial, double fold, double facet, double face, double damping, double amount)
+	{
+		for (double value : {axial,fold,facet,face,damping}) if (!std::isfinite(value) || value < 0) return 0;
+		if (!std::isfinite(amount) || std::abs(amount) > 1) return 0;
+		gOrigamiSettings.axial=axial;gOrigamiSettings.fold=fold;gOrigamiSettings.facet=facet;
+		gOrigamiSettings.face=face;gOrigamiSettings.damping=damping;gOrigamiSettings.foldAmount=amount;
+		gSolverEquilibriumReached=false;
+		return 1;
+	}
+	ZSPACE_WASM_EXPORT int zspace_origami_set_crease(int edge, int assignment, double degrees)
+	{
+		try {
+			if (!gSolverReady || gSolverParams.mode != 2) throw std::runtime_error("Activate origami dynamics before assigning creases.");
+			gMeshDynamics.setOrigamiCrease(edge,assignment,degrees*3.141592653589793/180.0);
+			gOrigamiCreases[edge]={assignment,degrees*3.141592653589793/180.0};
+			gSolverEquilibriumReached=false; return 1;
+		} catch (const std::exception& error) {gBuffers.lastError=error.what();return 0;}
+	}
+	ZSPACE_WASM_EXPORT int zspace_origami_clear_creases()
+	{
+		try {
+			for (const auto& entry:gOrigamiCreases) gMeshDynamics.setOrigamiCrease(entry.first,0,0);
+			gOrigamiCreases.clear();gSolverEquilibriumReached=false;return 1;
+		} catch (const std::exception& error) {gBuffers.lastError=error.what();return 0;}
+	}
+	ZSPACE_WASM_EXPORT double zspace_origami_max_strain() {return gOrigamiDiagnostics.maxStrain;}
+	ZSPACE_WASM_EXPORT double zspace_origami_max_speed() {return gOrigamiDiagnostics.maxSpeed;}
+	ZSPACE_WASM_EXPORT double zspace_origami_time_step() {return gOrigamiDiagnostics.stableTimeStep;}
 
 	ZSPACE_WASM_EXPORT int zspace_solver_set_area_force_tolerance(double tolerance)
 	{
@@ -2105,6 +2187,17 @@ extern "C"
 					if (gravityVector.length() <= 1.0e-9f) gravityVector = zSpace::zVector(0, 0, -1);
 					gravityVector.normalize();
 
+					if (gSolverParams.mode == 2)
+					{
+						const auto before = gMeshDynamics.dynamicPositions;
+						gMeshDynamics.stepOrigami(gOrigamiSettings, subTimeStep, gOrigamiDiagnostics);
+						gMeshDynamics.lastUpdateDisplacements.resize(before.size());
+						for (std::size_t j=0;j<before.size();++j) {
+							zSpace::zVector delta=gMeshDynamics.dynamicPositions[j];delta-=before[j];
+							gMeshDynamics.lastUpdateDisplacements[j]=delta.length();
+						}
+						continue;
+					}
 					if (gSolverParams.mode == 1)
 					{
 						gMeshDynamics.addMinimizeAreaForce(gSolverParams.springStiffness);

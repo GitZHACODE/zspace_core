@@ -18,10 +18,20 @@
 #include <zspace/zInterface/functionsets/zFnMesh.h>
 #include <zspace/zInterface/functionsets/zFnParticle.h>
 #include <zspace/export.h>
+#include <array>
 
 
 namespace zSpace
 {
+	struct zOrigamiSettings
+	{
+		double axial = 20.0, fold = 0.7, facet = 0.7, face = 0.2;
+		double damping = 0.45, foldAmount = 0.0;
+	};
+	struct zOrigamiDiagnostics
+	{
+		double maxStrain = 0, maxAngleError = 0, maxForce = 0, maxSpeed = 0, stableTimeStep = 0;
+	};
 
 	/** \addtogroup zInterface
 	*	\brief The Application Program Interface of the library.
@@ -51,6 +61,13 @@ namespace zSpace
 		/*! \brief Particle state owned by the mesh dynamics solver. */
 		ZSPACE_SUPPRESS_DLL_INTERFACE
 		vector<zObjectParticle> particlesObj;
+		struct OrigamiEdge {
+			int a, b, c = -1, d = -1, source = -1, assignment = 0;
+			double rest = 0, target = 0;
+		};
+		std::vector<OrigamiEdge> origamiEdges;
+		std::vector<std::array<int, 3>> origamiTriangles;
+		std::vector<std::array<double, 3>> origamiAngles;
 			
 		
 	public:	
@@ -256,6 +273,13 @@ namespace zSpace
 		*/
 		void addMinimizeAreaForce(double strength);
 
+		// Paper: Ghassaei, Demaine, Gershenfeld (2018), Sections 2.1-2.5.
+		void prepareOrigami();
+		// Original mesh edge IDs. -1 mountain/peak, +1 valley, 0 flat, 2 undriven.
+		void setOrigamiCrease(int edgeId, int assignment, double angleRadians);
+		void getOrigamiForces(const zOrigamiSettings& settings, zVectorArray& forces, zOrigamiDiagnostics& diagnostics);
+		void stepOrigami(const zOrigamiSettings& settings, double timeStep, zOrigamiDiagnostics& diagnostics);
+
 		/*! \brief This method adds the forces to keep the input vertex pairs aligned to each other.
 		*	\details based on http://courses.cms.caltech.edu/cs177/hmw/Hmw2.pdf , https://github.com/Dan-Piker/K2Goals/blob/master/SoapFilm.cs
 		* 	\param	[in]	strength				- input strength of the force.
@@ -349,6 +373,7 @@ namespace zSpace
 // All defined OK so do nothing
 #else
 #include<src/zInterface/functionsets/zFnMeshDynamics.cpp>
+#include<src/zInterface/functionsets/zFnMeshDynamicsOrigami.cpp>
 #endif
 
 #endif

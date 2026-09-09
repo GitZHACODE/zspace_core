@@ -57,6 +57,7 @@ namespace zSpace
 	{
 		zFnMesh::clear();
 		particlesObj.clear();
+		origamiEdges.clear(); origamiTriangles.clear(); origamiAngles.clear();
 	}
 
 	//---- CREATE METHODS
@@ -65,6 +66,8 @@ namespace zSpace
 	{
 		//fnParticles.clear();
 		particlesObj.clear();
+		origamiEdges.clear(); origamiTriangles.clear(); origamiAngles.clear();
+		zPoint* positions = getRawVertexPositions();
 		const auto& data = zMeshObjectStorage::read(*meshObj);
 		vector<bool> boundaryVertices(data.numVertices(), false);
 
@@ -98,8 +101,7 @@ namespace zSpace
 			if (fixBoundary) fixed = boundaryVertices[vertexId];
 
 			zObjectParticle p;
-			zPoint position = data.positions[vertexId];
-			p.particle = zParticle(position, fixed);
+			p.particle = zParticle(positions[vertexId], fixed);
 			particlesObj.push_back(p);
 
 			if (!fixed) setVertexColor(zColor(0, 0, 1, 1));

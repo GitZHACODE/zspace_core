@@ -56,6 +56,7 @@ for /R "%REPO_ROOT%\src\zIO" %%F in (*.cpp) do (
 
 em++ ^
   "%BRIDGE_DIR%\zspace_core_wasm_bridge.cpp" ^
+  -fexceptions ^
   -include "%BRIDGE_DIR%\zspace_wasm_compat.h" ^
   -DZSPACE_STATIC_LIBRARY ^
   -I"%BRIDGE_DIR%" ^
@@ -71,6 +72,7 @@ if errorlevel 1 exit /b 1
 
 em++ ^
   "%BRIDGE_DIR%\default_live_sketch.cpp" ^
+  -fexceptions ^
   -include "%BRIDGE_DIR%\zspace_wasm_compat.h" ^
   -DZSPACE_STATIC_LIBRARY ^
   -I"%BRIDGE_DIR%" ^
@@ -86,6 +88,7 @@ if errorlevel 1 exit /b 1
 
 em++ ^
   !ZSPACE_SOURCES! ^
+  -fexceptions ^
   "%WASM_BUILD%\zspace_core_wasm_bridge.o" ^
   "%WASM_BUILD%\default_live_sketch.o" ^
   -include "%BRIDGE_DIR%\zspace_wasm_compat.h" ^

@@ -1,4 +1,5 @@
 #include <zspace/interface.h>
+#include <zspace/zInterface/functionsets/zFnMeshDynamics.h>
 
 #include <cmath>
 #include <iostream>
@@ -11,6 +12,30 @@ namespace
 	void require(bool condition, const char* message)
 	{
 		if (!condition) throw std::runtime_error(message);
+	}
+
+	void testOrigami()
+	{
+		zObjectMesh mesh;
+		zFnMesh fn(mesh);
+		zPointArray points = {zPoint(0,0,0), zPoint(1,0,0), zPoint(0,1,0), zPoint(1,-1,0)};
+		zIntArray counts = {3,3}, connects = {0,1,2,1,0,3};
+		fn.create(points, counts, connects);
+		zFnMeshDynamics dynamics;
+		dynamics.create(mesh, false);
+		dynamics.prepareOrigami();
+		zIntArray fixed = {0,1}; dynamics.setFixed(fixed);
+		zIntArray edges; fn.getEdgeData(edges);
+		for (int i=0; i<static_cast<int>(edges.size()); i+=2)
+			if (edges[i]+edges[i+1]==1) dynamics.setOrigamiCrease(i/2,1,1.5707963267948966);
+		zOrigamiSettings settings; settings.axial=100; settings.foldAmount=1;
+		zOrigamiDiagnostics diagnostics;
+		for (int i=0;i<12000;++i) dynamics.stepOrigami(settings,0.01,diagnostics);
+		require(diagnostics.maxAngleError<0.02, "native origami reaches crease angle");
+		require(diagnostics.maxStrain<0.01, "native origami preserves edge lengths");
+		const auto p=fn.getRawVertexPositions();
+		require(p[2].z>0.5 && p[3].z>0.5, "native valley direction");
+		require(p[0].z==0 && p[1].z==0, "native origami fixed vertices");
 	}
 
 	void testMesh(zObjectMesh& mesh)
@@ -368,6 +393,7 @@ int main()
 		zSpace::zObjectGraph graph;
 
 		testMesh(mesh);
+		testOrigami();
 		testGraph(graph);
 		testMeshToGraph(mesh);
 		testNonManifoldMesh();
