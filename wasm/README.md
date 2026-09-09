@@ -36,14 +36,22 @@ wasm/out/zspace_core.wasm
 
 ## Minimal Surface Convergence
 
-Mode 1 minimizes triangulated surface area. Its residual is the maximum of
-`|gradient(area)| * referenceEdgeLength / (2 * vertexArea)` over free vertices.
-Vertex area is one third of each incident triangle's area; reference edge length
-is the average edge length when dynamics are created. This dimensionless discrete
-mean-curvature magnitude is independent of timestep, mass, drag, and area strength.
-Support vertices are excluded because their constraint reactions can balance
-nonzero curvature. Equilibrium means residual below the configured tolerance,
-not exactly zero curvature everywhere. Invalid or zero-area geometry cannot
-declare equilibrium. The analysis visualizer may use a different curvature estimator.
+Mode 1 accumulates strength-weighted triangle moves from Dan Piker's
+[SoapFilm element](https://github.com/Dan-Piker/K2Goals/blob/master/SoapFilm.cs).
+The existing `zFnMeshDynamics::addMinimizeAreaForce` supplies both the particle
+forces and yellow force arrows; preview sampling restores the particle forces.
+Polygons are internally triangulated for force evaluation without changing the
+viewer mesh topology. This uses the element calculation with zSpace particle
+integration, not Kangaroo's global goal-weight averaging solver.
+
+Residual is `abs((k1 + k2) / 2)`, computed by `getPrincipalCurvatures`, exactly
+as in the mean-curvature analyzer. Equilibrium requires the maximum over free
+vertices to be strictly below the input threshold, in inverse model-length units.
+There is no mesh-scale, timestep, mass, or strength normalization. Fixed supports
+are excluded; the analyzer includes them. The curvature estimator's limitations
+on sparse or degenerate neighborhoods also apply to this stopping criterion.
+
+Display Forces and SoapFilm Force (the existing residual-force flag) enable the
+arrows. Display Length Scale scales them; fixed vertices have no force arrows.
 
 Run the runtime regression after building with `node wasm/scripts/test-minimal-surface.mjs`.

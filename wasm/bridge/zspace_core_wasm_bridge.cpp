@@ -283,6 +283,35 @@ namespace
 			}
 		}
 
+		zSpace::zVectorArray previewAreaForces(double strength)
+		{
+			zSpace::zVectorArray saved, forces;
+			for (auto& particle : particlesObj)
+			{
+				zSpace::zFnParticle fnParticle(particle);
+				saved.push_back(fnParticle.getForce());
+				fnParticle.clearForce();
+			}
+			try
+			{
+				addMinimizeAreaForce(strength);
+				for (auto& particle : particlesObj)
+				{
+					zSpace::zFnParticle fnParticle(particle);
+					forces.push_back(fnParticle.getForce());
+				}
+			}
+			catch (...)
+			{
+				for (std::size_t i = 0; i < particlesObj.size(); ++i)
+					zSpace::zFnParticle(particlesObj[i]).setForce(saved[i]);
+				throw;
+			}
+			for (std::size_t i = 0; i < particlesObj.size(); ++i)
+				zSpace::zFnParticle(particlesObj[i]).setForce(saved[i]);
+			return forces;
+		}
+
 		void clearParticles()
 		{
 			particlesObj.clear();
@@ -901,42 +930,18 @@ namespace
 		if (gSolverParams.mode == 1)
 		{
 			if (!gSolverReady) return;
-			const double meshScale = std::max(gMeshDynamics.cachedMeshScale, 1.0e-6);
-			zSpace::zVectorArray gradients(positions.size(), zSpace::zVector(0, 0, 0));
-			std::vector<double> areas(positions.size(), 0.0);
-			zSpace::zInt2DArray faceTriangles;
-			gMeshDynamics.getMeshTriangles(faceTriangles);
-			for (const auto& triangles : faceTriangles)
-			{
-				for (std::size_t j = 0; j + 2 < triangles.size(); j += 3)
-				{
-					const int a = triangles[j], b = triangles[j + 1], c = triangles[j + 2];
-					zSpace::zVector ab = positions[b]; ab -= positions[a];
-					zSpace::zVector bc = positions[c]; bc -= positions[b];
-					zSpace::zVector ca = positions[a]; ca -= positions[c];
-					zSpace::zVector normal = ab ^ bc;
-					const double twiceArea = normal.length();
-					if (!std::isfinite(twiceArea) || twiceArea <= 0.0) return;
-					normal /= twiceArea;
-					zSpace::zVector ga = (bc ^ normal) * 0.5;
-					zSpace::zVector gb = (ca ^ normal) * 0.5;
-					gradients[a] += ga;
-					gradients[b] += gb;
-					gradients[c] += (ga + gb) * -1.0;
-					areas[a] += twiceArea / 6.0;
-					areas[b] += twiceArea / 6.0;
-					areas[c] += twiceArea / 6.0;
-				}
-			}
+			zSpace::zCurvatureArray curvatures;
+			zSpace::zVectorArray direction1, direction2;
+			gMeshDynamics.getPrincipalCurvatures(curvatures, direction1, direction2);
+			if (curvatures.size() != positions.size()) return;
 			bool hasResidual = false;
 			double minResidual = 0.0;
 			double maxResidual = 0.0;
 			for (std::size_t vertexId = 0; vertexId < positions.size(); ++vertexId)
 			{
 				if (isSolverSupportVertex(static_cast<int>(vertexId))) continue;
-				if (areas[vertexId] <= 0.0) return;
-				// |grad A| / (2 * vertex area) is the discrete mean-curvature vector magnitude.
-				const double residual = gradients[vertexId].length() * meshScale / (2.0 * areas[vertexId]);
+				// Match the mean-curvature analyzer, in inverse model-length units.
+				const double residual = std::abs((curvatures[vertexId].k1 + curvatures[vertexId].k2) * 0.5);
 				if (!std::isfinite(residual)) return;
 				if (!hasResidual)
 				{
@@ -1077,6 +1082,21 @@ namespace
 
 		const float displayLengthScale = static_cast<float>(std::max(0.0, gSolverParams.vectorScale));
 		if (!gSolverParams.displayForceVectors || displayLengthScale <= 1.0e-9f || positions.empty()) return;
+
+		if (gSolverParams.mode == 1)
+		{
+			if (!gSolverReady || !gSolverParams.residualForceEnabled) return;
+			zSpace::zVectorArray forces = gMeshDynamics.previewAreaForces(gSolverParams.springStiffness);
+			const zSpace::zColor soapFilmColor(1.0f, 0.72f, 0.0f);
+			for (std::size_t i = 0; i < positions.size(); ++i)
+			{
+				if (isSolverSupportVertex(static_cast<int>(i))) continue;
+				zSpace::zVector force = forces[i] * displayLengthScale;
+				if (!std::isfinite(force.x) || !std::isfinite(force.y) || !std::isfinite(force.z)) continue;
+				appendVectorPrimitive(positions[i], force, soapFilmColor);
+			}
+			return;
+		}
 
 		if (gSolverParams.gravityEnabled && std::abs(gSolverParams.gravity) > 1.0e-12)
 		{

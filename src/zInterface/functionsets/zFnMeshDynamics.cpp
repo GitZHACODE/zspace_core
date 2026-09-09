@@ -736,7 +736,7 @@ namespace zSpace
 
 	ZSPACE_INLINE void zFnMeshDynamics::addMinimizeAreaForce(double strength)
 	{
-		int currentIndex = 0;
+		zVectorArray forces(numVertices(), zVector());
 
 		zInt2DArray faceTris;
 		getMeshTriangles(faceTris);
@@ -757,25 +757,24 @@ namespace zSpace
 				zVector CA = PA - PC;
 
 				zVector Normal = AB ^ BC;
-				if (Normal.length() <= EPS) continue;
+				const double normalLength = Normal.length();
+				if (!std::isfinite(normalLength) || normalLength <= 0.0) continue;
 				Normal.normalize();
 
 				zVector V0 = (BC ^ Normal) * 0.5;
 				zVector V1 = (CA ^ Normal) * 0.5;
 
-				// Edge crossed with the unit normal is the negative area gradient.
-				zVector pForce0 = V0 * strength;
-				zFnParticle fnParticle0(particlesObj[faceTris[i][j + 0]]);			
-				fnParticle0.addForce(pForce0);
-
-				zVector pForce1 = V1 * strength;
-				zFnParticle fnParticle1(particlesObj[faceTris[i][j + 1]]);
-				fnParticle1.addForce(pForce1);
-
-				zVector pForce2 = ((V0 * -1) - V1) * strength;
-				zFnParticle fnParticle2(particlesObj[faceTris[i][j + 2]]);
-				fnParticle2.addForce(pForce2);
+				// Dan Piker's SoapFilm element: Move = {V0, V1, -V0-V1}, Weighting = strength.
+				// Accumulate weighted element moves as forces in the zSpace particle integrator.
+				forces[faceTris[i][j + 0]] += V0 * strength;
+				forces[faceTris[i][j + 1]] += V1 * strength;
+				forces[faceTris[i][j + 2]] += ((V0 * -1) - V1) * strength;
 			}
+		}
+		for (int i = 0; i < forces.size(); ++i)
+		{
+			zFnParticle fnParticle(particlesObj[i]);
+			fnParticle.addForce(forces[i]);
 		}
 	}
 
