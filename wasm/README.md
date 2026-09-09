@@ -55,6 +55,20 @@ There is no mesh-scale, timestep, mass, or strength normalization. Fixed support
 are excluded; the analyzer includes them. The curvature estimator's limitations
 on sparse or degenerate neighborhoods also apply to this stopping criterion.
 
+Equilibrium additionally requires the maximum area-force residual to be below
+`areaForceTolerance` (default 0.001), set through
+`zspace_solver_set_area_force_tolerance`. Its value, exposed by
+`zspace_solver_max_area_force_residual`, is
+`|gradient A_i| * referenceEdgeLength / (2 * vertexArea_i)` at free vertices.
+It uses unit tension, independent of Area Strength, and is dimensionless.
+Invalid or zero-area elements cannot satisfy the check. This prevents a low
+fitted curvature value from concealing significant remaining area forces.
+
+Descent uses lumped vertex areas (one third of each incident triangle area)
+as a positive mass multiplier, normalized by average vertex area. This balances
+motion on nonuniform meshes without adding an edge-spring energy or changing
+area stationary points. Backtracking still checks area and element orientation.
+
 Display Forces and SoapFilm Force (the existing residual-force flag) enable the
 arrows. Display Length Scale scales them; fixed vertices have no force arrows.
 

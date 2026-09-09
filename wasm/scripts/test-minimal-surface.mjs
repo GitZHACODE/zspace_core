@@ -29,6 +29,7 @@ function patch(height, strength = 0.35, timeStep = 0.02, scale = 1, threshold = 
   assert.equal(m._zspace_solver_create_dynamics(), 1);
   assert.equal(m._zspace_solver_set_mode(1), 1);
   m._zspace_solver_begin_config_update();
+  assert.equal(m._zspace_solver_set_area_force_tolerance(0.001), 1);
   m._zspace_solver_clear_supports();
   for (let i = 0; i < points.length; i++) if (i !== 4) m._zspace_solver_add_support(i);
   assert.equal(m._zspace_solver_set_params(0,0,0,1,0,1,0,0.3,0.3,timeStep,vectorScale,strength,threshold,0,display,0,0,0,0,showForce), 1);
@@ -62,7 +63,11 @@ assert.equal(m._zspace_solver_step(1), 1);
 assert.equal(m._zspace_solver_equilibrium_reached(), 0, 'zero movement is not equilibrium');
 assert(Math.abs(patch(1, 0.35, 0.02, 10) * 10 - initial) < 1e-5, 'mean curvature must scale inversely with model length');
 patch(1, 0.35, 0.02, 1, initial * 1.01);
-assert.equal(m._zspace_solver_equilibrium_reached(), 1);
+assert.equal(m._zspace_solver_equilibrium_reached(), 0, 'low fitted curvature cannot bypass area-force equilibrium');
+assert(m._zspace_solver_max_area_force_residual() > 0.001);
+m._zspace_solver_set_area_force_tolerance(10);
+m._zspace_solver_update_preview();
+assert.equal(m._zspace_solver_equilibrium_reached(), 1, 'both independent tolerances govern convergence');
 patch(1, 0.35, 0.02, 1, initial * 0.99);
 assert.equal(m._zspace_solver_equilibrium_reached(), 0);
 
@@ -191,3 +196,53 @@ const finalGrid=m.HEAPF32.subarray(m._zspace_positions_ptr()/4,m._zspace_positio
 for(const i of supports) assert.deepEqual(Array.from(finalGrid.slice(i*3,i*3+3)),grid[i]);
 assert(Math.max(...grid.map((_,i)=>Math.abs(finalGrid[i*3+2]))) < 0.05, 'interior must approach the boundary plane');
 console.log(JSON.stringify({initialArea,finalArea:previousArea,areaDescent:'passed'}));
+
+const spacing = [-1,-0.8,-0.55,-0.3,0,0.2,0.45,0.7,1];
+// Scherk's graph has H=0 analytically; evaluate it at final x/y as vertices can move tangentially.
+const scherk = (x,y) => Math.log(Math.cos(0.3*y)/Math.cos(0.3*x))/0.3;
+const saddle = [], saddleFaces = [], saddleSupports = [];
+for (let y=0;y<9;y++) for(let x=0;x<9;x++) {
+  const u=spacing[x],v=spacing[y],boundary=x===0||y===0||x===8||y===8;
+  saddle.push([u,v,scherk(u,v)+(boundary?0:0.12*Math.sin(x*1.7+y*2.3))]);
+  if(boundary) saddleSupports.push(y*9+x);
+  if(x<8&&y<8) {const a=y*9+x+1;saddleFaces.push(`f ${a} ${a+1} ${a+10} ${a+9}`);}
+}
+m.FS.writeFile('/saddle.obj',saddle.map(p=>`v ${p.join(' ')}`).join('\n')+'\n'+saddleFaces.join('\n')+'\n');
+assert.equal(m.ccall('zspace_mesh_read','number',['string'],['/saddle.obj']),1);
+configureUnconstrainedPreview();
+m._zspace_solver_begin_config_update();
+for(const i of saddleSupports) m._zspace_solver_add_support(i);
+m._zspace_solver_set_area_force_tolerance(0.001);
+m._zspace_solver_set_params(0,0,0,1,0,1,0,0.3,0.3,0.05,1,0.35,0.02,61,1,0,0,0,0,1);
+m._zspace_solver_end_config_update();
+const saddleStart=meshArea();
+let saddlePrevious=saddleStart;
+for(let i=0;i<3000&&!m._zspace_solver_equilibrium_reached();i++) {
+  assert.equal(m._zspace_solver_step(1),1);
+  const next=meshArea();
+  assert(next<=saddlePrevious+1e-6);
+  saddlePrevious=next;
+}
+assert.equal(m._zspace_solver_equilibrium_reached(),1,'non-planar boundary must converge under both criteria');
+assert(m._zspace_solver_max_area_force_residual()<0.001);
+assert(m._zspace_solver_max_residual()<0.02);
+const saddleFinal=m.HEAPF32.subarray(m._zspace_positions_ptr()/4,m._zspace_positions_ptr()/4+m._zspace_positions_count());
+for(const i of saddleSupports) for(let k=0;k<3;k++) assert(Math.abs(saddleFinal[i*3+k]-saddle[i][k])<1e-7);
+let maxScherkError=0;
+for(let i=0;i<saddle.length;i++) maxScherkError=Math.max(maxScherkError,Math.abs(saddleFinal[i*3+2]-scherk(saddleFinal[i*3],saddleFinal[i*3+1])));
+assert(maxScherkError<0.01,'discrete solution must approximate the analytic minimal surface');
+assert(saddlePrevious<saddleStart-0.01);
+console.log(JSON.stringify({saddleStart,saddleFinalArea:saddlePrevious,forceResidual:m._zspace_solver_max_area_force_residual(),meanCurvature:m._zspace_solver_max_residual(),saddleFrame:m._zspace_solver_frame(),maxScherkError}));
+
+// A sparse fit can return zero H even on a raised patch; it must not bypass the force check.
+m.FS.writeFile('/sparse.obj','v -1 -1 0\nv 1 -1 0\nv 1 1 0\nv -1 1 0\nv 0 0 1\nf 1 2 5\nf 2 3 5\nf 3 4 5\nf 4 1 5\n');
+assert.equal(m.ccall('zspace_mesh_read','number',['string'],['/sparse.obj']),1);
+configureUnconstrainedPreview();
+m._zspace_solver_begin_config_update();
+for(let i=0;i<4;i++) m._zspace_solver_add_support(i);
+m._zspace_solver_set_params(0,0,0,1,0,1,0,0.3,0.3,0.05,1,0,0.02,61,1,0,0,0,0,1);
+m._zspace_solver_end_config_update();
+assert.equal(m._zspace_solver_max_residual(),0);
+assert(m._zspace_solver_max_area_force_residual()>0.001);
+assert.equal(m._zspace_solver_equilibrium_reached(),0);
+console.log('Sparse curvature fit and zero strength cannot fake equilibrium.');

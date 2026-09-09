@@ -94,6 +94,7 @@ namespace
 		bool fixXY = false;
 		double springStiffness = 1.0;
 		double residualThreshold = 0.05;
+		double areaForceTolerance = 0.001;
 		double dragStrength = 0.02;
 		float drag = 0.2f;
 	};
@@ -361,9 +362,33 @@ namespace
 			return true;
 		}
 
+		std::vector<double> vertexAreas()
+		{
+			std::vector<double> areas(dynamicPositions.size(), 0.0);
+			zSpace::zInt2DArray triangles;
+			getMeshTriangles(triangles);
+			for (const auto& face : triangles) for (std::size_t j = 0; j + 2 < face.size(); j += 3)
+			{
+				const int a = face[j], b = face[j+1], c = face[j+2];
+				zSpace::zVector ab = dynamicPositions[b] - dynamicPositions[a];
+				zSpace::zVector ac = dynamicPositions[c] - dynamicPositions[a];
+				const double thirdArea = (ab ^ ac).length() / 6.0;
+				if (!std::isfinite(thirdArea) || thirdArea <= 0.0) return {};
+				areas[a] += thirdArea;
+				areas[b] += thirdArea;
+				areas[c] += thirdArea;
+			}
+			return areas;
+		}
+
 		bool updateAreaDescent(double dT, double maxVertexStep)
 		{
 			const auto previous = dynamicPositions;
+			const auto areas = vertexAreas();
+			if (areas.size() != previous.size()) return false;
+			double meanArea = 0.0;
+			for (double value : areas) meanArea += value;
+			meanArea /= std::max<std::size_t>(1, areas.size());
 			zSpace::zInt2DArray triangles;
 			getMeshTriangles(triangles);
 			// Evaluate the same triangulation throughout backtracking and reject element flips.
@@ -397,7 +422,10 @@ namespace
 			{
 				zSpace::zFnParticle particle(particlesObj[i]);
 				if (particle.getFixed()) continue;
-				moves[i] = particle.getForce() * static_cast<float>(dT / std::max(1.0e-6, particle.getMass()));
+				if (areas[i] <= 0.0) return false;
+				// Positive diagonal preconditioning preserves area stationary points.
+				const double mass = std::max(1.0e-6, particle.getMass()) * areas[i] / meanArea;
+				moves[i] = particle.getForce() * static_cast<float>(dT / mass);
 				const double length = moves[i].length();
 				if (!std::isfinite(length)) return false;
 				largestMove = std::max(largestMove, length);
@@ -514,6 +542,7 @@ namespace
 	int gSolverFrame = 0;
 	double gSolverMinResidual = 0.0;
 	double gSolverMaxResidual = 0.0;
+	double gSolverMaxAreaForceResidual = 0.0;
 	int gSolverResidualCount = 0;
 	bool gSolverEquilibriumReached = false;
 
@@ -988,6 +1017,7 @@ namespace
 
 	void updateSolverResidualDiagnostics(const zSpace::zPointArray& positions)
 	{
+		gSolverMaxAreaForceResidual = 0.0;
 		gSolverMinResidual = 0.0;
 		gSolverMaxResidual = 0.0;
 		gSolverResidualCount = 0;
@@ -1001,6 +1031,10 @@ namespace
 			zSpace::zVectorArray direction1, direction2;
 			gMeshDynamics.getPrincipalCurvatures(curvatures, direction1, direction2);
 			if (curvatures.size() != positions.size()) return;
+			const auto areas = gMeshDynamics.vertexAreas();
+			if (areas.size() != positions.size()) return;
+			// Evaluate unit tension so zero/weak Area Strength cannot fake convergence.
+			auto forces = gMeshDynamics.previewAreaForces(1.0);
 			bool hasResidual = false;
 			double minResidual = 0.0;
 			double maxResidual = 0.0;
@@ -1008,6 +1042,10 @@ namespace
 			{
 				if (isSolverSupportVertex(static_cast<int>(vertexId))) continue;
 				// Match the mean-curvature analyzer, in inverse model-length units.
+				if (areas[vertexId] <= 0.0) return;
+				const double forceResidual = forces[vertexId].length() * gMeshDynamics.cachedMeshScale / (2.0 * areas[vertexId]);
+				if (!std::isfinite(forceResidual)) return;
+				gSolverMaxAreaForceResidual = std::max(gSolverMaxAreaForceResidual, forceResidual);
 				const double residual = std::abs((curvatures[vertexId].k1 + curvatures[vertexId].k2) * 0.5);
 				if (!std::isfinite(residual)) return;
 				if (!hasResidual)
@@ -1026,7 +1064,8 @@ namespace
 			if (!hasResidual) return;
 			gSolverMinResidual = minResidual;
 			gSolverMaxResidual = maxResidual;
-			gSolverEquilibriumReached = maxResidual < std::max(0.0, gSolverParams.residualThreshold);
+			gSolverEquilibriumReached = maxResidual < std::max(0.0, gSolverParams.residualThreshold)
+				&& gSolverMaxAreaForceResidual < gSolverParams.areaForceTolerance;
 			return;
 		}
 		if ((!gSolverParams.gravityEnabled || std::abs(gSolverParams.gravity) <= 1.0e-12) &&
@@ -1840,6 +1879,19 @@ extern "C"
 			gBuffers.lastError = "Unknown zSpace mesh solver mode error.";
 		}
 		return 0;
+	}
+
+	ZSPACE_WASM_EXPORT double zspace_solver_max_area_force_residual()
+	{
+		return gSolverReady && gSolverParams.mode == 1 ? gSolverMaxAreaForceResidual : 0.0;
+	}
+
+	ZSPACE_WASM_EXPORT int zspace_solver_set_area_force_tolerance(double tolerance)
+	{
+		if (!std::isfinite(tolerance) || tolerance < 0.0) return 0;
+		gSolverParams.areaForceTolerance = tolerance;
+		gSolverEquilibriumReached = false;
+		return 1;
 	}
 
 	ZSPACE_WASM_EXPORT int zspace_solver_set_params(
