@@ -98,3 +98,21 @@ const resetPoints=Array.from(m.HEAPF32.subarray(m._zspace_positions_ptr()/4,m._z
 assert.deepEqual(resetPoints,[-1,-1,0,0,-1,0,1,-1,0,-1,1,0,0,1,0,1,1,0]);
 assert(m._zspace_solver_max_residual()>89,'reset keeps the assigned target');
 console.log('Internal quad triangulation, timeline and reset passed');
+
+// Unassigned original edges are free hinges, not hidden zero-angle constraints.
+m.FS.writeFile('/free.obj','v 0 0 0\nv 1 0 0\nv 0 1 0\nv 0 0 1\nf 1 2 3\nf 2 1 4\n');
+assert.equal(m.ccall('zspace_mesh_read','number',['string'],['/free.obj']),1);
+m._zspace_solver_set_mode(2);m._zspace_solver_create_dynamics();
+m._zspace_origami_set_params(20,.7,.7,.2,.45,1);
+m._zspace_solver_update_preview();
+assert.equal(m._zspace_solver_max_residual(),0,'unassigned original hinge has no target');
+const freeEdges=Array.from(m.HEAPU32.subarray(m._zspace_edges_ptr()/4,m._zspace_edges_ptr()/4+m._zspace_edges_count()));
+const freeId=Array.from({length:freeEdges.length/2},(_,i)=>i).find(i=>freeEdges[i*2]+freeEdges[i*2+1]===1);
+assert.equal(m._zspace_origami_set_crease(freeId,0,0),1);
+m._zspace_solver_update_preview();
+assert(Math.abs(m._zspace_solver_max_residual()-90)<1e-5,'explicit Flat still constrains the original hinge');
+assert.equal(m._zspace_origami_clear_creases(),1);
+m._zspace_solver_update_preview();
+assert.equal(m._zspace_solver_max_residual(),0,'clear restores a free hinge');
+assert.equal(m._zspace_origami_max_panel_bend(),0,'triangle faces are planar');
+console.log('Free original hinges and explicit Flat assignments passed');

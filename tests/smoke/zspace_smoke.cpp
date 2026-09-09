@@ -4,6 +4,7 @@
 #include <cmath>
 #include <iostream>
 #include <stdexcept>
+#include "origami_curved_fixture.h"
 
 namespace
 {
@@ -385,10 +386,11 @@ namespace
 
 }
 
-int main()
+int main(int argc, char** argv)
 {
 	try
 	{
+		if (argc>=2) {testCurvedOrigamiInput(argv[1],argc>2?std::stod(argv[2]):.7,argc>3?std::stod(argv[3]):20);return 0;}
 		zSpace::zObjectMesh mesh;
 		zSpace::zObjectGraph graph;
 

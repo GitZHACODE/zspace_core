@@ -31,6 +31,7 @@ namespace zSpace
 	struct zOrigamiDiagnostics
 	{
 		double maxStrain = 0, maxAngleError = 0, maxForce = 0, maxSpeed = 0, stableTimeStep = 0;
+		double maxCreaseAngleError = 0, maxPanelAngleError = 0;
 	};
 
 	/** \addtogroup zInterface

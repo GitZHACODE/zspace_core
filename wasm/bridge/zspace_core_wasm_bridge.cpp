@@ -1960,11 +1960,13 @@ extern "C"
 	ZSPACE_WASM_EXPORT int zspace_origami_clear_creases()
 	{
 		try {
-			for (const auto& entry:gOrigamiCreases) gMeshDynamics.setOrigamiCrease(entry.first,0,0);
+			for (const auto& entry:gOrigamiCreases) gMeshDynamics.setOrigamiCrease(entry.first,2,0);
 			gOrigamiCreases.clear();gSolverEquilibriumReached=false;return 1;
 		} catch (const std::exception& error) {gBuffers.lastError=error.what();return 0;}
 	}
 	ZSPACE_WASM_EXPORT double zspace_origami_max_strain() {return gOrigamiDiagnostics.maxStrain;}
+	ZSPACE_WASM_EXPORT double zspace_origami_max_crease_error() {return gOrigamiDiagnostics.maxCreaseAngleError * 180.0 / 3.141592653589793;}
+	ZSPACE_WASM_EXPORT double zspace_origami_max_panel_bend() {return gOrigamiDiagnostics.maxPanelAngleError * 180.0 / 3.141592653589793;}
 	ZSPACE_WASM_EXPORT double zspace_origami_max_speed() {return gOrigamiDiagnostics.maxSpeed;}
 	ZSPACE_WASM_EXPORT double zspace_origami_time_step() {return gOrigamiDiagnostics.stableTimeStep;}
 

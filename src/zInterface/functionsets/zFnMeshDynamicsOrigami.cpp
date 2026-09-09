@@ -65,7 +65,12 @@ ZSPACE_INLINE void zFnMeshDynamics::prepareOrigami() {
     zIntArray meshEdges; getEdgeData(meshEdges);
     for(std::size_t i=0;i+1<meshEdges.size();i+=2) {
         const auto it=edges.find({std::min(meshEdges[i],meshEdges[i+1]),std::max(meshEdges[i],meshEdges[i+1])});
-        if(it!=edges.end()) origamiEdges[it->second].source=static_cast<int>(i/2);
+        if(it!=edges.end()) {
+            auto& e=origamiEdges[it->second];
+            e.source=static_cast<int>(i/2);
+            // Original panel boundaries may bend. Only added diagonals enforce panel flatness.
+            e.assignment=2;
+        }
     }
     for(auto& pObj:particlesObj) { zFnParticle fn(pObj); zVector zero; fn.setVelocity(zero);fn.clearForce(); }
 }
@@ -114,6 +119,9 @@ ZSPACE_INLINE void zFnMeshDynamics::getOrigamiForces(const zOrigamiSettings& s,z
         // Positive valley folds lift both opposite vertices above an initially +Z sheet.
         const double theta=std::atan2(axis.dot(n2.cross(n1)),n1.dot(n2));
         const double error=std::remainder(theta-e.target*s.foldAmount,2*pi);
+        if(e.source<0) diag.maxPanelAngleError=std::max(diag.maxPanelAngleError,std::abs(theta));
+        else if(e.assignment==-1||e.assignment==1)
+            diag.maxCreaseAngleError=std::max(diag.maxCreaseAngleError,std::abs(error));
         const double kh=e.rest*(e.assignment==0?s.facet:s.fold);
         if(kh>0) diag.maxAngleError=std::max(diag.maxAngleError,std::abs(error));
         const V gc=n1*(len/a1),gd=n2*(len/a2);
