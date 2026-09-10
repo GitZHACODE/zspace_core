@@ -78,3 +78,17 @@ equilibrium, free vertices are white at an equal analysis threshold. Supports
 may remain colored because the solver does not constrain their curvature.
 
 Run the runtime regression after building with `node wasm/scripts/test-minimal-surface.mjs`.
+
+## Solver Performance
+
+The WASM build uses `-O2` for the bridge, sketch, and kernel sources. Do not ship
+an `-O0` build for interactive dynamics; no fast-math flags are required.
+Run `node wasm/scripts/benchmark-origami.mjs wasm/build/perf.json` from the
+repository root to measure 432- and 1600-vertex annular meshes. The output includes
+final positions for numerical comparison, as well as median and p95 frame times.
+Compare timings on the same machine and compare positions before accepting an
+optimization. This benchmark measures solver calls, not browser rendering FPS.
+
+Viewer playback budgets complete updates (including geometry and analysis),
+starting at one solver frame per redraw and capping adaptive batches at four.
+Physics timesteps and convergence tolerances are independent of this scheduling.

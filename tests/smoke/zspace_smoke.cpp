@@ -5,6 +5,7 @@
 #include <iostream>
 #include <stdexcept>
 #include "origami_curved_fixture.h"
+#include <src/zInterface/objects/zMeshObjectStorage.h>
 
 namespace
 {
@@ -58,6 +59,22 @@ namespace
 		require(fnMesh.numPolygons() == 1, "mesh polygon count");
 		int meshEdgeId = -1;
 		require(fnMesh.edgeExists(0, 1, meshEdgeId) && meshEdgeId >= 0, "mesh edge exists");
+		zDoubleArray weights = {2,3,4,5};
+		fnMesh.setEdgeWeights(weights);
+		zIntArray sourceEdges; fnMesh.getEdgeData(sourceEdges);
+		auto& topology = zMeshObjectStorage::get(mesh);
+		for (int i=0;i<topology.n_e;++i) {
+			const int a=topology.halfEdges[topology.edges[i].getHalfEdge(0)].getVertex();
+			const int b=topology.halfEdges[topology.edges[i].getHalfEdge(1)].getVertex();
+			bool matched=false;
+			for (std::size_t j=0;j<sourceEdges.size();j+=2) {
+				if ((sourceEdges[j]==a&&sourceEdges[j+1]==b)||(sourceEdges[j]==b&&sourceEdges[j+1]==a)) {
+					require(topology.edgeWeights[i]==weights[j/2], "topology preserves endpoint-mapped weights");
+					matched=true;
+				}
+			}
+			require(matched, "topology edge has a source edge");
+		}
 
 		zItMeshVertex vertex(mesh, 0);
 		vertex.setPosition(zPoint(-0.25, 0, 0));

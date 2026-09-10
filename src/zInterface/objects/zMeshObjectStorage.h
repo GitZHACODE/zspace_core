@@ -97,7 +97,7 @@ namespace zSpace
 			{
 				const int halfEdge0 = topology->edges[edgeId].getHalfEdge(0);
 				const int halfEdge1 = topology->edges[edgeId].getHalfEdge(1);
-				const auto endpoints = std::minmax(
+				const std::pair<int, int> endpoints = std::minmax(
 					topology->halfEdges[halfEdge0].getVertex(),
 					topology->halfEdges[halfEdge1].getVertex());
 				const auto source = sourceEdges.find({ endpoints.first, endpoints.second });

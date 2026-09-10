@@ -65,7 +65,7 @@ em++ ^
   -I"%REPO_ROOT%\third_party" ^
   -I"%REPO_ROOT%\third_party\depends" ^
   -std=c++17 ^
-  -O0 ^
+  -O2 ^
   -c ^
   -o "%WASM_BUILD%\zspace_core_wasm_bridge.o"
 if errorlevel 1 exit /b 1
@@ -81,7 +81,7 @@ em++ ^
   -I"%REPO_ROOT%\third_party" ^
   -I"%REPO_ROOT%\third_party\depends" ^
   -std=c++17 ^
-  -O0 ^
+  -O2 ^
   -c ^
   -o "%WASM_BUILD%\default_live_sketch.o"
 if errorlevel 1 exit /b 1
@@ -99,7 +99,7 @@ em++ ^
   -I"%REPO_ROOT%\third_party" ^
   -I"%REPO_ROOT%\third_party\depends" ^
   -std=c++17 ^
-  -O0 ^
+  -O2 ^
   -sMODULARIZE=1 ^
   -sEXPORT_ES6=1 ^
   -sENVIRONMENT=web ^
