@@ -98,6 +98,8 @@ namespace
 		double springStiffness = 1.0;
 		double residualThreshold = 0.05;
 		double areaForceTolerance = 0.001;
+		double areaStrength = 0.35;
+		double stepTolerance = 0.0001;
 		double dragStrength = 0.02;
 		float drag = 0.2f;
 	};
@@ -287,7 +289,7 @@ namespace
 			}
 		}
 
-		zSpace::zVectorArray previewAreaForces(double strength)
+		zSpace::zVectorArray previewSurfaceForces(double strength, double edgeStiffness, double multiplier, bool fixXY)
 		{
 			zSpace::zVectorArray saved, forces;
 			for (auto& particle : particlesObj)
@@ -299,6 +301,7 @@ namespace
 			try
 			{
 				addMinimizeAreaForce(strength);
+				addGuardedSpringForce(edgeStiffness, multiplier, fixXY ? zSpace::zConstraintXY : zSpace::zConstraintFree);
 				for (auto& particle : particlesObj)
 				{
 					zSpace::zFnParticle fnParticle(particle);
@@ -1026,6 +1029,22 @@ namespace
 		gMeshDynamics.clearVelocityAndForce();
 	}
 
+	zSpace::zVectorArray surfaceResultantForces()
+	{
+		auto forces = gMeshDynamics.previewSurfaceForces(gSolverParams.areaStrength,
+			gSolverParams.edgeForceEnabled ? gSolverParams.springStiffness : 0.0,
+			gSolverParams.edgeLengthMultiplier, gSolverParams.fixXY);
+		zSpace::zVector direction = gSolverParams.direction;
+		if (direction.length() <= 1.0e-9f) direction = zSpace::zVector(0, 0, -1);
+		direction.normalize();
+		for (std::size_t i = 0; i < forces.size(); ++i) {
+			if (gSolverParams.gravityEnabled)
+				forces[i] += direction * (gSolverParams.gravity * gMeshDynamics.getParticleMass(static_cast<int>(i)));
+			if (gSolverParams.vectorForceEnabled) forces[i] += direction * gSolverParams.value;
+		}
+		return forces;
+	}
+
 	void updateSolverResidualDiagnostics(const zSpace::zPointArray& positions)
 	{
 		gSolverMaxAreaForceResidual = 0.0;
@@ -1050,27 +1069,18 @@ namespace
 		if (gSolverParams.mode == 1)
 		{
 			if (!gSolverReady) return;
-			zSpace::zCurvatureArray curvatures;
-			zSpace::zVectorArray direction1, direction2;
-			gMeshDynamics.getPrincipalCurvatures(curvatures, direction1, direction2);
-			if (curvatures.size() != positions.size()) return;
-			const auto areas = gMeshDynamics.vertexAreas();
-			if (areas.size() != positions.size()) return;
-			// Evaluate unit tension so zero/weak Area Strength cannot fake convergence.
-			auto forces = gMeshDynamics.previewAreaForces(1.0);
+			auto forces = surfaceResultantForces();
 			bool hasResidual = false;
 			double minResidual = 0.0;
 			double maxResidual = 0.0;
+			double maxStep = 0.0;
 			for (std::size_t vertexId = 0; vertexId < positions.size(); ++vertexId)
 			{
 				if (isSolverSupportVertex(static_cast<int>(vertexId))) continue;
-				// Match the mean-curvature analyzer, in inverse model-length units.
-				if (areas[vertexId] <= 0.0) return;
-				const double forceResidual = forces[vertexId].length() * gMeshDynamics.cachedMeshScale / (2.0 * areas[vertexId]);
-				if (!std::isfinite(forceResidual)) return;
-				gSolverMaxAreaForceResidual = std::max(gSolverMaxAreaForceResidual, forceResidual);
-				const double residual = std::abs((curvatures[vertexId].k1 + curvatures[vertexId].k2) * 0.5);
+				const double residual = forces[vertexId].length();
 				if (!std::isfinite(residual)) return;
+				if (vertexId < gMeshDynamics.lastUpdateDisplacements.size())
+					maxStep = std::max(maxStep, gMeshDynamics.lastUpdateDisplacements[vertexId]);
 				if (!hasResidual)
 				{
 					minResidual = residual;
@@ -1088,7 +1098,7 @@ namespace
 			gSolverMinResidual = minResidual;
 			gSolverMaxResidual = maxResidual;
 			gSolverEquilibriumReached = maxResidual < std::max(0.0, gSolverParams.residualThreshold)
-				&& gSolverMaxAreaForceResidual < gSolverParams.areaForceTolerance;
+				&& maxStep < gSolverParams.stepTolerance;
 			return;
 		}
 		if ((!gSolverParams.gravityEnabled || std::abs(gSolverParams.gravity) <= 1.0e-12) &&
@@ -1242,7 +1252,7 @@ namespace
 		if (gSolverParams.mode == 1)
 		{
 			if (!gSolverReady || !gSolverParams.residualForceEnabled) return;
-			zSpace::zVectorArray forces = gMeshDynamics.previewAreaForces(gSolverParams.springStiffness);
+			zSpace::zVectorArray forces = surfaceResultantForces();
 			const zSpace::zColor soapFilmColor(1.0f, 0.72f, 0.0f);
 			for (std::size_t i = 0; i < positions.size(); ++i)
 			{
@@ -1970,6 +1980,15 @@ extern "C"
 	ZSPACE_WASM_EXPORT double zspace_origami_max_speed() {return gOrigamiDiagnostics.maxSpeed;}
 	ZSPACE_WASM_EXPORT double zspace_origami_time_step() {return gOrigamiDiagnostics.stableTimeStep;}
 
+	ZSPACE_WASM_EXPORT int zspace_solver_set_surface_params(double areaStrength, double stepTolerance)
+	{
+		if (!std::isfinite(areaStrength) || areaStrength < 0.0 || !std::isfinite(stepTolerance) || stepTolerance <= 0.0) return 0;
+		gSolverParams.areaStrength = areaStrength;
+		gSolverParams.stepTolerance = stepTolerance;
+		gSolverEquilibriumReached = false;
+		return 1;
+	}
+
 	ZSPACE_WASM_EXPORT int zspace_solver_set_area_force_tolerance(double tolerance)
 	{
 		if (!std::isfinite(tolerance) || tolerance < 0.0) return 0;
@@ -2196,15 +2215,8 @@ extern "C"
 					}
 					if (gSolverParams.mode == 1)
 					{
-						gMeshDynamics.addMinimizeAreaForce(gSolverParams.springStiffness);
-						if (!gMeshDynamics.updateAreaDescent(subTimeStep, maxVertexStep))
-						{
-							frameValid = false;
-							break;
-						}
-						continue;
+						gMeshDynamics.addMinimizeAreaForce(gSolverParams.areaStrength);
 					}
-					else
 					{
 						if (gSolverParams.gravityEnabled && std::abs(gSolverParams.gravity) > 1.0e-12)
 							gMeshDynamics.addMassScaledGravityForce(gSolverParams.gravity, gravityVector);
@@ -2236,7 +2248,7 @@ extern "C"
 					return 0;
 				}
 
-				if (gSolverParams.mode == 2) {
+				if (gSolverParams.mode == 2 || gSolverParams.mode == 1) {
 					gMeshDynamics.lastUpdateDisplacements.resize(beforeStep.size());
 					for (std::size_t j=0;j<beforeStep.size();++j) {
 						zSpace::zVector delta=gMeshDynamics.dynamicPositions[j];delta-=beforeStep[j];

@@ -36,46 +36,33 @@ wasm/out/zspace_core.wasm
 
 ## Minimal Surface Convergence
 
-Mode 1 accumulates strength-weighted triangle moves from Dan Piker's
-[SoapFilm element](https://github.com/Dan-Piker/K2Goals/blob/master/SoapFilm.cs).
-The existing `zFnMeshDynamics::addMinimizeAreaForce` supplies both the particle
-forces and yellow force arrows; preview sampling restores the particle forces.
-Polygons are internally triangulated for force evaluation without changing the
-viewer mesh topology. This uses the element calculation with zSpace particle
-updates, not Kangaroo's global goal-weight averaging solver. Minimal-surface
-updates use force/mass descent with backtracking: each accepted substep must
-not increase triangulated area or reverse an element orientation. They do not
-reuse the particle integrator's velocity/derivative history. Euler/RK4 remains
-a dynamic-relaxation setting only.
+Mode 1 is a combined relaxation solver, not a pure mathematical minimal surface.
+It adds the existing `zFnMeshDynamics::addMinimizeAreaForce` (SoapFilm area
+gradient) to the same rest-length spring forces used by DR. Optional gravity
+and vector loads participate too. Area forces use internal triangles; springs
+use original input edges. The input mesh topology remains unchanged.
 
-Residual is `abs((k1 + k2) / 2)`, computed by `getPrincipalCurvatures`, exactly
-as in the mean-curvature analyzer. Equilibrium requires the maximum over free
-vertices to be strictly below the input threshold, in inverse model-length units.
-There is no mesh-scale, timestep, mass, or strength normalization. Fixed supports
-are excluded; the analyzer includes them. The curvature estimator's limitations
-on sparse or degenerate neighborhoods also apply to this stopping criterion.
+`zspace_solver_set_surface_params(areaStrength, stepTolerance)` sets independent
+area strength and a positive full-frame displacement tolerance. Spring stiffness,
+edge enable, rest-length multiplier, mass, and Euler/RK4 come from the existing
+`zspace_solver_set_params` ABI. The guarded DR integrator and damping advance
+the combined forces. Area-only descent/backtracking is deliberately not used:
+combined relaxation may increase area to balance springs or loads.
 
-Equilibrium additionally requires the maximum area-force residual to be below
-`areaForceTolerance` (default 0.001), set through
-`zspace_solver_set_area_force_tolerance`. Its value, exposed by
-`zspace_solver_max_area_force_residual`, is
-`|gradient A_i| * referenceEdgeLength / (2 * vertexArea_i)` at free vertices.
-It uses unit tension, independent of Area Strength, and is dimensionless.
-Invalid or zero-area elements cannot satisfy the check. This prevents a low
-fitted curvature value from concealing significant remaining area forces.
+Residual is the absolute magnitude of the summed area, spring and enabled load
+forces, before integration limiting and excluding damping and support reactions.
+Equilibrium requires BOTH maximum free-vertex resultant < residualThreshold AND
+maximum free-vertex net displacement over the last frame < stepTolerance.
+Defaults in the viewer are Area Strength 0.35, Spring Stiffness 1, Edge Force on,
+Resultant Force Threshold 0.02 and Max Step Threshold 0.0001 (model length units).
+Unlike the unchanged DR diagnostic, this residual is not a normalized force ratio.
 
-Descent uses lumped vertex areas (one third of each incident triangle area)
-as a positive mass multiplier, normalized by average vertex area. This balances
-motion on nonuniform meshes without adding an edge-spring energy or changing
-area stationary points. Backtracking still checks area and element orientation.
-
-Display Forces and SoapFilm Force (the existing residual-force flag) enable the
-arrows. Display Length Scale scales them; fixed vertices have no force arrows.
-
-Curvature analysis uses the requested threshold directly as the white band;
-it does not clamp that band to a fraction of the current color range. At solver
-equilibrium, free vertices are white at an equal analysis threshold. Supports
-may remain colored because the solver does not constrain their curvature.
+The yellow arrows show this same combined resultant. Display Forces and Resultant
+Force enable them, and Display Length Scale scales them. Preview evaluation
+restores particle forces and excludes support arrows. Curvature remains an
+independent analysis, refreshed by the viewer; equilibrium no longer implies H=0
+or a white curvature map. Legacy area-force tolerance exports remain for ABI
+compatibility but no longer control mode 1 convergence; their residual is retired.
 
 Run the runtime regression after building with `node wasm/scripts/test-minimal-surface.mjs`.
 
