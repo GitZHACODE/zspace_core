@@ -1,0 +1,66 @@
+import assert from 'node:assert/strict';
+import { readFile } from 'node:fs/promises';
+const host = globalThis.process;
+const binary = await readFile(new URL('../out/zspace_core.wasm', import.meta.url));
+globalThis.window = {}; globalThis.process = undefined;
+const { default: factory } = await import('../out/zspace_core.js');
+const compiled = await WebAssembly.compile(binary);
+const m = await factory({ instantiateWasm(imports, ready) { const instance = new WebAssembly.Instance(compiled, imports); ready(instance); return instance.exports; } });
+globalThis.process = host; delete globalThis.window;
+const check = v => assert.equal(v, 1, m.UTF8ToString(m._zspace_last_error_ptr()));
+const positions = () => [...m.HEAPF32.slice(m._zspace_positions_ptr()/4, (m._zspace_positions_ptr()+4*m._zspace_positions_count())/4)];
+const forces = () => [...m.HEAPF32.slice(m._zspace_vector_directions_ptr()/4, m._zspace_vector_directions_ptr()/4+m._zspace_vector_directions_count())];
+function setup(mask = 1, constraints = { groups: [], pairs: [] }) {
+  m.FS.writeFile('/quad.obj', 'v 0 0 0\nv 2 0 0\nv 2 2 1\nv 0 2 0\nf 1 2 3 4\n');
+  check(m.ccall('zspace_mesh_read','number',['string'],['/quad.obj']));
+  check(m._zspace_solver_set_mode(3)); check(m._zspace_solver_create_dynamics());
+  check(m._zspace_solver_begin_config_update());
+  check(m.ccall('zspace_planarity_constraints','number',['string'],[JSON.stringify(constraints)]));
+  check(m._zspace_planarity_params(mask,0,1,0.001,1,0.001,1,0.001));
+  check(m._zspace_solver_set_surface_params(0,0.001));
+  check(m._zspace_solver_set_params(0,0,0,1,0,1,0,1,1,0.1,1,0,0.001,61,1,0,0,0,0,1));
+  check(m._zspace_solver_end_config_update());
+}
+setup();
+const initial = m._zspace_planarity_deviation(0);
+assert(initial > 0.1);
+const arrows = forces();
+check(m._zspace_solver_update_preview()); assert.deepEqual(forces(), arrows, 'preview must not accumulate forces');
+const start = positions();
+for (let i=0;i<10;i++) check(m._zspace_solver_step(100));
+assert(m._zspace_planarity_deviation(0) < initial * 0.1, 'face deviation reduces');
+check(m._zspace_solver_reset()); assert.deepEqual(positions(), start);
+setup(2,{groups:[{vertices:[0,1,2,3],origin:[0,0,2],normal:[0,0,1]}],pairs:[]});
+assert.equal(m._zspace_planarity_deviation(1),2, 'negative-side distance is included');
+check(m._zspace_solver_step(10)); assert(positions()[2]>0, 'negative-side vertex moves toward plane');
+setup(4,{groups:[],pairs:[[0,1,1]]});
+check(m._zspace_solver_add_support(0)); const fixed=positions().slice(0,3);
+check(m._zspace_solver_step(100)); assert(positions()[3]<2, 'rigid pair shortens');
+assert.deepEqual(positions().slice(0,3),fixed,'support is fixed');
+setup(0); check(m._zspace_solver_step(1)); assert.deepEqual(positions(),start);
+assert.equal(m._zspace_solver_equilibrium_reached(),0,'disabled constraints are not solved');
+assert.equal(m.ccall('zspace_planarity_constraints','number',['string'],['{"groups":[],"pairs":[[0,99,1]]}']),0);
+console.log('Planarity force, negative-side plane, rigid pair, reset, support and preview tests passed.');
+
+if (host.argv[2]) {
+  const { nanshaData } = await import(new URL('../../../zspace_alice_webviewer/sketches/nanshaConstraints.js',import.meta.url));
+  const ref = JSON.parse(await readFile(host.argv[2], 'utf8'));
+  const solved = JSON.parse(await readFile(host.argv[3], 'utf8'));
+  const data = nanshaData(ref,solved);
+  m.FS.writeFile('/roof.json',JSON.stringify(solved));
+  check(m.ccall('zspace_mesh_read','number',['string'],['/roof.json']));
+  check(m._zspace_solver_set_mode(3));check(m._zspace_solver_create_dynamics());
+  m._zspace_solver_begin_config_update();
+  m.FS.writeFile('/constraints.json',JSON.stringify(data.constraints));
+  check(m.ccall('zspace_planarity_constraints','number',['string'],['/constraints.json']));
+  for(const id of data.supports) check(m._zspace_solver_add_support(id));
+  check(m._zspace_planarity_params(7,0,1,1e-6,0.1,0.001,0.1,0.005));
+  check(m._zspace_solver_set_params(0,0,0,1,0,1,0,1,1,0.1,0.1,0,0.05,61,0,0,0,0,0,1));
+  check(m._zspace_solver_end_config_update());
+  const before=positions(), deviations=()=>[0,1,2].map(i=>m._zspace_planarity_deviation(i));
+  const initial=deviations(), t=performance.now();
+  check(m._zspace_solver_step(5));
+  const after=positions(); assert(after.every(Number.isFinite)); assert.notDeepEqual(after,before);
+  for(const id of data.supports) assert.deepEqual(after.slice(id*3,id*3+3),before.slice(id*3,id*3+3));
+  console.log({initial,after:deviations(),ms:performance.now()-t,maxStep:m._zspace_solver_max_displacement(),frame:m._zspace_solver_frame()});
+}

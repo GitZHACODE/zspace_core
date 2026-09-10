@@ -22,6 +22,7 @@
 #include <string>
 #include <utility>
 #include <vector>
+#include "planarity_solver.h"
 
 #ifdef __EMSCRIPTEN__
 #include <emscripten/emscripten.h>
@@ -116,6 +117,17 @@ namespace
 	{
 	public:
 		using zSpace::zFnMeshDynamics::zFnMeshDynamics;
+		zSpace::zVectorArray particleForces(bool clear = false)
+		{
+			zSpace::zVectorArray result;
+			result.reserve(particlesObj.size());
+			for (auto& particle : particlesObj) {
+				zSpace::zFnParticle fn(particle);
+				result.push_back(fn.getForce());
+				if (clear) fn.clearForce();
+			}
+			return result;
+		}
 		zSpace::zPointArray dynamicPositions;
 		zSpace::zDoubleArray edgeRestLengths;
 		std::vector<double> lastUpdateDisplacements;
@@ -539,6 +551,42 @@ namespace
 
 	WasmMeshDynamics gMeshDynamics;
 	SolverParams gSolverParams;
+	PlanaritySettings gPlanarity;
+	double gPlanarityDeviations[3] = {0, 0, 0};
+	zSpace::zVectorArray gPlanarityForces[3], gPlanarityResultant;
+	bool evaluatePlanarity(bool apply)
+	{
+		gMeshDynamics.particleForces(true);
+		bool satisfied = true, any = false;
+		zSpace::zVectorArray previous(gMeshDynamics.dynamicPositions.size());
+		for (int i = 0; i < 3; ++i) {
+			gPlanarityDeviations[i] = 0;
+			gPlanarityForces[i].assign(previous.size(), zSpace::zVector());
+			if (!gPlanarity.enabled[i]) continue;
+			any = true;
+			zSpace::zDoubleArray deviations;
+			zSpace::zVectorArray directions;
+			bool done = false;
+			if (i == 0) gMeshDynamics.addPlanarityForce(gPlanarity.strength[i], gPlanarity.tolerance[i],
+				gPlanarity.quad ? zSpace::zQuadPlanar : zSpace::zVolumePlanar, deviations, directions, done,
+				gSolverParams.fixXY ? zSpace::zConstraintXY : zSpace::zConstraintFree);
+			if (i == 1) gMeshDynamics.addPlanarityForce_vertexgroups(gPlanarity.strength[i], gPlanarity.tolerance[i],
+				gPlanarity.groups, gPlanarity.origins, gPlanarity.normals, deviations, directions, done);
+			if (i == 2) gMeshDynamics.addRigidLineForce(gPlanarity.strength[i], gPlanarity.tolerance[i],
+				gPlanarity.pairs, gPlanarity.lengths, deviations, directions, done);
+			for (double d : deviations) {
+				if (!std::isfinite(d) || d < 0) throw std::runtime_error("Unsupported or degenerate planarity constraint.");
+				gPlanarityDeviations[i] = std::max(gPlanarityDeviations[i], d);
+			}
+			satisfied = satisfied && done;
+			auto total = gMeshDynamics.particleForces();
+			for (std::size_t v = 0; v < total.size(); ++v) gPlanarityForces[i][v] = total[v] - previous[v];
+			previous = std::move(total);
+		}
+		gPlanarityResultant = std::move(previous);
+		if (!apply) gMeshDynamics.particleForces(true);
+		return any && satisfied;
+	}
 	zSpace::zPointArray gSolverInitialPositions;
 	std::vector<zSpace::zPointArray> gSolverHistory;
 	zSpace::zIntArray gSolverSupports;
@@ -584,6 +632,7 @@ namespace
 
 	void resetSolverState()
 	{
+		gPlanarity = {};
 		gOrigamiCreases.clear();
 		gOrigamiDiagnostics = {};
 		gSolverReady = false;
@@ -1055,6 +1104,18 @@ namespace
 		gSolverEquilibriumReached = false;
 
 		if (positions.empty()) return;
+		if (gSolverParams.mode == 3 && gSolverReady) {
+			const bool satisfied = evaluatePlanarity(false);
+			double maxStep = 0;
+			for (std::size_t i = 0; i < positions.size(); ++i) {
+				if (isSolverSupportVertex(static_cast<int>(i))) continue;
+				gSolverMaxResidual = std::max(gSolverMaxResidual, static_cast<double>(gPlanarityResultant[i].length()));
+				if (i < gMeshDynamics.lastUpdateDisplacements.size()) maxStep = std::max(maxStep, gMeshDynamics.lastUpdateDisplacements[i]);
+				++gSolverResidualCount;
+			}
+			gSolverEquilibriumReached = satisfied && maxStep < gSolverParams.stepTolerance && gSolverMaxResidual < gSolverParams.residualThreshold;
+			return;
+		}
 		if (gSolverParams.mode == 2)
 		{
 			if (!gSolverReady) return;
@@ -1264,6 +1325,14 @@ namespace
 			return;
 		}
 		if (!gSolverParams.displayForceVectors || displayLengthScale <= 1.0e-9f || positions.empty()) return;
+		if (gSolverParams.mode == 3) {
+			if (!gSolverReady) return;
+			drawForces(gPlanarityForces[0], zSpace::zColor(0,0.75f,1,1));
+			drawForces(gPlanarityForces[1], zSpace::zColor(0.7f,0.2f,0.9f,1));
+			drawForces(gPlanarityForces[2], springColor);
+			if (gSolverParams.residualForceEnabled) drawForces(gPlanarityResultant, resultantColor);
+			return;
+		}
 
 		if (gSolverParams.mode == 1)
 		{
@@ -1935,7 +2004,7 @@ extern "C"
 		try
 		{
 			gBuffers.lastError.clear();
-			if (mode < 0 || mode > 2) throw std::invalid_argument("Unknown mesh solver mode.");
+			if (mode < 0 || mode > 3) throw std::invalid_argument("Unknown mesh solver mode.");
 			if (gSolverParams.mode != mode && gSolverReady && mode == 2) gMeshDynamics.prepareOrigami();
 			gSolverParams.mode = mode;
 			if (!gSolverConfigUpdateBatch) copySolverPreviewToPrimitiveBuffers();
@@ -2002,6 +2071,33 @@ extern "C"
 		gSolverParams.stepTolerance = stepTolerance;
 		gSolverEquilibriumReached = false;
 		return 1;
+	}
+
+	ZSPACE_WASM_EXPORT int zspace_planarity_constraints(const char* json)
+	{
+		try {
+			auto config = readPlanarityConstraints(json, static_cast<int>(gMeshDynamics.dynamicPositions.size()));
+			gPlanarity.groups = std::move(config.groups); gPlanarity.origins = std::move(config.origins);
+			gPlanarity.normals = std::move(config.normals); gPlanarity.pairs = std::move(config.pairs);
+			gPlanarity.lengths = std::move(config.lengths); gSolverEquilibriumReached = false;
+			return 1;
+		} catch (const std::exception& e) { gBuffers.lastError = e.what(); return 0; }
+	}
+	ZSPACE_WASM_EXPORT int zspace_planarity_params(int mask, int quad, double strength, double tolerance,
+		double groupStrength, double groupTolerance, double pairStrength, double pairTolerance)
+	{
+		for (double v : {strength,tolerance,groupStrength,groupTolerance,pairStrength,pairTolerance})
+			if (!std::isfinite(v) || v < 0) return 0;
+		gPlanarity.quad = quad != 0;
+		for (int i=0;i<3;++i) gPlanarity.enabled[i] = (mask & (1 << i)) != 0;
+		gPlanarity.strength[0]=strength; gPlanarity.tolerance[0]=tolerance;
+		gPlanarity.strength[1]=groupStrength; gPlanarity.tolerance[1]=groupTolerance;
+		gPlanarity.strength[2]=pairStrength; gPlanarity.tolerance[2]=pairTolerance;
+		gSolverEquilibriumReached=false; return 1;
+	}
+	ZSPACE_WASM_EXPORT double zspace_planarity_deviation(int kind)
+	{
+		return kind >= 0 && kind < 3 ? gPlanarityDeviations[kind] : 0;
 	}
 
 	ZSPACE_WASM_EXPORT int zspace_solver_set_area_force_tolerance(double tolerance)
@@ -2232,7 +2328,8 @@ extern "C"
 					{
 						gMeshDynamics.addMinimizeAreaForce(gSolverParams.areaStrength);
 					}
-					{
+					if (gSolverParams.mode == 3) evaluatePlanarity(true);
+					else {
 						if (gSolverParams.gravityEnabled && std::abs(gSolverParams.gravity) > 1.0e-12)
 							gMeshDynamics.addMassScaledGravityForce(gSolverParams.gravity, gravityVector);
 						if (gSolverParams.vectorForceEnabled && std::abs(gSolverParams.value) > 1.0e-12)

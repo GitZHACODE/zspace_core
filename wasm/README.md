@@ -2,6 +2,36 @@
 
 This folder owns the browser/WASM build for `zspace_core`.
 
+## Planarisation (Mode 3)
+
+Mode 3 combines enabled `zFnMeshDynamics` face-planarity, vertex-group-plane and
+rigid-line forces. Default mode 3 configuration enables only face planarity.
+`zspace_planarity_params(mask, quad, strength, tolerance, groupStrength,
+groupTolerance, pairStrength, pairTolerance)` selects bits 1/2/4 and the method.
+`zspace_planarity_constraints(jsonOrAbsoluteFsPath)` accepts `{groups, pairs}`:
+groups contain `vertices`, 3D `origin`, unit `normal`; pairs are `[a,b,length]`.
+Use a WASM FS JSON file for large constraint collections: passing the entire
+document through ccall's string stack can overflow. Vertex IDs are validated.
+`zspace_planarity_deviation(kind)` returns current maximum absolute deviation
+for face/group/pair kinds 0/1/2. Disabled kinds report zero.
+
+The shared time step, integration, supports, history and preview APIs apply.
+`zspace_solver_set_surface_params` supplies the shared positive step tolerance
+(its area strength argument is unused by mode 3). Convergence requires all enabled
+constraints within tolerance, max resultant below residualThreshold and full-frame
+max step below stepTolerance. Force cancellation alone is not convergence.
+All-disabled reports not reached. Fixed vertices participate in deviation checks.
+
+Face forces use face-list storage directly, avoiding invalidated raw positions
+and expensive halfedge reconstruction. Signed distances determine direction;
+absolute distances determine tolerance. Preview snapshots clear particle forces
+without clearing velocity and use actual magnitudes for component vectors.
+Colours: face cyan, group violet, rigid pair red, resultant gold, supports black.
+Nansha-specific constraint generation stays in the viewer sketch, not the kernel.
+
+Test with `node wasm/scripts/test-planarity.mjs`. Optional reference and solve JSON
+arguments also run the supplied Nansha dataset using the sibling viewer helper.
+
 ```text
 bridge/   C++ bridge and compatibility headers exported to JavaScript.
 scripts/  Local Emscripten setup and build wrappers.

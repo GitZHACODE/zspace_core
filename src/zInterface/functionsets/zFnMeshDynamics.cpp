@@ -292,156 +292,66 @@ namespace zSpace
 	}
 
 
-	ZSPACE_INLINE void zFnMeshDynamics::addPlanarityForce(double strength, double tolerance, zPlanarSolverType type,  zDoubleArray& planarityDeviations, zVectorArray& forceDir, bool& exit, zSolverForceConstraints constrainType)
+	ZSPACE_INLINE void zFnMeshDynamics::addPlanarityForce(double strength, double tolerance, zPlanarSolverType type, zDoubleArray& planarityDeviations, zVectorArray& forceDir, bool& exit, zSolverForceConstraints constrainType)
 	{
-		if (forceDir.size() != numVertices())
-		{
-			forceDir.clear();
-			forceDir.assign(numVertices(), zVector());
-		}
-
+		if (!std::isfinite(strength) || strength < 0 || !std::isfinite(tolerance) || tolerance < 0)
+			throw std::invalid_argument("Invalid planarity strength or tolerance.");
+		computeMeshNormals();
+		// Read face-list storage directly: mutable topology iterators invalidate raw position buffers.
+		const auto& data = zMeshObjectStorage::read(*meshObj);
+		forceDir.assign(data.numVertices(), zVector());
+		planarityDeviations.assign(data.numFaces(), 0.0);
 		exit = true;
-
 		zUtilsCore core;
-		zPoint* vPositions = getRawVertexPositions();
-
-		if (planarityDeviations.size() != numPolygons())
-		{
-			planarityDeviations.clear();
-			planarityDeviations.assign(numPolygons(), -10);
-		}
-
-		if (type == zQuadPlanar)
-		{
-			for (zItMeshFace f(*meshObj); !f.end(); f++)
-			{
-
-
-				double uA, uB;
-				zPoint pA, pB;
-
-				int fID = f.getId();				
-
-				zIntArray fVerts;
-				f.getVertices(fVerts);
-
-				if (fVerts.size() == 3) planarityDeviations[fID] = 0;
-
-				if (fVerts.size() != 4) continue;
-
-				bool check = core.line_lineClosestPoints(vPositions[fVerts[0]], vPositions[fVerts[2]], vPositions[fVerts[1]], vPositions[fVerts[3]], uA, uB, pA, pB);
-
-				planarityDeviations[fID] = pA.distanceTo(pB);
-
-				if (planarityDeviations[fID] > tolerance)
-				{
-					exit = false;
-
-					zVector dir = pB - pA;
-					dir.normalize();
-
-					zVector pForceA = dir * planarityDeviations[fID] * 0.5;
-					zVector pForceB = dir * planarityDeviations[fID] * -0.5;
-
-					pForceA = pForceA * strength;
-					pForceB = pForceB * strength;
-
-					if (constrainType == zConstraintX)  { pForceA.x = 0; pForceB.x = 0; }
-					if (constrainType == zConstraintY)  { pForceA.y = 0; pForceB.y = 0; }
-					if (constrainType == zConstraintZ)  { pForceA.z = 0; pForceB.z = 0; }
-					if (constrainType == zConstraintXY) { pForceA.x = 0; pForceB.x = 0;  pForceA.y = 0; pForceB.y = 0; }
-					if (constrainType == zConstraintYZ) { pForceA.z = 0; pForceB.z = 0;  pForceA.y = 0; pForceB.y = 0; }
-					if (constrainType == zConstraintZX) { pForceA.x = 0; pForceB.x = 0;  pForceA.z = 0; pForceB.z = 0; }
-
-
-					zFnParticle fnParticle0(particlesObj[fVerts[0]]);
-					zFnParticle fnParticle1(particlesObj[fVerts[1]]);
-					zFnParticle fnParticle2(particlesObj[fVerts[2]]);
-					zFnParticle fnParticle3(particlesObj[fVerts[3]]);
-
-					fnParticle0.addForce(pForceA);
-					fnParticle2.addForce(pForceA);
-
-					fnParticle1.addForce(pForceB);
-					fnParticle3.addForce(pForceB);
-
-					forceDir[fVerts[0]] += pForceA;
-					forceDir[fVerts[2]] += pForceA;
-
-					forceDir[fVerts[1]] += pForceB;
-					forceDir[fVerts[3]] += pForceB;
+		auto add = [&](int id, zVector force) {
+			force *= strength;
+			if (constrainType == zConstraintX || constrainType == zConstraintXY || constrainType == zConstraintZX) force.x = 0;
+			if (constrainType == zConstraintY || constrainType == zConstraintXY || constrainType == zConstraintYZ) force.y = 0;
+			if (constrainType == zConstraintZ || constrainType == zConstraintYZ || constrainType == zConstraintZX) force.z = 0;
+			zFnParticle particle(particlesObj[id]);
+			particle.addForce(force);
+			forceDir[id] += force;
+		};
+		for (int face = 0; face < data.numFaces(); ++face) {
+			const int begin = data.faceOffsets[face], end = data.faceOffsets[face+1], count = end-begin;
+			if (count == 3) continue;
+			if (type == zQuadPlanar) {
+				if (count != 4) throw std::invalid_argument("Quad planarity requires triangles or quads.");
+				zPoint a = data.positions[data.faceVertexIndices[begin]], b = data.positions[data.faceVertexIndices[begin+1]];
+				zPoint c = data.positions[data.faceVertexIndices[begin+2]], d = data.positions[data.faceVertexIndices[begin+3]];
+				zPoint p, q; double u, v;
+				if (!core.line_lineClosestPoints(a,c,b,d,u,v,p,q)) throw std::runtime_error("Degenerate quad diagonals.");
+				const zVector force = (q-p)*0.5f;
+				planarityDeviations[face] = p.distanceTo(q);
+				if (planarityDeviations[face] <= tolerance) continue;
+				exit = false;
+				add(data.faceVertexIndices[begin],force); add(data.faceVertexIndices[begin+2],force);
+				add(data.faceVertexIndices[begin+1],zVector(force)*-1); add(data.faceVertexIndices[begin+3],zVector(force)*-1);
+			} else if (type == zVolumePlanar) {
+				zVector normal = data.faceNormals[face], center;
+				if (normal.length() < 1e-9) throw std::runtime_error("Degenerate face has no planarity plane.");
+				for (int k=begin;k<end;++k) center += data.positions[data.faceVertexIndices[k]];
+				center /= static_cast<float>(count);
+				for (int k=begin;k<end;++k) {
+					const double distance = (zVector(data.positions[data.faceVertexIndices[k]])-center)*normal;
+					planarityDeviations[face] = std::max(planarityDeviations[face],std::abs(distance));
 				}
-
-			}
-		}
-
-		else if (type == zVolumePlanar)
-		{
-			for (zItMeshFace f(*meshObj); !f.end(); f++)
-			{
-				int fID = f.getId();
-
-				zIntArray fVerts;
-				f.getVertices(fVerts);
-
-				zIntArray fTris;
-				zPoint fCenter = f.getCenter();
-				zVector fNorm = f.getNormal();
-				/*float dev   = f.getVolume(fTris, fCenter,false);
-				planarityDeviations[fID] = abs(dev);*/
-
-				planarityDeviations[fID] = -1;
-
-				for (int k = 0; k < fVerts.size(); k++)
-				{
-					double dist = core.minDist_Point_Plane(vPositions[fVerts[k]], fCenter, fNorm);
-					if (dist > planarityDeviations[fID]) planarityDeviations[fID] = dist;
-
+				if (planarityDeviations[face] <= tolerance) continue;
+				exit = false;
+				for (int k=begin;k<end;++k) {
+					const int id = data.faceVertexIndices[k];
+					const double distance = (zVector(data.positions[id])-center)*normal;
+					add(id,normal*static_cast<float>(-distance));
 				}
-							
-
-				if (abs(planarityDeviations[fID]) > tolerance)
-				{
-					exit = false;
-
-					for (int k = 0; k < fVerts.size(); k++)
-					{
-						double dist = core.minDist_Point_Plane(vPositions[fVerts[k]], fCenter, fNorm);
-						zVector pForce = fNorm * dist * -1.0;
-						pForce = pForce * strength;
-
-						if (constrainType == zConstraintX)  { pForce.x = 0; }
-						if (constrainType == zConstraintY)  { pForce.y = 0; }
-						if (constrainType == zConstraintZ)  { pForce.z = 0; }
-						if (constrainType == zConstraintXY) { pForce.x = 0; pForce.y = 0; }
-						if (constrainType == zConstraintYZ) { pForce.z = 0; pForce.y = 0; }
-						if (constrainType == zConstraintZX) { pForce.x = 0; pForce.z = 0; }
-
-
-						zFnParticle fnParticle(particlesObj[fVerts[k]]);
-						fnParticle.addForce(pForce);
-
-						/*zVector pForce = fNorm * dev *-1;*/
-						forceDir[fVerts[k]] += pForce;
-					}
-
-				}
-					
-				
-			}
+			} else throw std::invalid_argument("Unknown planarity method.");
 		}
-
-		for (auto& fDir : forceDir)
-		{
-			if(fDir.length() > 0) fDir.normalize();
-		}
-
 	}
 
 	ZSPACE_INLINE void zFnMeshDynamics::addPlanarityForce_vertexgroups(double strength, double tolerance, vector<zIntArray>& vertexIDs, zPointArray& targetCenters, zVectorArray& targetNormals, zDoubleArray& planarityDeviations, zVectorArray& forceDir, bool& exit)
 	{
-
-		if (vertexIDs.size() != targetNormals.size()) return;
+		forceDir.assign(numVertices(), zVector());
+		if (vertexIDs.size() != targetNormals.size() || vertexIDs.size() != targetCenters.size())
+			throw std::invalid_argument("Plane groups, centers and normals must have equal counts.");
 
 		if (forceDir.size() != numVertices())
 		{
@@ -467,7 +377,7 @@ namespace zSpace
 			for (int k = 0; k < vertexIDs[i].size(); k++)
 			{
 				double dist = core.minDist_Point_Plane(vPositions[vertexIDs[i][k]], targetCenters[i], targetNormals[i]);
-				if (dist > planarityDeviations[i]) planarityDeviations[i] = dist;
+				if (std::abs(dist) > planarityDeviations[i]) planarityDeviations[i] = std::abs(dist);
 			}
 
 			if (planarityDeviations[i] > tolerance)
@@ -476,7 +386,7 @@ namespace zSpace
 				for (int k = 0; k < vertexIDs[i].size(); k++)
 				{
 					double dist = core.minDist_Point_Plane(vPositions[vertexIDs[i][k]], targetCenters[i], targetNormals[i]);
-					if (dist > tolerance)
+					if (std::abs(dist) > tolerance)
 					{
 						zVector pForce = targetNormals[i] * dist * -1.0;
 
@@ -782,6 +692,7 @@ namespace zSpace
 
 	ZSPACE_INLINE void zFnMeshDynamics::addRigidLineForce(double strength, double tolerance, zIntPairArray& vertexIDs, zDoubleArray& vertexDistances, zDoubleArray& deviations, zVectorArray& forceDir, bool& exit)
 	{
+		forceDir.assign(numVertices(), zVector());
 		if (vertexDistances.size() != vertexIDs.size())
 		{
 			throw std::invalid_argument(" error: vertexDistance and VertexIDs to be of the same size");
