@@ -100,6 +100,7 @@ namespace
 		double areaForceTolerance = 0.001;
 		double areaStrength = 0.35;
 		double stepTolerance = 0.0001;
+		double supportSize = 24.0;
 		double dragStrength = 0.02;
 		float drag = 0.2f;
 	};
@@ -1206,6 +1207,8 @@ namespace
 		if (updateResiduals) updateSolverResidualDiagnostics(positions);
 
 		const zSpace::zColor supportColor(0, 0, 0, 1);
+		const zSpace::zColor resultantColor(1.0f, 0.72f, 0.0f, 1.0f);
+		const zSpace::zColor springColor(1.0f, 0.08f, 0.02f, 1.0f);
 		for (int vertexId : gSolverSupports)
 		{
 			if (vertexId < 0 || vertexId >= static_cast<int>(positions.size())) continue;
@@ -1216,10 +1219,18 @@ namespace
 			gBuffers.pointColors.push_back(supportColor.r);
 			gBuffers.pointColors.push_back(supportColor.g);
 			gBuffers.pointColors.push_back(supportColor.b);
-			gBuffers.pointSizes.push_back(24.0f);
+			gBuffers.pointSizes.push_back(static_cast<float>(gSolverParams.supportSize));
 		}
 
 		const float displayLengthScale = static_cast<float>(std::max(0.0, gSolverParams.vectorScale));
+		auto drawForces = [&](const zSpace::zVectorArray& forces, const zSpace::zColor& color) {
+			for (std::size_t i=0;i<forces.size();++i) {
+				if (isSolverSupportVertex(static_cast<int>(i))) continue;
+				zSpace::zVector force=forces[i];force*=displayLengthScale;
+				if (std::isfinite(force.x)&&std::isfinite(force.y)&&std::isfinite(force.z)&&force.length()>1.0e-9)
+					appendVectorPrimitive(positions[i],force,color);
+			}
+		};
 		if (gSolverParams.mode == 2)
 		{
 			const auto& data = zSpace::zMeshObjectStorage::read(activeMeshObject());
@@ -1241,9 +1252,14 @@ namespace
 			if (gSolverReady && gSolverParams.displayForceVectors && displayLengthScale > 0)
 			{
 				zSpace::zVectorArray forces;
-				gMeshDynamics.getOrigamiForces(gOrigamiSettings, forces, gOrigamiDiagnostics);
-				for (std::size_t i=0;i<forces.size();++i)
-					if (!isSolverSupportVertex(static_cast<int>(i))) appendVectorPrimitive(positions[i], forces[i]*displayLengthScale, zSpace::zColor(1,0.6f,0));
+				zSpace::zOrigamiForceComponents components;
+				gMeshDynamics.getOrigamiForces(gOrigamiSettings, forces, gOrigamiDiagnostics, &components);
+				drawForces(components.axial,springColor);
+				drawForces(components.crease,zSpace::zColor(1,0,0.65f,1));
+				drawForces(components.facet,zSpace::zColor(0.55f,0.2f,0.9f,1));
+				drawForces(components.face,zSpace::zColor(0,0.65f,0.65f,1));
+				drawForces(components.damping,zSpace::zColor(0.45f,0.45f,0.45f,1));
+				drawForces(forces,resultantColor);
 			}
 			return;
 		}
@@ -1251,17 +1267,9 @@ namespace
 
 		if (gSolverParams.mode == 1)
 		{
-			if (!gSolverReady || !gSolverParams.residualForceEnabled) return;
-			zSpace::zVectorArray forces = surfaceResultantForces();
-			const zSpace::zColor soapFilmColor(1.0f, 0.72f, 0.0f);
-			for (std::size_t i = 0; i < positions.size(); ++i)
-			{
-				if (isSolverSupportVertex(static_cast<int>(i))) continue;
-				zSpace::zVector force = forces[i] * displayLengthScale;
-				if (!std::isfinite(force.x) || !std::isfinite(force.y) || !std::isfinite(force.z)) continue;
-				appendVectorPrimitive(positions[i], force, soapFilmColor);
-			}
-			return;
+			if (!gSolverReady) return;
+			drawForces(gMeshDynamics.previewSurfaceForces(gSolverParams.areaStrength,0,1,false),zSpace::zColor(0,0.75f,1,1));
+			if (gSolverParams.residualForceEnabled) drawForces(surfaceResultantForces(),resultantColor);
 		}
 
 		if (gSolverParams.gravityEnabled && std::abs(gSolverParams.gravity) > 1.0e-12)
@@ -1297,7 +1305,7 @@ namespace
 
 		if (gSolverParams.edgeForceEnabled && std::abs(gSolverParams.springStiffness) > 1.0e-12)
 		{
-			const zSpace::zColor edgeColor(1.0f, 0.08f, 0.02f, 1.0f);
+			const zSpace::zColor edgeColor = springColor;
 			zSpace::zVectorArray vertexForces;
 			vertexForces.assign(positions.size(), zSpace::zVector(0, 0, 0));
 
@@ -1339,9 +1347,9 @@ namespace
 			}
 		}
 
-		if (gSolverParams.residualForceEnabled)
+		if (gSolverParams.residualForceEnabled && gSolverParams.mode != 1)
 		{
-			const zSpace::zColor residualColor(1.0f, 0.72f, 0.0f, 1.0f);
+			const zSpace::zColor residualColor = resultantColor;
 			zSpace::zVectorArray residualForces;
 			residualForces.assign(positions.size(), zSpace::zVector(0, 0, 0));
 
@@ -1979,6 +1987,13 @@ extern "C"
 	ZSPACE_WASM_EXPORT double zspace_origami_max_panel_bend() {return gOrigamiDiagnostics.maxPanelAngleError * 180.0 / 3.141592653589793;}
 	ZSPACE_WASM_EXPORT double zspace_origami_max_speed() {return gOrigamiDiagnostics.maxSpeed;}
 	ZSPACE_WASM_EXPORT double zspace_origami_time_step() {return gOrigamiDiagnostics.stableTimeStep;}
+
+	ZSPACE_WASM_EXPORT int zspace_solver_set_support_size(double size)
+	{
+		if (!std::isfinite(size) || size < 4.0 || size > 32.0) return 0;
+		gSolverParams.supportSize = size;
+		return 1;
+	}
 
 	ZSPACE_WASM_EXPORT int zspace_solver_set_surface_params(double areaStrength, double stepTolerance)
 	{

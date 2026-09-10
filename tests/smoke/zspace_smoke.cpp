@@ -32,6 +32,13 @@ namespace
 			if (edges[i]+edges[i+1]==1) dynamics.setOrigamiCrease(i/2,1,1.5707963267948966);
 		zOrigamiSettings settings; settings.axial=100; settings.foldAmount=1;
 		zOrigamiDiagnostics diagnostics;
+		zVectorArray forces; zOrigamiForceComponents components;
+		dynamics.getOrigamiForces(settings, forces, diagnostics, &components);
+		for (std::size_t i=0;i<forces.size();++i) {
+			zVector sum=components.axial[i]+components.crease[i]+components.facet[i]+components.face[i]+components.damping[i];
+			sum-=forces[i];
+			require(sum.length()<1e-5, "origami display components sum to resultant");
+		}
 		for (int i=0;i<12000;++i) dynamics.stepOrigami(settings,0.01,diagnostics);
 		require(diagnostics.maxAngleError<0.02, "native origami reaches crease angle");
 		require(diagnostics.maxStrain<0.01, "native origami preserves edge lengths");

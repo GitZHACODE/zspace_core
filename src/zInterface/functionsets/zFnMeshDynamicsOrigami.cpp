@@ -87,7 +87,7 @@ ZSPACE_INLINE void zFnMeshDynamics::setOrigamiCrease(int edgeId,int assignment,d
     throw std::invalid_argument("Origami crease edge ID is not in the input mesh.");
 }
 
-ZSPACE_INLINE void zFnMeshDynamics::getOrigamiForces(const zOrigamiSettings& s,zVectorArray& output,zOrigamiDiagnostics& diag) {
+ZSPACE_INLINE void zFnMeshDynamics::getOrigamiForces(const zOrigamiSettings& s,zVectorArray& output,zOrigamiDiagnostics& diag,zOrigamiForceComponents* components) {
     validSettings(s); diag={};
     const std::size_t n=particlesObj.size();
     if(origamiTriangles.empty()||n!=static_cast<std::size_t>(numVertices()))
@@ -98,17 +98,24 @@ ZSPACE_INLINE void zFnMeshDynamics::getOrigamiForces(const zOrigamiSettings& s,z
         zFnParticle fn(particlesObj[i]);p[i]=fn.getPosition();v[i]=fn.getVelocity();mass[i]=fn.getMass();
         if(!std::isfinite(mass[i])||mass[i]<=0) throw std::runtime_error("Origami masses must be positive.");
     }
-    auto add=[&](int i,V force,double k) {f[i]=f[i]+force;stiffness[i]+=k;};
+    zVectorArray* component=nullptr;
+    if(components) for(auto* values:{&components->axial,&components->crease,&components->facet,&components->face,&components->damping}) values->assign(n,zVector());
+    auto add=[&](int i,V force,double k) {
+        f[i]=f[i]+force;stiffness[i]+=k;
+        if(component) (*component)[i]+=force.vec();
+    };
     for(const auto& e:origamiEdges) {
         const V edge=p[e.b]-p[e.a]; const double len=edge.length();
         if(len<=e.rest*1e-8) throw std::runtime_error("Origami edge collapsed.");
         const V axis=edge*(1/len);
         const double k=s.axial/e.rest;
         const V axial=axis*(k*(len-e.rest));
+        component=components?&components->axial:nullptr;
         add(e.a,axial,k);add(e.b,axial*(-1),k);
         diag.maxStrain=std::max(diag.maxStrain,std::abs(len/e.rest-1));
         const double c=2*s.damping*std::sqrt(k*std::min(mass[e.a],mass[e.b]));
         const V drag=(v[e.b]-v[e.a])*c;
+        component=components?&components->damping:nullptr;
         add(e.a,drag,0);add(e.b,drag*(-1),0);damping[e.a]+=c;damping[e.b]+=c;
         if(e.d<0||e.assignment==2) continue;
         V n1=edge.cross(p[e.c]-p[e.a]),n2=(edge*(-1)).cross(p[e.d]-p[e.b]);
@@ -128,8 +135,10 @@ ZSPACE_INLINE void zFnMeshDynamics::getOrigamiForces(const zOrigamiSettings& s,z
         const double tc=(p[e.c]-p[e.a]).dot(edge)/(len*len),td=(p[e.d]-p[e.a]).dot(edge)/(len*len);
         const V ga=gc*(tc-1)+gd*(td-1),gb=gc*(-tc)+gd*(-td);
         const int ids[4]={e.a,e.b,e.c,e.d};const V g[4]={ga,gb,gc,gd};
+        component=components?(e.assignment==0?&components->facet:&components->crease):nullptr;
         for(int q=0;q<4;q++) add(ids[q],g[q]*(-kh*error),kh*g[q].dot(g[q]));
     }
+    component=components?&components->face:nullptr;
     for(std::size_t i=0;i<origamiTriangles.size();i++) {
         const auto& t=origamiTriangles[i];
         for(int q=0;q<3;q++) {

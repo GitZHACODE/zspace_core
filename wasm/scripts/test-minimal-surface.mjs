@@ -9,7 +9,13 @@ const m=await factory({instantiateWasm(imports,ready){const i=new WebAssembly.In
 globalThis.process=host;delete globalThis.window;
 const check=x=>assert.equal(x,1,m.UTF8ToString(m._zspace_last_error_ptr()));
 const positions=()=>Array.from(m.HEAPF32.subarray(m._zspace_positions_ptr()/4,m._zspace_positions_ptr()/4+m._zspace_positions_count()));
-const arrows=()=>Array.from(m.HEAPF32.subarray(m._zspace_vector_directions_ptr()/4,m._zspace_vector_directions_ptr()/4+m._zspace_vector_directions_count()));
+const arrows=()=>{
+  const vectors=m.HEAPF32.subarray(m._zspace_vector_directions_ptr()/4,m._zspace_vector_directions_ptr()/4+m._zspace_vector_directions_count());
+  const colors=m.HEAPF32.subarray(m._zspace_vector_colors_ptr()/4,m._zspace_vector_colors_ptr()/4+m._zspace_vector_colors_count());
+  const result=[];
+  for(let i=0;i<vectors.length;i+=3) if(Math.abs(colors[i]-1)<1e-6&&Math.abs(colors[i+1]-.72)<1e-6&&colors[i+2]===0) result.push(...vectors.slice(i,i+3));
+  return result;
+};
 function configure({area=.35,spring=1,multiplier=1,edges=1,threshold=.02,stepTolerance=.0001,dt=.02,display=1,show=1,integration=61}={}) {
   check(m._zspace_solver_set_surface_params(area,stepTolerance));
   check(m._zspace_solver_set_params(0,0,0,1,0,multiplier,0,.3,.3,dt,1,spring,threshold,integration,display,0,0,edges,0,show));

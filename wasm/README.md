@@ -57,14 +57,44 @@ Defaults in the viewer are Area Strength 0.35, Spring Stiffness 1, Edge Force on
 Resultant Force Threshold 0.02 and Max Step Threshold 0.0001 (model length units).
 Unlike the unchanged DR diagnostic, this residual is not a normalized force ratio.
 
-The yellow arrows show this same combined resultant. Display Forces and Resultant
-Force enable them, and Display Length Scale scales them. Preview evaluation
+Gold arrows show this same combined resultant; cyan area and red spring arrows
+show the components. Display Forces enables components; Resultant Force additionally
+enables their sum. Display Length Scale scales all arrows. Preview evaluation
 restores particle forces and excludes support arrows. Curvature remains an
 independent analysis, refreshed by the viewer; equilibrium no longer implies H=0
 or a white curvature map. Legacy area-force tolerance exports remain for ABI
 compatibility but no longer control mode 1 convergence; their residual is retired.
 
 Run the runtime regression after building with `node wasm/scripts/test-minimal-surface.mjs`.
+
+## Solver Display Convention
+
+Colours use normalized RGB values and preserve the Dynamic Relaxation palette.
+The resultant is always gold `(1, 0.72, 0)` in DR, minimal surface and origami.
+
+| Force | RGB | Colour |
+| --- | --- | --- |
+| Resultant | 1, 0.72, 0 | Gold |
+| Edge spring / origami axial | 1, 0.08, 0.02 | Red |
+| Gravity | 0.05, 0.20, 1 | Blue |
+| Vector load | 0, 0.72, 0.26 | Green |
+| Area minimisation | 0, 0.75, 1 | Cyan |
+| Origami crease | 1, 0, 0.65 | Magenta |
+| Origami flat-facet hinge | 0.55, 0.20, 0.90 | Violet |
+| Origami face-angle constraint | 0, 0.65, 0.65 | Teal |
+| Origami damping | 0.45, 0.45, 0.45 | Grey |
+
+Vectors are accumulated per free vertex per force type. Zero vectors are omitted.
+Origami component sampling is optional via `zOrigamiForceComponents`; normal
+stepping does not allocate these arrays. Its resultant includes damping, as before.
+DR and minimal-surface resultant previews exclude damping, matching their residuals.
+`Display Forces` hides all arrows without hiding supports or crease lines.
+
+`zspace_solver_set_support_size(size)` accepts 4-32 screen-space pixels, default
+24. It changes only support-marker point sizes, not masses, constraints or forces.
+The viewer stores `supportSize` per object's solver, exposes it in Solver Parameters
+(Origami Advanced), and supplies 24 for older scenes. Supports remain black.
+Run `node wasm/scripts/test-solver-display.mjs` after rebuilding WASM.
 
 ## Solver Performance
 

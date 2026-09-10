@@ -28,6 +28,11 @@ namespace zSpace
 		double axial = 20.0, fold = 0.7, facet = 0.7, face = 0.2;
 		double damping = 0.45, foldAmount = 0.0;
 	};
+	struct zOrigamiForceComponents
+	{
+		zVectorArray axial, crease, facet, face, damping;
+	};
+
 	struct zOrigamiDiagnostics
 	{
 		double maxStrain = 0, maxAngleError = 0, maxForce = 0, maxSpeed = 0, stableTimeStep = 0;
@@ -278,7 +283,7 @@ namespace zSpace
 		void prepareOrigami();
 		// Original mesh edge IDs. -1 mountain/peak, +1 valley, 0 flat, 2 undriven.
 		void setOrigamiCrease(int edgeId, int assignment, double angleRadians);
-		void getOrigamiForces(const zOrigamiSettings& settings, zVectorArray& forces, zOrigamiDiagnostics& diagnostics);
+		void getOrigamiForces(const zOrigamiSettings& settings, zVectorArray& forces, zOrigamiDiagnostics& diagnostics, zOrigamiForceComponents* components = nullptr);
 		void stepOrigami(const zOrigamiSettings& settings, double timeStep, zOrigamiDiagnostics& diagnostics);
 
 		/*! \brief This method adds the forces to keep the input vertex pairs aligned to each other.
