@@ -38,6 +38,21 @@ namespace
 		const auto p=fn.getRawVertexPositions();
 		require(p[2].z>0.5 && p[3].z>0.5, "native valley direction");
 		require(p[0].z==0 && p[1].z==0, "native origami fixed vertices");
+
+		// With no forces, a rigid translation must consume the entire requested interval.
+		zObjectMesh movingMesh; zFnMesh movingFn(movingMesh);
+		movingFn.create(points, counts, connects);
+		struct MovingFixture : zFnMeshDynamics { using zFnMeshDynamics::particlesObj; };
+		MovingFixture moving; moving.create(movingMesh, false); moving.prepareOrigami();
+		zOrigamiSettings freeMotion;
+		freeMotion.axial=freeMotion.fold=freeMotion.facet=freeMotion.face=freeMotion.damping=0;
+		for (auto& particle : moving.particlesObj) {
+			zFnParticle particleFn(particle); zVector velocity(0,0,1);
+			particleFn.setVelocity(velocity);
+		}
+		moving.stepOrigami(freeMotion,0.1,diagnostics);
+		for (int i=0;i<4;++i)
+			require(std::abs(movingFn.getRawVertexPositions()[i].z-0.1)<1e-6, "origami consumes full timestep beyond stability cap");
 	}
 
 	void testMesh(zObjectMesh& mesh)

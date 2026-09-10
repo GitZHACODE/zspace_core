@@ -81,6 +81,21 @@ Run the runtime regression after building with `node wasm/scripts/test-minimal-s
 
 ## Solver Performance
 
+Origami `stepOrigami(settings, timeStep, diagnostics)` advances the complete
+requested interval through stability-limited substeps, recomputing the bound
+as the mesh moves. Previously it advanced only `min(timeStep, stableTimeStep)`
+and discarded the remainder, slowing stiff or small-scale meshes in frame units.
+The reported stable step is a numerical integration bound, not a displacement
+limit. Origami Max Step is the largest net displacement over one full viewer
+solver frame, not just its last substep. Neither quantity replaces the hinge,
+strain, and speed convergence checks.
+
+For the supplied nine-ring fixture, run
+`node wasm/scripts/test-origami-circular-input.mjs path/to/CCF_06_circular.obj`.
+This assigns 192 peak and 144 valley edges at 52% Fold and reports crease error,
+panel bend, strain, speed, and the stable step. It tests progress and finite
+geometry, not a claim that every soft crease target is simultaneously attainable.
+
 The WASM build uses `-O2` for the bridge, sketch, and kernel sources. Do not ship
 an `-O0` build for interactive dynamics; no fast-math flags are required.
 Run `node wasm/scripts/benchmark-origami.mjs wasm/build/perf.json` from the

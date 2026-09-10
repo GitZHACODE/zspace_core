@@ -159,19 +159,29 @@ ZSPACE_INLINE void zFnMeshDynamics::getOrigamiForces(const zOrigamiSettings& s,z
 ZSPACE_INLINE void zFnMeshDynamics::stepOrigami(const zOrigamiSettings& s,double timeStep,zOrigamiDiagnostics& diag) {
     if(!std::isfinite(timeStep)||timeStep<=0) throw std::invalid_argument("Origami timestep must be positive.");
     zVectorArray forces;getOrigamiForces(s,forces,diag);
-    const double dt=std::min(timeStep,diag.stableTimeStep);
     zPointArray next(particlesObj.size());zVectorArray velocities(particlesObj.size());
-    for(std::size_t i=0;i<particlesObj.size();i++) {
-        zFnParticle fn(particlesObj[i]);V p=fn.getPosition(),v=fn.getVelocity();
-        if(!fn.getFixed()) {v=v+V(forces[i])*(dt/fn.getMass());p=p+v*dt;}
-        else v=V();
-        if(!std::isfinite(p.length())||!std::isfinite(v.length())) throw std::runtime_error("Origami step became non-finite.");
-        next[i]=p.vec();velocities[i]=v.vec();
+    double remaining=timeStep,minimumStableStep=diag.stableTimeStep;
+    int substeps=0;
+    // Subdivide the requested interval; a stability cap must not discard simulation time.
+    while(remaining>timeStep*1e-12) {
+        if(++substeps>10000) throw std::runtime_error("Origami timestep needs too many stable substeps. Reduce the timestep or inspect degenerate facets.");
+        const double dt=std::min(remaining,diag.stableTimeStep);
+        minimumStableStep=std::min(minimumStableStep,diag.stableTimeStep);
+        for(std::size_t i=0;i<particlesObj.size();i++) {
+            zFnParticle fn(particlesObj[i]);V p=fn.getPosition(),v=fn.getVelocity();
+            if(!fn.getFixed()) {v=v+V(forces[i])*(dt/fn.getMass());p=p+v*dt;}
+            else v=V();
+            if(!std::isfinite(p.length())||!std::isfinite(v.length())) throw std::runtime_error("Origami step became non-finite.");
+            next[i]=p.vec();velocities[i]=v.vec();
+        }
+        for(std::size_t i=0;i<particlesObj.size();i++) {
+            zFnParticle fn(particlesObj[i]);*fn.getRawPosition()=next[i];fn.setVelocity(velocities[i]);fn.clearForce();
+        }
+        setVertexPositions(next);
+        remaining-=dt;
+        getOrigamiForces(s,forces,diag);
     }
-    for(std::size_t i=0;i<particlesObj.size();i++) {
-        zFnParticle fn(particlesObj[i]);*fn.getRawPosition()=next[i];fn.setVelocity(velocities[i]);fn.clearForce();
-    }
-    setVertexPositions(next);computeMeshNormals();
-    getOrigamiForces(s,forces,diag);diag.stableTimeStep=dt;
+    computeMeshNormals();
+    diag.stableTimeStep=minimumStableStep;
 }
 }

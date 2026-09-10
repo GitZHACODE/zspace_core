@@ -26,6 +26,12 @@ function setup(sign) {
 for(const sign of [1,-1]) {
   setup(sign);
   assert.equal(m._zspace_solver_equilibrium_reached(),0);
+  const initial=Array.from(m.HEAPF32.subarray(m._zspace_positions_ptr()/4,m._zspace_positions_ptr()/4+12));
+  assert.equal(m._zspace_solver_step(1),1);
+  const after=Array.from(m.HEAPF32.subarray(m._zspace_positions_ptr()/4,m._zspace_positions_ptr()/4+12));
+  let frameDisplacement=0;
+  for(let i=0;i<12;i+=3) frameDisplacement=Math.max(frameDisplacement,Math.hypot(...after.slice(i,i+3).map((x,j)=>x-initial[i+j])));
+  assert(Math.abs(m._zspace_solver_max_displacement()-frameDisplacement)<1e-6,'Max Step measures the complete frame, not its final substep');
   for(let i=0;i<100&&!m._zspace_solver_equilibrium_reached();i++) assert.equal(m._zspace_solver_step(200),1);
   const p=Array.from(m.HEAPF32.subarray(m._zspace_positions_ptr()/4,m._zspace_positions_ptr()/4+12));
   assert(p.every(Number.isFinite));assert.deepEqual(p.slice(0,6),[0,0,0,1,0,0]);

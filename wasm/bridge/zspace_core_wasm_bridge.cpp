@@ -2191,13 +2191,7 @@ extern "C"
 
 					if (gSolverParams.mode == 2)
 					{
-						const auto before = gMeshDynamics.dynamicPositions;
 						gMeshDynamics.stepOrigami(gOrigamiSettings, subTimeStep, gOrigamiDiagnostics);
-						gMeshDynamics.lastUpdateDisplacements.resize(before.size());
-						for (std::size_t j=0;j<before.size();++j) {
-							zSpace::zVector delta=gMeshDynamics.dynamicPositions[j];delta-=before[j];
-							gMeshDynamics.lastUpdateDisplacements[j]=delta.length();
-						}
 						continue;
 					}
 					if (gSolverParams.mode == 1)
@@ -2242,6 +2236,13 @@ extern "C"
 					return 0;
 				}
 
+				if (gSolverParams.mode == 2) {
+					gMeshDynamics.lastUpdateDisplacements.resize(beforeStep.size());
+					for (std::size_t j=0;j<beforeStep.size();++j) {
+						zSpace::zVector delta=gMeshDynamics.dynamicPositions[j];delta-=beforeStep[j];
+						gMeshDynamics.lastUpdateDisplacements[j]=delta.length();
+					}
+				}
 				++gSolverFrame;
 
 				updateSolverResidualDiagnostics(currentMeshPositions());
