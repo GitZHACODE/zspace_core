@@ -241,3 +241,11 @@ New graph algorithms should prefer the edge-list representation unless they
 need ordered half-edge traversal around vertices. If an algorithm mutates the
 lazy topology cache, the storage bridge syncs the edge-list representation
 before later edge-list reads.
+
+## Strip unfolding
+
+`zFnMesh::unroll(output, triangulateNonPlanar, tolerance)` unfolds a connected
+face-list strip into XY. Planar polygons preserve their topology; nonplanar
+faces optionally triangulate. Degeneracies, incompatible cycles, non-manifold
+edges and disconnected input report errors. It is an operation on `zObjectMesh`,
+not a draw or object-storage method. C-Tubes uses this operation per strip.

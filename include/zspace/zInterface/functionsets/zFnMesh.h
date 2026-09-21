@@ -800,6 +800,10 @@ namespace zSpace
 		*/
 		void triangulate();
 
+		/// Unfold a connected developable strip into XY, preserving edge lengths.
+		/// Nonplanar faces are triangulated when requested. Throws on incompatible cycles.
+		void unroll(zObjectMesh& output, bool triangulateNonPlanar = true, double tolerance = 1e-5);
+
 		/*! \brief This method subdivides all the faces and edges of the mesh.
 		*
 		*	\param		[in]	numDivisions	- number of subdivision to be done on the mesh.
@@ -925,6 +929,7 @@ namespace zSpace
 // All defined OK so do nothing
 #else
 #include<src/zInterface/functionsets/zFnMesh.cpp>
+#include<src/zInterface/functionsets/zFnMeshUnroll.cpp>
 #endif
 
 #endif
