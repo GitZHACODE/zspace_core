@@ -31,6 +31,19 @@ for(const mode of [0,1]) {
   vectors(gold)[0].forEach((x,k)=>assert(Math.abs(x-sum[k])<1e-5));
   assert.equal(m._zspace_point_sizes_count(),4);
   assert(Array.from(m.HEAPF32.subarray(m._zspace_point_sizes_ptr()/4,m._zspace_point_sizes_ptr()/4+4)).every(x=>x===12));
+  check(m._zspace_solver_remove_support(3));
+  assert.equal(m._zspace_solver_support_count(),3);
+  assert.equal(m._zspace_point_sizes_count(),3);
+  check(m._zspace_solver_remove_edge(0));
+  assert.equal(m._zspace_solver_removed_edge_count(),1);
+  assert.equal(m._zspace_solver_tension_edge_count(),1);
+  assert.equal(m._zspace_solver_is_edge_removed(0),1);
+  check(m._zspace_solver_restore_edge(0));
+  assert.equal(m._zspace_solver_removed_edge_count(),0);
+  check(m._zspace_solver_remove_tension_edge(1));
+  assert.equal(m._zspace_solver_is_edge_removed(1),1);
+  check(m._zspace_solver_clear_removed_edges());
+  assert.equal(m._zspace_solver_tension_edge_count(),0);
 }
 m.FS.writeFile('/fold.obj','v 0 0 0\nv 1 0 0\nv 0 1 0\nv 1 -1 0\nf 1 2 3\nf 2 1 4\n');
 check(m.ccall('zspace_mesh_read','number',['string'],['/fold.obj']));
@@ -45,4 +58,4 @@ assert.equal(vectors([1,0,.65]).length,4,'crease force is separate magenta');
 check(m._zspace_solver_add_support(0));check(m._zspace_solver_set_support_size(8));check(m._zspace_solver_update_preview());
 assert.equal(m.HEAPF32[m._zspace_point_sizes_ptr()/4],8);
 assert.equal(m._zspace_solver_set_support_size(3),0);assert.equal(m._zspace_solver_set_support_size(33),0);
-console.log('DR/surface component colours, shared origami resultant and support sizes passed.');
+console.log('DR/surface component colours, shared origami resultant, support sizes and solver edit APIs passed.');

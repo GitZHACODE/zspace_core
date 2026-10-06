@@ -117,6 +117,11 @@ namespace
 	{
 	public:
 		using zSpace::zFnMeshDynamics::zFnMeshDynamics;
+		struct EdgePair
+		{
+			int a = -1;
+			int b = -1;
+		};
 		zSpace::zVectorArray particleForces(bool clear = false)
 		{
 			zSpace::zVectorArray result;
@@ -130,6 +135,8 @@ namespace
 		}
 		zSpace::zPointArray dynamicPositions;
 		zSpace::zDoubleArray edgeRestLengths;
+		std::vector<EdgePair> edgePairs;
+		std::vector<unsigned char> edgeActiveMask;
 		std::vector<double> lastUpdateDisplacements;
 		double cachedMeshScale = 1.0;
 
@@ -152,6 +159,9 @@ namespace
 
 			edgeRestLengths.clear();
 			edgeRestLengths.resize(std::max(0, meshData.numEdges()), 0.0f);
+			edgePairs.clear();
+			edgePairs.resize(std::max(0, meshData.numEdges()));
+			edgeActiveMask.assign(edgePairs.size(), 1);
 			double totalRestLength = 0.0;
 			int restLengthCount = 0;
 			for (int edgeId = 0; edgeId < meshData.numEdges(); ++edgeId)
@@ -161,6 +171,7 @@ namespace
 				const int v0 = meshData.edgeVertexIndices[index];
 				const int v1 = meshData.edgeVertexIndices[index + 1];
 				if (v0 < 0 || v1 < 0 || v0 >= vertexCount || v1 >= vertexCount) continue;
+				edgePairs[edgeId] = { v0, v1 };
 				const double length = (dynamicPositions[v1] - dynamicPositions[v0]).length();
 				edgeRestLengths[edgeId] = length;
 				if (std::isfinite(length) && length > 1.0e-9)
@@ -170,6 +181,24 @@ namespace
 				}
 			}
 			cachedMeshScale = restLengthCount > 0 ? totalRestLength / static_cast<double>(restLengthCount) : 1.0;
+		}
+
+		void setInactiveEdges(const zSpace::zIntArray& edgeIds)
+		{
+			edgeActiveMask.assign(edgePairs.size(), 1);
+			for (int edgeId : edgeIds)
+			{
+				if (edgeId < 0 || edgeId >= static_cast<int>(edgeActiveMask.size())) continue;
+				edgeActiveMask[edgeId] = 0;
+			}
+		}
+
+		bool isEdgeActive(int edgeId) const
+		{
+			if (edgeId < 0 || edgeId >= static_cast<int>(edgePairs.size())) return false;
+			if (edgePairs[edgeId].a < 0 || edgePairs[edgeId].b < 0) return false;
+			if (edgeId < static_cast<int>(edgeActiveMask.size())) return edgeActiveMask[edgeId] != 0;
+			return true;
 		}
 
 		bool restoreLinkedPositions(const zSpace::zPointArray& positions)
@@ -202,13 +231,11 @@ namespace
 		{
 			zSpace::zPoint* positions = dynamicPositions.empty() ? nullptr : dynamicPositions.data();
 			if (!positions) return;
-			const auto& meshData = zSpace::zMeshObjectStorage::read(*meshObj);
-			for (int edgeId = 0; edgeId < meshData.numEdges(); ++edgeId)
+			for (int edgeId = 0; edgeId < static_cast<int>(edgePairs.size()); ++edgeId)
 			{
-				const std::size_t index = static_cast<std::size_t>(edgeId) * 2;
-				if (index + 1 >= meshData.edgeVertexIndices.size()) continue;
-				const int v0 = meshData.edgeVertexIndices[index];
-				const int v1 = meshData.edgeVertexIndices[index + 1];
+				if (!isEdgeActive(edgeId)) continue;
+				const int v0 = edgePairs[edgeId].a;
+				const int v1 = edgePairs[edgeId].b;
 				if (v0 < 0 || v1 < 0 || v0 >= static_cast<int>(particlesObj.size()) || v1 >= static_cast<int>(particlesObj.size())) continue;
 
 				zSpace::zVector edgeVector = positions[v1] - positions[v0];
@@ -337,6 +364,8 @@ namespace
 			particlesObj.clear();
 			dynamicPositions.clear();
 			edgeRestLengths.clear();
+			edgePairs.clear();
+			edgeActiveMask.clear();
 			lastUpdateDisplacements.clear();
 			cachedMeshScale = 1.0;
 		}
@@ -590,6 +619,7 @@ namespace
 	zSpace::zPointArray gSolverInitialPositions;
 	std::vector<zSpace::zPointArray> gSolverHistory;
 	zSpace::zIntArray gSolverSupports;
+	zSpace::zIntArray gSolverRemovedEdges;
 	std::vector<unsigned char> gSolverSupportMask;
 	bool gSolverReady = false;
 	bool gSolverSupportUpdateBatch = false;
@@ -630,6 +660,18 @@ namespace
 		}
 	}
 
+	void applyRemovedSolverEdges()
+	{
+		if (gSolverReady) gMeshDynamics.setInactiveEdges(gSolverRemovedEdges);
+	}
+
+	bool removeIntValue(zSpace::zIntArray& values, int value)
+	{
+		const auto oldSize = values.size();
+		values.erase(std::remove(values.begin(), values.end(), value), values.end());
+		return values.size() != oldSize;
+	}
+
 	void resetSolverState()
 	{
 		gPlanarity = {};
@@ -641,6 +683,7 @@ namespace
 		gSolverInitialPositions.clear();
 		gSolverHistory.clear();
 		gSolverSupports.clear();
+		gSolverRemovedEdges.clear();
 		gSolverSupportMask.clear();
 		gSolverMinResidual = 0.0;
 		gSolverMaxResidual = 0.0;
@@ -1067,6 +1110,7 @@ namespace
 	{
 		if (!gHasMesh) throw std::runtime_error("No active mesh for dynamic relaxation.");
 		gMeshDynamics.createLinked(activeMeshObject());
+		gMeshDynamics.setInactiveEdges(gSolverRemovedEdges);
 		if (gSolverParams.mode == 2)
 		{
 			gMeshDynamics.prepareOrigami();
@@ -1174,13 +1218,11 @@ namespace
 		zSpace::zVectorArray vertexEdgeForces;
 		vertexEdgeForces.assign(positions.size(), zSpace::zVector(0, 0, 0));
 
-		const auto& meshData = zSpace::zMeshObjectStorage::read(activeMeshObject());
-		for (int edgeId = 0; edgeId < meshData.numEdges(); ++edgeId)
+		for (int edgeId = 0; edgeId < static_cast<int>(gMeshDynamics.edgePairs.size()); ++edgeId)
 		{
-			const std::size_t index = static_cast<std::size_t>(edgeId) * 2;
-			if (index + 1 >= meshData.edgeVertexIndices.size()) continue;
-			const int a = meshData.edgeVertexIndices[index];
-			const int b = meshData.edgeVertexIndices[index + 1];
+			if (!gMeshDynamics.isEdgeActive(edgeId)) continue;
+			const int a = gMeshDynamics.edgePairs[edgeId].a;
+			const int b = gMeshDynamics.edgePairs[edgeId].b;
 			if (a < 0 || b < 0 || a >= static_cast<int>(positions.size()) || b >= static_cast<int>(positions.size())) continue;
 
 			zSpace::zVector edgeVector(
@@ -1378,13 +1420,11 @@ namespace
 			zSpace::zVectorArray vertexForces;
 			vertexForces.assign(positions.size(), zSpace::zVector(0, 0, 0));
 
-			const auto& meshData = zSpace::zMeshObjectStorage::read(activeMeshObject());
-			for (int edgeId = 0; edgeId < meshData.numEdges(); ++edgeId)
+			for (int edgeId = 0; edgeId < static_cast<int>(gMeshDynamics.edgePairs.size()); ++edgeId)
 			{
-				const std::size_t index = static_cast<std::size_t>(edgeId) * 2;
-				if (index + 1 >= meshData.edgeVertexIndices.size()) continue;
-				const int a = meshData.edgeVertexIndices[index];
-				const int b = meshData.edgeVertexIndices[index + 1];
+				if (!gMeshDynamics.isEdgeActive(edgeId)) continue;
+				const int a = gMeshDynamics.edgePairs[edgeId].a;
+				const int b = gMeshDynamics.edgePairs[edgeId].b;
 				if (a < 0 || b < 0 || a >= static_cast<int>(positions.size()) || b >= static_cast<int>(positions.size())) continue;
 
 				zSpace::zVector edgeVector = positions[b] - positions[a];
@@ -1442,13 +1482,11 @@ namespace
 
 			if (gSolverParams.edgeForceEnabled && std::abs(gSolverParams.springStiffness) > 1.0e-12)
 			{
-				const auto& meshData = zSpace::zMeshObjectStorage::read(activeMeshObject());
-				for (int edgeId = 0; edgeId < meshData.numEdges(); ++edgeId)
+				for (int edgeId = 0; edgeId < static_cast<int>(gMeshDynamics.edgePairs.size()); ++edgeId)
 				{
-					const std::size_t index = static_cast<std::size_t>(edgeId) * 2;
-					if (index + 1 >= meshData.edgeVertexIndices.size()) continue;
-					const int a = meshData.edgeVertexIndices[index];
-					const int b = meshData.edgeVertexIndices[index + 1];
+					if (!gMeshDynamics.isEdgeActive(edgeId)) continue;
+					const int a = gMeshDynamics.edgePairs[edgeId].a;
+					const int b = gMeshDynamics.edgePairs[edgeId].b;
 					if (a < 0 || b < 0 || a >= static_cast<int>(positions.size()) || b >= static_cast<int>(positions.size())) continue;
 
 					zSpace::zVector edgeVector = positions[b] - positions[a];
@@ -2218,6 +2256,111 @@ extern "C"
 		return 0;
 	}
 
+	ZSPACE_WASM_EXPORT int zspace_solver_remove_support(int vertexId)
+	{
+		try
+		{
+			if (vertexId < 0) throw std::runtime_error("Support vertex id must be non-negative.");
+			gBuffers.lastError.clear();
+			removeIntValue(gSolverSupports, vertexId);
+			if (gSolverSupportUpdateBatch || gSolverConfigUpdateBatch) return 1;
+			refreshSolverSupportMask();
+			applySolverParticleProperties();
+			copySolverPreviewToPrimitiveBuffers();
+			return 1;
+		}
+		catch (const std::exception& error)
+		{
+			gBuffers.lastError = error.what();
+		}
+		catch (...)
+		{
+			gBuffers.lastError = "Unknown zSpace dynamic relaxation support remove error.";
+		}
+		return 0;
+	}
+
+	ZSPACE_WASM_EXPORT int zspace_solver_clear_removed_edges()
+	{
+		try
+		{
+			gBuffers.lastError.clear();
+			gSolverRemovedEdges.clear();
+			applyRemovedSolverEdges();
+			if (gSolverSupportUpdateBatch || gSolverConfigUpdateBatch) return 1;
+			copySolverPreviewToPrimitiveBuffers();
+			return 1;
+		}
+		catch (const std::exception& error)
+		{
+			gBuffers.lastError = error.what();
+		}
+		catch (...)
+		{
+			gBuffers.lastError = "Unknown zSpace solver removed-edge clear error.";
+		}
+		return 0;
+	}
+
+	ZSPACE_WASM_EXPORT int zspace_solver_remove_edge(int edgeId)
+	{
+		try
+		{
+			if (edgeId < 0) throw std::runtime_error("Removed edge id must be non-negative.");
+			gBuffers.lastError.clear();
+			const auto& meshData = zSpace::zMeshObjectStorage::read(activeMeshObject());
+			if (edgeId >= meshData.numEdges()) throw std::runtime_error("Removed edge id is outside the active mesh.");
+			if (std::find(gSolverRemovedEdges.begin(), gSolverRemovedEdges.end(), edgeId) == gSolverRemovedEdges.end())
+				gSolverRemovedEdges.push_back(edgeId);
+			applyRemovedSolverEdges();
+			if (gSolverSupportUpdateBatch || gSolverConfigUpdateBatch) return 1;
+			copySolverPreviewToPrimitiveBuffers();
+			return 1;
+		}
+		catch (const std::exception& error)
+		{
+			gBuffers.lastError = error.what();
+		}
+		catch (...)
+		{
+			gBuffers.lastError = "Unknown zSpace solver edge remove error.";
+		}
+		return 0;
+	}
+
+	ZSPACE_WASM_EXPORT int zspace_solver_restore_edge(int edgeId)
+	{
+		try
+		{
+			if (edgeId < 0) throw std::runtime_error("Restored edge id must be non-negative.");
+			gBuffers.lastError.clear();
+			removeIntValue(gSolverRemovedEdges, edgeId);
+			applyRemovedSolverEdges();
+			if (gSolverSupportUpdateBatch || gSolverConfigUpdateBatch) return 1;
+			copySolverPreviewToPrimitiveBuffers();
+			return 1;
+		}
+		catch (const std::exception& error)
+		{
+			gBuffers.lastError = error.what();
+		}
+		catch (...)
+		{
+			gBuffers.lastError = "Unknown zSpace solver edge restore error.";
+		}
+		return 0;
+	}
+
+	ZSPACE_WASM_EXPORT int zspace_solver_remove_tension_edge(int edgeId)
+	{
+		return zspace_solver_remove_edge(edgeId);
+	}
+
+	ZSPACE_WASM_EXPORT int zspace_solver_restore_tension_edge(int edgeId)
+	{
+		return zspace_solver_restore_edge(edgeId);
+	}
+
 	ZSPACE_WASM_EXPORT int zspace_solver_begin_support_update()
 	{
 		gBuffers.lastError.clear();
@@ -2279,6 +2422,22 @@ extern "C"
 	ZSPACE_WASM_EXPORT int zspace_solver_support_count()
 	{
 		return static_cast<int>(gSolverSupports.size());
+	}
+
+	ZSPACE_WASM_EXPORT int zspace_solver_removed_edge_count()
+	{
+		return static_cast<int>(gSolverRemovedEdges.size());
+	}
+
+	ZSPACE_WASM_EXPORT int zspace_solver_tension_edge_count()
+	{
+		return zspace_solver_removed_edge_count();
+	}
+
+	ZSPACE_WASM_EXPORT int zspace_solver_is_edge_removed(int edgeId)
+	{
+		if (edgeId < 0) return 0;
+		return std::find(gSolverRemovedEdges.begin(), gSolverRemovedEdges.end(), edgeId) != gSolverRemovedEdges.end() ? 1 : 0;
 	}
 
 	ZSPACE_WASM_EXPORT int zspace_solver_step(int steps)

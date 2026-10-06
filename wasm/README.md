@@ -128,6 +128,20 @@ Run `node wasm/scripts/test-solver-display.mjs` after rebuilding WASM.
 
 ## Solver Performance
 
+The mesh dynamics bridge caches mesh edge endpoints during
+`zspace_solver_create_dynamics()` and reuses that cache for spring forces,
+residual diagnostics, and force previews. Removed solver edges stay in the cache
+but are marked inactive, so Best Fit FDM and other mesh solvers can skip tension
+edges without rebuilding mesh storage every frame.
+
+Support and tension-edge edits can be driven incrementally from the viewer:
+`zspace_solver_remove_support(vertexId)` removes a support marker and constraint,
+`zspace_solver_remove_edge(edgeId)` marks an edge inactive for solver forces, and
+`zspace_solver_restore_edge(edgeId)` re-enables it. `zspace_solver_remove_tension_edge`
+and `zspace_solver_restore_tension_edge` are aliases for viewer code that labels
+these inactive solver edges as tension edges. `zspace_solver_clear_removed_edges()`
+restores every removed solver edge.
+
 Origami `stepOrigami(settings, timeStep, diagnostics)` advances the complete
 requested interval through stability-limited substeps, recomputing the bound
 as the mesh moves. Previously it advanced only `min(timeStep, stableTimeStep)`
