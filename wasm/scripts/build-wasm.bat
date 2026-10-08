@@ -1,4 +1,6 @@
 @echo off
+rem Typed USD scene exports are discovered from ZSPACE_WASM_EXPORT declarations.
+rem The SDK-free runtime reports disabled support; build-openusd-wasm.ps1 supplies USD.
 setlocal EnableExtensions EnableDelayedExpansion
 
 set "REPO_ROOT=%~dp0..\.."
@@ -54,6 +56,9 @@ for /R "%REPO_ROOT%\src\zIO" %%F in (*.cpp) do (
   set "ZSPACE_SOURCES=!ZSPACE_SOURCES! "%%F""
 )
 
+rem zspace_usd_scene_read/write use ZSPACE_WASM_EXPORT in the bridge; this
+rem SDK-free build returns disabled-support errors. Use build-openusd-wasm.ps1
+rem for the USD-enabled runtime. No manual EXPORTED_FUNCTIONS list is needed.
 em++ ^
   "%BRIDGE_DIR%\zspace_core_wasm_bridge.cpp" ^
   -fexceptions ^

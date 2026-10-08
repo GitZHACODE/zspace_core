@@ -248,6 +248,20 @@ namespace zSpace::io_detail
 				return zIOResult::error("Mesh JSON has invalid vertex colors.");
 			if (document.contains("faceColors") && !readColors(document["faceColors"], data.faceColors))
 				return zIOResult::error("Mesh JSON has invalid face colors.");
+
+			// USD scene transfers can include explicit edge endpoints so IO can
+			// remap colors/weights after winding or topology order changes.
+			try
+			{
+				if (document.contains("edgeConnects")) data.edgeConnects = document["edgeConnects"].get<zIntArray>();
+				if (document.contains("edgeWeights")) data.edgeWeights = document["edgeWeights"].get<zDoubleArray>();
+				if (document.contains("edgeColors") && !readColors(document["edgeColors"], data.edgeColors))
+					return zIOResult::error("Mesh JSON has invalid edge colors.");
+			}
+			catch (const std::exception& error)
+			{
+				return zIOResult::error("Mesh JSON has invalid edge data: " + std::string(error.what()));
+			}
 			if (document.contains("edgeAttributes"))
 			{
 				try

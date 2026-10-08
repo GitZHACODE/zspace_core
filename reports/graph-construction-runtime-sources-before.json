@@ -1,0 +1,26 @@
+[
+  {
+    "Path": "C:\\Users\\vishu.b\\source\\repos\\GitZHCODE\\zspace_core\\wasm\\bridge\\zspace_core_wasm_bridge.cpp",
+    "Hash": "7025AA6981F6A46209312134C104D3E7435E8992ABA71BE65281F0B5189C7D54"
+  },
+  {
+    "Path": "C:\\Users\\vishu.b\\source\\repos\\GitZHCODE\\zspace_core\\wasm\\scripts\\build-wasm.bat",
+    "Hash": "261EB18626E8C7AE285E9CC1A8E39E01AFD6F912633DBCF8124456394B66EA38"
+  },
+  {
+    "Path": "C:\\Users\\vishu.b\\source\\repos\\GitZHCODE\\zspace_alice_webviewer\\src\\app.ts",
+    "Hash": "D330F0FB2270A87023B6EFB1A94D9DB240145C1F0BDC8ED7CDF0E07A33DD0D2F"
+  },
+  {
+    "Path": "C:\\Users\\vishu.b\\source\\repos\\GitZHCODE\\zspace_alice_webviewer\\src\\kernels\\zspaceCoreWasmAdapter.ts",
+    "Hash": "5282567522E62014CFA53FF47AB57B376D077186EF58365F6CC733664CBB87E6"
+  },
+  {
+    "Path": "C:\\Users\\vishu.b\\source\\repos\\GitZHCODE\\zspace_alice_webviewer\\wasm\\zspace_core.js",
+    "Hash": "1A8BAA8704284F1AA18784D9F4E3212FB1EDD891BF4BFDEED8122166C41DC106"
+  },
+  {
+    "Path": "C:\\Users\\vishu.b\\source\\repos\\GitZHCODE\\zspace_alice_webviewer\\wasm\\zspace_core.wasm",
+    "Hash": "27DAAD481B9C4A5D6B403B2CF15F79F4F2D7BCD066E3BBEFB624D30C57799653"
+  }
+]

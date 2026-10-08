@@ -1,0 +1,157 @@
+{
+  "capturedAt": "2026-10-08T14:24:54.592Z",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36",
+  "method": "Actual Alice viewer import/Smooth Mesh/history/display. Action times include UI/history, transfers, WASM, readback and publication; presented time adds two rAF callbacks, not GPU completion. Frame-gap samples include VSync/background scheduling and do not establish GPU throughput.",
+  "actions": [
+    {
+      "name": "import 125000 quads",
+      "faces": 125000,
+      "vertices": 125751,
+      "actionMs": 2480.140000000596,
+      "presentedMs": 2493.0800000000745
+    },
+    {
+      "name": "smooth 125000 to 500000",
+      "faces": 500000,
+      "vertices": 501501,
+      "actionMs": 2934.7550000008196,
+      "presentedMs": 3055.780000001192
+    }
+  ],
+  "samples": [],
+  "longTasks": [
+    {
+      "startMs": 8411.019999999553,
+      "durationMs": 153
+    },
+    {
+      "startMs": 8585.365000000224,
+      "durationMs": 2304
+    },
+    {
+      "startMs": 10890.22000000067,
+      "durationMs": 149
+    },
+    {
+      "startMs": 21121.875,
+      "durationMs": 224
+    },
+    {
+      "startMs": 21371.33999999985,
+      "durationMs": 2519
+    },
+    {
+      "startMs": 23890.599999999627,
+      "durationMs": 166
+    }
+  ],
+  "phases": [
+    {
+      "name": "payload-validation",
+      "startMs": 10628.570000000298,
+      "durationMs": 38.60499999858439
+    },
+    {
+      "name": "surface-geometry",
+      "startMs": 10667.47000000067,
+      "durationMs": 53.419999999925494
+    },
+    {
+      "name": "edge-geometry",
+      "startMs": 10720.90499999933,
+      "durationMs": 0.24500000104308128
+    },
+    {
+      "name": "boundary-incidence",
+      "startMs": 10722.004999998957,
+      "durationMs": 63.07000000029802
+    },
+    {
+      "name": "wire-geometry-inclusive",
+      "startMs": 10721.525000000373,
+      "durationMs": 88.17999999970198
+    },
+    {
+      "name": "history-before",
+      "startMs": 21123.08999999985,
+      "durationMs": 17.304999999701977
+    },
+    {
+      "name": "typed-input-allocate-copy",
+      "startMs": 21140.980000000447,
+      "durationMs": 2.625
+    },
+    {
+      "name": "native-input-install-and-export",
+      "startMs": 21143.699999999255,
+      "durationMs": 201.11500000022352
+    },
+    {
+      "name": "typed-input-free",
+      "startMs": 21344.84500000067,
+      "durationMs": 0.18999999947845936
+    },
+    {
+      "name": "upload-and-native-install",
+      "startMs": 21140.68500000052,
+      "durationMs": 204.38499999977648
+    },
+    {
+      "name": "cpp-smooth-and-export",
+      "startMs": 21371.544999999925,
+      "durationMs": 1111.4000000003725
+    },
+    {
+      "name": "owned-buffer-readback",
+      "startMs": 22482.96499999985,
+      "durationMs": 71.06499999947846
+    },
+    {
+      "name": "payload-validation",
+      "startMs": 22554.294999999925,
+      "durationMs": 110.67999999970198
+    },
+    {
+      "name": "surface-geometry",
+      "startMs": 22665.025000000373,
+      "durationMs": 452.93999999947846
+    },
+    {
+      "name": "edge-geometry",
+      "startMs": 23117.984999999404,
+      "durationMs": 0.054999999701976776
+    },
+    {
+      "name": "boundary-incidence",
+      "startMs": 23118.949999999255,
+      "durationMs": 310.3600000012666
+    },
+    {
+      "name": "wire-geometry-inclusive",
+      "startMs": 23118.865000000224,
+      "durationMs": 425.3849999997765
+    },
+    {
+      "name": "scene-publication-inclusive",
+      "startMs": 22554.09500000067,
+      "durationMs": 1130.3499999996275
+    },
+    {
+      "name": "camera-fit",
+      "startMs": 23684.449999999255,
+      "durationMs": 133.25500000081956
+    },
+    {
+      "name": "history-commit-inclusive",
+      "startMs": 23818.449999999255,
+      "durationMs": 71.11500000022352
+    }
+  ],
+  "renderer": "WebGPU · WGSL",
+  "faces": 500000,
+  "vertices": 501501,
+  "status": "Smoothed current geometry with zFnMesh::smoothMesh. Divisions: 1.",
+  "jsHeapUsedBytes": 686124634,
+  "fixtureGenerationMs": 150.56499999947846,
+  "inputBytes": 8115436
+}

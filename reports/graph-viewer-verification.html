@@ -1,0 +1,25 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><title>Graph viewer verification harness</title>
+<div id="app"></div>
+<aside style="position:fixed;bottom:8px;left:8px;z-index:9999;background:#fff;color:#111;padding:8px;max-width:520px">
+Graph audit harness (actual viewer application)
+<input id="bench-edges" type="number" value="1000" min="1" max="500000" aria-label="Benchmark edges">
+<button id="bench-import">Import graph sketch</button><button id="bench-snapshot">Capture state</button>
+<pre id="bench-result" style="max-height:160px;overflow:auto"></pre></aside>
+<script type="module">
+import '/src/main.ts';
+const results=[];window.graphVerification=results;
+const state=()=>({status:document.querySelector('#status')?.textContent,undoDisabled:document.querySelector('#undo')?.disabled,redoDisabled:document.querySelector('#redo')?.disabled,heap:performance.memory?{used:performance.memory.usedJSHeapSize,total:performance.memory.totalJSHeapSize}:null});
+const display=()=>document.querySelector('#bench-result').textContent=JSON.stringify(results,null,2);
+document.querySelector('#bench-snapshot').onclick=()=>{results.push({kind:'state',...state()});display();};
+document.querySelector('#bench-import').onclick=async()=>{
+ const edges=Math.min(500000,Math.max(1,Number(document.querySelector('#bench-edges').value))),vertices=edges+1;
+ const source=`let graph;export function setup({zspace}){const t=performance.now();const p=new Float32Array(${vertices}*3),e=new Uint32Array(${edges}*2);for(let i=0;i<${vertices};i++){p[i*3]=(i%1000)/100;p[i*3+1]=Math.floor(i/1000)/100;p[i*3+2]=Math.sin(i*.01)*.1;}for(let i=0;i<${edges};i++){e[i*2]=i%2?i+1:i;e[i*2+1]=i%2?i:i+1;}const prepared=performance.now();graph=new zspace.zObjectGraph('graph_stress_${edges}');graph.create({vertexPositions:p,edgeConnects:e});window.graphSketchPhases={inputPreparationMs:prepared-t,jsGraphStorageInstallationMs:performance.now()-prepared};}export function draw(scene){scene.draw(graph);}export const metadata={name:'Graph Stress ${edges}'};`;
+ const start=performance.now(),transfer=new DataTransfer();transfer.items.add(new File([source],'sketch_graphStress.js',{type:'text/javascript'}));
+ const input=document.querySelector('#sketch-folder');input.files=transfer.files;input.dispatchEvent(new Event('change',{bubbles:true}));
+ await new Promise(r=>setTimeout(r,150));document.querySelector('#load-active-sketch').click();
+ const deadline=performance.now()+120000;
+ while(performance.now()<deadline){if(document.querySelector('#status')?.textContent?.includes('built with JS zSpace API'))break;await new Promise(r=>setTimeout(r,25));}
+ const built=performance.now(),gaps=[];let last=built;for(let i=0;i<20;i++)await new Promise(r=>requestAnimationFrame(t=>{gaps.push(t-last);last=t;r();}));
+ results.push({kind:'graph-folder-import-and-load',vertices,edges,fullActionToStatusMs:built-start,...window.graphSketchPhases,rafGapsMs:gaps,notes:'Single browser sample. Full action includes an explicit 150ms metadata wait and polling. rAF measures scheduling, not GPU completion or FPS. JS graph path has no C++ transfer/export.',...state()});display();
+};
+</script></html>

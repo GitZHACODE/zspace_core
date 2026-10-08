@@ -72,8 +72,32 @@ namespace zSpace
 
 	ZSPACE_INLINE void zFnGraph::getBounds(zPoint &minBB, zPoint &maxBB)
 	{
-		zPointArray positions = zGraphObjectStorage::read(*graphObj).positions;
-		coreUtils.getBounds(positions, minBB, maxBB);
+		const auto& positions = zGraphObjectStorage::read(*graphObj).positions;
+		// Raw position views may be supplied as output references; keep the
+		// original copy semantics in that case, before writing the sentinels.
+		const std::less<const zPoint*> less;
+		auto aliasesPositions = [&](const zPoint* p)
+		{
+			return !positions.empty() && !less(p, positions.data()) && less(p, positions.data() + positions.size());
+		};
+		if (aliasesPositions(&minBB) || aliasesPositions(&maxBB))
+		{
+			zPointArray copy = positions;
+			coreUtils.getBounds(copy, minBB, maxBB);
+			return;
+		}
+		// Match the utility's existing sentinels, including for an empty graph.
+		minBB = zPoint(10000, 10000, 10000);
+		maxBB = zPoint(-10000, -10000, -10000);
+		for (const auto& p : positions)
+		{
+			if (p.x < minBB.x) minBB.x = p.x;
+			if (p.y < minBB.y) minBB.y = p.y;
+			if (p.z < minBB.z) minBB.z = p.z;
+			if (p.x > maxBB.x) maxBB.x = p.x;
+			if (p.y > maxBB.y) maxBB.y = p.y;
+			if (p.z > maxBB.z) maxBB.z = p.z;
+		}
 	}
 
 	ZSPACE_INLINE void zFnGraph::clear()
@@ -406,7 +430,7 @@ namespace zSpace
 	{
 		if (numVertices() == 0) throw std::invalid_argument(" error: null pointer.");
 
-		return &zGraphObjectStorage::edit(*graphObj).positions[0];
+		return &zGraphObjectStorage::expose(*graphObj).positions[0];
 	}
 
 	ZSPACE_INLINE void zFnGraph::getVertexColors(zColorArray& col)
@@ -423,7 +447,7 @@ namespace zSpace
 	{
 		if (numVertices() == 0) throw std::invalid_argument(" error: null pointer.");
 
-		return &zGraphObjectStorage::edit(*graphObj).vertexColors[0];
+		return &zGraphObjectStorage::expose(*graphObj).vertexColors[0];
 	}
 
 	ZSPACE_INLINE void zFnGraph::getEdgeColors(zColorArray& col)
@@ -440,7 +464,7 @@ namespace zSpace
 	{
 		if (numEdges() == 0) throw std::invalid_argument(" error: null pointer.");
 
-		return &zGraphObjectStorage::edit(*graphObj).edgeColors[0];
+		return &zGraphObjectStorage::expose(*graphObj).edgeColors[0];
 	}
 
 	ZSPACE_INLINE zPoint zFnGraph::getCenter()
@@ -666,7 +690,7 @@ namespace zSpace
 					zVector b1 = cEdges[j].getPrev().getCenter() + (n_prev * w);
 
 					double uA, uB;
-					bool intersect = zGraphObjectStorage::get(*graphObj).coreUtils.line_lineClosestPoints(a0, a1, b0, b1, uA, uB);
+					bool intersect = zGraphObjectStorage::inspect(*graphObj).coreUtils.line_lineClosestPoints(a0, a1, b0, b1, uA, uB);
 
 
 					edgeVertices[currentId][3] = positions.size();

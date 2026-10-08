@@ -1,0 +1,44 @@
+{
+  "date": "2026-10-08",
+  "scope": "First audit patch: flat iterator geometry, public signatures and mathematical routines preserved",
+  "changedFiles": [
+    "src/zInterface/iterators/zItMesh.cpp",
+    "tests/smoke/zspace_smoke.cpp",
+    "tests/smoke/mesh_iterator_geometry_fixture.h",
+    "tests/mesh-iterator-runtime-parity.mjs",
+    "reports/generate-mesh-audit.mjs",
+    "reports/mesh-topology-audit.html",
+    "reports/mesh-topology-audit.json",
+    "reports/mesh-iterator-runtime-parity.json",
+    "reports/mesh-iterator-flat-verification.json",
+    "../zspace_alice_webviewer/reports/Alice-Viewer-Implementation-Roadmap.md"
+  ],
+  "migrated": [
+    "zItMeshEdge::getCenter",
+    "zItMeshEdge::getLength",
+    "zItMeshFace::getCenter",
+    "zItMeshFace::getNumVertices",
+    "zItMeshFace::getTriangles",
+    "zItMeshFace::getOffsetFacePositions",
+    "zItMeshFace::updateNormal (indirectly via center and corner count)"
+  ],
+  "behavior": {
+    "intentionalExtension": "Geometry-only queries accept nonmanifold flat meshes; explicit halfedge queries retain rejection.",
+    "preserved": "Golden concave/quad triangle order, triangulation append convention, offsets, area-weighted polygon normals, inactive corner count, degenerate triangulation exception, dirty-topology sync and position-edit visibility.",
+    "deferred": "Directed edge vector remains on halfedges. Volume migration needs a separate fix for an existing uninitialized faceNumTris counter."
+  },
+  "checks": {
+    "defaultReleaseBuild": "BLOCKED: scripts/build.ps1 failed before patch compilation because TinyUSDZ commit 11a2d361a9b6a0c4bf8918027233858d80ed17c5 could not be checked out. No dependency/configuration source changes made.",
+    "isolatedReleaseBuild": "PASS: cmake --preset ninja-msvc -B build/mesh-iterator-flat -DCMAKE_BUILD_TYPE=Release -DZSPACE_IO_WITH_TINYUSDZ=OFF; cmake --build build/mesh-iterator-flat --parallel 6. Run with MSVC vcvars64 environment outside sandbox.",
+    "focusedNativeTests": "PASS: ctest --test-dir build/mesh-iterator-flat -C Release --output-on-failure -R ^zspace.smoke$; 1/1 passed (0.10 sec test). Baseline geometry fixture was also run before migration.",
+    "fullIsolatedCTest": "NOT PASSING: IO smoke requires the disabled optional USD importer. Focused geometry smoke passes.",
+    "optionalDisplaySmoke": "UNAVAILABLE: Windows loader exit 0xC0000135; glew32.dll/freeglut.dll runtime dependencies are unavailable. Display behavior was not changed.",
+    "wasmBuild": "PASS: wasm/scripts/build-wasm.bat outside sandbox after temporary-file permission denial.",
+    "wasmParity": "PASS: cube upload and eight resident one-division calls through 393216 quads, 12 buffers byte-identical per stage; floating buffers finite. See mesh-iterator-runtime-parity.json.",
+    "viewerBuildBeforeAndAfter": "PASS: npm run build outside sandbox after initial esbuild spawn EPERM. Existing chunk-size warning remains.",
+    "diffCheck": "PASS: git diff --check."
+  },
+  "performanceInterpretation": "The rebuilt WASM binary is byte-identical to the installed viewer binary: these migrated iterator paths are not reached by current exports. No subdivision-time or FPS improvement is claimed. Viewer runtime files were not overwritten.",
+  "preservedDirtyBridgeSha256": "6B726D0CAC88E6769B7651652E1994C7DEB549BDC009E285BB6CDD8002DE2141",
+  "nextStep": "Instrument smoothMesh stages, then optimize scratch allocation and intermediate normals with exact output parity; profile render export separately."
+}

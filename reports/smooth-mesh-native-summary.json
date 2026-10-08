@@ -1,0 +1,116 @@
+{
+  "date": "2026-10-08",
+  "method": "Native Release; three trials per workload in each process, before and after serialized without compiler load. Median durations are exploratory and not browser/FPS timings. Smoothing excludes upload/bridge/render export. Output digests include positions, vertex/face normals, counts/connectivity and unique edge endpoints; curvature digests include both scalars and direction vectors.",
+  "allDigestsMatch": true,
+  "steps": [
+    {
+      "step": 1,
+      "faces": 24,
+      "beforeMs": 0.0559,
+      "afterMs": 0.0757
+    },
+    {
+      "step": 2,
+      "faces": 96,
+      "beforeMs": 0.15,
+      "afterMs": 0.1495
+    },
+    {
+      "step": 3,
+      "faces": 384,
+      "beforeMs": 0.6023,
+      "afterMs": 0.3881
+    },
+    {
+      "step": 4,
+      "faces": 1536,
+      "beforeMs": 2.5054,
+      "afterMs": 2.4784
+    },
+    {
+      "step": 5,
+      "faces": 6144,
+      "beforeMs": 9.5664,
+      "afterMs": 11.2024
+    },
+    {
+      "step": 6,
+      "faces": 24576,
+      "beforeMs": 39.3648,
+      "afterMs": 34.6137
+    },
+    {
+      "step": 7,
+      "faces": 98304,
+      "beforeMs": 189.8728,
+      "afterMs": 167.0498
+    },
+    {
+      "step": 8,
+      "faces": 393216,
+      "beforeMs": 1070.5299,
+      "afterMs": 806.8404
+    }
+  ],
+  "batch": {
+    "beforeMs": 1208.4443,
+    "afterMs": 1036.6817
+  },
+  "curvature": {
+    "vertices": 1089,
+    "beforeMs": 5.237,
+    "afterMs": 5.3017
+  },
+  "target500k": {
+    "inputFaces": 125000,
+    "outputFaces": 500000,
+    "beforeMs": 834.5014,
+    "afterMs": 569.9808
+  },
+  "changes": [
+    "smoothMesh: remove unused neighbor lists, ordered vertex-face sums, inline first two edge-face IDs plus total incidence, reserve output positions, calculate final normals once per batched call",
+    "getPrincipalCurvatures: reuse K-ring visit stamps and neighborhood capacity",
+    "getBounds: avoid position-array copy except aliased output fallback, retain existing sentinels",
+    "zItMeshFace::getVolume: initialize supplied/generated triangle count, migrate utility and position access to flat storage"
+  ],
+  "topologyStatus": "Incomplete migration. smoothMesh, bulk principal curvature, bounds and face volume do not build topology from flat data. Remaining avoidable dependencies include vertexExists position lookup and some iterator geometry/direction queries. Explicit halfedge APIs and local topology edits still build the lazy backend; reads can synchronize previously edited topology.",
+  "validation": [
+    "Isolated native Release build with optional TinyUSDZ disabled; focused geometry CTest passed",
+    "Golden triangle ordering, signed/absolute/auto volume, nonmanifold quad volume, mixed open mesh batch-vs-step smoothCorner false/true parity, zero divisions, bounds/raw-alias/empty sentinels",
+    "Native before/after cube steps 1-8, batch 8, curved-grid principal curvature and subdivision to exactly 500000 quads: all output digests identical",
+    "Final WASM rebuild passed; three cube trials through eight divisions, 12 exported buffers byte-identical at all 27 stages; optimized runtime installed in viewer with original runtime backed up under wasm/tmp/smooth-runtime-install-before."
+  ],
+  "limitations": [
+    "Default Release preset remains blocked by optional pinned TinyUSDZ checkout. USD IO and native OpenGL display runtime verification limitations remain as recorded in mesh-iterator-flat-verification.json.",
+    "No ordered-map/hash-map redesign, storage move installation, bridge normals/export optimization or UI changes in this patch.",
+    "The 500000-quad result is a native kernel workload, not evidence of end-to-end viewer interactivity.",
+    "The full eighth-step WASM call remained about 1.82 seconds in this sample despite the native kernel gains. Bridge normals/export remain unchanged; no end-to-end viewer speedup is established."
+  ],
+  "changedFiles": [
+    "CMakeLists.txt",
+    "src/zInterface/functionsets/zFnMesh.cpp",
+    "src/zInterface/iterators/zItMesh.cpp",
+    "tests/smoke/zspace_smoke.cpp",
+    "tests/smoke/mesh_iterator_geometry_fixture.h",
+    "tests/performance/mesh_functionset_benchmark.cpp",
+    "reports/generate-mesh-audit.mjs",
+    "reports/mesh-topology-audit.html",
+    "reports/mesh-topology-audit.json",
+    "reports/generate-smooth-optimization-report.mjs",
+    "reports/smooth-mesh-native-before.json",
+    "reports/smooth-mesh-native-after.json",
+    "reports/smooth-mesh-native-summary.json",
+    "reports/smooth-mesh-optimization.html",
+    "reports/smooth-mesh-runtime-parity.json",
+    "../zspace_alice_webviewer/reports/Alice-Viewer-Implementation-Roadmap.md",
+    "tests/mesh-iterator-runtime-parity.mjs",
+    "../zspace_alice_webviewer/wasm/zspace_core.js (generated runtime)",
+    "../zspace_alice_webviewer/wasm/zspace_core.wasm (generated runtime)"
+  ],
+  "wasmEighth": {
+    "beforeMs": 1820.6032000000014,
+    "afterMs": 1823.2971999999995,
+    "method": "Node WASM resident C++ call, including bridge normals/render export; three alternating-order trials. JS transfer, history and rendering excluded."
+  },
+  "preservedDirtyBridgeSha256": "6B726D0CAC88E6769B7651652E1994C7DEB549BDC009E285BB6CDD8002DE2141"
+}

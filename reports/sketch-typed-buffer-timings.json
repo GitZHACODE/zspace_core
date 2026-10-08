@@ -1,0 +1,47 @@
+{
+  "method": "Three alternating-order Node conversion trials only; 500k-grid-sized typed inputs; excludes JS triangulation, normals, edge derivation, browser/WASM/history/GPU.",
+  "timings": [
+    {
+      "name": "positions",
+      "elements": 1504503,
+      "trial": 0,
+      "beforeMs": 60.59649999999999,
+      "afterMs": 1.353400000000022
+    },
+    {
+      "name": "connects",
+      "elements": 2000000,
+      "trial": 0,
+      "beforeMs": 89.14319999999998,
+      "afterMs": 1.7442000000000348
+    },
+    {
+      "name": "positions",
+      "elements": 1504503,
+      "trial": 1,
+      "beforeMs": 53.53869999999995,
+      "afterMs": 1.1781000000000859
+    },
+    {
+      "name": "connects",
+      "elements": 2000000,
+      "trial": 1,
+      "beforeMs": 85.33620000000008,
+      "afterMs": 1.620900000000006
+    },
+    {
+      "name": "positions",
+      "elements": 1504503,
+      "trial": 2,
+      "beforeMs": 57.59140000000002,
+      "afterMs": 1.3482999999999947
+    },
+    {
+      "name": "connects",
+      "elements": 2000000,
+      "trial": 2,
+      "beforeMs": 79.89940000000001,
+      "afterMs": 1.5821999999999434
+    }
+  ]
+}

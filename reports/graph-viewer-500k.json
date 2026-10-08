@@ -1,0 +1,40 @@
+[
+  {
+    "kind": "graph-folder-import-and-load",
+    "vertices": 500001,
+    "edges": 500000,
+    "fullActionToStatusMs": 940.785000000149,
+    "inputPreparationMs": 29.12999999895692,
+    "jsGraphStorageInstallationMs": 186.93500000052154,
+    "rafGapsMs": [
+      -5.885000000744185,
+      16.639999999999418,
+      16.650000000001455,
+      16.639999999999418,
+      16.674999999995634,
+      16.67500000000291,
+      16.62000000000262,
+      16.709999999999127,
+      16.635000000002037,
+      16.619999999995343,
+      16.665000000000873,
+      16.67500000000291,
+      16.659999999996217,
+      16.630000000004657,
+      16.68499999999767,
+      16.6449999999968,
+      16.67000000000553,
+      16.62999999999738,
+      16.669999999998254,
+      16.654999999998836
+    ],
+    "notes": "Single browser sample. Full action includes an explicit 150ms metadata wait and polling. rAF measures scheduling, not GPU completion or FPS. JS graph path has no C++ transfer/export.",
+    "status": "Graph Stress 500000 built with JS zSpace API.",
+    "undoDisabled": true,
+    "redoDisabled": true,
+    "heap": {
+      "used": 235206854,
+      "total": 284420862
+    }
+  }
+]

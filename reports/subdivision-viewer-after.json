@@ -1,0 +1,122 @@
+{
+  "capturedAt": "2026-10-08T13:06:14.858Z",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36",
+  "method": "Actual Alice viewer import/Smooth Mesh/history/display. Action times include UI/history, transfers, WASM, readback and publication; presented time adds two rAF callbacks, not GPU completion. Frame-gap samples include VSync/background scheduling and do not establish GPU throughput.",
+  "actions": [
+    {
+      "name": "import 125000 quads",
+      "faces": 125000,
+      "vertices": 125751,
+      "actionMs": 1991,
+      "presentedMs": 2015.3999999985099
+    },
+    {
+      "name": "smooth 125000 to 500000",
+      "faces": 500000,
+      "vertices": 501501,
+      "actionMs": 3902.7000000011176,
+      "presentedMs": 3912.10000000149
+    },
+    {
+      "name": "undo smooth",
+      "faces": 125000,
+      "vertices": 125751,
+      "actionMs": 790.5999999996275,
+      "presentedMs": 863.3000000007451
+    },
+    {
+      "name": "redo smooth",
+      "faces": 500000,
+      "vertices": 501501,
+      "actionMs": 2787,
+      "presentedMs": 3089.39999999851
+    }
+  ],
+  "samples": [
+    {
+      "name": "idle",
+      "faces": 500000,
+      "durationMs": 5003.700000000001,
+      "frames": 301,
+      "inputEvents": 0,
+      "medianGapMs": 16.69999999999709,
+      "p95GapMs": 16.799999999999272,
+      "maxGapMs": 18.700000000000728,
+      "gapsOver50Ms": 0,
+      "visible": "visible",
+      "viewport": [
+        1280,
+        720
+      ],
+      "devicePixelRatio": 1.5
+    },
+    {
+      "name": "camera interaction",
+      "faces": 500000,
+      "durationMs": 8002.800000000003,
+      "frames": 481,
+      "inputEvents": 4,
+      "medianGapMs": 16.69999999999709,
+      "p95GapMs": 16.70000000001164,
+      "maxGapMs": 16.80000000000291,
+      "gapsOver50Ms": 0,
+      "visible": "visible",
+      "viewport": [
+        1280,
+        720
+      ],
+      "devicePixelRatio": 1.5
+    }
+  ],
+  "longTasks": [
+    {
+      "startMs": 6398.5,
+      "durationMs": 90
+    },
+    {
+      "startMs": 6502.4000000003725,
+      "durationMs": 1881
+    },
+    {
+      "startMs": 8383.799999998882,
+      "durationMs": 91
+    },
+    {
+      "startMs": 11377,
+      "durationMs": 102
+    },
+    {
+      "startMs": 11502.5,
+      "durationMs": 3480
+    },
+    {
+      "startMs": 14982.799999998882,
+      "durationMs": 286
+    },
+    {
+      "startMs": 111823.19999999925,
+      "durationMs": 794
+    },
+    {
+      "startMs": 112618,
+      "durationMs": 60
+    },
+    {
+      "startMs": 112684.59999999963,
+      "durationMs": 2793
+    },
+    {
+      "startMs": 115482.90000000037,
+      "durationMs": 173
+    }
+  ],
+  "renderer": "WebGPU · WGSL",
+  "faces": 500000,
+  "vertices": 501501,
+  "status": "Redo smooth mesh.",
+  "jsHeapUsedBytes": 936548804,
+  "fixtureGenerationMs": 89.29999999888241,
+  "inputBytes": 8115436,
+  "runtimeSha256": "27daad481b9c4a5d6b403b2cf15f79f4f2d7bcd066e3bbefb624d30c57799653",
+  "captureMethod": "Actual isolated viewer, one run, no concurrent compilation; brief wheel-zoom input during the camera sample."
+}

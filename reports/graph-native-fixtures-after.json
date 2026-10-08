@@ -1,0 +1,9131 @@
+{
+  "average-3": "aca28ae2e268637e",
+  "bounds-alias": "f419792c17c00cd1",
+  "branch": {
+    "counts": [
+      6,
+      4,
+      8
+    ],
+    "flat": "3d44ae4301170489",
+    "flatAfter": "3d44ae4301170489",
+    "geometry": "ec1f2790e28c4702",
+    "halfedgeQueries": [
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 0,
+        "geometry": "e0ce995cdc9ba688",
+        "head": 1,
+        "id": 0,
+        "next": 1,
+        "prev": 5,
+        "start": 0,
+        "sym": 1,
+        "vertices": [
+          -99,
+          1,
+          0
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 0,
+        "geometry": "121e892af9612118",
+        "head": 0,
+        "id": 1,
+        "next": 3,
+        "prev": 0,
+        "start": 1,
+        "sym": 0,
+        "vertices": [
+          -99,
+          0,
+          1
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 1,
+        "geometry": "6fa47bdc18d18afa",
+        "head": 0,
+        "id": 2,
+        "next": 7,
+        "prev": 3,
+        "start": 2,
+        "sym": 3,
+        "vertices": [
+          -99,
+          0,
+          2
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 1,
+        "geometry": "ce03f953d7b7d5ea",
+        "head": 2,
+        "id": 3,
+        "next": 2,
+        "prev": 1,
+        "start": 0,
+        "sym": 2,
+        "vertices": [
+          -99,
+          2,
+          0
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 2,
+        "geometry": "dc13e0656362a415",
+        "head": 3,
+        "id": 4,
+        "next": 5,
+        "prev": 6,
+        "start": 0,
+        "sym": 5,
+        "vertices": [
+          -99,
+          3,
+          0
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 2,
+        "geometry": "2c8c3c8c98b5915",
+        "head": 0,
+        "id": 5,
+        "next": 0,
+        "prev": 4,
+        "start": 3,
+        "sym": 4,
+        "vertices": [
+          -99,
+          0,
+          3
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 3,
+        "geometry": "a84227ec688c6ba",
+        "head": 0,
+        "id": 6,
+        "next": 4,
+        "prev": 7,
+        "start": 4,
+        "sym": 7,
+        "vertices": [
+          -99,
+          0,
+          4
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 3,
+        "geometry": "9d2df589c56c48aa",
+        "head": 4,
+        "id": 7,
+        "next": 6,
+        "prev": 2,
+        "start": 0,
+        "sym": 6,
+        "vertices": [
+          -99,
+          4,
+          0
+        ]
+      }
+    ],
+    "rings": [
+      {
+        "bfs": [
+          -33,
+          0,
+          4,
+          2,
+          1,
+          3
+        ],
+        "edges": [
+          -33,
+          3,
+          1,
+          0,
+          2
+        ],
+        "halfedges": [
+          -33,
+          7,
+          3,
+          0,
+          4
+        ],
+        "parents": [
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            3
+          ]
+        ],
+        "valence": 4,
+        "vertices": [
+          -33,
+          4,
+          2,
+          1,
+          3
+        ]
+      },
+      {
+        "bfs": [
+          -33,
+          1,
+          0,
+          4,
+          2,
+          3
+        ],
+        "edges": [
+          -33,
+          0
+        ],
+        "halfedges": [
+          -33,
+          1
+        ],
+        "parents": [
+          [
+            1,
+            0
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ]
+        ],
+        "valence": 1,
+        "vertices": [
+          -33,
+          0
+        ]
+      },
+      {
+        "bfs": [
+          -33,
+          2,
+          0,
+          4,
+          1,
+          3
+        ],
+        "edges": [
+          -33,
+          1
+        ],
+        "halfedges": [
+          -33,
+          2
+        ],
+        "parents": [
+          [
+            2,
+            0
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            3
+          ]
+        ],
+        "valence": 1,
+        "vertices": [
+          -33,
+          0
+        ]
+      },
+      {
+        "bfs": [
+          -33,
+          3,
+          0,
+          4,
+          2,
+          1
+        ],
+        "edges": [
+          -33,
+          2
+        ],
+        "halfedges": [
+          -33,
+          5
+        ],
+        "parents": [
+          [
+            3,
+            0
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            1
+          ]
+        ],
+        "valence": 1,
+        "vertices": [
+          -33,
+          0
+        ]
+      },
+      {
+        "bfs": [
+          -33,
+          4,
+          0,
+          2,
+          1,
+          3
+        ],
+        "edges": [
+          -33,
+          3
+        ],
+        "halfedges": [
+          -33,
+          6
+        ],
+        "parents": [
+          [
+            4,
+            0
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            3
+          ]
+        ],
+        "valence": 1,
+        "vertices": [
+          -33,
+          0
+        ]
+      },
+      {
+        "exception": " error: halfedge index out of bounds."
+      }
+    ],
+    "topology": {
+      "edges": [
+        [
+          0,
+          0,
+          1,
+          true
+        ],
+        [
+          1,
+          2,
+          3,
+          true
+        ],
+        [
+          2,
+          4,
+          5,
+          true
+        ],
+        [
+          3,
+          6,
+          7,
+          true
+        ]
+      ],
+      "halfedges": [
+        [
+          0,
+          1,
+          1,
+          5,
+          1,
+          0,
+          -1,
+          true
+        ],
+        [
+          1,
+          0,
+          3,
+          0,
+          0,
+          0,
+          -1,
+          true
+        ],
+        [
+          2,
+          3,
+          7,
+          3,
+          0,
+          1,
+          -1,
+          true
+        ],
+        [
+          3,
+          2,
+          2,
+          1,
+          2,
+          1,
+          -1,
+          true
+        ],
+        [
+          4,
+          5,
+          5,
+          6,
+          3,
+          2,
+          -1,
+          true
+        ],
+        [
+          5,
+          4,
+          0,
+          4,
+          0,
+          2,
+          -1,
+          true
+        ],
+        [
+          6,
+          7,
+          4,
+          7,
+          0,
+          3,
+          -1,
+          true
+        ],
+        [
+          7,
+          6,
+          6,
+          2,
+          4,
+          3,
+          -1,
+          true
+        ]
+      ],
+      "vertices": [
+        [
+          0,
+          7,
+          true
+        ],
+        [
+          1,
+          1,
+          true
+        ],
+        [
+          2,
+          2,
+          true
+        ],
+        [
+          3,
+          5,
+          true
+        ],
+        [
+          4,
+          6,
+          true
+        ],
+        [
+          5,
+          -1,
+          true
+        ]
+      ]
+    }
+  },
+  "branch-assignment": {
+    "counts": [
+      6,
+      4,
+      8
+    ],
+    "flat": "3d44ae4301170489",
+    "flatAfter": "3d44ae4301170489",
+    "geometry": "ec1f2790e28c4702",
+    "halfedgeQueries": [
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 0,
+        "geometry": "e0ce995cdc9ba688",
+        "head": 1,
+        "id": 0,
+        "next": 1,
+        "prev": 5,
+        "start": 0,
+        "sym": 1,
+        "vertices": [
+          -99,
+          1,
+          0
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 0,
+        "geometry": "121e892af9612118",
+        "head": 0,
+        "id": 1,
+        "next": 3,
+        "prev": 0,
+        "start": 1,
+        "sym": 0,
+        "vertices": [
+          -99,
+          0,
+          1
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 1,
+        "geometry": "6fa47bdc18d18afa",
+        "head": 0,
+        "id": 2,
+        "next": 7,
+        "prev": 3,
+        "start": 2,
+        "sym": 3,
+        "vertices": [
+          -99,
+          0,
+          2
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 1,
+        "geometry": "ce03f953d7b7d5ea",
+        "head": 2,
+        "id": 3,
+        "next": 2,
+        "prev": 1,
+        "start": 0,
+        "sym": 2,
+        "vertices": [
+          -99,
+          2,
+          0
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 2,
+        "geometry": "dc13e0656362a415",
+        "head": 3,
+        "id": 4,
+        "next": 5,
+        "prev": 6,
+        "start": 0,
+        "sym": 5,
+        "vertices": [
+          -99,
+          3,
+          0
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 2,
+        "geometry": "2c8c3c8c98b5915",
+        "head": 0,
+        "id": 5,
+        "next": 0,
+        "prev": 4,
+        "start": 3,
+        "sym": 4,
+        "vertices": [
+          -99,
+          0,
+          3
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 3,
+        "geometry": "a84227ec688c6ba",
+        "head": 0,
+        "id": 6,
+        "next": 4,
+        "prev": 7,
+        "start": 4,
+        "sym": 7,
+        "vertices": [
+          -99,
+          0,
+          4
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 3,
+        "geometry": "9d2df589c56c48aa",
+        "head": 4,
+        "id": 7,
+        "next": 6,
+        "prev": 2,
+        "start": 0,
+        "sym": 6,
+        "vertices": [
+          -99,
+          4,
+          0
+        ]
+      }
+    ],
+    "topology": {
+      "edges": [
+        [
+          0,
+          0,
+          1,
+          true
+        ],
+        [
+          1,
+          2,
+          3,
+          true
+        ],
+        [
+          2,
+          4,
+          5,
+          true
+        ],
+        [
+          3,
+          6,
+          7,
+          true
+        ]
+      ],
+      "halfedges": [
+        [
+          0,
+          1,
+          1,
+          5,
+          1,
+          0,
+          -1,
+          true
+        ],
+        [
+          1,
+          0,
+          3,
+          0,
+          0,
+          0,
+          -1,
+          true
+        ],
+        [
+          2,
+          3,
+          7,
+          3,
+          0,
+          1,
+          -1,
+          true
+        ],
+        [
+          3,
+          2,
+          2,
+          1,
+          2,
+          1,
+          -1,
+          true
+        ],
+        [
+          4,
+          5,
+          5,
+          6,
+          3,
+          2,
+          -1,
+          true
+        ],
+        [
+          5,
+          4,
+          0,
+          4,
+          0,
+          2,
+          -1,
+          true
+        ],
+        [
+          6,
+          7,
+          4,
+          7,
+          0,
+          3,
+          -1,
+          true
+        ],
+        [
+          7,
+          6,
+          6,
+          2,
+          4,
+          3,
+          -1,
+          true
+        ]
+      ],
+      "vertices": [
+        [
+          0,
+          7,
+          true
+        ],
+        [
+          1,
+          1,
+          true
+        ],
+        [
+          2,
+          2,
+          true
+        ],
+        [
+          3,
+          5,
+          true
+        ],
+        [
+          4,
+          6,
+          true
+        ],
+        [
+          5,
+          -1,
+          true
+        ]
+      ]
+    }
+  },
+  "branch-copy": {
+    "counts": [
+      6,
+      4,
+      8
+    ],
+    "flat": "3d44ae4301170489",
+    "flatAfter": "3d44ae4301170489",
+    "geometry": "ec1f2790e28c4702",
+    "halfedgeQueries": [
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 0,
+        "geometry": "e0ce995cdc9ba688",
+        "head": 1,
+        "id": 0,
+        "next": 1,
+        "prev": 5,
+        "start": 0,
+        "sym": 1,
+        "vertices": [
+          -99,
+          1,
+          0
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 0,
+        "geometry": "121e892af9612118",
+        "head": 0,
+        "id": 1,
+        "next": 3,
+        "prev": 0,
+        "start": 1,
+        "sym": 0,
+        "vertices": [
+          -99,
+          0,
+          1
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 1,
+        "geometry": "6fa47bdc18d18afa",
+        "head": 0,
+        "id": 2,
+        "next": 7,
+        "prev": 3,
+        "start": 2,
+        "sym": 3,
+        "vertices": [
+          -99,
+          0,
+          2
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 1,
+        "geometry": "ce03f953d7b7d5ea",
+        "head": 2,
+        "id": 3,
+        "next": 2,
+        "prev": 1,
+        "start": 0,
+        "sym": 2,
+        "vertices": [
+          -99,
+          2,
+          0
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 2,
+        "geometry": "dc13e0656362a415",
+        "head": 3,
+        "id": 4,
+        "next": 5,
+        "prev": 6,
+        "start": 0,
+        "sym": 5,
+        "vertices": [
+          -99,
+          3,
+          0
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 2,
+        "geometry": "2c8c3c8c98b5915",
+        "head": 0,
+        "id": 5,
+        "next": 0,
+        "prev": 4,
+        "start": 3,
+        "sym": 4,
+        "vertices": [
+          -99,
+          0,
+          3
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 3,
+        "geometry": "a84227ec688c6ba",
+        "head": 0,
+        "id": 6,
+        "next": 4,
+        "prev": 7,
+        "start": 4,
+        "sym": 7,
+        "vertices": [
+          -99,
+          0,
+          4
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 3,
+        "geometry": "9d2df589c56c48aa",
+        "head": 4,
+        "id": 7,
+        "next": 6,
+        "prev": 2,
+        "start": 0,
+        "sym": 6,
+        "vertices": [
+          -99,
+          4,
+          0
+        ]
+      }
+    ],
+    "topology": {
+      "edges": [
+        [
+          0,
+          0,
+          1,
+          true
+        ],
+        [
+          1,
+          2,
+          3,
+          true
+        ],
+        [
+          2,
+          4,
+          5,
+          true
+        ],
+        [
+          3,
+          6,
+          7,
+          true
+        ]
+      ],
+      "halfedges": [
+        [
+          0,
+          1,
+          1,
+          5,
+          1,
+          0,
+          -1,
+          true
+        ],
+        [
+          1,
+          0,
+          3,
+          0,
+          0,
+          0,
+          -1,
+          true
+        ],
+        [
+          2,
+          3,
+          7,
+          3,
+          0,
+          1,
+          -1,
+          true
+        ],
+        [
+          3,
+          2,
+          2,
+          1,
+          2,
+          1,
+          -1,
+          true
+        ],
+        [
+          4,
+          5,
+          5,
+          6,
+          3,
+          2,
+          -1,
+          true
+        ],
+        [
+          5,
+          4,
+          0,
+          4,
+          0,
+          2,
+          -1,
+          true
+        ],
+        [
+          6,
+          7,
+          4,
+          7,
+          0,
+          3,
+          -1,
+          true
+        ],
+        [
+          7,
+          6,
+          6,
+          2,
+          4,
+          3,
+          -1,
+          true
+        ]
+      ],
+      "vertices": [
+        [
+          0,
+          7,
+          true
+        ],
+        [
+          1,
+          1,
+          true
+        ],
+        [
+          2,
+          2,
+          true
+        ],
+        [
+          3,
+          5,
+          true
+        ],
+        [
+          4,
+          6,
+          true
+        ],
+        [
+          5,
+          -1,
+          true
+        ]
+      ]
+    }
+  },
+  "chain": {
+    "counts": [
+      6,
+      3,
+      6
+    ],
+    "flat": "e7b031654042926d",
+    "flatAfter": "e7b031654042926d",
+    "geometry": "3493a34bd0c23708",
+    "halfedgeQueries": [
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 0,
+        "geometry": "e0ce995cdc9ba688",
+        "head": 1,
+        "id": 0,
+        "next": 3,
+        "prev": 1,
+        "start": 0,
+        "sym": 1,
+        "vertices": [
+          -99,
+          1,
+          0
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 0,
+        "geometry": "121e892af9612118",
+        "head": 0,
+        "id": 1,
+        "next": 0,
+        "prev": 2,
+        "start": 1,
+        "sym": 0,
+        "vertices": [
+          -99,
+          0,
+          1
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 1,
+        "geometry": "467441a5e7e4e775",
+        "head": 1,
+        "id": 2,
+        "next": 1,
+        "prev": 5,
+        "start": 2,
+        "sym": 3,
+        "vertices": [
+          -99,
+          1,
+          2
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 1,
+        "geometry": "3cebbbdbd96868f5",
+        "head": 2,
+        "id": 3,
+        "next": 4,
+        "prev": 0,
+        "start": 1,
+        "sym": 2,
+        "vertices": [
+          -99,
+          2,
+          1
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 2,
+        "geometry": "8da75645763c9c8b",
+        "head": 3,
+        "id": 4,
+        "next": 5,
+        "prev": 3,
+        "start": 2,
+        "sym": 5,
+        "vertices": [
+          -99,
+          3,
+          2
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 2,
+        "geometry": "d6535ba0b7ddb9fb",
+        "head": 2,
+        "id": 5,
+        "next": 2,
+        "prev": 4,
+        "start": 3,
+        "sym": 4,
+        "vertices": [
+          -99,
+          2,
+          3
+        ]
+      }
+    ],
+    "rings": [
+      {
+        "bfs": [
+          -33,
+          0,
+          1,
+          2,
+          3
+        ],
+        "edges": [
+          -33,
+          0
+        ],
+        "halfedges": [
+          -33,
+          0
+        ],
+        "parents": [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            2,
+            3
+          ]
+        ],
+        "valence": 1,
+        "vertices": [
+          -33,
+          1
+        ]
+      },
+      {
+        "bfs": [
+          -33,
+          1,
+          2,
+          0,
+          3
+        ],
+        "edges": [
+          -33,
+          1,
+          0
+        ],
+        "halfedges": [
+          -33,
+          3,
+          1
+        ],
+        "parents": [
+          [
+            1,
+            2
+          ],
+          [
+            1,
+            0
+          ],
+          [
+            2,
+            3
+          ]
+        ],
+        "valence": 2,
+        "vertices": [
+          -33,
+          2,
+          0
+        ]
+      },
+      {
+        "bfs": [
+          -33,
+          2,
+          3,
+          1,
+          0
+        ],
+        "edges": [
+          -33,
+          2,
+          1
+        ],
+        "halfedges": [
+          -33,
+          4,
+          2
+        ],
+        "parents": [
+          [
+            2,
+            3
+          ],
+          [
+            2,
+            1
+          ],
+          [
+            1,
+            0
+          ]
+        ],
+        "valence": 2,
+        "vertices": [
+          -33,
+          3,
+          1
+        ]
+      },
+      {
+        "bfs": [
+          -33,
+          3,
+          2,
+          1,
+          0
+        ],
+        "edges": [
+          -33,
+          2
+        ],
+        "halfedges": [
+          -33,
+          5
+        ],
+        "parents": [
+          [
+            3,
+            2
+          ],
+          [
+            2,
+            1
+          ],
+          [
+            1,
+            0
+          ]
+        ],
+        "valence": 1,
+        "vertices": [
+          -33,
+          2
+        ]
+      },
+      {
+        "exception": " error: halfedge index out of bounds."
+      },
+      {
+        "exception": " error: halfedge index out of bounds."
+      }
+    ],
+    "topology": {
+      "edges": [
+        [
+          0,
+          0,
+          1,
+          true
+        ],
+        [
+          1,
+          2,
+          3,
+          true
+        ],
+        [
+          2,
+          4,
+          5,
+          true
+        ]
+      ],
+      "halfedges": [
+        [
+          0,
+          1,
+          3,
+          1,
+          1,
+          0,
+          -1,
+          true
+        ],
+        [
+          1,
+          0,
+          0,
+          2,
+          0,
+          0,
+          -1,
+          true
+        ],
+        [
+          2,
+          3,
+          1,
+          5,
+          1,
+          1,
+          -1,
+          true
+        ],
+        [
+          3,
+          2,
+          4,
+          0,
+          2,
+          1,
+          -1,
+          true
+        ],
+        [
+          4,
+          5,
+          5,
+          3,
+          3,
+          2,
+          -1,
+          true
+        ],
+        [
+          5,
+          4,
+          2,
+          4,
+          2,
+          2,
+          -1,
+          true
+        ]
+      ],
+      "vertices": [
+        [
+          0,
+          0,
+          true
+        ],
+        [
+          1,
+          3,
+          true
+        ],
+        [
+          2,
+          4,
+          true
+        ],
+        [
+          3,
+          5,
+          true
+        ],
+        [
+          4,
+          -1,
+          true
+        ],
+        [
+          5,
+          -1,
+          true
+        ]
+      ]
+    }
+  },
+  "chain-assignment": {
+    "counts": [
+      6,
+      3,
+      6
+    ],
+    "flat": "e7b031654042926d",
+    "flatAfter": "e7b031654042926d",
+    "geometry": "3493a34bd0c23708",
+    "halfedgeQueries": [
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 0,
+        "geometry": "e0ce995cdc9ba688",
+        "head": 1,
+        "id": 0,
+        "next": 3,
+        "prev": 1,
+        "start": 0,
+        "sym": 1,
+        "vertices": [
+          -99,
+          1,
+          0
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 0,
+        "geometry": "121e892af9612118",
+        "head": 0,
+        "id": 1,
+        "next": 0,
+        "prev": 2,
+        "start": 1,
+        "sym": 0,
+        "vertices": [
+          -99,
+          0,
+          1
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 1,
+        "geometry": "467441a5e7e4e775",
+        "head": 1,
+        "id": 2,
+        "next": 1,
+        "prev": 5,
+        "start": 2,
+        "sym": 3,
+        "vertices": [
+          -99,
+          1,
+          2
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 1,
+        "geometry": "3cebbbdbd96868f5",
+        "head": 2,
+        "id": 3,
+        "next": 4,
+        "prev": 0,
+        "start": 1,
+        "sym": 2,
+        "vertices": [
+          -99,
+          2,
+          1
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 2,
+        "geometry": "8da75645763c9c8b",
+        "head": 3,
+        "id": 4,
+        "next": 5,
+        "prev": 3,
+        "start": 2,
+        "sym": 5,
+        "vertices": [
+          -99,
+          3,
+          2
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 2,
+        "geometry": "d6535ba0b7ddb9fb",
+        "head": 2,
+        "id": 5,
+        "next": 2,
+        "prev": 4,
+        "start": 3,
+        "sym": 4,
+        "vertices": [
+          -99,
+          2,
+          3
+        ]
+      }
+    ],
+    "topology": {
+      "edges": [
+        [
+          0,
+          0,
+          1,
+          true
+        ],
+        [
+          1,
+          2,
+          3,
+          true
+        ],
+        [
+          2,
+          4,
+          5,
+          true
+        ]
+      ],
+      "halfedges": [
+        [
+          0,
+          1,
+          3,
+          1,
+          1,
+          0,
+          -1,
+          true
+        ],
+        [
+          1,
+          0,
+          0,
+          2,
+          0,
+          0,
+          -1,
+          true
+        ],
+        [
+          2,
+          3,
+          1,
+          5,
+          1,
+          1,
+          -1,
+          true
+        ],
+        [
+          3,
+          2,
+          4,
+          0,
+          2,
+          1,
+          -1,
+          true
+        ],
+        [
+          4,
+          5,
+          5,
+          3,
+          3,
+          2,
+          -1,
+          true
+        ],
+        [
+          5,
+          4,
+          2,
+          4,
+          2,
+          2,
+          -1,
+          true
+        ]
+      ],
+      "vertices": [
+        [
+          0,
+          0,
+          true
+        ],
+        [
+          1,
+          3,
+          true
+        ],
+        [
+          2,
+          4,
+          true
+        ],
+        [
+          3,
+          5,
+          true
+        ],
+        [
+          4,
+          -1,
+          true
+        ],
+        [
+          5,
+          -1,
+          true
+        ]
+      ]
+    }
+  },
+  "chain-copy": {
+    "counts": [
+      6,
+      3,
+      6
+    ],
+    "flat": "e7b031654042926d",
+    "flatAfter": "e7b031654042926d",
+    "geometry": "3493a34bd0c23708",
+    "halfedgeQueries": [
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 0,
+        "geometry": "e0ce995cdc9ba688",
+        "head": 1,
+        "id": 0,
+        "next": 3,
+        "prev": 1,
+        "start": 0,
+        "sym": 1,
+        "vertices": [
+          -99,
+          1,
+          0
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 0,
+        "geometry": "121e892af9612118",
+        "head": 0,
+        "id": 1,
+        "next": 0,
+        "prev": 2,
+        "start": 1,
+        "sym": 0,
+        "vertices": [
+          -99,
+          0,
+          1
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 1,
+        "geometry": "467441a5e7e4e775",
+        "head": 1,
+        "id": 2,
+        "next": 1,
+        "prev": 5,
+        "start": 2,
+        "sym": 3,
+        "vertices": [
+          -99,
+          1,
+          2
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 1,
+        "geometry": "3cebbbdbd96868f5",
+        "head": 2,
+        "id": 3,
+        "next": 4,
+        "prev": 0,
+        "start": 1,
+        "sym": 2,
+        "vertices": [
+          -99,
+          2,
+          1
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 2,
+        "geometry": "8da75645763c9c8b",
+        "head": 3,
+        "id": 4,
+        "next": 5,
+        "prev": 3,
+        "start": 2,
+        "sym": 5,
+        "vertices": [
+          -99,
+          3,
+          2
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 2,
+        "geometry": "d6535ba0b7ddb9fb",
+        "head": 2,
+        "id": 5,
+        "next": 2,
+        "prev": 4,
+        "start": 3,
+        "sym": 4,
+        "vertices": [
+          -99,
+          2,
+          3
+        ]
+      }
+    ],
+    "topology": {
+      "edges": [
+        [
+          0,
+          0,
+          1,
+          true
+        ],
+        [
+          1,
+          2,
+          3,
+          true
+        ],
+        [
+          2,
+          4,
+          5,
+          true
+        ]
+      ],
+      "halfedges": [
+        [
+          0,
+          1,
+          3,
+          1,
+          1,
+          0,
+          -1,
+          true
+        ],
+        [
+          1,
+          0,
+          0,
+          2,
+          0,
+          0,
+          -1,
+          true
+        ],
+        [
+          2,
+          3,
+          1,
+          5,
+          1,
+          1,
+          -1,
+          true
+        ],
+        [
+          3,
+          2,
+          4,
+          0,
+          2,
+          1,
+          -1,
+          true
+        ],
+        [
+          4,
+          5,
+          5,
+          3,
+          3,
+          2,
+          -1,
+          true
+        ],
+        [
+          5,
+          4,
+          2,
+          4,
+          2,
+          2,
+          -1,
+          true
+        ]
+      ],
+      "vertices": [
+        [
+          0,
+          0,
+          true
+        ],
+        [
+          1,
+          3,
+          true
+        ],
+        [
+          2,
+          4,
+          true
+        ],
+        [
+          3,
+          5,
+          true
+        ],
+        [
+          4,
+          -1,
+          true
+        ],
+        [
+          5,
+          -1,
+          true
+        ]
+      ]
+    }
+  },
+  "colors": "4c22f34efae8fd5e",
+  "disconnected": {
+    "counts": [
+      6,
+      2,
+      4
+    ],
+    "flat": "fcb2ce2a672781ad",
+    "flatAfter": "fcb2ce2a672781ad",
+    "geometry": "fbf00c03d9f5a4e0",
+    "halfedgeQueries": [
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 0,
+        "geometry": "e0ce995cdc9ba688",
+        "head": 1,
+        "id": 0,
+        "next": 1,
+        "prev": 1,
+        "start": 0,
+        "sym": 1,
+        "vertices": [
+          -99,
+          1,
+          0
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 0,
+        "geometry": "121e892af9612118",
+        "head": 0,
+        "id": 1,
+        "next": 0,
+        "prev": 0,
+        "start": 1,
+        "sym": 0,
+        "vertices": [
+          -99,
+          0,
+          1
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 1,
+        "geometry": "8da75645763c9c8b",
+        "head": 3,
+        "id": 2,
+        "next": 3,
+        "prev": 3,
+        "start": 2,
+        "sym": 3,
+        "vertices": [
+          -99,
+          3,
+          2
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 1,
+        "geometry": "d6535ba0b7ddb9fb",
+        "head": 2,
+        "id": 3,
+        "next": 2,
+        "prev": 2,
+        "start": 3,
+        "sym": 2,
+        "vertices": [
+          -99,
+          2,
+          3
+        ]
+      }
+    ],
+    "rings": [
+      {
+        "bfs": [
+          -33,
+          0,
+          1
+        ],
+        "edges": [
+          -33,
+          0
+        ],
+        "halfedges": [
+          -33,
+          0
+        ],
+        "parents": [
+          [
+            0,
+            1
+          ]
+        ],
+        "valence": 1,
+        "vertices": [
+          -33,
+          1
+        ]
+      },
+      {
+        "bfs": [
+          -33,
+          1,
+          0
+        ],
+        "edges": [
+          -33,
+          0
+        ],
+        "halfedges": [
+          -33,
+          1
+        ],
+        "parents": [
+          [
+            1,
+            0
+          ]
+        ],
+        "valence": 1,
+        "vertices": [
+          -33,
+          0
+        ]
+      },
+      {
+        "bfs": [
+          -33,
+          2,
+          3
+        ],
+        "edges": [
+          -33,
+          1
+        ],
+        "halfedges": [
+          -33,
+          2
+        ],
+        "parents": [
+          [
+            2,
+            3
+          ]
+        ],
+        "valence": 1,
+        "vertices": [
+          -33,
+          3
+        ]
+      },
+      {
+        "bfs": [
+          -33,
+          3,
+          2
+        ],
+        "edges": [
+          -33,
+          1
+        ],
+        "halfedges": [
+          -33,
+          3
+        ],
+        "parents": [
+          [
+            3,
+            2
+          ]
+        ],
+        "valence": 1,
+        "vertices": [
+          -33,
+          2
+        ]
+      },
+      {
+        "exception": " error: halfedge index out of bounds."
+      },
+      {
+        "exception": " error: halfedge index out of bounds."
+      }
+    ],
+    "topology": {
+      "edges": [
+        [
+          0,
+          0,
+          1,
+          true
+        ],
+        [
+          1,
+          2,
+          3,
+          true
+        ]
+      ],
+      "halfedges": [
+        [
+          0,
+          1,
+          1,
+          1,
+          1,
+          0,
+          -1,
+          true
+        ],
+        [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          -1,
+          true
+        ],
+        [
+          2,
+          3,
+          3,
+          3,
+          3,
+          1,
+          -1,
+          true
+        ],
+        [
+          3,
+          2,
+          2,
+          2,
+          2,
+          1,
+          -1,
+          true
+        ]
+      ],
+      "vertices": [
+        [
+          0,
+          0,
+          true
+        ],
+        [
+          1,
+          1,
+          true
+        ],
+        [
+          2,
+          2,
+          true
+        ],
+        [
+          3,
+          3,
+          true
+        ],
+        [
+          4,
+          -1,
+          true
+        ],
+        [
+          5,
+          -1,
+          true
+        ]
+      ]
+    }
+  },
+  "disconnected-assignment": {
+    "counts": [
+      6,
+      2,
+      4
+    ],
+    "flat": "fcb2ce2a672781ad",
+    "flatAfter": "fcb2ce2a672781ad",
+    "geometry": "fbf00c03d9f5a4e0",
+    "halfedgeQueries": [
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 0,
+        "geometry": "e0ce995cdc9ba688",
+        "head": 1,
+        "id": 0,
+        "next": 1,
+        "prev": 1,
+        "start": 0,
+        "sym": 1,
+        "vertices": [
+          -99,
+          1,
+          0
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 0,
+        "geometry": "121e892af9612118",
+        "head": 0,
+        "id": 1,
+        "next": 0,
+        "prev": 0,
+        "start": 1,
+        "sym": 0,
+        "vertices": [
+          -99,
+          0,
+          1
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 1,
+        "geometry": "8da75645763c9c8b",
+        "head": 3,
+        "id": 2,
+        "next": 3,
+        "prev": 3,
+        "start": 2,
+        "sym": 3,
+        "vertices": [
+          -99,
+          3,
+          2
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 1,
+        "geometry": "d6535ba0b7ddb9fb",
+        "head": 2,
+        "id": 3,
+        "next": 2,
+        "prev": 2,
+        "start": 3,
+        "sym": 2,
+        "vertices": [
+          -99,
+          2,
+          3
+        ]
+      }
+    ],
+    "topology": {
+      "edges": [
+        [
+          0,
+          0,
+          1,
+          true
+        ],
+        [
+          1,
+          2,
+          3,
+          true
+        ]
+      ],
+      "halfedges": [
+        [
+          0,
+          1,
+          1,
+          1,
+          1,
+          0,
+          -1,
+          true
+        ],
+        [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          -1,
+          true
+        ],
+        [
+          2,
+          3,
+          3,
+          3,
+          3,
+          1,
+          -1,
+          true
+        ],
+        [
+          3,
+          2,
+          2,
+          2,
+          2,
+          1,
+          -1,
+          true
+        ]
+      ],
+      "vertices": [
+        [
+          0,
+          0,
+          true
+        ],
+        [
+          1,
+          1,
+          true
+        ],
+        [
+          2,
+          2,
+          true
+        ],
+        [
+          3,
+          3,
+          true
+        ],
+        [
+          4,
+          -1,
+          true
+        ],
+        [
+          5,
+          -1,
+          true
+        ]
+      ]
+    }
+  },
+  "disconnected-copy": {
+    "counts": [
+      6,
+      2,
+      4
+    ],
+    "flat": "fcb2ce2a672781ad",
+    "flatAfter": "fcb2ce2a672781ad",
+    "geometry": "fbf00c03d9f5a4e0",
+    "halfedgeQueries": [
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 0,
+        "geometry": "e0ce995cdc9ba688",
+        "head": 1,
+        "id": 0,
+        "next": 1,
+        "prev": 1,
+        "start": 0,
+        "sym": 1,
+        "vertices": [
+          -99,
+          1,
+          0
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 0,
+        "geometry": "121e892af9612118",
+        "head": 0,
+        "id": 1,
+        "next": 0,
+        "prev": 0,
+        "start": 1,
+        "sym": 0,
+        "vertices": [
+          -99,
+          0,
+          1
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 1,
+        "geometry": "8da75645763c9c8b",
+        "head": 3,
+        "id": 2,
+        "next": 3,
+        "prev": 3,
+        "start": 2,
+        "sym": 3,
+        "vertices": [
+          -99,
+          3,
+          2
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 1,
+        "geometry": "d6535ba0b7ddb9fb",
+        "head": 2,
+        "id": 3,
+        "next": 2,
+        "prev": 2,
+        "start": 3,
+        "sym": 2,
+        "vertices": [
+          -99,
+          2,
+          3
+        ]
+      }
+    ],
+    "topology": {
+      "edges": [
+        [
+          0,
+          0,
+          1,
+          true
+        ],
+        [
+          1,
+          2,
+          3,
+          true
+        ]
+      ],
+      "halfedges": [
+        [
+          0,
+          1,
+          1,
+          1,
+          1,
+          0,
+          -1,
+          true
+        ],
+        [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          -1,
+          true
+        ],
+        [
+          2,
+          3,
+          3,
+          3,
+          3,
+          1,
+          -1,
+          true
+        ],
+        [
+          3,
+          2,
+          2,
+          2,
+          2,
+          1,
+          -1,
+          true
+        ]
+      ],
+      "vertices": [
+        [
+          0,
+          0,
+          true
+        ],
+        [
+          1,
+          1,
+          true
+        ],
+        [
+          2,
+          2,
+          true
+        ],
+        [
+          3,
+          3,
+          true
+        ],
+        [
+          4,
+          -1,
+          true
+        ],
+        [
+          5,
+          -1,
+          true
+        ]
+      ]
+    }
+  },
+  "duplicate-position": {
+    "counts": [
+      4,
+      2,
+      4
+    ],
+    "flat": "aca28ae2e268637e",
+    "flatAfter": "aca28ae2e268637e",
+    "geometry": "4f63b06867d02ad1",
+    "halfedgeQueries": [
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 0,
+        "geometry": "f69a913fb1d95dec",
+        "head": 3,
+        "id": 0,
+        "next": 1,
+        "prev": 1,
+        "start": 0,
+        "sym": 1,
+        "vertices": [
+          -99,
+          3,
+          0
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 0,
+        "geometry": "6a1949ae7e1a701c",
+        "head": 0,
+        "id": 1,
+        "next": 0,
+        "prev": 0,
+        "start": 3,
+        "sym": 0,
+        "vertices": [
+          -99,
+          0,
+          3
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 1,
+        "geometry": "581b9384d11789a8",
+        "head": 2,
+        "id": 2,
+        "next": 3,
+        "prev": 3,
+        "start": 1,
+        "sym": 3,
+        "vertices": [
+          -99,
+          2,
+          1
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 1,
+        "geometry": "bcd6ec2dba04c428",
+        "head": 1,
+        "id": 3,
+        "next": 2,
+        "prev": 2,
+        "start": 2,
+        "sym": 2,
+        "vertices": [
+          -99,
+          1,
+          2
+        ]
+      }
+    ],
+    "topology": {
+      "edges": [
+        [
+          0,
+          0,
+          1,
+          true
+        ],
+        [
+          1,
+          2,
+          3,
+          true
+        ]
+      ],
+      "halfedges": [
+        [
+          0,
+          1,
+          1,
+          1,
+          3,
+          0,
+          -1,
+          true
+        ],
+        [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          -1,
+          true
+        ],
+        [
+          2,
+          3,
+          3,
+          3,
+          2,
+          1,
+          -1,
+          true
+        ],
+        [
+          3,
+          2,
+          2,
+          2,
+          1,
+          1,
+          -1,
+          true
+        ]
+      ],
+      "vertices": [
+        [
+          0,
+          0,
+          true
+        ],
+        [
+          1,
+          2,
+          true
+        ],
+        [
+          2,
+          3,
+          true
+        ],
+        [
+          3,
+          1,
+          true
+        ]
+      ]
+    }
+  },
+  "duplicate-position-id": 0,
+  "duplicates": {
+    "counts": [
+      6,
+      3,
+      6
+    ],
+    "flat": "e85cec87c7f1364f",
+    "flatAfter": "e85cec87c7f1364f",
+    "geometry": "2a40a6fd322d90e5",
+    "halfedgeQueries": [
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 0,
+        "geometry": "e0ce995cdc9ba688",
+        "head": 1,
+        "id": 0,
+        "next": 4,
+        "prev": 3,
+        "start": 0,
+        "sym": 1,
+        "vertices": [
+          -99,
+          1,
+          0
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 0,
+        "geometry": "121e892af9612118",
+        "head": 0,
+        "id": 1,
+        "next": 5,
+        "prev": 2,
+        "start": 1,
+        "sym": 0,
+        "vertices": [
+          -99,
+          0,
+          1
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 1,
+        "geometry": "e0ce995cdc9ba688",
+        "head": 1,
+        "id": 2,
+        "next": 1,
+        "prev": 4,
+        "start": 0,
+        "sym": 3,
+        "vertices": [
+          -99,
+          1,
+          0
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 1,
+        "geometry": "121e892af9612118",
+        "head": 0,
+        "id": 3,
+        "next": 0,
+        "prev": 5,
+        "start": 1,
+        "sym": 2,
+        "vertices": [
+          -99,
+          0,
+          1
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 2,
+        "geometry": "121e892af9612118",
+        "head": 0,
+        "id": 4,
+        "next": 2,
+        "prev": 0,
+        "start": 1,
+        "sym": 5,
+        "vertices": [
+          -99,
+          0,
+          1
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 2,
+        "geometry": "e0ce995cdc9ba688",
+        "head": 1,
+        "id": 5,
+        "next": 3,
+        "prev": 1,
+        "start": 0,
+        "sym": 4,
+        "vertices": [
+          -99,
+          1,
+          0
+        ]
+      }
+    ],
+    "topology": {
+      "edges": [
+        [
+          0,
+          0,
+          1,
+          true
+        ],
+        [
+          1,
+          2,
+          3,
+          true
+        ],
+        [
+          2,
+          4,
+          5,
+          true
+        ]
+      ],
+      "halfedges": [
+        [
+          0,
+          1,
+          4,
+          3,
+          1,
+          0,
+          -1,
+          true
+        ],
+        [
+          1,
+          0,
+          5,
+          2,
+          0,
+          0,
+          -1,
+          true
+        ],
+        [
+          2,
+          3,
+          1,
+          4,
+          1,
+          1,
+          -1,
+          true
+        ],
+        [
+          3,
+          2,
+          0,
+          5,
+          0,
+          1,
+          -1,
+          true
+        ],
+        [
+          4,
+          5,
+          2,
+          0,
+          0,
+          2,
+          -1,
+          true
+        ],
+        [
+          5,
+          4,
+          3,
+          1,
+          1,
+          2,
+          -1,
+          true
+        ]
+      ],
+      "vertices": [
+        [
+          0,
+          5,
+          true
+        ],
+        [
+          1,
+          4,
+          true
+        ],
+        [
+          2,
+          -1,
+          true
+        ],
+        [
+          3,
+          -1,
+          true
+        ],
+        [
+          4,
+          -1,
+          true
+        ],
+        [
+          5,
+          -1,
+          true
+        ]
+      ]
+    }
+  },
+  "duplicates-assignment": {
+    "counts": [
+      6,
+      3,
+      6
+    ],
+    "flat": "e85cec87c7f1364f",
+    "flatAfter": "e85cec87c7f1364f",
+    "geometry": "2a40a6fd322d90e5",
+    "halfedgeQueries": [
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 0,
+        "geometry": "e0ce995cdc9ba688",
+        "head": 1,
+        "id": 0,
+        "next": 4,
+        "prev": 3,
+        "start": 0,
+        "sym": 1,
+        "vertices": [
+          -99,
+          1,
+          0
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 0,
+        "geometry": "121e892af9612118",
+        "head": 0,
+        "id": 1,
+        "next": 5,
+        "prev": 2,
+        "start": 1,
+        "sym": 0,
+        "vertices": [
+          -99,
+          0,
+          1
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 1,
+        "geometry": "e0ce995cdc9ba688",
+        "head": 1,
+        "id": 2,
+        "next": 1,
+        "prev": 4,
+        "start": 0,
+        "sym": 3,
+        "vertices": [
+          -99,
+          1,
+          0
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 1,
+        "geometry": "121e892af9612118",
+        "head": 0,
+        "id": 3,
+        "next": 0,
+        "prev": 5,
+        "start": 1,
+        "sym": 2,
+        "vertices": [
+          -99,
+          0,
+          1
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 2,
+        "geometry": "121e892af9612118",
+        "head": 0,
+        "id": 4,
+        "next": 2,
+        "prev": 0,
+        "start": 1,
+        "sym": 5,
+        "vertices": [
+          -99,
+          0,
+          1
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 2,
+        "geometry": "e0ce995cdc9ba688",
+        "head": 1,
+        "id": 5,
+        "next": 3,
+        "prev": 1,
+        "start": 0,
+        "sym": 4,
+        "vertices": [
+          -99,
+          1,
+          0
+        ]
+      }
+    ],
+    "topology": {
+      "edges": [
+        [
+          0,
+          0,
+          1,
+          true
+        ],
+        [
+          1,
+          2,
+          3,
+          true
+        ],
+        [
+          2,
+          4,
+          5,
+          true
+        ]
+      ],
+      "halfedges": [
+        [
+          0,
+          1,
+          4,
+          3,
+          1,
+          0,
+          -1,
+          true
+        ],
+        [
+          1,
+          0,
+          5,
+          2,
+          0,
+          0,
+          -1,
+          true
+        ],
+        [
+          2,
+          3,
+          1,
+          4,
+          1,
+          1,
+          -1,
+          true
+        ],
+        [
+          3,
+          2,
+          0,
+          5,
+          0,
+          1,
+          -1,
+          true
+        ],
+        [
+          4,
+          5,
+          2,
+          0,
+          0,
+          2,
+          -1,
+          true
+        ],
+        [
+          5,
+          4,
+          3,
+          1,
+          1,
+          2,
+          -1,
+          true
+        ]
+      ],
+      "vertices": [
+        [
+          0,
+          5,
+          true
+        ],
+        [
+          1,
+          4,
+          true
+        ],
+        [
+          2,
+          -1,
+          true
+        ],
+        [
+          3,
+          -1,
+          true
+        ],
+        [
+          4,
+          -1,
+          true
+        ],
+        [
+          5,
+          -1,
+          true
+        ]
+      ]
+    }
+  },
+  "duplicates-copy": {
+    "counts": [
+      6,
+      3,
+      6
+    ],
+    "flat": "e85cec87c7f1364f",
+    "flatAfter": "e85cec87c7f1364f",
+    "geometry": "2a40a6fd322d90e5",
+    "halfedgeQueries": [
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 0,
+        "geometry": "e0ce995cdc9ba688",
+        "head": 1,
+        "id": 0,
+        "next": 4,
+        "prev": 3,
+        "start": 0,
+        "sym": 1,
+        "vertices": [
+          -99,
+          1,
+          0
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 0,
+        "geometry": "121e892af9612118",
+        "head": 0,
+        "id": 1,
+        "next": 5,
+        "prev": 2,
+        "start": 1,
+        "sym": 0,
+        "vertices": [
+          -99,
+          0,
+          1
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 1,
+        "geometry": "e0ce995cdc9ba688",
+        "head": 1,
+        "id": 2,
+        "next": 1,
+        "prev": 4,
+        "start": 0,
+        "sym": 3,
+        "vertices": [
+          -99,
+          1,
+          0
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 1,
+        "geometry": "121e892af9612118",
+        "head": 0,
+        "id": 3,
+        "next": 0,
+        "prev": 5,
+        "start": 1,
+        "sym": 2,
+        "vertices": [
+          -99,
+          0,
+          1
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 2,
+        "geometry": "121e892af9612118",
+        "head": 0,
+        "id": 4,
+        "next": 2,
+        "prev": 0,
+        "start": 1,
+        "sym": 5,
+        "vertices": [
+          -99,
+          0,
+          1
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 2,
+        "geometry": "e0ce995cdc9ba688",
+        "head": 1,
+        "id": 5,
+        "next": 3,
+        "prev": 1,
+        "start": 0,
+        "sym": 4,
+        "vertices": [
+          -99,
+          1,
+          0
+        ]
+      }
+    ],
+    "topology": {
+      "edges": [
+        [
+          0,
+          0,
+          1,
+          true
+        ],
+        [
+          1,
+          2,
+          3,
+          true
+        ],
+        [
+          2,
+          4,
+          5,
+          true
+        ]
+      ],
+      "halfedges": [
+        [
+          0,
+          1,
+          4,
+          3,
+          1,
+          0,
+          -1,
+          true
+        ],
+        [
+          1,
+          0,
+          5,
+          2,
+          0,
+          0,
+          -1,
+          true
+        ],
+        [
+          2,
+          3,
+          1,
+          4,
+          1,
+          1,
+          -1,
+          true
+        ],
+        [
+          3,
+          2,
+          0,
+          5,
+          0,
+          1,
+          -1,
+          true
+        ],
+        [
+          4,
+          5,
+          2,
+          0,
+          0,
+          2,
+          -1,
+          true
+        ],
+        [
+          5,
+          4,
+          3,
+          1,
+          1,
+          2,
+          -1,
+          true
+        ]
+      ],
+      "vertices": [
+        [
+          0,
+          5,
+          true
+        ],
+        [
+          1,
+          4,
+          true
+        ],
+        [
+          2,
+          -1,
+          true
+        ],
+        [
+          3,
+          -1,
+          true
+        ],
+        [
+          4,
+          -1,
+          true
+        ],
+        [
+          5,
+          -1,
+          true
+        ]
+      ]
+    }
+  },
+  "edge-inactive": {
+    "counts": [
+      7,
+      5,
+      10
+    ],
+    "flat": "7ccb110434a0cfa1",
+    "flatAfter": "7ccb110434a0cfa1",
+    "geometry": "391be03450c49b19",
+    "halfedgeQueries": [
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 0,
+        "geometry": "3025ae9345a78ce2",
+        "head": 1,
+        "id": 0,
+        "next": 3,
+        "prev": 1,
+        "start": 0,
+        "sym": 1,
+        "vertices": [
+          -99,
+          1,
+          0
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 0,
+        "geometry": "41ec0413202a8282",
+        "head": 0,
+        "id": 1,
+        "next": 0,
+        "prev": 2,
+        "start": 1,
+        "sym": 0,
+        "vertices": [
+          -99,
+          0,
+          1
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 1,
+        "geometry": "eb6776951eec54c1",
+        "head": 1,
+        "id": 2,
+        "next": 1,
+        "prev": 5,
+        "start": 2,
+        "sym": 3,
+        "vertices": [
+          -99,
+          1,
+          2
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 1,
+        "geometry": "86d775e0ca4e9c61",
+        "head": 2,
+        "id": 3,
+        "next": 4,
+        "prev": 0,
+        "start": 1,
+        "sym": 2,
+        "vertices": [
+          -99,
+          2,
+          1
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 2,
+        "geometry": "5a07909e37e19112",
+        "head": 3,
+        "id": 4,
+        "next": 7,
+        "prev": 3,
+        "start": 2,
+        "sym": 5,
+        "vertices": [
+          -99,
+          3,
+          2
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 2,
+        "geometry": "f5900e95dcac9482",
+        "head": 2,
+        "id": 5,
+        "next": 2,
+        "prev": 6,
+        "start": 3,
+        "sym": 4,
+        "vertices": [
+          -99,
+          2,
+          3
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 3,
+        "geometry": "538e00e235e5af95",
+        "head": 3,
+        "id": 6,
+        "next": 5,
+        "prev": 9,
+        "start": 4,
+        "sym": 7,
+        "vertices": [
+          -99,
+          3,
+          4
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 3,
+        "geometry": "e0bfe88d6e84e6b5",
+        "head": 4,
+        "id": 7,
+        "next": 8,
+        "prev": 4,
+        "start": 3,
+        "sym": 6,
+        "vertices": [
+          -99,
+          4,
+          3
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 4,
+        "geometry": "d8437359654b4b3f",
+        "head": 5,
+        "id": 8,
+        "next": 11,
+        "prev": 7,
+        "start": 4,
+        "sym": 9,
+        "vertices": [
+          -99,
+          5,
+          4
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 4,
+        "geometry": "f393ff456e2c9c3f",
+        "head": 4,
+        "id": 9,
+        "next": 6,
+        "prev": 10,
+        "start": 5,
+        "sym": 8,
+        "vertices": [
+          -99,
+          4,
+          5
+        ]
+      }
+    ],
+    "topology": {
+      "edges": [
+        [
+          0,
+          0,
+          1,
+          true
+        ],
+        [
+          -1,
+          -1,
+          -1,
+          false
+        ],
+        [
+          2,
+          4,
+          5,
+          true
+        ],
+        [
+          3,
+          6,
+          7,
+          true
+        ],
+        [
+          4,
+          8,
+          9,
+          true
+        ],
+        [
+          5,
+          10,
+          11,
+          true
+        ]
+      ],
+      "halfedges": [
+        [
+          0,
+          1,
+          3,
+          1,
+          1,
+          0,
+          -1,
+          true
+        ],
+        [
+          1,
+          0,
+          0,
+          2,
+          0,
+          0,
+          -1,
+          true
+        ],
+        [
+          2,
+          3,
+          1,
+          5,
+          1,
+          1,
+          -1,
+          true
+        ],
+        [
+          3,
+          2,
+          4,
+          0,
+          2,
+          1,
+          -1,
+          true
+        ],
+        [
+          4,
+          5,
+          7,
+          3,
+          3,
+          2,
+          -1,
+          true
+        ],
+        [
+          5,
+          4,
+          2,
+          6,
+          2,
+          2,
+          -1,
+          true
+        ],
+        [
+          6,
+          7,
+          5,
+          9,
+          3,
+          3,
+          -1,
+          true
+        ],
+        [
+          7,
+          6,
+          8,
+          4,
+          4,
+          3,
+          -1,
+          true
+        ],
+        [
+          8,
+          9,
+          11,
+          7,
+          5,
+          4,
+          -1,
+          true
+        ],
+        [
+          9,
+          8,
+          6,
+          10,
+          4,
+          4,
+          -1,
+          true
+        ],
+        [
+          10,
+          11,
+          9,
+          11,
+          5,
+          5,
+          -1,
+          true
+        ],
+        [
+          11,
+          10,
+          10,
+          8,
+          6,
+          5,
+          -1,
+          true
+        ]
+      ],
+      "vertices": [
+        [
+          0,
+          0,
+          true
+        ],
+        [
+          1,
+          3,
+          true
+        ],
+        [
+          2,
+          4,
+          true
+        ],
+        [
+          3,
+          7,
+          true
+        ],
+        [
+          4,
+          8,
+          true
+        ],
+        [
+          5,
+          11,
+          true
+        ],
+        [
+          6,
+          10,
+          true
+        ]
+      ]
+    }
+  },
+  "edited-endpoint": {
+    "counts": [
+      5,
+      4,
+      8
+    ],
+    "flat": "3a0cdf61d9ed7ee5",
+    "flatAfter": "3a0cdf61d9ed7ee5",
+    "geometry": "3faa93fb214f8b17",
+    "halfedgeQueries": [
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 0,
+        "geometry": "506f43ee390d9020",
+        "head": 2,
+        "id": 0,
+        "next": 3,
+        "prev": 1,
+        "start": 0,
+        "sym": 1,
+        "vertices": [
+          -99,
+          2,
+          0
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 0,
+        "geometry": "dec5e144d0901b40",
+        "head": 0,
+        "id": 1,
+        "next": 0,
+        "prev": 2,
+        "start": 2,
+        "sym": 0,
+        "vertices": [
+          -99,
+          0,
+          2
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 1,
+        "geometry": "eb6776951eec54c1",
+        "head": 1,
+        "id": 2,
+        "next": 1,
+        "prev": 5,
+        "start": 2,
+        "sym": 3,
+        "vertices": [
+          -99,
+          1,
+          2
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 1,
+        "geometry": "86d775e0ca4e9c61",
+        "head": 2,
+        "id": 3,
+        "next": 4,
+        "prev": 0,
+        "start": 1,
+        "sym": 2,
+        "vertices": [
+          -99,
+          2,
+          1
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 2,
+        "geometry": "5a07909e37e19112",
+        "head": 3,
+        "id": 4,
+        "next": 7,
+        "prev": 3,
+        "start": 2,
+        "sym": 5,
+        "vertices": [
+          -99,
+          3,
+          2
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 2,
+        "geometry": "f5900e95dcac9482",
+        "head": 2,
+        "id": 5,
+        "next": 2,
+        "prev": 6,
+        "start": 3,
+        "sym": 4,
+        "vertices": [
+          -99,
+          2,
+          3
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 3,
+        "geometry": "538e00e235e5af95",
+        "head": 3,
+        "id": 6,
+        "next": 5,
+        "prev": 7,
+        "start": 4,
+        "sym": 7,
+        "vertices": [
+          -99,
+          3,
+          4
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 3,
+        "geometry": "e0bfe88d6e84e6b5",
+        "head": 4,
+        "id": 7,
+        "next": 6,
+        "prev": 4,
+        "start": 3,
+        "sym": 6,
+        "vertices": [
+          -99,
+          4,
+          3
+        ]
+      }
+    ],
+    "topology": {
+      "edges": [
+        [
+          0,
+          0,
+          1,
+          true
+        ],
+        [
+          1,
+          2,
+          3,
+          true
+        ],
+        [
+          2,
+          4,
+          5,
+          true
+        ],
+        [
+          3,
+          6,
+          7,
+          true
+        ]
+      ],
+      "halfedges": [
+        [
+          0,
+          1,
+          3,
+          1,
+          2,
+          0,
+          -1,
+          true
+        ],
+        [
+          1,
+          0,
+          0,
+          2,
+          0,
+          0,
+          -1,
+          true
+        ],
+        [
+          2,
+          3,
+          1,
+          5,
+          1,
+          1,
+          -1,
+          true
+        ],
+        [
+          3,
+          2,
+          4,
+          0,
+          2,
+          1,
+          -1,
+          true
+        ],
+        [
+          4,
+          5,
+          7,
+          3,
+          3,
+          2,
+          -1,
+          true
+        ],
+        [
+          5,
+          4,
+          2,
+          6,
+          2,
+          2,
+          -1,
+          true
+        ],
+        [
+          6,
+          7,
+          5,
+          7,
+          3,
+          3,
+          -1,
+          true
+        ],
+        [
+          7,
+          6,
+          6,
+          4,
+          4,
+          3,
+          -1,
+          true
+        ]
+      ],
+      "vertices": [
+        [
+          0,
+          0,
+          true
+        ],
+        [
+          1,
+          3,
+          true
+        ],
+        [
+          2,
+          4,
+          true
+        ],
+        [
+          3,
+          7,
+          true
+        ],
+        [
+          4,
+          6,
+          true
+        ]
+      ]
+    }
+  },
+  "edited-halfedge-id": {
+    "counts": [
+      5,
+      4,
+      8
+    ],
+    "flat": "f6618bddb35e24e2",
+    "flatAfter": "f6618bddb35e24e2",
+    "geometry": "195457cd7d47e7b3",
+    "halfedgeQueries": [
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 0,
+        "geometry": "1c8cb237102261bc",
+        "head": 1,
+        "id": 0,
+        "next": 3,
+        "prev": 1,
+        "start": 0,
+        "sym": 1,
+        "vertices": [
+          -99,
+          1,
+          0
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 0,
+        "geometry": "ee94f250db81e95c",
+        "head": 0,
+        "id": 1,
+        "next": 0,
+        "prev": 2,
+        "start": 1,
+        "sym": 0,
+        "vertices": [
+          -99,
+          0,
+          1
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 1,
+        "geometry": "eb6776951eec54c1",
+        "head": 1,
+        "id": 2,
+        "next": 1,
+        "prev": 5,
+        "start": 2,
+        "sym": 3,
+        "vertices": [
+          -99,
+          1,
+          2
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 1,
+        "geometry": "86d775e0ca4e9c61",
+        "head": 2,
+        "id": 3,
+        "next": 4,
+        "prev": 0,
+        "start": 1,
+        "sym": 2,
+        "vertices": [
+          -99,
+          2,
+          1
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 2,
+        "geometry": "5a07909e37e19112",
+        "head": 3,
+        "id": 4,
+        "next": 7,
+        "prev": 3,
+        "start": 2,
+        "sym": 5,
+        "vertices": [
+          -99,
+          3,
+          2
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 2,
+        "geometry": "f5900e95dcac9482",
+        "head": 2,
+        "id": 5,
+        "next": 2,
+        "prev": 6,
+        "start": 3,
+        "sym": 4,
+        "vertices": [
+          -99,
+          2,
+          3
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 3,
+        "geometry": "538e00e235e5af95",
+        "head": 3,
+        "id": 6,
+        "next": 5,
+        "prev": 7,
+        "start": 4,
+        "sym": 7,
+        "vertices": [
+          -99,
+          3,
+          4
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 3,
+        "geometry": "e0bfe88d6e84e6b5",
+        "head": 4,
+        "id": 7,
+        "next": 6,
+        "prev": 4,
+        "start": 3,
+        "sym": 6,
+        "vertices": [
+          -99,
+          4,
+          3
+        ]
+      }
+    ],
+    "topology": {
+      "edges": [
+        [
+          0,
+          0,
+          1,
+          true
+        ],
+        [
+          1,
+          2,
+          3,
+          true
+        ],
+        [
+          2,
+          4,
+          5,
+          true
+        ],
+        [
+          3,
+          6,
+          7,
+          true
+        ]
+      ],
+      "halfedges": [
+        [
+          2,
+          1,
+          3,
+          1,
+          1,
+          0,
+          -1,
+          true
+        ],
+        [
+          1,
+          0,
+          0,
+          2,
+          0,
+          0,
+          -1,
+          true
+        ],
+        [
+          2,
+          3,
+          1,
+          5,
+          1,
+          1,
+          -1,
+          true
+        ],
+        [
+          3,
+          2,
+          4,
+          0,
+          2,
+          1,
+          -1,
+          true
+        ],
+        [
+          4,
+          5,
+          7,
+          3,
+          3,
+          2,
+          -1,
+          true
+        ],
+        [
+          5,
+          4,
+          2,
+          6,
+          2,
+          2,
+          -1,
+          true
+        ],
+        [
+          6,
+          7,
+          5,
+          7,
+          3,
+          3,
+          -1,
+          true
+        ],
+        [
+          7,
+          6,
+          6,
+          4,
+          4,
+          3,
+          -1,
+          true
+        ]
+      ],
+      "vertices": [
+        [
+          0,
+          0,
+          true
+        ],
+        [
+          1,
+          3,
+          true
+        ],
+        [
+          2,
+          4,
+          true
+        ],
+        [
+          3,
+          7,
+          true
+        ],
+        [
+          4,
+          6,
+          true
+        ]
+      ]
+    }
+  },
+  "edited-links": {
+    "counts": [
+      5,
+      4,
+      8
+    ],
+    "flat": "87dd2153bc8c4a70",
+    "flatAfter": "87dd2153bc8c4a70",
+    "geometry": "195457cd7d47e7b3",
+    "halfedgeQueries": [
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 0,
+        "geometry": "1c8cb237102261bc",
+        "head": 1,
+        "id": 0,
+        "next": 2,
+        "prev": 1,
+        "start": 0,
+        "sym": 1,
+        "vertices": [
+          -99,
+          1,
+          0
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 0,
+        "geometry": "ee94f250db81e95c",
+        "head": 0,
+        "id": 1,
+        "next": 0,
+        "prev": 2,
+        "start": 1,
+        "sym": 0,
+        "vertices": [
+          -99,
+          0,
+          1
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 1,
+        "geometry": "eb6776951eec54c1",
+        "head": 1,
+        "id": 2,
+        "next": 1,
+        "prev": 0,
+        "start": 2,
+        "sym": 3,
+        "vertices": [
+          -99,
+          1,
+          2
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 1,
+        "geometry": "86d775e0ca4e9c61",
+        "head": 2,
+        "id": 3,
+        "next": 4,
+        "prev": 0,
+        "start": 1,
+        "sym": 2,
+        "vertices": [
+          -99,
+          2,
+          1
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 2,
+        "geometry": "5a07909e37e19112",
+        "head": 3,
+        "id": 4,
+        "next": 7,
+        "prev": 3,
+        "start": 2,
+        "sym": 5,
+        "vertices": [
+          -99,
+          3,
+          2
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 2,
+        "geometry": "f5900e95dcac9482",
+        "head": 2,
+        "id": 5,
+        "next": 2,
+        "prev": 6,
+        "start": 3,
+        "sym": 4,
+        "vertices": [
+          -99,
+          2,
+          3
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 3,
+        "geometry": "538e00e235e5af95",
+        "head": 3,
+        "id": 6,
+        "next": 5,
+        "prev": 7,
+        "start": 4,
+        "sym": 7,
+        "vertices": [
+          -99,
+          3,
+          4
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 3,
+        "geometry": "e0bfe88d6e84e6b5",
+        "head": 4,
+        "id": 7,
+        "next": 6,
+        "prev": 4,
+        "start": 3,
+        "sym": 6,
+        "vertices": [
+          -99,
+          4,
+          3
+        ]
+      }
+    ],
+    "topology": {
+      "edges": [
+        [
+          0,
+          0,
+          1,
+          true
+        ],
+        [
+          1,
+          2,
+          3,
+          true
+        ],
+        [
+          2,
+          4,
+          5,
+          true
+        ],
+        [
+          3,
+          6,
+          7,
+          true
+        ]
+      ],
+      "halfedges": [
+        [
+          0,
+          1,
+          2,
+          1,
+          1,
+          0,
+          -1,
+          true
+        ],
+        [
+          1,
+          0,
+          0,
+          2,
+          0,
+          0,
+          -1,
+          true
+        ],
+        [
+          2,
+          3,
+          1,
+          0,
+          1,
+          1,
+          -1,
+          true
+        ],
+        [
+          3,
+          2,
+          4,
+          0,
+          2,
+          1,
+          -1,
+          true
+        ],
+        [
+          4,
+          5,
+          7,
+          3,
+          3,
+          2,
+          -1,
+          true
+        ],
+        [
+          5,
+          4,
+          2,
+          6,
+          2,
+          2,
+          -1,
+          true
+        ],
+        [
+          6,
+          7,
+          5,
+          7,
+          3,
+          3,
+          -1,
+          true
+        ],
+        [
+          7,
+          6,
+          6,
+          4,
+          4,
+          3,
+          -1,
+          true
+        ]
+      ],
+      "vertices": [
+        [
+          0,
+          0,
+          true
+        ],
+        [
+          1,
+          3,
+          true
+        ],
+        [
+          2,
+          4,
+          true
+        ],
+        [
+          3,
+          7,
+          true
+        ],
+        [
+          4,
+          6,
+          true
+        ]
+      ]
+    }
+  },
+  "empty": {
+    "counts": [
+      0,
+      0,
+      0
+    ],
+    "flat": "cbf29ce484222325",
+    "flatAfter": "cbf29ce484222325",
+    "geometry": "a8c7f832281a39c5",
+    "halfedgeQueries": [],
+    "topology": {
+      "edges": [],
+      "halfedges": [],
+      "vertices": []
+    }
+  },
+  "empty-assignment": {
+    "counts": [
+      0,
+      0,
+      0
+    ],
+    "flat": "cbf29ce484222325",
+    "flatAfter": "cbf29ce484222325",
+    "geometry": "a8c7f832281a39c5",
+    "halfedgeQueries": [],
+    "topology": {
+      "edges": [],
+      "halfedges": [],
+      "vertices": []
+    }
+  },
+  "empty-copy": {
+    "counts": [
+      0,
+      0,
+      0
+    ],
+    "flat": "cbf29ce484222325",
+    "flatAfter": "cbf29ce484222325",
+    "geometry": "a8c7f832281a39c5",
+    "halfedgeQueries": [],
+    "topology": {
+      "edges": [],
+      "halfedges": [],
+      "vertices": []
+    }
+  },
+  "escaped-color": {
+    "counts": [
+      5,
+      4,
+      8
+    ],
+    "flat": "87dd2153bc8c4a70",
+    "flatAfter": "87dd2153bc8c4a70",
+    "geometry": "195457cd7d47e7b3",
+    "halfedgeQueries": [
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 0,
+        "geometry": "1c8cb237102261bc",
+        "head": 1,
+        "id": 0,
+        "next": 3,
+        "prev": 1,
+        "start": 0,
+        "sym": 1,
+        "vertices": [
+          -99,
+          1,
+          0
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 0,
+        "geometry": "ee94f250db81e95c",
+        "head": 0,
+        "id": 1,
+        "next": 0,
+        "prev": 2,
+        "start": 1,
+        "sym": 0,
+        "vertices": [
+          -99,
+          0,
+          1
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 1,
+        "geometry": "eb6776951eec54c1",
+        "head": 1,
+        "id": 2,
+        "next": 1,
+        "prev": 5,
+        "start": 2,
+        "sym": 3,
+        "vertices": [
+          -99,
+          1,
+          2
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 1,
+        "geometry": "86d775e0ca4e9c61",
+        "head": 2,
+        "id": 3,
+        "next": 4,
+        "prev": 0,
+        "start": 1,
+        "sym": 2,
+        "vertices": [
+          -99,
+          2,
+          1
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 2,
+        "geometry": "5a07909e37e19112",
+        "head": 3,
+        "id": 4,
+        "next": 7,
+        "prev": 3,
+        "start": 2,
+        "sym": 5,
+        "vertices": [
+          -99,
+          3,
+          2
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 2,
+        "geometry": "f5900e95dcac9482",
+        "head": 2,
+        "id": 5,
+        "next": 2,
+        "prev": 6,
+        "start": 3,
+        "sym": 4,
+        "vertices": [
+          -99,
+          2,
+          3
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 3,
+        "geometry": "538e00e235e5af95",
+        "head": 3,
+        "id": 6,
+        "next": 5,
+        "prev": 7,
+        "start": 4,
+        "sym": 7,
+        "vertices": [
+          -99,
+          3,
+          4
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 3,
+        "geometry": "e0bfe88d6e84e6b5",
+        "head": 4,
+        "id": 7,
+        "next": 6,
+        "prev": 4,
+        "start": 3,
+        "sym": 6,
+        "vertices": [
+          -99,
+          4,
+          3
+        ]
+      }
+    ],
+    "rings": [
+      {
+        "bfs": [
+          -33,
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "edges": [
+          -33,
+          0
+        ],
+        "halfedges": [
+          -33,
+          0
+        ],
+        "parents": [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            2,
+            3
+          ],
+          [
+            3,
+            4
+          ]
+        ],
+        "valence": 1,
+        "vertices": [
+          -33,
+          1
+        ]
+      },
+      {
+        "bfs": [
+          -33,
+          1,
+          2,
+          0,
+          3,
+          4
+        ],
+        "edges": [
+          -33,
+          1,
+          0
+        ],
+        "halfedges": [
+          -33,
+          3,
+          1
+        ],
+        "parents": [
+          [
+            1,
+            2
+          ],
+          [
+            1,
+            0
+          ],
+          [
+            2,
+            3
+          ],
+          [
+            3,
+            4
+          ]
+        ],
+        "valence": 2,
+        "vertices": [
+          -33,
+          2,
+          0
+        ]
+      },
+      {
+        "bfs": [
+          -33,
+          2,
+          3,
+          1,
+          4,
+          0
+        ],
+        "edges": [
+          -33,
+          2,
+          1
+        ],
+        "halfedges": [
+          -33,
+          4,
+          2
+        ],
+        "parents": [
+          [
+            2,
+            3
+          ],
+          [
+            2,
+            1
+          ],
+          [
+            3,
+            4
+          ],
+          [
+            1,
+            0
+          ]
+        ],
+        "valence": 2,
+        "vertices": [
+          -33,
+          3,
+          1
+        ]
+      },
+      {
+        "bfs": [
+          -33,
+          3,
+          4,
+          2,
+          1,
+          0
+        ],
+        "edges": [
+          -33,
+          3,
+          2
+        ],
+        "halfedges": [
+          -33,
+          7,
+          5
+        ],
+        "parents": [
+          [
+            3,
+            4
+          ],
+          [
+            3,
+            2
+          ],
+          [
+            2,
+            1
+          ],
+          [
+            1,
+            0
+          ]
+        ],
+        "valence": 2,
+        "vertices": [
+          -33,
+          4,
+          2
+        ]
+      },
+      {
+        "bfs": [
+          -33,
+          4,
+          3,
+          2,
+          1,
+          0
+        ],
+        "edges": [
+          -33,
+          3
+        ],
+        "halfedges": [
+          -33,
+          6
+        ],
+        "parents": [
+          [
+            4,
+            3
+          ],
+          [
+            3,
+            2
+          ],
+          [
+            2,
+            1
+          ],
+          [
+            1,
+            0
+          ]
+        ],
+        "valence": 1,
+        "vertices": [
+          -33,
+          3
+        ]
+      }
+    ],
+    "topology": {
+      "edges": [
+        [
+          0,
+          0,
+          1,
+          true
+        ],
+        [
+          1,
+          2,
+          3,
+          true
+        ],
+        [
+          2,
+          4,
+          5,
+          true
+        ],
+        [
+          3,
+          6,
+          7,
+          true
+        ]
+      ],
+      "halfedges": [
+        [
+          0,
+          1,
+          3,
+          1,
+          1,
+          0,
+          -1,
+          true
+        ],
+        [
+          1,
+          0,
+          0,
+          2,
+          0,
+          0,
+          -1,
+          true
+        ],
+        [
+          2,
+          3,
+          1,
+          5,
+          1,
+          1,
+          -1,
+          true
+        ],
+        [
+          3,
+          2,
+          4,
+          0,
+          2,
+          1,
+          -1,
+          true
+        ],
+        [
+          4,
+          5,
+          7,
+          3,
+          3,
+          2,
+          -1,
+          true
+        ],
+        [
+          5,
+          4,
+          2,
+          6,
+          2,
+          2,
+          -1,
+          true
+        ],
+        [
+          6,
+          7,
+          5,
+          7,
+          3,
+          3,
+          -1,
+          true
+        ],
+        [
+          7,
+          6,
+          6,
+          4,
+          4,
+          3,
+          -1,
+          true
+        ]
+      ],
+      "vertices": [
+        [
+          0,
+          0,
+          true
+        ],
+        [
+          1,
+          3,
+          true
+        ],
+        [
+          2,
+          4,
+          true
+        ],
+        [
+          3,
+          7,
+          true
+        ],
+        [
+          4,
+          6,
+          true
+        ]
+      ]
+    }
+  },
+  "escaped-topology": {
+    "counts": [
+      5,
+      4,
+      8
+    ],
+    "flat": "f6618bddb35e24e2",
+    "flatAfter": "f6618bddb35e24e2",
+    "geometry": "195457cd7d47e7b3",
+    "halfedgeQueries": [
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 0,
+        "geometry": "1c8cb237102261bc",
+        "head": 1,
+        "id": 0,
+        "next": 3,
+        "prev": 1,
+        "start": 0,
+        "sym": 1,
+        "vertices": [
+          -99,
+          1,
+          0
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 0,
+        "geometry": "ee94f250db81e95c",
+        "head": 0,
+        "id": 1,
+        "next": 0,
+        "prev": 2,
+        "start": 1,
+        "sym": 0,
+        "vertices": [
+          -99,
+          0,
+          1
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 1,
+        "geometry": "eb6776951eec54c1",
+        "head": 1,
+        "id": 2,
+        "next": 1,
+        "prev": 5,
+        "start": 2,
+        "sym": 3,
+        "vertices": [
+          -99,
+          1,
+          2
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 1,
+        "geometry": "86d775e0ca4e9c61",
+        "head": 2,
+        "id": 3,
+        "next": 4,
+        "prev": 0,
+        "start": 1,
+        "sym": 2,
+        "vertices": [
+          -99,
+          2,
+          1
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 2,
+        "geometry": "5a07909e37e19112",
+        "head": 3,
+        "id": 4,
+        "next": 7,
+        "prev": 3,
+        "start": 2,
+        "sym": 5,
+        "vertices": [
+          -99,
+          3,
+          2
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 2,
+        "geometry": "f5900e95dcac9482",
+        "head": 2,
+        "id": 5,
+        "next": 2,
+        "prev": 6,
+        "start": 3,
+        "sym": 4,
+        "vertices": [
+          -99,
+          2,
+          3
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 3,
+        "geometry": "538e00e235e5af95",
+        "head": 3,
+        "id": 6,
+        "next": 5,
+        "prev": 7,
+        "start": 4,
+        "sym": 7,
+        "vertices": [
+          -99,
+          3,
+          4
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 3,
+        "geometry": "e0bfe88d6e84e6b5",
+        "head": 4,
+        "id": 7,
+        "next": 6,
+        "prev": 4,
+        "start": 3,
+        "sym": 6,
+        "vertices": [
+          -99,
+          4,
+          3
+        ]
+      }
+    ],
+    "topology": {
+      "edges": [
+        [
+          0,
+          0,
+          1,
+          true
+        ],
+        [
+          1,
+          2,
+          3,
+          true
+        ],
+        [
+          2,
+          4,
+          5,
+          true
+        ],
+        [
+          3,
+          6,
+          7,
+          true
+        ]
+      ],
+      "halfedges": [
+        [
+          0,
+          1,
+          3,
+          1,
+          1,
+          0,
+          -1,
+          true
+        ],
+        [
+          1,
+          0,
+          0,
+          2,
+          0,
+          0,
+          -1,
+          true
+        ],
+        [
+          2,
+          3,
+          1,
+          5,
+          1,
+          1,
+          -1,
+          true
+        ],
+        [
+          3,
+          2,
+          4,
+          0,
+          2,
+          1,
+          -1,
+          true
+        ],
+        [
+          4,
+          5,
+          7,
+          3,
+          3,
+          2,
+          -1,
+          true
+        ],
+        [
+          5,
+          4,
+          2,
+          6,
+          2,
+          2,
+          -1,
+          true
+        ],
+        [
+          6,
+          7,
+          5,
+          7,
+          3,
+          3,
+          -1,
+          true
+        ],
+        [
+          7,
+          6,
+          6,
+          4,
+          4,
+          3,
+          -1,
+          true
+        ]
+      ],
+      "vertices": [
+        [
+          0,
+          0,
+          true
+        ],
+        [
+          1,
+          3,
+          true
+        ],
+        [
+          2,
+          4,
+          true
+        ],
+        [
+          3,
+          7,
+          true
+        ],
+        [
+          4,
+          6,
+          true
+        ]
+      ]
+    }
+  },
+  "getDuplicate": {
+    "counts": [
+      5,
+      4,
+      8
+    ],
+    "flat": "4be89c17ac34196e",
+    "flatAfter": "4be89c17ac34196e",
+    "geometry": "195457cd7d47e7b3",
+    "halfedgeQueries": [
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 0,
+        "geometry": "3025ae9345a78ce2",
+        "head": 1,
+        "id": 0,
+        "next": 3,
+        "prev": 1,
+        "start": 0,
+        "sym": 1,
+        "vertices": [
+          -99,
+          1,
+          0
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 0,
+        "geometry": "41ec0413202a8282",
+        "head": 0,
+        "id": 1,
+        "next": 0,
+        "prev": 2,
+        "start": 1,
+        "sym": 0,
+        "vertices": [
+          -99,
+          0,
+          1
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 1,
+        "geometry": "eb6776951eec54c1",
+        "head": 1,
+        "id": 2,
+        "next": 1,
+        "prev": 5,
+        "start": 2,
+        "sym": 3,
+        "vertices": [
+          -99,
+          1,
+          2
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 1,
+        "geometry": "86d775e0ca4e9c61",
+        "head": 2,
+        "id": 3,
+        "next": 4,
+        "prev": 0,
+        "start": 1,
+        "sym": 2,
+        "vertices": [
+          -99,
+          2,
+          1
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 2,
+        "geometry": "5a07909e37e19112",
+        "head": 3,
+        "id": 4,
+        "next": 7,
+        "prev": 3,
+        "start": 2,
+        "sym": 5,
+        "vertices": [
+          -99,
+          3,
+          2
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 2,
+        "geometry": "f5900e95dcac9482",
+        "head": 2,
+        "id": 5,
+        "next": 2,
+        "prev": 6,
+        "start": 3,
+        "sym": 4,
+        "vertices": [
+          -99,
+          2,
+          3
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 3,
+        "geometry": "538e00e235e5af95",
+        "head": 3,
+        "id": 6,
+        "next": 5,
+        "prev": 7,
+        "start": 4,
+        "sym": 7,
+        "vertices": [
+          -99,
+          3,
+          4
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 3,
+        "geometry": "e0bfe88d6e84e6b5",
+        "head": 4,
+        "id": 7,
+        "next": 6,
+        "prev": 4,
+        "start": 3,
+        "sym": 6,
+        "vertices": [
+          -99,
+          4,
+          3
+        ]
+      }
+    ],
+    "rings": [
+      {
+        "bfs": [
+          -33,
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "edges": [
+          -33,
+          0
+        ],
+        "halfedges": [
+          -33,
+          0
+        ],
+        "parents": [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            2,
+            3
+          ],
+          [
+            3,
+            4
+          ]
+        ],
+        "valence": 1,
+        "vertices": [
+          -33,
+          1
+        ]
+      },
+      {
+        "bfs": [
+          -33,
+          1,
+          2,
+          0,
+          3,
+          4
+        ],
+        "edges": [
+          -33,
+          1,
+          0
+        ],
+        "halfedges": [
+          -33,
+          3,
+          1
+        ],
+        "parents": [
+          [
+            1,
+            2
+          ],
+          [
+            1,
+            0
+          ],
+          [
+            2,
+            3
+          ],
+          [
+            3,
+            4
+          ]
+        ],
+        "valence": 2,
+        "vertices": [
+          -33,
+          2,
+          0
+        ]
+      },
+      {
+        "bfs": [
+          -33,
+          2,
+          3,
+          1,
+          4,
+          0
+        ],
+        "edges": [
+          -33,
+          2,
+          1
+        ],
+        "halfedges": [
+          -33,
+          4,
+          2
+        ],
+        "parents": [
+          [
+            2,
+            3
+          ],
+          [
+            2,
+            1
+          ],
+          [
+            3,
+            4
+          ],
+          [
+            1,
+            0
+          ]
+        ],
+        "valence": 2,
+        "vertices": [
+          -33,
+          3,
+          1
+        ]
+      },
+      {
+        "bfs": [
+          -33,
+          3,
+          4,
+          2,
+          1,
+          0
+        ],
+        "edges": [
+          -33,
+          3,
+          2
+        ],
+        "halfedges": [
+          -33,
+          7,
+          5
+        ],
+        "parents": [
+          [
+            3,
+            4
+          ],
+          [
+            3,
+            2
+          ],
+          [
+            2,
+            1
+          ],
+          [
+            1,
+            0
+          ]
+        ],
+        "valence": 2,
+        "vertices": [
+          -33,
+          4,
+          2
+        ]
+      },
+      {
+        "bfs": [
+          -33,
+          4,
+          3,
+          2,
+          1,
+          0
+        ],
+        "edges": [
+          -33,
+          3
+        ],
+        "halfedges": [
+          -33,
+          6
+        ],
+        "parents": [
+          [
+            4,
+            3
+          ],
+          [
+            3,
+            2
+          ],
+          [
+            2,
+            1
+          ],
+          [
+            1,
+            0
+          ]
+        ],
+        "valence": 1,
+        "vertices": [
+          -33,
+          3
+        ]
+      }
+    ],
+    "topology": {
+      "edges": [
+        [
+          0,
+          0,
+          1,
+          true
+        ],
+        [
+          1,
+          2,
+          3,
+          true
+        ],
+        [
+          2,
+          4,
+          5,
+          true
+        ],
+        [
+          3,
+          6,
+          7,
+          true
+        ]
+      ],
+      "halfedges": [
+        [
+          0,
+          1,
+          3,
+          1,
+          1,
+          0,
+          -1,
+          true
+        ],
+        [
+          1,
+          0,
+          0,
+          2,
+          0,
+          0,
+          -1,
+          true
+        ],
+        [
+          2,
+          3,
+          1,
+          5,
+          1,
+          1,
+          -1,
+          true
+        ],
+        [
+          3,
+          2,
+          4,
+          0,
+          2,
+          1,
+          -1,
+          true
+        ],
+        [
+          4,
+          5,
+          7,
+          3,
+          3,
+          2,
+          -1,
+          true
+        ],
+        [
+          5,
+          4,
+          2,
+          6,
+          2,
+          2,
+          -1,
+          true
+        ],
+        [
+          6,
+          7,
+          5,
+          7,
+          3,
+          3,
+          -1,
+          true
+        ],
+        [
+          7,
+          6,
+          6,
+          4,
+          4,
+          3,
+          -1,
+          true
+        ]
+      ],
+      "vertices": [
+        [
+          0,
+          0,
+          true
+        ],
+        [
+          1,
+          3,
+          true
+        ],
+        [
+          2,
+          4,
+          true
+        ],
+        [
+          3,
+          7,
+          true
+        ],
+        [
+          4,
+          6,
+          true
+        ]
+      ]
+    }
+  },
+  "halfedge-inactive": {
+    "counts": [
+      7,
+      5,
+      10
+    ],
+    "flat": "7ccb110434a0cfa1",
+    "flatAfter": "7ccb110434a0cfa1",
+    "geometry": "391be03450c49b19",
+    "halfedgeQueries": [
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 0,
+        "geometry": "3025ae9345a78ce2",
+        "head": 1,
+        "id": 0,
+        "next": 3,
+        "prev": 1,
+        "start": 0,
+        "sym": 1,
+        "vertices": [
+          -99,
+          1,
+          0
+        ]
+      },
+      {
+        "exception": " error: out of bounds."
+      },
+      {
+        "exception": " error: out of bounds."
+      },
+      {
+        "exception": " error: out of bounds."
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 2,
+        "geometry": "5a07909e37e19112",
+        "head": 3,
+        "id": 4,
+        "next": 7,
+        "prev": 3,
+        "start": 2,
+        "sym": 5,
+        "vertices": [
+          -99,
+          3,
+          2
+        ]
+      },
+      {
+        "exception": " error: out of bounds."
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 3,
+        "geometry": "538e00e235e5af95",
+        "head": 3,
+        "id": 6,
+        "next": 5,
+        "prev": 9,
+        "start": 4,
+        "sym": 7,
+        "vertices": [
+          -99,
+          3,
+          4
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 3,
+        "geometry": "e0bfe88d6e84e6b5",
+        "head": 4,
+        "id": 7,
+        "next": 8,
+        "prev": 4,
+        "start": 3,
+        "sym": 6,
+        "vertices": [
+          -99,
+          4,
+          3
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 4,
+        "geometry": "d8437359654b4b3f",
+        "head": 5,
+        "id": 8,
+        "next": 11,
+        "prev": 7,
+        "start": 4,
+        "sym": 9,
+        "vertices": [
+          -99,
+          5,
+          4
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 4,
+        "geometry": "f393ff456e2c9c3f",
+        "head": 4,
+        "id": 9,
+        "next": 6,
+        "prev": 10,
+        "start": 5,
+        "sym": 8,
+        "vertices": [
+          -99,
+          4,
+          5
+        ]
+      }
+    ],
+    "topology": {
+      "edges": [
+        [
+          0,
+          0,
+          1,
+          true
+        ],
+        [
+          1,
+          2,
+          3,
+          true
+        ],
+        [
+          2,
+          4,
+          5,
+          true
+        ],
+        [
+          3,
+          6,
+          7,
+          true
+        ],
+        [
+          4,
+          8,
+          9,
+          true
+        ],
+        [
+          5,
+          10,
+          11,
+          true
+        ]
+      ],
+      "halfedges": [
+        [
+          0,
+          1,
+          3,
+          1,
+          1,
+          0,
+          -1,
+          true
+        ],
+        [
+          1,
+          0,
+          0,
+          2,
+          0,
+          0,
+          -1,
+          true
+        ],
+        [
+          -1,
+          3,
+          -1,
+          -1,
+          -1,
+          1,
+          -1,
+          false
+        ],
+        [
+          3,
+          2,
+          4,
+          0,
+          2,
+          1,
+          -1,
+          true
+        ],
+        [
+          4,
+          5,
+          7,
+          3,
+          3,
+          2,
+          -1,
+          true
+        ],
+        [
+          5,
+          4,
+          2,
+          6,
+          2,
+          2,
+          -1,
+          true
+        ],
+        [
+          6,
+          7,
+          5,
+          9,
+          3,
+          3,
+          -1,
+          true
+        ],
+        [
+          7,
+          6,
+          8,
+          4,
+          4,
+          3,
+          -1,
+          true
+        ],
+        [
+          8,
+          9,
+          11,
+          7,
+          5,
+          4,
+          -1,
+          true
+        ],
+        [
+          9,
+          8,
+          6,
+          10,
+          4,
+          4,
+          -1,
+          true
+        ],
+        [
+          10,
+          11,
+          9,
+          11,
+          5,
+          5,
+          -1,
+          true
+        ],
+        [
+          11,
+          10,
+          10,
+          8,
+          6,
+          5,
+          -1,
+          true
+        ]
+      ],
+      "vertices": [
+        [
+          0,
+          0,
+          true
+        ],
+        [
+          1,
+          3,
+          true
+        ],
+        [
+          2,
+          4,
+          true
+        ],
+        [
+          3,
+          7,
+          true
+        ],
+        [
+          4,
+          8,
+          true
+        ],
+        [
+          5,
+          11,
+          true
+        ],
+        [
+          6,
+          10,
+          true
+        ]
+      ]
+    }
+  },
+  "invalid--1": {
+    "exception": "Graph edge connectivity contains an out-of-range vertex index."
+  },
+  "invalid-0": {
+    "exception": "Graph edge connectivity must contain pairs of vertex indices."
+  },
+  "invalid-1": {
+    "exception": "Graph edge connectivity contains an out-of-range vertex index."
+  },
+  "loop": {
+    "counts": [
+      6,
+      4,
+      8
+    ],
+    "flat": "42d239c9ab303d0d",
+    "flatAfter": "42d239c9ab303d0d",
+    "geometry": "235fc343dc09a13",
+    "halfedgeQueries": [
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 0,
+        "geometry": "e0ce995cdc9ba688",
+        "head": 1,
+        "id": 0,
+        "next": 2,
+        "prev": 6,
+        "start": 0,
+        "sym": 1,
+        "vertices": [
+          -99,
+          1,
+          0
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 0,
+        "geometry": "121e892af9612118",
+        "head": 0,
+        "id": 1,
+        "next": 7,
+        "prev": 3,
+        "start": 1,
+        "sym": 0,
+        "vertices": [
+          -99,
+          0,
+          1
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 1,
+        "geometry": "3cebbbdbd96868f5",
+        "head": 2,
+        "id": 2,
+        "next": 4,
+        "prev": 0,
+        "start": 1,
+        "sym": 3,
+        "vertices": [
+          -99,
+          2,
+          1
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 1,
+        "geometry": "467441a5e7e4e775",
+        "head": 1,
+        "id": 3,
+        "next": 1,
+        "prev": 5,
+        "start": 2,
+        "sym": 2,
+        "vertices": [
+          -99,
+          1,
+          2
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 2,
+        "geometry": "8da75645763c9c8b",
+        "head": 3,
+        "id": 4,
+        "next": 6,
+        "prev": 2,
+        "start": 2,
+        "sym": 5,
+        "vertices": [
+          -99,
+          3,
+          2
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 2,
+        "geometry": "d6535ba0b7ddb9fb",
+        "head": 2,
+        "id": 5,
+        "next": 3,
+        "prev": 7,
+        "start": 3,
+        "sym": 4,
+        "vertices": [
+          -99,
+          2,
+          3
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 3,
+        "geometry": "2c8c3c8c98b5915",
+        "head": 0,
+        "id": 6,
+        "next": 0,
+        "prev": 4,
+        "start": 3,
+        "sym": 7,
+        "vertices": [
+          -99,
+          0,
+          3
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 3,
+        "geometry": "dc13e0656362a415",
+        "head": 3,
+        "id": 7,
+        "next": 5,
+        "prev": 1,
+        "start": 0,
+        "sym": 6,
+        "vertices": [
+          -99,
+          3,
+          0
+        ]
+      }
+    ],
+    "rings": [
+      {
+        "bfs": [
+          -33,
+          0,
+          3,
+          1,
+          2
+        ],
+        "edges": [
+          -33,
+          3,
+          0
+        ],
+        "halfedges": [
+          -33,
+          7,
+          0
+        ],
+        "parents": [
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            1
+          ],
+          [
+            3,
+            2
+          ]
+        ],
+        "valence": 2,
+        "vertices": [
+          -33,
+          3,
+          1
+        ]
+      },
+      {
+        "bfs": [
+          -33,
+          1,
+          2,
+          0,
+          3
+        ],
+        "edges": [
+          -33,
+          1,
+          0
+        ],
+        "halfedges": [
+          -33,
+          2,
+          1
+        ],
+        "parents": [
+          [
+            1,
+            2
+          ],
+          [
+            1,
+            0
+          ],
+          [
+            2,
+            3
+          ]
+        ],
+        "valence": 2,
+        "vertices": [
+          -33,
+          2,
+          0
+        ]
+      },
+      {
+        "bfs": [
+          -33,
+          2,
+          3,
+          1,
+          0
+        ],
+        "edges": [
+          -33,
+          2,
+          1
+        ],
+        "halfedges": [
+          -33,
+          4,
+          3
+        ],
+        "parents": [
+          [
+            2,
+            3
+          ],
+          [
+            2,
+            1
+          ],
+          [
+            3,
+            0
+          ]
+        ],
+        "valence": 2,
+        "vertices": [
+          -33,
+          3,
+          1
+        ]
+      },
+      {
+        "bfs": [
+          -33,
+          3,
+          0,
+          2,
+          1
+        ],
+        "edges": [
+          -33,
+          3,
+          2
+        ],
+        "halfedges": [
+          -33,
+          6,
+          5
+        ],
+        "parents": [
+          [
+            3,
+            0
+          ],
+          [
+            3,
+            2
+          ],
+          [
+            0,
+            1
+          ]
+        ],
+        "valence": 2,
+        "vertices": [
+          -33,
+          0,
+          2
+        ]
+      },
+      {
+        "exception": " error: halfedge index out of bounds."
+      },
+      {
+        "exception": " error: halfedge index out of bounds."
+      }
+    ],
+    "topology": {
+      "edges": [
+        [
+          0,
+          0,
+          1,
+          true
+        ],
+        [
+          1,
+          2,
+          3,
+          true
+        ],
+        [
+          2,
+          4,
+          5,
+          true
+        ],
+        [
+          3,
+          6,
+          7,
+          true
+        ]
+      ],
+      "halfedges": [
+        [
+          0,
+          1,
+          2,
+          6,
+          1,
+          0,
+          -1,
+          true
+        ],
+        [
+          1,
+          0,
+          7,
+          3,
+          0,
+          0,
+          -1,
+          true
+        ],
+        [
+          2,
+          3,
+          4,
+          0,
+          2,
+          1,
+          -1,
+          true
+        ],
+        [
+          3,
+          2,
+          1,
+          5,
+          1,
+          1,
+          -1,
+          true
+        ],
+        [
+          4,
+          5,
+          6,
+          2,
+          3,
+          2,
+          -1,
+          true
+        ],
+        [
+          5,
+          4,
+          3,
+          7,
+          2,
+          2,
+          -1,
+          true
+        ],
+        [
+          6,
+          7,
+          0,
+          4,
+          0,
+          3,
+          -1,
+          true
+        ],
+        [
+          7,
+          6,
+          5,
+          1,
+          3,
+          3,
+          -1,
+          true
+        ]
+      ],
+      "vertices": [
+        [
+          0,
+          7,
+          true
+        ],
+        [
+          1,
+          2,
+          true
+        ],
+        [
+          2,
+          4,
+          true
+        ],
+        [
+          3,
+          6,
+          true
+        ],
+        [
+          4,
+          -1,
+          true
+        ],
+        [
+          5,
+          -1,
+          true
+        ]
+      ]
+    }
+  },
+  "loop-assignment": {
+    "counts": [
+      6,
+      4,
+      8
+    ],
+    "flat": "42d239c9ab303d0d",
+    "flatAfter": "42d239c9ab303d0d",
+    "geometry": "235fc343dc09a13",
+    "halfedgeQueries": [
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 0,
+        "geometry": "e0ce995cdc9ba688",
+        "head": 1,
+        "id": 0,
+        "next": 2,
+        "prev": 6,
+        "start": 0,
+        "sym": 1,
+        "vertices": [
+          -99,
+          1,
+          0
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 0,
+        "geometry": "121e892af9612118",
+        "head": 0,
+        "id": 1,
+        "next": 7,
+        "prev": 3,
+        "start": 1,
+        "sym": 0,
+        "vertices": [
+          -99,
+          0,
+          1
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 1,
+        "geometry": "3cebbbdbd96868f5",
+        "head": 2,
+        "id": 2,
+        "next": 4,
+        "prev": 0,
+        "start": 1,
+        "sym": 3,
+        "vertices": [
+          -99,
+          2,
+          1
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 1,
+        "geometry": "467441a5e7e4e775",
+        "head": 1,
+        "id": 3,
+        "next": 1,
+        "prev": 5,
+        "start": 2,
+        "sym": 2,
+        "vertices": [
+          -99,
+          1,
+          2
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 2,
+        "geometry": "8da75645763c9c8b",
+        "head": 3,
+        "id": 4,
+        "next": 6,
+        "prev": 2,
+        "start": 2,
+        "sym": 5,
+        "vertices": [
+          -99,
+          3,
+          2
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 2,
+        "geometry": "d6535ba0b7ddb9fb",
+        "head": 2,
+        "id": 5,
+        "next": 3,
+        "prev": 7,
+        "start": 3,
+        "sym": 4,
+        "vertices": [
+          -99,
+          2,
+          3
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 3,
+        "geometry": "2c8c3c8c98b5915",
+        "head": 0,
+        "id": 6,
+        "next": 0,
+        "prev": 4,
+        "start": 3,
+        "sym": 7,
+        "vertices": [
+          -99,
+          0,
+          3
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 3,
+        "geometry": "dc13e0656362a415",
+        "head": 3,
+        "id": 7,
+        "next": 5,
+        "prev": 1,
+        "start": 0,
+        "sym": 6,
+        "vertices": [
+          -99,
+          3,
+          0
+        ]
+      }
+    ],
+    "topology": {
+      "edges": [
+        [
+          0,
+          0,
+          1,
+          true
+        ],
+        [
+          1,
+          2,
+          3,
+          true
+        ],
+        [
+          2,
+          4,
+          5,
+          true
+        ],
+        [
+          3,
+          6,
+          7,
+          true
+        ]
+      ],
+      "halfedges": [
+        [
+          0,
+          1,
+          2,
+          6,
+          1,
+          0,
+          -1,
+          true
+        ],
+        [
+          1,
+          0,
+          7,
+          3,
+          0,
+          0,
+          -1,
+          true
+        ],
+        [
+          2,
+          3,
+          4,
+          0,
+          2,
+          1,
+          -1,
+          true
+        ],
+        [
+          3,
+          2,
+          1,
+          5,
+          1,
+          1,
+          -1,
+          true
+        ],
+        [
+          4,
+          5,
+          6,
+          2,
+          3,
+          2,
+          -1,
+          true
+        ],
+        [
+          5,
+          4,
+          3,
+          7,
+          2,
+          2,
+          -1,
+          true
+        ],
+        [
+          6,
+          7,
+          0,
+          4,
+          0,
+          3,
+          -1,
+          true
+        ],
+        [
+          7,
+          6,
+          5,
+          1,
+          3,
+          3,
+          -1,
+          true
+        ]
+      ],
+      "vertices": [
+        [
+          0,
+          7,
+          true
+        ],
+        [
+          1,
+          2,
+          true
+        ],
+        [
+          2,
+          4,
+          true
+        ],
+        [
+          3,
+          6,
+          true
+        ],
+        [
+          4,
+          -1,
+          true
+        ],
+        [
+          5,
+          -1,
+          true
+        ]
+      ]
+    }
+  },
+  "loop-copy": {
+    "counts": [
+      6,
+      4,
+      8
+    ],
+    "flat": "42d239c9ab303d0d",
+    "flatAfter": "42d239c9ab303d0d",
+    "geometry": "235fc343dc09a13",
+    "halfedgeQueries": [
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 0,
+        "geometry": "e0ce995cdc9ba688",
+        "head": 1,
+        "id": 0,
+        "next": 2,
+        "prev": 6,
+        "start": 0,
+        "sym": 1,
+        "vertices": [
+          -99,
+          1,
+          0
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 0,
+        "geometry": "121e892af9612118",
+        "head": 0,
+        "id": 1,
+        "next": 7,
+        "prev": 3,
+        "start": 1,
+        "sym": 0,
+        "vertices": [
+          -99,
+          0,
+          1
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 1,
+        "geometry": "3cebbbdbd96868f5",
+        "head": 2,
+        "id": 2,
+        "next": 4,
+        "prev": 0,
+        "start": 1,
+        "sym": 3,
+        "vertices": [
+          -99,
+          2,
+          1
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 1,
+        "geometry": "467441a5e7e4e775",
+        "head": 1,
+        "id": 3,
+        "next": 1,
+        "prev": 5,
+        "start": 2,
+        "sym": 2,
+        "vertices": [
+          -99,
+          1,
+          2
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 2,
+        "geometry": "8da75645763c9c8b",
+        "head": 3,
+        "id": 4,
+        "next": 6,
+        "prev": 2,
+        "start": 2,
+        "sym": 5,
+        "vertices": [
+          -99,
+          3,
+          2
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 2,
+        "geometry": "d6535ba0b7ddb9fb",
+        "head": 2,
+        "id": 5,
+        "next": 3,
+        "prev": 7,
+        "start": 3,
+        "sym": 4,
+        "vertices": [
+          -99,
+          2,
+          3
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 3,
+        "geometry": "2c8c3c8c98b5915",
+        "head": 0,
+        "id": 6,
+        "next": 0,
+        "prev": 4,
+        "start": 3,
+        "sym": 7,
+        "vertices": [
+          -99,
+          0,
+          3
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 3,
+        "geometry": "dc13e0656362a415",
+        "head": 3,
+        "id": 7,
+        "next": 5,
+        "prev": 1,
+        "start": 0,
+        "sym": 6,
+        "vertices": [
+          -99,
+          3,
+          0
+        ]
+      }
+    ],
+    "topology": {
+      "edges": [
+        [
+          0,
+          0,
+          1,
+          true
+        ],
+        [
+          1,
+          2,
+          3,
+          true
+        ],
+        [
+          2,
+          4,
+          5,
+          true
+        ],
+        [
+          3,
+          6,
+          7,
+          true
+        ]
+      ],
+      "halfedges": [
+        [
+          0,
+          1,
+          2,
+          6,
+          1,
+          0,
+          -1,
+          true
+        ],
+        [
+          1,
+          0,
+          7,
+          3,
+          0,
+          0,
+          -1,
+          true
+        ],
+        [
+          2,
+          3,
+          4,
+          0,
+          2,
+          1,
+          -1,
+          true
+        ],
+        [
+          3,
+          2,
+          1,
+          5,
+          1,
+          1,
+          -1,
+          true
+        ],
+        [
+          4,
+          5,
+          6,
+          2,
+          3,
+          2,
+          -1,
+          true
+        ],
+        [
+          5,
+          4,
+          3,
+          7,
+          2,
+          2,
+          -1,
+          true
+        ],
+        [
+          6,
+          7,
+          0,
+          4,
+          0,
+          3,
+          -1,
+          true
+        ],
+        [
+          7,
+          6,
+          5,
+          1,
+          3,
+          3,
+          -1,
+          true
+        ]
+      ],
+      "vertices": [
+        [
+          0,
+          7,
+          true
+        ],
+        [
+          1,
+          2,
+          true
+        ],
+        [
+          2,
+          4,
+          true
+        ],
+        [
+          3,
+          6,
+          true
+        ],
+        [
+          4,
+          -1,
+          true
+        ],
+        [
+          5,
+          -1,
+          true
+        ]
+      ]
+    }
+  },
+  "move": {
+    "counts": [
+      5,
+      4,
+      8
+    ],
+    "flat": "4be89c17ac34196e",
+    "flatAfter": "4be89c17ac34196e",
+    "geometry": "195457cd7d47e7b3",
+    "halfedgeQueries": [
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 0,
+        "geometry": "3025ae9345a78ce2",
+        "head": 1,
+        "id": 0,
+        "next": 3,
+        "prev": 1,
+        "start": 0,
+        "sym": 1,
+        "vertices": [
+          -99,
+          1,
+          0
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 0,
+        "geometry": "41ec0413202a8282",
+        "head": 0,
+        "id": 1,
+        "next": 0,
+        "prev": 2,
+        "start": 1,
+        "sym": 0,
+        "vertices": [
+          -99,
+          0,
+          1
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 1,
+        "geometry": "eb6776951eec54c1",
+        "head": 1,
+        "id": 2,
+        "next": 1,
+        "prev": 5,
+        "start": 2,
+        "sym": 3,
+        "vertices": [
+          -99,
+          1,
+          2
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 1,
+        "geometry": "86d775e0ca4e9c61",
+        "head": 2,
+        "id": 3,
+        "next": 4,
+        "prev": 0,
+        "start": 1,
+        "sym": 2,
+        "vertices": [
+          -99,
+          2,
+          1
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 2,
+        "geometry": "5a07909e37e19112",
+        "head": 3,
+        "id": 4,
+        "next": 7,
+        "prev": 3,
+        "start": 2,
+        "sym": 5,
+        "vertices": [
+          -99,
+          3,
+          2
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 2,
+        "geometry": "f5900e95dcac9482",
+        "head": 2,
+        "id": 5,
+        "next": 2,
+        "prev": 6,
+        "start": 3,
+        "sym": 4,
+        "vertices": [
+          -99,
+          2,
+          3
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 3,
+        "geometry": "538e00e235e5af95",
+        "head": 3,
+        "id": 6,
+        "next": 5,
+        "prev": 7,
+        "start": 4,
+        "sym": 7,
+        "vertices": [
+          -99,
+          3,
+          4
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 3,
+        "geometry": "e0bfe88d6e84e6b5",
+        "head": 4,
+        "id": 7,
+        "next": 6,
+        "prev": 4,
+        "start": 3,
+        "sym": 6,
+        "vertices": [
+          -99,
+          4,
+          3
+        ]
+      }
+    ],
+    "rings": [
+      {
+        "bfs": [
+          -33,
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "edges": [
+          -33,
+          0
+        ],
+        "halfedges": [
+          -33,
+          0
+        ],
+        "parents": [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            2,
+            3
+          ],
+          [
+            3,
+            4
+          ]
+        ],
+        "valence": 1,
+        "vertices": [
+          -33,
+          1
+        ]
+      },
+      {
+        "bfs": [
+          -33,
+          1,
+          2,
+          0,
+          3,
+          4
+        ],
+        "edges": [
+          -33,
+          1,
+          0
+        ],
+        "halfedges": [
+          -33,
+          3,
+          1
+        ],
+        "parents": [
+          [
+            1,
+            2
+          ],
+          [
+            1,
+            0
+          ],
+          [
+            2,
+            3
+          ],
+          [
+            3,
+            4
+          ]
+        ],
+        "valence": 2,
+        "vertices": [
+          -33,
+          2,
+          0
+        ]
+      },
+      {
+        "bfs": [
+          -33,
+          2,
+          3,
+          1,
+          4,
+          0
+        ],
+        "edges": [
+          -33,
+          2,
+          1
+        ],
+        "halfedges": [
+          -33,
+          4,
+          2
+        ],
+        "parents": [
+          [
+            2,
+            3
+          ],
+          [
+            2,
+            1
+          ],
+          [
+            3,
+            4
+          ],
+          [
+            1,
+            0
+          ]
+        ],
+        "valence": 2,
+        "vertices": [
+          -33,
+          3,
+          1
+        ]
+      },
+      {
+        "bfs": [
+          -33,
+          3,
+          4,
+          2,
+          1,
+          0
+        ],
+        "edges": [
+          -33,
+          3,
+          2
+        ],
+        "halfedges": [
+          -33,
+          7,
+          5
+        ],
+        "parents": [
+          [
+            3,
+            4
+          ],
+          [
+            3,
+            2
+          ],
+          [
+            2,
+            1
+          ],
+          [
+            1,
+            0
+          ]
+        ],
+        "valence": 2,
+        "vertices": [
+          -33,
+          4,
+          2
+        ]
+      },
+      {
+        "bfs": [
+          -33,
+          4,
+          3,
+          2,
+          1,
+          0
+        ],
+        "edges": [
+          -33,
+          3
+        ],
+        "halfedges": [
+          -33,
+          6
+        ],
+        "parents": [
+          [
+            4,
+            3
+          ],
+          [
+            3,
+            2
+          ],
+          [
+            2,
+            1
+          ],
+          [
+            1,
+            0
+          ]
+        ],
+        "valence": 1,
+        "vertices": [
+          -33,
+          3
+        ]
+      }
+    ],
+    "topology": {
+      "edges": [
+        [
+          0,
+          0,
+          1,
+          true
+        ],
+        [
+          1,
+          2,
+          3,
+          true
+        ],
+        [
+          2,
+          4,
+          5,
+          true
+        ],
+        [
+          3,
+          6,
+          7,
+          true
+        ]
+      ],
+      "halfedges": [
+        [
+          0,
+          1,
+          3,
+          1,
+          1,
+          0,
+          -1,
+          true
+        ],
+        [
+          1,
+          0,
+          0,
+          2,
+          0,
+          0,
+          -1,
+          true
+        ],
+        [
+          2,
+          3,
+          1,
+          5,
+          1,
+          1,
+          -1,
+          true
+        ],
+        [
+          3,
+          2,
+          4,
+          0,
+          2,
+          1,
+          -1,
+          true
+        ],
+        [
+          4,
+          5,
+          7,
+          3,
+          3,
+          2,
+          -1,
+          true
+        ],
+        [
+          5,
+          4,
+          2,
+          6,
+          2,
+          2,
+          -1,
+          true
+        ],
+        [
+          6,
+          7,
+          5,
+          7,
+          3,
+          3,
+          -1,
+          true
+        ],
+        [
+          7,
+          6,
+          6,
+          4,
+          4,
+          3,
+          -1,
+          true
+        ]
+      ],
+      "vertices": [
+        [
+          0,
+          0,
+          true
+        ],
+        [
+          1,
+          3,
+          true
+        ],
+        [
+          2,
+          4,
+          true
+        ],
+        [
+          3,
+          7,
+          true
+        ],
+        [
+          4,
+          6,
+          true
+        ]
+      ]
+    }
+  },
+  "raw-position-reacquired": {
+    "counts": [
+      5,
+      4,
+      8
+    ],
+    "flat": "231441c8e57d4a37",
+    "flatAfter": "231441c8e57d4a37",
+    "geometry": "f4053bdaf6e31d02",
+    "halfedgeQueries": [
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 0,
+        "geometry": "b0b0281592729d12",
+        "head": 1,
+        "id": 0,
+        "next": 3,
+        "prev": 1,
+        "start": 0,
+        "sym": 1,
+        "vertices": [
+          -99,
+          1,
+          0
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 0,
+        "geometry": "69e8cdecd8f5ae72",
+        "head": 0,
+        "id": 1,
+        "next": 0,
+        "prev": 2,
+        "start": 1,
+        "sym": 0,
+        "vertices": [
+          -99,
+          0,
+          1
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 1,
+        "geometry": "2ed3b61ab072ca0f",
+        "head": 1,
+        "id": 2,
+        "next": 1,
+        "prev": 5,
+        "start": 2,
+        "sym": 3,
+        "vertices": [
+          -99,
+          1,
+          2
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 1,
+        "geometry": "81aa294607e6d9bf",
+        "head": 2,
+        "id": 3,
+        "next": 4,
+        "prev": 0,
+        "start": 1,
+        "sym": 2,
+        "vertices": [
+          -99,
+          2,
+          1
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 2,
+        "geometry": "5a07909e37e19112",
+        "head": 3,
+        "id": 4,
+        "next": 7,
+        "prev": 3,
+        "start": 2,
+        "sym": 5,
+        "vertices": [
+          -99,
+          3,
+          2
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 2,
+        "geometry": "f5900e95dcac9482",
+        "head": 2,
+        "id": 5,
+        "next": 2,
+        "prev": 6,
+        "start": 3,
+        "sym": 4,
+        "vertices": [
+          -99,
+          2,
+          3
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 3,
+        "geometry": "538e00e235e5af95",
+        "head": 3,
+        "id": 6,
+        "next": 5,
+        "prev": 7,
+        "start": 4,
+        "sym": 7,
+        "vertices": [
+          -99,
+          3,
+          4
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 3,
+        "geometry": "e0bfe88d6e84e6b5",
+        "head": 4,
+        "id": 7,
+        "next": 6,
+        "prev": 4,
+        "start": 3,
+        "sym": 6,
+        "vertices": [
+          -99,
+          4,
+          3
+        ]
+      }
+    ],
+    "rings": [
+      {
+        "bfs": [
+          -33,
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "edges": [
+          -33,
+          0
+        ],
+        "halfedges": [
+          -33,
+          0
+        ],
+        "parents": [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            2,
+            3
+          ],
+          [
+            3,
+            4
+          ]
+        ],
+        "valence": 1,
+        "vertices": [
+          -33,
+          1
+        ]
+      },
+      {
+        "bfs": [
+          -33,
+          1,
+          2,
+          0,
+          3,
+          4
+        ],
+        "edges": [
+          -33,
+          1,
+          0
+        ],
+        "halfedges": [
+          -33,
+          3,
+          1
+        ],
+        "parents": [
+          [
+            1,
+            2
+          ],
+          [
+            1,
+            0
+          ],
+          [
+            2,
+            3
+          ],
+          [
+            3,
+            4
+          ]
+        ],
+        "valence": 2,
+        "vertices": [
+          -33,
+          2,
+          0
+        ]
+      },
+      {
+        "bfs": [
+          -33,
+          2,
+          3,
+          1,
+          4,
+          0
+        ],
+        "edges": [
+          -33,
+          2,
+          1
+        ],
+        "halfedges": [
+          -33,
+          4,
+          2
+        ],
+        "parents": [
+          [
+            2,
+            3
+          ],
+          [
+            2,
+            1
+          ],
+          [
+            3,
+            4
+          ],
+          [
+            1,
+            0
+          ]
+        ],
+        "valence": 2,
+        "vertices": [
+          -33,
+          3,
+          1
+        ]
+      },
+      {
+        "bfs": [
+          -33,
+          3,
+          4,
+          2,
+          1,
+          0
+        ],
+        "edges": [
+          -33,
+          3,
+          2
+        ],
+        "halfedges": [
+          -33,
+          7,
+          5
+        ],
+        "parents": [
+          [
+            3,
+            4
+          ],
+          [
+            3,
+            2
+          ],
+          [
+            2,
+            1
+          ],
+          [
+            1,
+            0
+          ]
+        ],
+        "valence": 2,
+        "vertices": [
+          -33,
+          4,
+          2
+        ]
+      },
+      {
+        "bfs": [
+          -33,
+          4,
+          3,
+          2,
+          1,
+          0
+        ],
+        "edges": [
+          -33,
+          3
+        ],
+        "halfedges": [
+          -33,
+          6
+        ],
+        "parents": [
+          [
+            4,
+            3
+          ],
+          [
+            3,
+            2
+          ],
+          [
+            2,
+            1
+          ],
+          [
+            1,
+            0
+          ]
+        ],
+        "valence": 1,
+        "vertices": [
+          -33,
+          3
+        ]
+      }
+    ],
+    "topology": {
+      "edges": [
+        [
+          0,
+          0,
+          1,
+          true
+        ],
+        [
+          1,
+          2,
+          3,
+          true
+        ],
+        [
+          2,
+          4,
+          5,
+          true
+        ],
+        [
+          3,
+          6,
+          7,
+          true
+        ]
+      ],
+      "halfedges": [
+        [
+          0,
+          1,
+          3,
+          1,
+          1,
+          0,
+          -1,
+          true
+        ],
+        [
+          1,
+          0,
+          0,
+          2,
+          0,
+          0,
+          -1,
+          true
+        ],
+        [
+          2,
+          3,
+          1,
+          5,
+          1,
+          1,
+          -1,
+          true
+        ],
+        [
+          3,
+          2,
+          4,
+          0,
+          2,
+          1,
+          -1,
+          true
+        ],
+        [
+          4,
+          5,
+          7,
+          3,
+          3,
+          2,
+          -1,
+          true
+        ],
+        [
+          5,
+          4,
+          2,
+          6,
+          2,
+          2,
+          -1,
+          true
+        ],
+        [
+          6,
+          7,
+          5,
+          7,
+          3,
+          3,
+          -1,
+          true
+        ],
+        [
+          7,
+          6,
+          6,
+          4,
+          4,
+          3,
+          -1,
+          true
+        ]
+      ],
+      "vertices": [
+        [
+          0,
+          0,
+          true
+        ],
+        [
+          1,
+          3,
+          true
+        ],
+        [
+          2,
+          4,
+          true
+        ],
+        [
+          3,
+          7,
+          true
+        ],
+        [
+          4,
+          6,
+          true
+        ]
+      ]
+    }
+  },
+  "ribbon-chain": "1d15f207d445ef9b",
+  "ribbon-loop": "32c4f1eb02bbccf",
+  "self": {
+    "counts": [
+      6,
+      2,
+      4
+    ],
+    "flat": "5d6a41023a7ebcce",
+    "flatAfter": "5d6a41023a7ebcce",
+    "geometry": "886a834e1456198c",
+    "halfedgeQueries": [
+      {
+        "exception": " error: prev index is -1. "
+      },
+      {
+        "exception": " error: next index is -1. "
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 1,
+        "geometry": "3cebbbdbd96868f5",
+        "head": 2,
+        "id": 2,
+        "next": 3,
+        "prev": 3,
+        "start": 1,
+        "sym": 3,
+        "vertices": [
+          -99,
+          2,
+          1
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 1,
+        "geometry": "467441a5e7e4e775",
+        "head": 1,
+        "id": 3,
+        "next": 2,
+        "prev": 2,
+        "start": 2,
+        "sym": 2,
+        "vertices": [
+          -99,
+          1,
+          2
+        ]
+      }
+    ],
+    "topology": {
+      "edges": [
+        [
+          0,
+          0,
+          1,
+          true
+        ],
+        [
+          1,
+          2,
+          3,
+          true
+        ]
+      ],
+      "halfedges": [
+        [
+          0,
+          1,
+          1,
+          -1,
+          0,
+          0,
+          -1,
+          true
+        ],
+        [
+          1,
+          0,
+          -1,
+          0,
+          0,
+          0,
+          -1,
+          true
+        ],
+        [
+          2,
+          3,
+          3,
+          3,
+          2,
+          1,
+          -1,
+          true
+        ],
+        [
+          3,
+          2,
+          2,
+          2,
+          1,
+          1,
+          -1,
+          true
+        ]
+      ],
+      "vertices": [
+        [
+          0,
+          1,
+          true
+        ],
+        [
+          1,
+          2,
+          true
+        ],
+        [
+          2,
+          3,
+          true
+        ],
+        [
+          3,
+          -1,
+          true
+        ],
+        [
+          4,
+          -1,
+          true
+        ],
+        [
+          5,
+          -1,
+          true
+        ]
+      ]
+    }
+  },
+  "self-assignment": {
+    "counts": [
+      6,
+      2,
+      4
+    ],
+    "flat": "5d6a41023a7ebcce",
+    "flatAfter": "5d6a41023a7ebcce",
+    "geometry": "886a834e1456198c",
+    "halfedgeQueries": [
+      {
+        "exception": " error: prev index is -1. "
+      },
+      {
+        "exception": " error: next index is -1. "
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 1,
+        "geometry": "3cebbbdbd96868f5",
+        "head": 2,
+        "id": 2,
+        "next": 3,
+        "prev": 3,
+        "start": 1,
+        "sym": 3,
+        "vertices": [
+          -99,
+          2,
+          1
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 1,
+        "geometry": "467441a5e7e4e775",
+        "head": 1,
+        "id": 3,
+        "next": 2,
+        "prev": 2,
+        "start": 2,
+        "sym": 2,
+        "vertices": [
+          -99,
+          1,
+          2
+        ]
+      }
+    ],
+    "topology": {
+      "edges": [
+        [
+          0,
+          0,
+          1,
+          true
+        ],
+        [
+          1,
+          2,
+          3,
+          true
+        ]
+      ],
+      "halfedges": [
+        [
+          0,
+          1,
+          1,
+          -1,
+          0,
+          0,
+          -1,
+          true
+        ],
+        [
+          1,
+          0,
+          -1,
+          0,
+          0,
+          0,
+          -1,
+          true
+        ],
+        [
+          2,
+          3,
+          3,
+          3,
+          2,
+          1,
+          -1,
+          true
+        ],
+        [
+          3,
+          2,
+          2,
+          2,
+          1,
+          1,
+          -1,
+          true
+        ]
+      ],
+      "vertices": [
+        [
+          0,
+          1,
+          true
+        ],
+        [
+          1,
+          2,
+          true
+        ],
+        [
+          2,
+          3,
+          true
+        ],
+        [
+          3,
+          -1,
+          true
+        ],
+        [
+          4,
+          -1,
+          true
+        ],
+        [
+          5,
+          -1,
+          true
+        ]
+      ]
+    }
+  },
+  "self-copy": {
+    "counts": [
+      6,
+      2,
+      4
+    ],
+    "flat": "5d6a41023a7ebcce",
+    "flatAfter": "5d6a41023a7ebcce",
+    "geometry": "886a834e1456198c",
+    "halfedgeQueries": [
+      {
+        "exception": " error: prev index is -1. "
+      },
+      {
+        "exception": " error: next index is -1. "
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 1,
+        "geometry": "3cebbbdbd96868f5",
+        "head": 2,
+        "id": 2,
+        "next": 3,
+        "prev": 3,
+        "start": 1,
+        "sym": 3,
+        "vertices": [
+          -99,
+          2,
+          1
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 1,
+        "geometry": "467441a5e7e4e775",
+        "head": 1,
+        "id": 3,
+        "next": 2,
+        "prev": 2,
+        "start": 2,
+        "sym": 2,
+        "vertices": [
+          -99,
+          1,
+          2
+        ]
+      }
+    ],
+    "topology": {
+      "edges": [
+        [
+          0,
+          0,
+          1,
+          true
+        ],
+        [
+          1,
+          2,
+          3,
+          true
+        ]
+      ],
+      "halfedges": [
+        [
+          0,
+          1,
+          1,
+          -1,
+          0,
+          0,
+          -1,
+          true
+        ],
+        [
+          1,
+          0,
+          -1,
+          0,
+          0,
+          0,
+          -1,
+          true
+        ],
+        [
+          2,
+          3,
+          3,
+          3,
+          2,
+          1,
+          -1,
+          true
+        ],
+        [
+          3,
+          2,
+          2,
+          2,
+          1,
+          1,
+          -1,
+          true
+        ]
+      ],
+      "vertices": [
+        [
+          0,
+          1,
+          true
+        ],
+        [
+          1,
+          2,
+          true
+        ],
+        [
+          2,
+          3,
+          true
+        ],
+        [
+          3,
+          -1,
+          true
+        ],
+        [
+          4,
+          -1,
+          true
+        ],
+        [
+          5,
+          -1,
+          true
+        ]
+      ]
+    }
+  },
+  "vertex-inactive": {
+    "counts": [
+      6,
+      4,
+      8
+    ],
+    "flat": "62d41c7c0cbd8dc0",
+    "flatAfter": "62d41c7c0cbd8dc0",
+    "geometry": "c328a6ec13f34aa7",
+    "halfedgeQueries": [
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 0,
+        "geometry": "3025ae9345a78ce2",
+        "head": 1,
+        "id": 0,
+        "next": 3,
+        "prev": 1,
+        "start": 0,
+        "sym": 1,
+        "vertices": [
+          -99,
+          1,
+          0
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 0,
+        "geometry": "41ec0413202a8282",
+        "head": 0,
+        "id": 1,
+        "next": 0,
+        "prev": 2,
+        "start": 1,
+        "sym": 0,
+        "vertices": [
+          -99,
+          0,
+          1
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 1,
+        "geometry": "eb6776951eec54c1",
+        "head": 1,
+        "id": 2,
+        "next": 1,
+        "prev": 5,
+        "start": 2,
+        "sym": 3,
+        "vertices": [
+          -99,
+          1,
+          2
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 1,
+        "geometry": "86d775e0ca4e9c61",
+        "head": 2,
+        "id": 3,
+        "next": 4,
+        "prev": 0,
+        "start": 1,
+        "sym": 2,
+        "vertices": [
+          -99,
+          2,
+          1
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 2,
+        "geometry": "5a07909e37e19112",
+        "head": 3,
+        "id": 4,
+        "next": 7,
+        "prev": 3,
+        "start": 2,
+        "sym": 5,
+        "vertices": [
+          -99,
+          3,
+          2
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 2,
+        "geometry": "f5900e95dcac9482",
+        "head": 2,
+        "id": 5,
+        "next": 2,
+        "prev": 6,
+        "start": 3,
+        "sym": 4,
+        "vertices": [
+          -99,
+          2,
+          3
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 3,
+        "geometry": "538e00e235e5af95",
+        "head": 3,
+        "id": 6,
+        "next": 5,
+        "prev": 9,
+        "start": 4,
+        "sym": 7,
+        "vertices": [
+          -99,
+          3,
+          4
+        ]
+      },
+      {
+        "active": true,
+        "boundary": true,
+        "edge": 3,
+        "geometry": "e0bfe88d6e84e6b5",
+        "head": 4,
+        "id": 7,
+        "next": 8,
+        "prev": 4,
+        "start": 3,
+        "sym": 6,
+        "vertices": [
+          -99,
+          4,
+          3
+        ]
+      }
+    ],
+    "topology": {
+      "edges": [
+        [
+          0,
+          0,
+          1,
+          true
+        ],
+        [
+          1,
+          2,
+          3,
+          true
+        ],
+        [
+          2,
+          4,
+          5,
+          true
+        ],
+        [
+          3,
+          6,
+          7,
+          true
+        ],
+        [
+          4,
+          8,
+          9,
+          true
+        ],
+        [
+          5,
+          10,
+          11,
+          true
+        ]
+      ],
+      "halfedges": [
+        [
+          0,
+          1,
+          3,
+          1,
+          1,
+          0,
+          -1,
+          true
+        ],
+        [
+          1,
+          0,
+          0,
+          2,
+          0,
+          0,
+          -1,
+          true
+        ],
+        [
+          2,
+          3,
+          1,
+          5,
+          1,
+          1,
+          -1,
+          true
+        ],
+        [
+          3,
+          2,
+          4,
+          0,
+          2,
+          1,
+          -1,
+          true
+        ],
+        [
+          4,
+          5,
+          7,
+          3,
+          3,
+          2,
+          -1,
+          true
+        ],
+        [
+          5,
+          4,
+          2,
+          6,
+          2,
+          2,
+          -1,
+          true
+        ],
+        [
+          6,
+          7,
+          5,
+          9,
+          3,
+          3,
+          -1,
+          true
+        ],
+        [
+          7,
+          6,
+          8,
+          4,
+          4,
+          3,
+          -1,
+          true
+        ],
+        [
+          8,
+          9,
+          11,
+          7,
+          5,
+          4,
+          -1,
+          true
+        ],
+        [
+          9,
+          8,
+          6,
+          10,
+          4,
+          4,
+          -1,
+          true
+        ],
+        [
+          10,
+          11,
+          9,
+          11,
+          5,
+          5,
+          -1,
+          true
+        ],
+        [
+          11,
+          10,
+          10,
+          8,
+          6,
+          5,
+          -1,
+          true
+        ]
+      ],
+      "vertices": [
+        [
+          0,
+          0,
+          true
+        ],
+        [
+          1,
+          3,
+          true
+        ],
+        [
+          -1,
+          -1,
+          false
+        ],
+        [
+          3,
+          7,
+          true
+        ],
+        [
+          4,
+          8,
+          true
+        ],
+        [
+          5,
+          11,
+          true
+        ],
+        [
+          6,
+          10,
+          true
+        ]
+      ]
+    }
+  }
+}

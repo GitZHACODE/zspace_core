@@ -16,6 +16,7 @@
 #include<zspace/zInterface/functionsets/zFnGraph.h>
 #include <src/zInterface/objects/zMeshObjectStorage.h>
 #include <src/zCore/geometry/detail/zMeshStorage.h>
+#include <src/zCore/geometry/detail/zMeshProfile.h>
 
 #include <algorithm>
 #include <cmath>
@@ -261,16 +262,16 @@ namespace zSpace
 			if (std::find(values.begin(), values.end(), value) == values.end()) values.push_back(value);
 		}
 
-		void getKRingVertices(int start, int kRing, zIntArray& out, const vector<zIntArray>& vertexToVertices)
+		void getKRingVertices(int start, int kRing, zIntArray& out, const vector<zIntArray>& vertexToVertices,
+			vector<int>& visited, int stamp)
 		{
 			out.clear();
 			if (start < 0 || start >= (int)vertexToVertices.size()) return;
 
-			vector<bool> visited(vertexToVertices.size(), false);
 			std::queue<std::pair<int, int>> queue;
 
 			queue.push(std::make_pair(start, 0));
-			visited[start] = true;
+			visited[start] = stamp;
 
 			while (!queue.empty())
 			{
@@ -282,9 +283,9 @@ namespace zSpace
 
 				for (int neighbour : vertexToVertices[current.first])
 				{
-					if (neighbour < 0 || neighbour >= (int)visited.size() || visited[neighbour]) continue;
+					if (neighbour < 0 || neighbour >= (int)visited.size() || visited[neighbour] == stamp) continue;
 
-					visited[neighbour] = true;
+					visited[neighbour] = stamp;
 					queue.push(std::make_pair(neighbour, current.second + 1));
 				}
 			}
@@ -677,8 +678,32 @@ namespace zSpace
 
 	ZSPACE_INLINE void zFnMesh::getBounds(zPoint &minBB, zPoint &maxBB)
 	{
-		zPointArray positions = zMeshObjectStorage::read(*meshObj).positions;
-		coreUtils.getBounds(positions, minBB, maxBB);
+		const auto& positions = zMeshObjectStorage::read(*meshObj).positions;
+		// Raw position views may be supplied as output references; keep the
+		// original copy semantics in that case, before writing the sentinels.
+		const std::less<const zPoint*> less;
+		auto aliasesPositions = [&](const zPoint* p)
+		{
+			return !positions.empty() && !less(p, positions.data()) && less(p, positions.data() + positions.size());
+		};
+		if (aliasesPositions(&minBB) || aliasesPositions(&maxBB))
+		{
+			zPointArray copy = positions;
+			coreUtils.getBounds(copy, minBB, maxBB);
+			return;
+		}
+		// Match the utility's existing sentinels, including for an empty mesh.
+		minBB = zPoint(10000, 10000, 10000);
+		maxBB = zPoint(-10000, -10000, -10000);
+		for (const auto& p : positions)
+		{
+			if (p.x < minBB.x) minBB.x = p.x;
+			if (p.y < minBB.y) minBB.y = p.y;
+			if (p.z < minBB.z) minBB.z = p.z;
+			if (p.x > maxBB.x) maxBB.x = p.x;
+			if (p.y > maxBB.y) maxBB.y = p.y;
+			if (p.z > maxBB.z) maxBB.z = p.z;
+		}
 	}
 
 	ZSPACE_INLINE void zFnMesh::clear()
@@ -843,7 +868,7 @@ namespace zSpace
 	ZSPACE_INLINE bool zFnMesh::vertexExists(zPoint pos, zItMeshVertex &outVertex, int precisionfactor)
 	{
 		int id;
-		bool chk = zMeshObjectStorage::get(*meshObj).vertexExists(pos, id, precisionfactor);
+		bool chk = zMeshObjectStorage::vertexExists(*meshObj, pos, id, precisionfactor);
 
 		if (chk) outVertex = zItMeshVertex(*meshObj, id);
 
@@ -1215,6 +1240,8 @@ namespace zSpace
 	{
 		auto& data = zMeshObjectStorage::edit(*meshObj);
 		data.faceNormals.assign(data.numFaces(), zVector());
+		data.vertexNormals.assign(data.positions.size(), zVector());
+		zIntArray contributions(data.positions.size(), 0);
 		for (int faceId = 0; faceId < data.numFaces(); ++faceId)
 		{
 			const int begin = data.faceOffsets[faceId];
@@ -1232,9 +1259,19 @@ namespace zSpace
 			}
 			if (normal.length() > 1.0e-9f) normal.normalize();
 			data.faceNormals[faceId] = normal;
+			for (int i = begin; i < end; ++i)
+			{
+				const int vertex = data.faceVertexIndices[i];
+				data.vertexNormals[vertex] += normal;
+				contributions[vertex]++;
+			}
 		}
-		// compute vertex normal
-		computeVertexNormalfromFaceNormal();
+		// Preserve the existing face-order sum, division and normalization.
+		for (std::size_t i = 0; i < data.vertexNormals.size(); ++i)
+		{
+			if (contributions[i] > 0) data.vertexNormals[i] /= static_cast<float>(contributions[i]);
+			if (data.vertexNormals[i].length() > 1.0e-9f) data.vertexNormals[i].normalize();
+		}
 
 		
 	}
@@ -2349,6 +2386,8 @@ namespace zSpace
 
 		double scaledRadius = averageEdgeLength * (double)radius;
 
+		vector<int> neighbourhoodVisits(nV, 0);
+		zIntArray neighbourhood;
 		for (zItMeshVertex vertex(*meshObj); !vertex.end(); vertex++)
 		{
 			int id = vertex.getId();
@@ -2360,8 +2399,7 @@ namespace zSpace
 				continue;
 			}
 
-			zIntArray neighbourhood;
-			if (useKring) getKRingVertices(id, radius, neighbourhood, vertexToVertices);
+			if (useKring) getKRingVertices(id, radius, neighbourhood, vertexToVertices, neighbourhoodVisits, id + 1);
 			else getSphereVertices(id, scaledRadius, neighbourhood, 6, vertexToVertices, positions);
 
 			if (neighbourhood.size() < 6) continue;
@@ -3518,9 +3556,12 @@ ZSPACE_INLINE void zFnMesh::subdivide(int numDivisions)
 		{
 			int a = -1;
 			int b = -1;
-			zIntArray faces;
+			int faces[2] = { -1, -1 };
+			int faceCount = 0;
+			int lastFace = -1;
 			int pointIndex = -1;
 		};
+		struct CornerEdge { int a, b, face, corner; };
 
 		auto addUnique = [](zIntArray& values, int value)
 		{
@@ -3536,9 +3577,15 @@ ZSPACE_INLINE void zFnMesh::subdivide(int numDivisions)
 			if (vertexCount == 0 || faceCount == 0) return;
 
 			zPointArray faceCenters(faceCount, zPoint());
-			std::map<std::pair<int, int>, EdgeSubdivisionData> edges;
-			vector<zIntArray> vertexFaces(vertexCount);
-			vector<zIntArray> vertexNeighbors(vertexCount);
+			ZSPACE_MESH_TIMER(phaseTimer);
+			std::vector<CornerEdge> cornerEdges;
+			cornerEdges.reserve(source.faceVertexIndices.size());
+			std::vector<EdgeSubdivisionData> edges;
+			edges.reserve(source.numEdges());
+			zIntArray cornerEdgePoints(source.faceVertexIndices.size(), -1);
+			zVectorArray vertexFaceSums(vertexCount, zVector());
+			zIntArray vertexFaceCounts(vertexCount, 0);
+			zIntArray vertexLastFace(vertexCount, -1);
 			vector<zIntArray> boundaryNeighbors(vertexCount);
 			zVectorArray edgeMidpointSums(vertexCount, zVector());
 			zIntArray incidentEdgeCounts(vertexCount, 0);
@@ -3554,7 +3601,6 @@ ZSPACE_INLINE void zFnMesh::subdivide(int numDivisions)
 				{
 					const int vertexId = source.faceVertexIndices[i];
 					faceCenters[faceId] += source.positions[vertexId];
-					addUnique(vertexFaces[vertexId], faceId);
 				}
 				faceCenters[faceId] /= static_cast<float>(count);
 
@@ -3563,19 +3609,48 @@ ZSPACE_INLINE void zFnMesh::subdivide(int numDivisions)
 					const int next = (i + 1 < end) ? i + 1 : begin;
 					const int a = source.faceVertexIndices[i];
 					const int b = source.faceVertexIndices[next];
+					// Face IDs are visited in order. This accumulates the same
+					// unique incident faces without allocating a list per vertex.
+					if (vertexLastFace[a] != faceId)
+					{
+						vertexFaceSums[a] += faceCenters[faceId];
+						vertexFaceCounts[a]++;
+						vertexLastFace[a] = faceId;
+					}
 					const auto key = std::minmax(a, b);
-					auto& edge = edges[{ key.first, key.second }];
-					edge.a = key.first;
-					edge.b = key.second;
-					addUnique(edge.faces, faceId);
-					addUnique(vertexNeighbors[a], b);
-					addUnique(vertexNeighbors[b], a);
+					cornerEdges.push_back({key.first, key.second, faceId, i});
 				}
 			}
 
-			for (const auto& item : edges)
+			// A contiguous sorted corner list replaces tree nodes and repeated
+			// lookups. Sort by face/corner within an edge to retain face sums and
+			// the original lexicographic edge-point numbering exactly.
+			std::sort(cornerEdges.begin(), cornerEdges.end(), [](const CornerEdge& x, const CornerEdge& y) {
+				if (x.a != y.a) return x.a < y.a;
+				if (x.b != y.b) return x.b < y.b;
+				if (x.face != y.face) return x.face < y.face;
+				return x.corner < y.corner;
+			});
+			for (const auto& corner : cornerEdges)
 			{
-				const auto& edge = item.second;
+				if (edges.empty() || edges.back().a != corner.a || edges.back().b != corner.b)
+				{
+					EdgeSubdivisionData edge;
+					edge.a = corner.a; edge.b = corner.b;
+					edge.pointIndex = vertexCount + static_cast<int>(edges.size());
+					edges.push_back(edge);
+				}
+				auto& edge = edges.back();
+				if (edge.lastFace != corner.face)
+				{
+					if (edge.faceCount < 2) edge.faces[edge.faceCount] = corner.face;
+					edge.faceCount++; edge.lastFace = corner.face;
+				}
+				cornerEdgePoints[corner.corner] = edge.pointIndex;
+			}
+			ZSPACE_MESH_STAGE(phaseTimer, "face-edge-collection", faceCount);
+			for (const auto& edge : edges)
+			{
 				zVector a = source.positions[edge.a];
 				zVector b = source.positions[edge.b];
 				zVector midpoint = (a + b) * 0.5f;
@@ -3584,7 +3659,7 @@ ZSPACE_INLINE void zFnMesh::subdivide(int numDivisions)
 				incidentEdgeCounts[edge.a]++;
 				incidentEdgeCounts[edge.b]++;
 
-				if (edge.faces.size() == 1)
+				if (edge.faceCount == 1)
 				{
 					addUnique(boundaryNeighbors[edge.a], edge.b);
 					addUnique(boundaryNeighbors[edge.b], edge.a);
@@ -3592,6 +3667,7 @@ ZSPACE_INLINE void zFnMesh::subdivide(int numDivisions)
 			}
 
 			zPointArray newPositions = source.positions;
+			newPositions.reserve(source.positions.size() + edges.size() + faceCenters.size());
 			for (int vertexId = 0; vertexId < vertexCount; ++vertexId)
 			{
 				zVector P = source.positions[vertexId];
@@ -3614,15 +3690,14 @@ ZSPACE_INLINE void zFnMesh::subdivide(int numDivisions)
 					continue;
 				}
 
-				const int n = static_cast<int>(vertexFaces[vertexId].size());
+				const int n = vertexFaceCounts[vertexId];
 				if (n == 0 || incidentEdgeCounts[vertexId] == 0)
 				{
 					newPositions[vertexId] = P;
 					continue;
 				}
 
-				zVector F;
-				for (int faceId : vertexFaces[vertexId]) F += faceCenters[faceId];
+				zVector F = vertexFaceSums[vertexId];
 				F /= static_cast<float>(n);
 
 				zVector R = edgeMidpointSums[vertexId];
@@ -3631,13 +3706,12 @@ ZSPACE_INLINE void zFnMesh::subdivide(int numDivisions)
 				newPositions[vertexId] = (F + (R * 2.0f) + (P * static_cast<float>(n - 3))) / static_cast<float>(n);
 			}
 
-			for (auto& item : edges)
+			for (const auto& edge : edges)
 			{
-				auto& edge = item.second;
 				zVector a = source.positions[edge.a];
 				zVector b = source.positions[edge.b];
 				zVector edgePoint;
-				if (edge.faces.size() >= 2)
+				if (edge.faceCount >= 2)
 				{
 					edgePoint = (a + b + faceCenters[edge.faces[0]] + faceCenters[edge.faces[1]]) * 0.25f;
 				}
@@ -3646,7 +3720,6 @@ ZSPACE_INLINE void zFnMesh::subdivide(int numDivisions)
 					edgePoint = (a + b) * 0.5f;
 				}
 
-				edge.pointIndex = static_cast<int>(newPositions.size());
 				newPositions.push_back(edgePoint);
 			}
 
@@ -3671,16 +3744,9 @@ ZSPACE_INLINE void zFnMesh::subdivide(int numDivisions)
 				for (int i = begin; i < end; ++i)
 				{
 					const int previous = (i == begin) ? end - 1 : i - 1;
-					const int next = (i + 1 < end) ? i + 1 : begin;
-
 					const int vertexId = source.faceVertexIndices[i];
-					const int previousVertexId = source.faceVertexIndices[previous];
-					const int nextVertexId = source.faceVertexIndices[next];
-
-					const auto previousEdgeKey = std::minmax(previousVertexId, vertexId);
-					const auto nextEdgeKey = std::minmax(vertexId, nextVertexId);
-					const int previousEdgePoint = edges[{ previousEdgeKey.first, previousEdgeKey.second }].pointIndex;
-					const int nextEdgePoint = edges[{ nextEdgeKey.first, nextEdgeKey.second }].pointIndex;
+					const int previousEdgePoint = cornerEdgePoints[previous];
+					const int nextEdgePoint = cornerEdgePoints[i];
 
 					newCounts.push_back(4);
 					newConnects.push_back(vertexId);
@@ -3690,9 +3756,14 @@ ZSPACE_INLINE void zFnMesh::subdivide(int numDivisions)
 				}
 			}
 
-			zMeshObjectStorage::set(*meshObj, newPositions, newCounts, newConnects);
-			computeMeshNormals();
+			ZSPACE_MESH_STAGE(phaseTimer, "subdivision-output", faceCount);
+			zMeshObjectStorage::setMoved(*meshObj, std::move(newPositions), newCounts, std::move(newConnects));
+			ZSPACE_MESH_STAGE(phaseTimer, "storage-install", faceCount);
 		}
+		// Intermediate divisions only consume positions/connectivity.
+		ZSPACE_MESH_TIMER(normalTimer);
+		computeMeshNormals();
+		ZSPACE_MESH_STAGE(normalTimer, "normals", numPolygons());
 	}
 
 	ZSPACE_INLINE void zFnMesh::extrudeMesh(float extrudeThickness,zObjectMesh &out, bool thicknessTris)

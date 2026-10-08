@@ -1,0 +1,687 @@
+{
+  "date": "2026-10-08",
+  "changes": [
+    "Use Uint32 hash slots, Float64 exact packed keys and saturated Uint8 corner-use counts in the cold boundary path. Resolve hash collisions by full key equality and linear probing.",
+    "Keep record insertion order separate from hash slots to preserve ordered boundary/wire output. Repeated, self and nonmanifold corner uses retain the existing rules.",
+    "Keep the original Map path for oversized face lists, more than four million corners or IDs beyond safe numeric packing.",
+    "Separate scratch-array call scope from returned membership closures. The two-state cache remains unchanged and stores only boundary results plus owned topology snapshots."
+  ],
+  "nodeMedians": [
+    {
+      "faces": 125000,
+      "beforeMs": 108.64080000000001,
+      "afterMs": 33.513700000000085
+    },
+    {
+      "faces": 500000,
+      "beforeMs": 608.5373999999999,
+      "afterMs": 166.92430000000013
+    }
+  ],
+  "node": {
+    "method": "Node boundary classification only; three alternating-order trials, excludes GPU/browser/renderer. Full renderer parity hashes geometry arrays, ordered wire paths, visibility, colors and widths on small fixtures.",
+    "boundaryParityCases": 209,
+    "renderParityCases": 18,
+    "timings": [
+      {
+        "faces": 125000,
+        "trial": 0,
+        "beforeMs": 108.64080000000001,
+        "afterMs": 34.08420000000001,
+        "boundaryEdges": 1500
+      },
+      {
+        "faces": 125000,
+        "trial": 1,
+        "beforeMs": 89.0204,
+        "afterMs": 27.003900000000044,
+        "boundaryEdges": 1500
+      },
+      {
+        "faces": 125000,
+        "trial": 2,
+        "beforeMs": 109.5403,
+        "afterMs": 33.513700000000085,
+        "boundaryEdges": 1500
+      },
+      {
+        "faces": 500000,
+        "trial": 0,
+        "beforeMs": 608.5373999999999,
+        "afterMs": 173.95319999999992,
+        "boundaryEdges": 3000
+      },
+      {
+        "faces": 500000,
+        "trial": 1,
+        "beforeMs": 514.7319,
+        "afterMs": 158.8021000000001,
+        "boundaryEdges": 3000
+      },
+      {
+        "faces": 500000,
+        "trial": 2,
+        "beforeMs": 647.9596000000001,
+        "afterMs": 166.92430000000013,
+        "boundaryEdges": 3000
+      }
+    ]
+  },
+  "browser": {
+    "before": {
+      "capturedAt": "2026-10-08T14:25:56.523Z",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36",
+      "method": "Actual Alice viewer import/Smooth Mesh/history/display. Action times include UI/history, transfers, WASM, readback and publication; presented time adds two rAF callbacks, not GPU completion. Frame-gap samples include VSync/background scheduling and do not establish GPU throughput.",
+      "actions": [
+        {
+          "name": "import 125000 quads",
+          "faces": 125000,
+          "vertices": 125751,
+          "actionMs": 4098,
+          "presentedMs": 4116.7599999997765
+        },
+        {
+          "name": "smooth 125000 to 500000",
+          "faces": 500000,
+          "vertices": 501501,
+          "actionMs": 2769.7050000000745,
+          "presentedMs": 2907.9949999991804
+        }
+      ],
+      "samples": [],
+      "longTasks": [
+        {
+          "startMs": 2227.0800000000745,
+          "durationMs": 204
+        },
+        {
+          "startMs": 2773.2750000003725,
+          "durationMs": 3718
+        },
+        {
+          "startMs": 8058.070000000298,
+          "durationMs": 59
+        },
+        {
+          "startMs": 8117.695000000298,
+          "durationMs": 184
+        },
+        {
+          "startMs": 17370.980000000447,
+          "durationMs": 258
+        },
+        {
+          "startMs": 17650.304999999702,
+          "durationMs": 2357
+        },
+        {
+          "startMs": 20007.449999999255,
+          "durationMs": 132
+        }
+      ],
+      "phases": [
+        {
+          "name": "payload-validation",
+          "startMs": 5924.1349999997765,
+          "durationMs": 67.25499999895692
+        },
+        {
+          "name": "surface-geometry",
+          "startMs": 5991.589999999851,
+          "durationMs": 113.70999999903142
+        },
+        {
+          "name": "edge-geometry",
+          "startMs": 6105.320000000298,
+          "durationMs": 0.23499999940395355
+        },
+        {
+          "name": "boundary-incidence",
+          "startMs": 6106.2599999997765,
+          "durationMs": 155.19999999925494
+        },
+        {
+          "name": "wire-geometry-inclusive",
+          "startMs": 6105.769999999553,
+          "durationMs": 201.48499999940395
+        },
+        {
+          "name": "history-before",
+          "startMs": 17371.570000000298,
+          "durationMs": 15.955000000074506
+        },
+        {
+          "name": "typed-input-allocate-copy",
+          "startMs": 17388.02999999933,
+          "durationMs": 14.044999999925494
+        },
+        {
+          "name": "native-input-install-and-export",
+          "startMs": 17402.109999999404,
+          "durationMs": 226.10999999940395
+        },
+        {
+          "name": "typed-input-free",
+          "startMs": 17628.230000000447,
+          "durationMs": 0.0949999988079071
+        },
+        {
+          "name": "upload-and-native-install",
+          "startMs": 17387.924999998882,
+          "durationMs": 240.464999999851
+        },
+        {
+          "name": "cpp-smooth-and-export",
+          "startMs": 17650.469999998808,
+          "durationMs": 922.4850000012666
+        },
+        {
+          "name": "owned-buffer-readback",
+          "startMs": 18572.96499999985,
+          "durationMs": 43.30499999970198
+        },
+        {
+          "name": "payload-validation",
+          "startMs": 18616.490000000224,
+          "durationMs": 64.09999999962747
+        },
+        {
+          "name": "surface-geometry",
+          "startMs": 18680.634999999776,
+          "durationMs": 377.17500000074506
+        },
+        {
+          "name": "edge-geometry",
+          "startMs": 19057.83499999903,
+          "durationMs": 0.054999999701976776
+        },
+        {
+          "name": "boundary-incidence",
+          "startMs": 19058.474999999627,
+          "durationMs": 674.6300000008196
+        },
+        {
+          "name": "wire-geometry-inclusive",
+          "startMs": 19058.33999999985,
+          "durationMs": 764.0499999988824
+        },
+        {
+          "name": "scene-publication-inclusive",
+          "startMs": 18616.33499999903,
+          "durationMs": 1301.070000000298
+        },
+        {
+          "name": "camera-fit",
+          "startMs": 19917.41000000015,
+          "durationMs": 51.37999999895692
+        },
+        {
+          "name": "history-commit-inclusive",
+          "startMs": 19969.164999999106,
+          "durationMs": 37.830000000074506
+        }
+      ],
+      "renderer": "WebGPU \u00c2\u00b7 WGSL",
+      "faces": 500000,
+      "vertices": 501501,
+      "status": "Smoothed current geometry with zFnMesh::smoothMesh. Divisions: 1.",
+      "jsHeapUsedBytes": 659104671,
+      "fixtureGenerationMs": 201.9550000000745,
+      "inputBytes": 8115436
+    },
+    "after-first": {
+      "capturedAt": "2026-10-08T14:24:54.592Z",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36",
+      "method": "Actual Alice viewer import/Smooth Mesh/history/display. Action times include UI/history, transfers, WASM, readback and publication; presented time adds two rAF callbacks, not GPU completion. Frame-gap samples include VSync/background scheduling and do not establish GPU throughput.",
+      "actions": [
+        {
+          "name": "import 125000 quads",
+          "faces": 125000,
+          "vertices": 125751,
+          "actionMs": 2480.140000000596,
+          "presentedMs": 2493.0800000000745
+        },
+        {
+          "name": "smooth 125000 to 500000",
+          "faces": 500000,
+          "vertices": 501501,
+          "actionMs": 2934.7550000008196,
+          "presentedMs": 3055.780000001192
+        }
+      ],
+      "samples": [],
+      "longTasks": [
+        {
+          "startMs": 8411.019999999553,
+          "durationMs": 153
+        },
+        {
+          "startMs": 8585.365000000224,
+          "durationMs": 2304
+        },
+        {
+          "startMs": 10890.22000000067,
+          "durationMs": 149
+        },
+        {
+          "startMs": 21121.875,
+          "durationMs": 224
+        },
+        {
+          "startMs": 21371.33999999985,
+          "durationMs": 2519
+        },
+        {
+          "startMs": 23890.599999999627,
+          "durationMs": 166
+        }
+      ],
+      "phases": [
+        {
+          "name": "payload-validation",
+          "startMs": 10628.570000000298,
+          "durationMs": 38.60499999858439
+        },
+        {
+          "name": "surface-geometry",
+          "startMs": 10667.47000000067,
+          "durationMs": 53.419999999925494
+        },
+        {
+          "name": "edge-geometry",
+          "startMs": 10720.90499999933,
+          "durationMs": 0.24500000104308128
+        },
+        {
+          "name": "boundary-incidence",
+          "startMs": 10722.004999998957,
+          "durationMs": 63.07000000029802
+        },
+        {
+          "name": "wire-geometry-inclusive",
+          "startMs": 10721.525000000373,
+          "durationMs": 88.17999999970198
+        },
+        {
+          "name": "history-before",
+          "startMs": 21123.08999999985,
+          "durationMs": 17.304999999701977
+        },
+        {
+          "name": "typed-input-allocate-copy",
+          "startMs": 21140.980000000447,
+          "durationMs": 2.625
+        },
+        {
+          "name": "native-input-install-and-export",
+          "startMs": 21143.699999999255,
+          "durationMs": 201.11500000022352
+        },
+        {
+          "name": "typed-input-free",
+          "startMs": 21344.84500000067,
+          "durationMs": 0.18999999947845936
+        },
+        {
+          "name": "upload-and-native-install",
+          "startMs": 21140.68500000052,
+          "durationMs": 204.38499999977648
+        },
+        {
+          "name": "cpp-smooth-and-export",
+          "startMs": 21371.544999999925,
+          "durationMs": 1111.4000000003725
+        },
+        {
+          "name": "owned-buffer-readback",
+          "startMs": 22482.96499999985,
+          "durationMs": 71.06499999947846
+        },
+        {
+          "name": "payload-validation",
+          "startMs": 22554.294999999925,
+          "durationMs": 110.67999999970198
+        },
+        {
+          "name": "surface-geometry",
+          "startMs": 22665.025000000373,
+          "durationMs": 452.93999999947846
+        },
+        {
+          "name": "edge-geometry",
+          "startMs": 23117.984999999404,
+          "durationMs": 0.054999999701976776
+        },
+        {
+          "name": "boundary-incidence",
+          "startMs": 23118.949999999255,
+          "durationMs": 310.3600000012666
+        },
+        {
+          "name": "wire-geometry-inclusive",
+          "startMs": 23118.865000000224,
+          "durationMs": 425.3849999997765
+        },
+        {
+          "name": "scene-publication-inclusive",
+          "startMs": 22554.09500000067,
+          "durationMs": 1130.3499999996275
+        },
+        {
+          "name": "camera-fit",
+          "startMs": 23684.449999999255,
+          "durationMs": 133.25500000081956
+        },
+        {
+          "name": "history-commit-inclusive",
+          "startMs": 23818.449999999255,
+          "durationMs": 71.11500000022352
+        }
+      ],
+      "renderer": "WebGPU \u00c2\u00b7 WGSL",
+      "faces": 500000,
+      "vertices": 501501,
+      "status": "Smoothed current geometry with zFnMesh::smoothMesh. Divisions: 1.",
+      "jsHeapUsedBytes": 686124634,
+      "fixtureGenerationMs": 150.56499999947846,
+      "inputBytes": 8115436
+    },
+    "after": {
+      "capturedAt": "2026-10-08T14:27:59.421Z",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36",
+      "method": "Actual Alice viewer import/Smooth Mesh/history/display. Action times include UI/history, transfers, WASM, readback and publication; presented time adds two rAF callbacks, not GPU completion. Frame-gap samples include VSync/background scheduling and do not establish GPU throughput.",
+      "actions": [
+        {
+          "name": "import 125000 quads",
+          "faces": 125000,
+          "vertices": 125751,
+          "actionMs": 2408.089999999851,
+          "presentedMs": 2436.3199999984354
+        },
+        {
+          "name": "smooth 125000 to 500000",
+          "faces": 500000,
+          "vertices": 501501,
+          "actionMs": 3608.785000000149,
+          "presentedMs": 3621.4399999994785
+        },
+        {
+          "name": "undo smooth",
+          "faces": 125000,
+          "vertices": 125751,
+          "actionMs": 193.47000000067055,
+          "presentedMs": 240.30499999970198
+        },
+        {
+          "name": "redo smooth",
+          "faces": 500000,
+          "vertices": 501501,
+          "actionMs": 679.3999999985099,
+          "presentedMs": 811.9399999994785
+        }
+      ],
+      "samples": [
+        {
+          "name": "idle",
+          "faces": 500000,
+          "durationMs": 5016.065000000817,
+          "frames": 301,
+          "inputEvents": 0,
+          "medianGapMs": 16.654999999998836,
+          "p95GapMs": 16.69499999999971,
+          "maxGapMs": 33.28499999999622,
+          "gapsOver50Ms": 0,
+          "visible": "visible",
+          "viewport": [
+            1280,
+            720
+          ],
+          "devicePixelRatio": 1.5
+        }
+      ],
+      "longTasks": [
+        {
+          "startMs": 590.0099999997765,
+          "durationMs": 159
+        },
+        {
+          "startMs": 776.1699999999255,
+          "durationMs": 2254
+        },
+        {
+          "startMs": 3030.4799999985844,
+          "durationMs": 125
+        },
+        {
+          "startMs": 11887.659999998286,
+          "durationMs": 57
+        },
+        {
+          "startMs": 13127.969999998808,
+          "durationMs": 382
+        },
+        {
+          "startMs": 13529.449999999255,
+          "durationMs": 3056
+        },
+        {
+          "startMs": 16585.969999998808,
+          "durationMs": 150
+        },
+        {
+          "startMs": 52152.294999999925,
+          "durationMs": 195
+        },
+        {
+          "startMs": 52392.22499999963,
+          "durationMs": 685
+        },
+        {
+          "startMs": 53078.08999999985,
+          "durationMs": 124
+        }
+      ],
+      "phases": [
+        {
+          "name": "payload-validation",
+          "startMs": 2766.5299999993294,
+          "durationMs": 41.94999999925494
+        },
+        {
+          "name": "surface-geometry",
+          "startMs": 2808.5999999996275,
+          "durationMs": 67.71499999985099
+        },
+        {
+          "name": "edge-geometry",
+          "startMs": 2876.3349999990314,
+          "durationMs": 0.25
+        },
+        {
+          "name": "boundary-incidence",
+          "startMs": 2877.339999999851,
+          "durationMs": 37.875
+        },
+        {
+          "name": "wire-geometry-inclusive",
+          "startMs": 2876.8349999990314,
+          "durationMs": 59.644999999552965
+        },
+        {
+          "name": "history-before",
+          "startMs": 13129.099999999627,
+          "durationMs": 37.25
+        },
+        {
+          "name": "typed-input-allocate-copy",
+          "startMs": 13166.969999998808,
+          "durationMs": 5.780000001192093
+        },
+        {
+          "name": "native-input-install-and-export",
+          "startMs": 13172.77999999933,
+          "durationMs": 336.179999999702
+        },
+        {
+          "name": "typed-input-free",
+          "startMs": 13508.979999998584,
+          "durationMs": 0.03500000014901161
+        },
+        {
+          "name": "upload-and-native-install",
+          "startMs": 13166.839999999851,
+          "durationMs": 342.26999999955297
+        },
+        {
+          "name": "cpp-smooth-and-export",
+          "startMs": 13529.714999999851,
+          "durationMs": 1531.4249999988824
+        },
+        {
+          "name": "owned-buffer-readback",
+          "startMs": 15061.15499999933,
+          "durationMs": 122.84500000067055
+        },
+        {
+          "name": "payload-validation",
+          "startMs": 15184.334999999031,
+          "durationMs": 131.910000000149
+        },
+        {
+          "name": "surface-geometry",
+          "startMs": 15316.304999999702,
+          "durationMs": 615.8849999997765
+        },
+        {
+          "name": "edge-geometry",
+          "startMs": 15932.214999999851,
+          "durationMs": 0.06499999947845936
+        },
+        {
+          "name": "boundary-incidence",
+          "startMs": 15932.90499999933,
+          "durationMs": 244.57000000029802
+        },
+        {
+          "name": "wire-geometry-inclusive",
+          "startMs": 15932.809999998659,
+          "durationMs": 350.59999999962747
+        },
+        {
+          "name": "scene-publication-inclusive",
+          "startMs": 15184.089999999851,
+          "durationMs": 1224.9199999999255
+        },
+        {
+          "name": "camera-fit",
+          "startMs": 16409.014999998733,
+          "durationMs": 105.40000000037253
+        },
+        {
+          "name": "history-commit-inclusive",
+          "startMs": 16515.375,
+          "durationMs": 69.56499999947846
+        },
+        {
+          "name": "payload-validation",
+          "startMs": 52171.95999999903,
+          "durationMs": 51.26500000059605
+        },
+        {
+          "name": "surface-geometry",
+          "startMs": 52223.27999999933,
+          "durationMs": 70.63499999977648
+        },
+        {
+          "name": "edge-geometry",
+          "startMs": 52293.92499999888,
+          "durationMs": 0.04000000096857548
+        },
+        {
+          "name": "boundary-incidence",
+          "startMs": 52294.229999998584,
+          "durationMs": 2.6200000010430813
+        },
+        {
+          "name": "wire-geometry-inclusive",
+          "startMs": 52294.15999999829,
+          "durationMs": 32.01000000163913
+        },
+        {
+          "name": "history-undo-inclusive",
+          "startMs": 52152.90999999829,
+          "durationMs": 193.01500000059605
+        },
+        {
+          "name": "payload-validation",
+          "startMs": 52466.109999999404,
+          "durationMs": 155.91499999910593
+        },
+        {
+          "name": "surface-geometry",
+          "startMs": 52622.069999998435,
+          "durationMs": 238.76500000059605
+        },
+        {
+          "name": "edge-geometry",
+          "startMs": 52860.854999998584,
+          "durationMs": 0.054999999701976776
+        },
+        {
+          "name": "boundary-incidence",
+          "startMs": 52861.28499999829,
+          "durationMs": 9.065000001341105
+        },
+        {
+          "name": "wire-geometry-inclusive",
+          "startMs": 52861.164999999106,
+          "durationMs": 104.56000000052154
+        },
+        {
+          "name": "history-redo-inclusive",
+          "startMs": 52393.50999999978,
+          "durationMs": 678.8300000000745
+        }
+      ],
+      "renderer": "WebGPU \u00c2\u00b7 WGSL",
+      "faces": 500000,
+      "vertices": 501501,
+      "status": "Redo smooth mesh.",
+      "jsHeapUsedBytes": 706278451,
+      "fixtureGenerationMs": 157.0599999986589,
+      "inputBytes": 8115436
+    }
+  },
+  "verification": [
+    "Baseline and final npm run build passed; build after scratch-scope extraction passed.",
+    "209 ordered boundary/membership fixtures, 18 full renderer comparisons passed.",
+    "Existing 62 surface/60 renderer parity cases and cache ownership/invalidation/LRU contracts passed.",
+    "Actual WebGPU viewer: 125k import, 500k Smooth, undo/redo and idle scheduling verified."
+  ],
+  "limitations": [
+    "Three alternating-order Node trials are isolated classification measurements, not full browser/GPU/history timings.",
+    "Browser captures are individual fresh-load samples, optimized then nearby baseline then final optimized; other phases vary. No stable end-to-end gain or FPS guarantee is established.",
+    "Typed scratch arrays total 34,777,216 bytes for two million corners (500k quads); these are temporary, not a measured peak/total memory reduction. Cache snapshot memory is unchanged.",
+    "Parity comparison uses the retained ignored pre-change helper at wasm/tmp/viewer-boundary-table-before/meshBoundaryEdges.ts.",
+    "Existing bundle-size warning remains. Kernel/ABI, sketches, UI and runtime artifacts were not changed by this milestone. Other ongoing dirty viewer/core changes were preserved.",
+    "The existing reconstruction regression harness rewrote viewer-reconstruction-parity.json when rerun; a milestone-specific copy is saved as viewer-boundary-table-regression.json. Historical results remain in viewer-reconstruction-optimization.json/html."
+  ],
+  "changedFiles": [
+    "../zspace_alice_webviewer/src/meshBoundaryEdges.ts",
+    "../zspace_alice_webviewer/tests/meshBoundaryTable.test.mjs",
+    "../zspace_alice_webviewer/reports/Alice-Viewer-Implementation-Roadmap.md",
+    "tests/performance/viewer-boundary-table-parity.mjs",
+    "reports/generate-boundary-table-report.py",
+    "reports/viewer-boundary-table-parity.json",
+    "reports/viewer-boundary-table-regression.json",
+    "reports/viewer-reconstruction-parity.json",
+    "reports/viewer-boundary-table-before.json",
+    "reports/viewer-boundary-table-after-first.json",
+    "reports/viewer-boundary-table-after-intermediate.json",
+    "reports/viewer-boundary-table-after.json",
+    "reports/viewer-boundary-table-optimization.json",
+    "reports/viewer-boundary-table-optimization.html",
+    "reports/viewer-boundary-table-500k.png"
+  ],
+  "nextPriority": "Profile full publication ownership/copies and surface reconstruction before choosing the next bounded optimization; main-thread Smooth pauses remain."
+}

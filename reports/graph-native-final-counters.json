@@ -1,0 +1,22 @@
+{
+  "branch": {
+    "edgeListSyncs": 0,
+    "topologyBuilds": 1
+  },
+  "chain": {
+    "edgeListSyncs": 0,
+    "topologyBuilds": 1
+  },
+  "disconnected": {
+    "edgeListSyncs": 0,
+    "topologyBuilds": 1
+  },
+  "escaped-flat": {
+    "edgeListSyncs": 1,
+    "topologyBuilds": 1
+  },
+  "loop": {
+    "edgeListSyncs": 0,
+    "topologyBuilds": 1
+  }
+}

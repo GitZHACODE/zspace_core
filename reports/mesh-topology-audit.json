@@ -1,0 +1,3983 @@
+{
+  "date": "2026-10-08",
+  "scope": "Active C++ definitions; overloads counted separately. Classification is static review, not timing instrumentation.",
+  "counts": {
+    "zObjectMesh": 6,
+    "zFnMesh": 120,
+    "zItMeshVertex": 41,
+    "zItMeshEdge": 31,
+    "zItMeshFace": 41,
+    "zItMeshHalfEdge": 41
+  },
+  "methods": [
+    {
+      "file": "src/zInterface/objects/zObjectMesh.cpp",
+      "line": 6,
+      "class": "zObjectMesh",
+      "name": "zObjectMesh",
+      "signature": "ZSPACE_INLINE zObjectMesh::zObjectMesh()",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Object lifetime",
+      "note": "Ownership/lifetime operation; no geometry algorithm to migrate.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/objects/zObjectMesh.cpp",
+      "line": 11,
+      "class": "zObjectMesh",
+      "name": "zObjectMesh",
+      "signature": "ZSPACE_INLINE zObjectMesh::zObjectMesh(const zObjectMesh& other)",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Object lifetime",
+      "note": "Deep copy includes flat arrays and any cached topology, with dirty flags. Keep copy semantics; do not silently discard unsynchronized topology.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/objects/zObjectMesh.cpp",
+      "line": 17,
+      "class": "zObjectMesh",
+      "name": "zObjectMesh",
+      "signature": "ZSPACE_INLINE zObjectMesh::zObjectMesh(zObjectMesh&& other) noexcept = default;",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Object lifetime",
+      "note": "Ownership/lifetime operation; no geometry algorithm to migrate.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/objects/zObjectMesh.cpp",
+      "line": 19,
+      "class": "zObjectMesh",
+      "name": "operator=",
+      "signature": "ZSPACE_INLINE zObjectMesh& zObjectMesh::operator=(const zObjectMesh& other)",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Object lifetime",
+      "note": "Deep copy includes flat arrays and any cached topology, with dirty flags. Keep copy semantics; do not silently discard unsynchronized topology.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/objects/zObjectMesh.cpp",
+      "line": 27,
+      "class": "zObjectMesh",
+      "name": "operator=",
+      "signature": "ZSPACE_INLINE zObjectMesh& zObjectMesh::operator=(zObjectMesh&& other) noexcept = default;",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Object lifetime",
+      "note": "Ownership/lifetime operation; no geometry algorithm to migrate.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/objects/zObjectMesh.cpp",
+      "line": 28,
+      "class": "zObjectMesh",
+      "name": "~zObjectMesh",
+      "signature": "ZSPACE_INLINE zObjectMesh::~zObjectMesh() = default;",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Object lifetime",
+      "note": "Ownership/lifetime operation; no geometry algorithm to migrate.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 637,
+      "class": "zFnMesh",
+      "name": "zFnMesh",
+      "signature": "ZSPACE_INLINE zFnMesh::zFnMesh()",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Flat / metadata",
+      "note": "No full-topology migration needed in the active implementation.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 643,
+      "class": "zFnMesh",
+      "name": "zFnMesh",
+      "signature": "ZSPACE_INLINE zFnMesh::zFnMesh(zObjectMesh &_meshObj)",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Flat / metadata",
+      "note": "No full-topology migration needed in the active implementation.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 649,
+      "class": "zFnMesh",
+      "name": "setObject",
+      "signature": "ZSPACE_INLINE void zFnMesh::setObject(zObjectMesh &_meshObject)",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Flat / metadata",
+      "note": "No full-topology migration needed in the active implementation.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 654,
+      "class": "zFnMesh",
+      "name": "object",
+      "signature": "ZSPACE_INLINE zObjectMesh* zFnMesh::object() const",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Flat / metadata",
+      "note": "No full-topology migration needed in the active implementation.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 659,
+      "class": "zFnMesh",
+      "name": "hasObject",
+      "signature": "ZSPACE_INLINE bool zFnMesh::hasObject() const",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Flat / metadata",
+      "note": "No full-topology migration needed in the active implementation.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 666,
+      "class": "zFnMesh",
+      "name": "~zFnMesh",
+      "signature": "ZSPACE_INLINE zFnMesh::~zFnMesh() {}",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Flat / metadata",
+      "note": "No full-topology migration needed in the active implementation.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 670,
+      "class": "zFnMesh",
+      "name": "getType",
+      "signature": "ZSPACE_INLINE zFnType zFnMesh::getType()",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Flat / metadata",
+      "note": "No full-topology migration needed in the active implementation.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 679,
+      "class": "zFnMesh",
+      "name": "getBounds",
+      "signature": "ZSPACE_INLINE void zFnMesh::getBounds(zPoint &minBB, zPoint &maxBB)",
+      "directTopology": false,
+      "faceListRead": true,
+      "faceListEdit": false,
+      "category": "Flat / metadata",
+      "note": "Reads flat positions without copying in the common path. Keeps original sentinels and a copy fallback when outputs alias raw position storage. No halfedge requirement.",
+      "access": [
+        "flat read"
+      ]
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 709,
+      "class": "zFnMesh",
+      "name": "clear",
+      "signature": "ZSPACE_INLINE void zFnMesh::clear()",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": true,
+      "category": "Flat mutation / mutable view",
+      "note": "Already flat. edit() discards cached topology, including for attributes or requesting a mutable pointer. Separate invalidation classes only with pointer-lifetime tests.",
+      "access": [
+        "flat edit/set"
+      ]
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 716,
+      "class": "zFnMesh",
+      "name": "reserve",
+      "signature": "ZSPACE_INLINE void zFnMesh::reserve(int _n_v, int  _n_e, int _n_f)",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": true,
+      "category": "Flat mutation / mutable view",
+      "note": "Clears flat storage before reserving it; preserve that existing reset behavior. It is not a substitute for reserving subdivision output/scratch arrays.",
+      "access": [
+        "flat edit/set"
+      ]
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 725,
+      "class": "zFnMesh",
+      "name": "create",
+      "signature": "ZSPACE_INLINE void zFnMesh::create(zPointArray& _positions, zIntArray& polyCounts, zIntArray& polyConnects)",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": true,
+      "category": "Flat mutation / mutable view",
+      "note": "Installs flat mesh data and computes normals; no halfedge construction required.",
+      "access": [
+        "flat edit/set"
+      ]
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 734,
+      "class": "zFnMesh",
+      "name": "addVertex",
+      "signature": "ZSPACE_INLINE bool zFnMesh::addVertex(zPoint &_pos, bool checkDuplicates, zItMeshVertex &vertex)",
+      "directTopology": true,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Keep halfedge contract",
+      "note": "Local topology mutation or directed/ordered halfedge API. Retain the backend initially; migration requires explicit identity, activity and ring-order contracts.",
+      "access": [
+        "direct mutable topology access"
+      ]
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 750,
+      "class": "zFnMesh",
+      "name": "addEdges",
+      "signature": "ZSPACE_INLINE bool zFnMesh::addEdges(int v1, int v2, bool checkDuplicates, zItMeshHalfEdge &halfEdge)",
+      "directTopology": true,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Keep halfedge contract",
+      "note": "Local topology mutation or directed/ordered halfedge API. Retain the backend initially; migration requires explicit identity, activity and ring-order contracts.",
+      "access": [
+        "direct mutable topology access"
+      ]
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 775,
+      "class": "zFnMesh",
+      "name": "addPolygon",
+      "signature": "ZSPACE_INLINE bool zFnMesh::addPolygon(zIntArray &fVertices, zItMeshFace &face)",
+      "directTopology": true,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Keep halfedge contract",
+      "note": "Local topology mutation or directed/ordered halfedge API. Retain the backend initially; migration requires explicit identity, activity and ring-order contracts.",
+      "access": [
+        "direct mutable topology access"
+      ]
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 791,
+      "class": "zFnMesh",
+      "name": "addPolygon",
+      "signature": "ZSPACE_INLINE bool zFnMesh::addPolygon(zPointArray &fVertices, zItMeshFace &face)",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Keep halfedge contract",
+      "note": "Local topology mutation or directed/ordered halfedge API. Retain the backend initially; migration requires explicit identity, activity and ring-order contracts.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 805,
+      "class": "zFnMesh",
+      "name": "addPolygon",
+      "signature": "ZSPACE_INLINE bool zFnMesh::addPolygon(zItMeshFace &face)",
+      "directTopology": true,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Keep halfedge contract",
+      "note": "Local topology mutation or directed/ordered halfedge API. Retain the backend initially; migration requires explicit identity, activity and ring-order contracts.",
+      "access": [
+        "direct mutable topology access"
+      ]
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 813,
+      "class": "zFnMesh",
+      "name": "updatePolygon",
+      "signature": "ZSPACE_INLINE bool zFnMesh::updatePolygon(zItMeshFace& face, zIntArray& fVertices)",
+      "directTopology": true,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Keep halfedge contract",
+      "note": "Local topology mutation or directed/ordered halfedge API. Retain the backend initially; migration requires explicit identity, activity and ring-order contracts.",
+      "access": [
+        "direct mutable topology access"
+      ]
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 828,
+      "class": "zFnMesh",
+      "name": "numVertices",
+      "signature": "ZSPACE_INLINE int zFnMesh::numVertices()",
+      "directTopology": false,
+      "faceListRead": true,
+      "faceListEdit": false,
+      "category": "Flat / metadata",
+      "note": "No full-topology migration needed in the active implementation.",
+      "access": [
+        "flat read"
+      ]
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 833,
+      "class": "zFnMesh",
+      "name": "numEdges",
+      "signature": "ZSPACE_INLINE int zFnMesh::numEdges()",
+      "directTopology": false,
+      "faceListRead": true,
+      "faceListEdit": false,
+      "category": "Flat / metadata",
+      "note": "No full-topology migration needed in the active implementation.",
+      "access": [
+        "flat read"
+      ]
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 838,
+      "class": "zFnMesh",
+      "name": "edgeExists",
+      "signature": "ZSPACE_INLINE bool zFnMesh::edgeExists(int v1, int v2, int &outEdgeId)",
+      "directTopology": false,
+      "faceListRead": true,
+      "faceListEdit": false,
+      "category": "Flat / metadata",
+      "note": "No full-topology migration needed in the active implementation.",
+      "access": [
+        "flat read"
+      ]
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 858,
+      "class": "zFnMesh",
+      "name": "numHalfEdges",
+      "signature": "ZSPACE_INLINE int zFnMesh::numHalfEdges()",
+      "directTopology": true,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Keep halfedge contract",
+      "note": "Local topology mutation or directed/ordered halfedge API. Retain the backend initially; migration requires explicit identity, activity and ring-order contracts.",
+      "access": [
+        "direct mutable topology access"
+      ]
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 863,
+      "class": "zFnMesh",
+      "name": "numPolygons",
+      "signature": "ZSPACE_INLINE int zFnMesh::numPolygons()",
+      "directTopology": false,
+      "faceListRead": true,
+      "faceListEdit": false,
+      "category": "Flat / metadata",
+      "note": "No full-topology migration needed in the active implementation.",
+      "access": [
+        "flat read"
+      ]
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 868,
+      "class": "zFnMesh",
+      "name": "vertexExists",
+      "signature": "ZSPACE_INLINE bool zFnMesh::vertexExists(zPoint pos, zItMeshVertex &outVertex, int precisionfactor)",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Flat lookup — migrated",
+      "note": "Migrated: cached flat coordinate lookup reproduces default precision-six insertion, requested lookup precision, signed zero and last-duplicate behavior. Existing topology lookup remains authoritative when present. Mutations invalidate the flat cache.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 878,
+      "class": "zFnMesh",
+      "name": "halfEdgeExists",
+      "signature": "ZSPACE_INLINE bool zFnMesh::halfEdgeExists(int v1, int v2, int &outHalfEdgeId)",
+      "directTopology": true,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Keep halfedge contract",
+      "note": "Local topology mutation or directed/ordered halfedge API. Retain the backend initially; migration requires explicit identity, activity and ring-order contracts.",
+      "access": [
+        "direct mutable topology access"
+      ]
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 883,
+      "class": "zFnMesh",
+      "name": "halfEdgeExists",
+      "signature": "ZSPACE_INLINE bool zFnMesh::halfEdgeExists(int v1, int v2, zItMeshHalfEdge &outHalfEdge)",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Keep halfedge contract",
+      "note": "Local topology mutation or directed/ordered halfedge API. Retain the backend initially; migration requires explicit identity, activity and ring-order contracts.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 893,
+      "class": "zFnMesh",
+      "name": "getTopologicalLaplacian",
+      "signature": "ZSPACE_INLINE zSparseMatrix zFnMesh::getTopologicalLaplacian()",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Lightweight adjacency candidate",
+      "note": "Uses halfedge rings and cotangent weights despite its name. Flat face-corner adjacency is possible; preserve signs, boundary rules, polygon angle convention and summation order.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 958,
+      "class": "zFnMesh",
+      "name": "getEdgeCotangentWeight",
+      "signature": "ZSPACE_INLINE double zFnMesh::getEdgeCotangentWeight(zItMeshHalfEdge &he)",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Lightweight adjacency candidate",
+      "note": "Halfedge-typed API. Keep wrapper and directed identity; internal arithmetic could use face-corner records after parity tests.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 993,
+      "class": "zFnMesh",
+      "name": "checkPointInConvexHull",
+      "signature": "ZSPACE_INLINE bool zFnMesh::checkPointInConvexHull(zPoint &pt)",
+      "directTopology": false,
+      "faceListRead": true,
+      "faceListEdit": false,
+      "category": "Flat / metadata",
+      "note": "No full-topology migration needed in the active implementation.",
+      "access": [
+        "flat read"
+      ]
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 1022,
+      "class": "zFnMesh",
+      "name": "computeEdgeColorfromVertexColor",
+      "signature": "ZSPACE_INLINE void zFnMesh::computeEdgeColorfromVertexColor()",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": true,
+      "category": "Flat mutation / mutable view",
+      "note": "Already flat. edit() discards cached topology, including for attributes or requesting a mutable pointer. Separate invalidation classes only with pointer-lifetime tests.",
+      "access": [
+        "flat edit/set"
+      ]
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 1038,
+      "class": "zFnMesh",
+      "name": "computeVertexColorfromEdgeColor",
+      "signature": "ZSPACE_INLINE void zFnMesh::computeVertexColorfromEdgeColor()",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": true,
+      "category": "Flat mutation / mutable view",
+      "note": "Already flat. edit() discards cached topology, including for attributes or requesting a mutable pointer. Separate invalidation classes only with pointer-lifetime tests.",
+      "access": [
+        "flat edit/set"
+      ]
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 1064,
+      "class": "zFnMesh",
+      "name": "computeFaceColorfromVertexColor",
+      "signature": "ZSPACE_INLINE void zFnMesh::computeFaceColorfromVertexColor()",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": true,
+      "category": "Flat mutation / mutable view",
+      "note": "Already flat. edit() discards cached topology, including for attributes or requesting a mutable pointer. Separate invalidation classes only with pointer-lifetime tests.",
+      "access": [
+        "flat edit/set"
+      ]
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 1084,
+      "class": "zFnMesh",
+      "name": "computeVertexColorfromFaceColor",
+      "signature": "ZSPACE_INLINE void zFnMesh::computeVertexColorfromFaceColor()",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": true,
+      "category": "Flat mutation / mutable view",
+      "note": "Already flat. edit() discards cached topology, including for attributes or requesting a mutable pointer. Separate invalidation classes only with pointer-lifetime tests.",
+      "access": [
+        "flat edit/set"
+      ]
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 1110,
+      "class": "zFnMesh",
+      "name": "smoothColors",
+      "signature": "ZSPACE_INLINE void zFnMesh::smoothColors(int smoothVal, zHEData type)",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": true,
+      "category": "Flat mutation / mutable view",
+      "note": "Already flat. edit() discards cached topology, including for attributes or requesting a mutable pointer. Separate invalidation classes only with pointer-lifetime tests.",
+      "access": [
+        "flat edit/set"
+      ]
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 1216,
+      "class": "zFnMesh",
+      "name": "computeVertexNormalfromFaceNormal",
+      "signature": "ZSPACE_INLINE void zFnMesh::computeVertexNormalfromFaceNormal()",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": true,
+      "category": "Flat mutation / mutable view",
+      "note": "Already flat. edit() discards cached topology, including for attributes or requesting a mutable pointer. Separate invalidation classes only with pointer-lifetime tests.",
+      "access": [
+        "flat edit/set"
+      ]
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 1239,
+      "class": "zFnMesh",
+      "name": "computeMeshNormals",
+      "signature": "ZSPACE_INLINE void zFnMesh::computeMeshNormals()",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": true,
+      "category": "Flat mutation / mutable view",
+      "note": "Already flat. edit() discards cached topology, including for attributes or requesting a mutable pointer. Separate invalidation classes only with pointer-lifetime tests.",
+      "access": [
+        "flat edit/set"
+      ]
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 1279,
+      "class": "zFnMesh",
+      "name": "averageVertices",
+      "signature": "ZSPACE_INLINE void zFnMesh::averageVertices(int numSteps)",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": true,
+      "category": "Flat mutation / mutable view",
+      "note": "Already flat. edit() discards cached topology, including for attributes or requesting a mutable pointer. Separate invalidation classes only with pointer-lifetime tests.",
+      "access": [
+        "flat edit/set"
+      ]
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 1315,
+      "class": "zFnMesh",
+      "name": "makeConvexHull",
+      "signature": "ZSPACE_INLINE void zFnMesh::makeConvexHull(zPointArray &_pts)",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Flat / metadata",
+      "note": "No full-topology migration needed in the active implementation.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 1368,
+      "class": "zFnMesh",
+      "name": "isTriMesh",
+      "signature": "ZSPACE_INLINE bool zFnMesh::isTriMesh()",
+      "directTopology": false,
+      "faceListRead": true,
+      "faceListEdit": false,
+      "category": "Flat / metadata",
+      "note": "No full-topology migration needed in the active implementation.",
+      "access": [
+        "flat read"
+      ]
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 1379,
+      "class": "zFnMesh",
+      "name": "isQuadMesh",
+      "signature": "ZSPACE_INLINE bool zFnMesh::isQuadMesh()",
+      "directTopology": false,
+      "faceListRead": true,
+      "faceListEdit": false,
+      "category": "Flat / metadata",
+      "note": "No full-topology migration needed in the active implementation.",
+      "access": [
+        "flat read"
+      ]
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 1390,
+      "class": "zFnMesh",
+      "name": "computeEdgeLoop",
+      "signature": "ZSPACE_INLINE void zFnMesh::computeEdgeLoop(zItMeshHalfEdge& heStart, vector<zItMeshHalfEdge>& _heLoop)",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Keep halfedge contract",
+      "note": "Local topology mutation or directed/ordered halfedge API. Retain the backend initially; migration requires explicit identity, activity and ring-order contracts.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 1413,
+      "class": "zFnMesh",
+      "name": "computeEdgeLoop_Split",
+      "signature": "ZSPACE_INLINE void zFnMesh::computeEdgeLoop_Split(vector<zItMeshHalfEdge> &_heLoop, int divs, vector<zPoint> &divPoints)",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Keep halfedge contract",
+      "note": "Local topology mutation or directed/ordered halfedge API. Retain the backend initially; migration requires explicit identity, activity and ring-order contracts.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 1466,
+      "class": "zFnMesh",
+      "name": "computeEdgeLoop_SplitLength",
+      "signature": "ZSPACE_INLINE void zFnMesh::computeEdgeLoop_SplitLength(vector<zItMeshHalfEdge>& _heLoop, float divLength, vector<zPoint>& divPoints)",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Keep halfedge contract",
+      "note": "Local topology mutation or directed/ordered halfedge API. Retain the backend initially; migration requires explicit identity, activity and ring-order contracts.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 1519,
+      "class": "zFnMesh",
+      "name": "computeEdgeLoop_Length",
+      "signature": "ZSPACE_INLINE float zFnMesh::computeEdgeLoop_Length(vector<zItMeshHalfEdge> &_heLoop)",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Keep halfedge contract",
+      "note": "Local topology mutation or directed/ordered halfedge API. Retain the backend initially; migration requires explicit identity, activity and ring-order contracts.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 1530,
+      "class": "zFnMesh",
+      "name": "setVertexPositions",
+      "signature": "ZSPACE_INLINE void zFnMesh::setVertexPositions(zPointArray& pos)",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": true,
+      "category": "Flat mutation / mutable view",
+      "note": "Already flat. edit() discards cached topology, including for attributes or requesting a mutable pointer. Separate invalidation classes only with pointer-lifetime tests.",
+      "access": [
+        "flat edit/set"
+      ]
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 1537,
+      "class": "zFnMesh",
+      "name": "setVertexColor",
+      "signature": "ZSPACE_INLINE void zFnMesh::setVertexColor(zColor col, bool setFaceColor)",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": true,
+      "category": "Flat mutation / mutable view",
+      "note": "Already flat. edit() discards cached topology, including for attributes or requesting a mutable pointer. Separate invalidation classes only with pointer-lifetime tests.",
+      "access": [
+        "flat edit/set"
+      ]
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 1545,
+      "class": "zFnMesh",
+      "name": "setVertexColorsfromScalars",
+      "signature": "ZSPACE_INLINE void zFnMesh::setVertexColorsfromScalars(zScalarArray& vertexScalars, bool setFaceColor)",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": true,
+      "category": "Flat mutation / mutable view",
+      "note": "Already flat. edit() discards cached topology, including for attributes or requesting a mutable pointer. Separate invalidation classes only with pointer-lifetime tests.",
+      "access": [
+        "flat edit/set"
+      ]
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 1570,
+      "class": "zFnMesh",
+      "name": "setVertexColors",
+      "signature": "ZSPACE_INLINE void zFnMesh::setVertexColors(zColorArray& col, bool setFaceColor)",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": true,
+      "category": "Flat mutation / mutable view",
+      "note": "Already flat. edit() discards cached topology, including for attributes or requesting a mutable pointer. Separate invalidation classes only with pointer-lifetime tests.",
+      "access": [
+        "flat edit/set"
+      ]
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 1579,
+      "class": "zFnMesh",
+      "name": "setVertexWeight",
+      "signature": "ZSPACE_INLINE void zFnMesh::setVertexWeight(double wt)",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": true,
+      "category": "Flat mutation / mutable view",
+      "note": "Already flat. edit() discards cached topology, including for attributes or requesting a mutable pointer. Separate invalidation classes only with pointer-lifetime tests.",
+      "access": [
+        "flat edit/set"
+      ]
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 1585,
+      "class": "zFnMesh",
+      "name": "setVertexWeights",
+      "signature": "ZSPACE_INLINE void zFnMesh::setVertexWeights(zDoubleArray& wt)",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": true,
+      "category": "Flat mutation / mutable view",
+      "note": "Already flat. edit() discards cached topology, including for attributes or requesting a mutable pointer. Separate invalidation classes only with pointer-lifetime tests.",
+      "access": [
+        "flat edit/set"
+      ]
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 1592,
+      "class": "zFnMesh",
+      "name": "setFaceColor",
+      "signature": "ZSPACE_INLINE void zFnMesh::setFaceColor(zColor col, bool setVertexColor)",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": true,
+      "category": "Flat mutation / mutable view",
+      "note": "Already flat. edit() discards cached topology, including for attributes or requesting a mutable pointer. Separate invalidation classes only with pointer-lifetime tests.",
+      "access": [
+        "flat edit/set"
+      ]
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 1600,
+      "class": "zFnMesh",
+      "name": "setFaceColors",
+      "signature": "ZSPACE_INLINE void zFnMesh::setFaceColors(zColorArray& col, bool setVertexColor)",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": true,
+      "category": "Flat mutation / mutable view",
+      "note": "Already flat. edit() discards cached topology, including for attributes or requesting a mutable pointer. Separate invalidation classes only with pointer-lifetime tests.",
+      "access": [
+        "flat edit/set"
+      ]
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 1609,
+      "class": "zFnMesh",
+      "name": "setFaceColorOcclusion",
+      "signature": "ZSPACE_INLINE void zFnMesh::setFaceColorOcclusion(zVector &lightVec, bool setVertexColor)",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Flat / metadata",
+      "note": "No full-topology migration needed in the active implementation.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 1632,
+      "class": "zFnMesh",
+      "name": "setFaceNormals",
+      "signature": "ZSPACE_INLINE void zFnMesh::setFaceNormals(zVector &fNormal)",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": true,
+      "category": "Flat mutation / mutable view",
+      "note": "Already flat. edit() discards cached topology, including for attributes or requesting a mutable pointer. Separate invalidation classes only with pointer-lifetime tests.",
+      "access": [
+        "flat edit/set"
+      ]
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 1641,
+      "class": "zFnMesh",
+      "name": "setFaceNormals",
+      "signature": "ZSPACE_INLINE void zFnMesh::setFaceNormals(zVectorArray &fNormals)",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": true,
+      "category": "Flat mutation / mutable view",
+      "note": "Already flat. edit() discards cached topology, including for attributes or requesting a mutable pointer. Separate invalidation classes only with pointer-lifetime tests.",
+      "access": [
+        "flat edit/set"
+      ]
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 1651,
+      "class": "zFnMesh",
+      "name": "setEdgeColor",
+      "signature": "ZSPACE_INLINE void zFnMesh::setEdgeColor(zColor col, bool setVertexColor)",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": true,
+      "category": "Flat mutation / mutable view",
+      "note": "Already flat. edit() discards cached topology, including for attributes or requesting a mutable pointer. Separate invalidation classes only with pointer-lifetime tests.",
+      "access": [
+        "flat edit/set"
+      ]
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 1659,
+      "class": "zFnMesh",
+      "name": "setEdgeColors",
+      "signature": "ZSPACE_INLINE void zFnMesh::setEdgeColors(zColorArray& col, bool setVertexColor)",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": true,
+      "category": "Flat mutation / mutable view",
+      "note": "Already flat. edit() discards cached topology, including for attributes or requesting a mutable pointer. Separate invalidation classes only with pointer-lifetime tests.",
+      "access": [
+        "flat edit/set"
+      ]
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 1668,
+      "class": "zFnMesh",
+      "name": "setEdgeWeight",
+      "signature": "ZSPACE_INLINE void zFnMesh::setEdgeWeight(double wt)",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": true,
+      "category": "Flat mutation / mutable view",
+      "note": "Already flat. edit() discards cached topology, including for attributes or requesting a mutable pointer. Separate invalidation classes only with pointer-lifetime tests.",
+      "access": [
+        "flat edit/set"
+      ]
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 1674,
+      "class": "zFnMesh",
+      "name": "setEdgeWeight",
+      "signature": "ZSPACE_INLINE void zFnMesh::setEdgeWeight(int index, double wt)",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": true,
+      "category": "Flat mutation / mutable view",
+      "note": "Already flat. edit() discards cached topology, including for attributes or requesting a mutable pointer. Separate invalidation classes only with pointer-lifetime tests.",
+      "access": [
+        "flat edit/set"
+      ]
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 1681,
+      "class": "zFnMesh",
+      "name": "setEdgeWeights",
+      "signature": "ZSPACE_INLINE void zFnMesh::setEdgeWeights(zDoubleArray& wt)",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": true,
+      "category": "Flat mutation / mutable view",
+      "note": "Already flat. edit() discards cached topology, including for attributes or requesting a mutable pointer. Separate invalidation classes only with pointer-lifetime tests.",
+      "access": [
+        "flat edit/set"
+      ]
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 1689,
+      "class": "zFnMesh",
+      "name": "getVertexPositions",
+      "signature": "ZSPACE_INLINE void zFnMesh::getVertexPositions(zPointArray &pos, bool exludeCornerVertices)",
+      "directTopology": false,
+      "faceListRead": true,
+      "faceListEdit": false,
+      "category": "Flat / metadata",
+      "note": "No full-topology migration needed in the active implementation.",
+      "access": [
+        "flat read"
+      ]
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 1703,
+      "class": "zFnMesh",
+      "name": "getRawVertexPositions",
+      "signature": "ZSPACE_INLINE zPoint* zFnMesh::getRawVertexPositions()",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": true,
+      "category": "Flat mutation / mutable view",
+      "note": "Already flat. edit() discards cached topology, including for attributes or requesting a mutable pointer. Separate invalidation classes only with pointer-lifetime tests.",
+      "access": [
+        "flat edit/set"
+      ]
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 1710,
+      "class": "zFnMesh",
+      "name": "getRawVertexPositions",
+      "signature": "ZSPACE_INLINE void zFnMesh::getRawVertexPositions(float** points)",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": true,
+      "category": "Flat mutation / mutable view",
+      "note": "Already flat. edit() discards cached topology, including for attributes or requesting a mutable pointer. Separate invalidation classes only with pointer-lifetime tests.",
+      "access": [
+        "flat edit/set"
+      ]
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 1726,
+      "class": "zFnMesh",
+      "name": "getVertexNormals",
+      "signature": "ZSPACE_INLINE void zFnMesh::getVertexNormals(zVectorArray& norm)",
+      "directTopology": false,
+      "faceListRead": true,
+      "faceListEdit": false,
+      "category": "Flat / metadata",
+      "note": "No full-topology migration needed in the active implementation.",
+      "access": [
+        "flat read"
+      ]
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 1731,
+      "class": "zFnMesh",
+      "name": "getRawVertexNormals",
+      "signature": "ZSPACE_INLINE zVector* zFnMesh::getRawVertexNormals()",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": true,
+      "category": "Flat mutation / mutable view",
+      "note": "Already flat. edit() discards cached topology, including for attributes or requesting a mutable pointer. Separate invalidation classes only with pointer-lifetime tests.",
+      "access": [
+        "flat edit/set"
+      ]
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 1738,
+      "class": "zFnMesh",
+      "name": "getRawVertexNormals",
+      "signature": "ZSPACE_INLINE void zFnMesh::getRawVertexNormals(float** normals)",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": true,
+      "category": "Flat mutation / mutable view",
+      "note": "Already flat. edit() discards cached topology, including for attributes or requesting a mutable pointer. Separate invalidation classes only with pointer-lifetime tests.",
+      "access": [
+        "flat edit/set"
+      ]
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 1752,
+      "class": "zFnMesh",
+      "name": "getVertexColors",
+      "signature": "ZSPACE_INLINE void zFnMesh::getVertexColors(zColorArray& col)",
+      "directTopology": false,
+      "faceListRead": true,
+      "faceListEdit": false,
+      "category": "Flat / metadata",
+      "note": "No full-topology migration needed in the active implementation.",
+      "access": [
+        "flat read"
+      ]
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 1757,
+      "class": "zFnMesh",
+      "name": "getVertexWeights",
+      "signature": "ZSPACE_INLINE void zFnMesh::getVertexWeights(zDoubleArray& weights)",
+      "directTopology": false,
+      "faceListRead": true,
+      "faceListEdit": false,
+      "category": "Flat / metadata",
+      "note": "No full-topology migration needed in the active implementation.",
+      "access": [
+        "flat read"
+      ]
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 1762,
+      "class": "zFnMesh",
+      "name": "getRawVertexColors",
+      "signature": "ZSPACE_INLINE zColor* zFnMesh::getRawVertexColors()",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": true,
+      "category": "Flat mutation / mutable view",
+      "note": "Already flat. edit() discards cached topology, including for attributes or requesting a mutable pointer. Separate invalidation classes only with pointer-lifetime tests.",
+      "access": [
+        "flat edit/set"
+      ]
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 1769,
+      "class": "zFnMesh",
+      "name": "getEdgeColors",
+      "signature": "ZSPACE_INLINE void zFnMesh::getEdgeColors(zColorArray& col)",
+      "directTopology": false,
+      "faceListRead": true,
+      "faceListEdit": false,
+      "category": "Flat / metadata",
+      "note": "No full-topology migration needed in the active implementation.",
+      "access": [
+        "flat read"
+      ]
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 1774,
+      "class": "zFnMesh",
+      "name": "getEdgeWeights",
+      "signature": "ZSPACE_INLINE void zFnMesh::getEdgeWeights(zDoubleArray& weights)",
+      "directTopology": false,
+      "faceListRead": true,
+      "faceListEdit": false,
+      "category": "Flat / metadata",
+      "note": "No full-topology migration needed in the active implementation.",
+      "access": [
+        "flat read"
+      ]
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 1779,
+      "class": "zFnMesh",
+      "name": "getRawEdgeColors",
+      "signature": "ZSPACE_INLINE zColor* zFnMesh::getRawEdgeColors()",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": true,
+      "category": "Flat mutation / mutable view",
+      "note": "Already flat. edit() discards cached topology, including for attributes or requesting a mutable pointer. Separate invalidation classes only with pointer-lifetime tests.",
+      "access": [
+        "flat edit/set"
+      ]
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 1786,
+      "class": "zFnMesh",
+      "name": "getFaceNormals",
+      "signature": "ZSPACE_INLINE void zFnMesh::getFaceNormals(zVectorArray& norm)",
+      "directTopology": false,
+      "faceListRead": true,
+      "faceListEdit": false,
+      "category": "Flat / metadata",
+      "note": "No full-topology migration needed in the active implementation.",
+      "access": [
+        "flat read"
+      ]
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 1791,
+      "class": "zFnMesh",
+      "name": "getRawFaceNormals",
+      "signature": "ZSPACE_INLINE zVector* zFnMesh::getRawFaceNormals()",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": true,
+      "category": "Flat mutation / mutable view",
+      "note": "Already flat. edit() discards cached topology, including for attributes or requesting a mutable pointer. Separate invalidation classes only with pointer-lifetime tests.",
+      "access": [
+        "flat edit/set"
+      ]
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 1798,
+      "class": "zFnMesh",
+      "name": "getFaceColors",
+      "signature": "ZSPACE_INLINE void zFnMesh::getFaceColors(zColorArray& col)",
+      "directTopology": false,
+      "faceListRead": true,
+      "faceListEdit": false,
+      "category": "Flat / metadata",
+      "note": "No full-topology migration needed in the active implementation.",
+      "access": [
+        "flat read"
+      ]
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 1803,
+      "class": "zFnMesh",
+      "name": "getRawFaceColors",
+      "signature": "ZSPACE_INLINE zColor* zFnMesh::getRawFaceColors()",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": true,
+      "category": "Flat mutation / mutable view",
+      "note": "Already flat. edit() discards cached topology, including for attributes or requesting a mutable pointer. Separate invalidation classes only with pointer-lifetime tests.",
+      "access": [
+        "flat edit/set"
+      ]
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 1810,
+      "class": "zFnMesh",
+      "name": "getCenter",
+      "signature": "ZSPACE_INLINE zPoint zFnMesh::getCenter()",
+      "directTopology": false,
+      "faceListRead": true,
+      "faceListEdit": false,
+      "category": "Flat / metadata",
+      "note": "No full-topology migration needed in the active implementation.",
+      "access": [
+        "flat read"
+      ]
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 1820,
+      "class": "zFnMesh",
+      "name": "getCenters",
+      "signature": "ZSPACE_INLINE void zFnMesh::getCenters(zHEData type, zPointArray &centers)",
+      "directTopology": false,
+      "faceListRead": true,
+      "faceListEdit": false,
+      "category": "Mixed: flat + halfedge branch",
+      "note": "Vertex/edge/face paths already flat; zHalfEdgeData path uses directed halfedge iterator centers. Keep halfedge identity semantics.",
+      "access": [
+        "flat read"
+      ]
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 1871,
+      "class": "zFnMesh",
+      "name": "getDualMesh",
+      "signature": "ZSPACE_INLINE void zFnMesh::getDualMesh(zObjectMesh &dualMeshObj, zIntArray &inEdge_dualEdge, zIntArray &dualEdge_inEdge, bool excludeBoundary, bool keepExistingBoundary, bool rotate90)",
+      "directTopology": true,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Keep halfedge contract",
+      "note": "Local topology mutation or directed/ordered halfedge API. Retain the backend initially; migration requires explicit identity, activity and ring-order contracts.",
+      "access": [
+        "direct mutable topology access"
+      ]
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 2035,
+      "class": "zFnMesh",
+      "name": "getDualGraph",
+      "signature": "ZSPACE_INLINE void zFnMesh::getDualGraph(zObjectGraph &dualGraphObj, zIntArray &inEdge_dualEdge, zIntArray &dualEdge_inEdge, bool excludeBoundary , bool PlanarMesh , bool rotate90)",
+      "directTopology": true,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Keep halfedge contract",
+      "note": "Local topology mutation or directed/ordered halfedge API. Retain the backend initially; migration requires explicit identity, activity and ring-order contracts.",
+      "access": [
+        "direct mutable topology access"
+      ]
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 2153,
+      "class": "zFnMesh",
+      "name": "getRainflowGraph",
+      "signature": "ZSPACE_INLINE void zFnMesh::getRainflowGraph(zObjectGraph &rainflowGraphObj, bool excludeBoundary)",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Lightweight adjacency candidate",
+      "note": "Uses vertex boundary/incident-face iterator queries. Lightweight ordered incidence is possible; preserve boundary routing and graph output order.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 2239,
+      "class": "zFnMesh",
+      "name": "getMeshTriangles",
+      "signature": "ZSPACE_INLINE void zFnMesh::getMeshTriangles(vector<zIntArray> &faceTris)",
+      "directTopology": false,
+      "faceListRead": true,
+      "faceListEdit": false,
+      "category": "Flat / metadata",
+      "note": "Already flat. Preserve existing triangulation output ordering and handling of concave/degenerate faces.",
+      "access": [
+        "flat read"
+      ]
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 2252,
+      "class": "zFnMesh",
+      "name": "getMeshVolume",
+      "signature": "ZSPACE_INLINE double zFnMesh::getMeshVolume()",
+      "directTopology": false,
+      "faceListRead": true,
+      "faceListEdit": false,
+      "category": "Flat / metadata",
+      "note": "No full-topology migration needed in the active implementation.",
+      "access": [
+        "flat read"
+      ]
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 2276,
+      "class": "zFnMesh",
+      "name": "getMeshFaceVolumes",
+      "signature": "ZSPACE_INLINE void zFnMesh::getMeshFaceVolumes(vector<zIntArray> &faceTris, zPointArray &fCenters, zDoubleArray &faceVolumes, bool absoluteVolumes)",
+      "directTopology": false,
+      "faceListRead": true,
+      "faceListEdit": false,
+      "category": "Flat / metadata",
+      "note": "No full-topology migration needed in the active implementation.",
+      "access": [
+        "flat read"
+      ]
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 2310,
+      "class": "zFnMesh",
+      "name": "getPrincipalCurvatures",
+      "signature": "ZSPACE_INLINE void zFnMesh::getPrincipalCurvatures(zCurvatureArray &vertexCurvatures, zVectorArray& pVector1, zVectorArray& pVector2)",
+      "directTopology": false,
+      "faceListRead": true,
+      "faceListEdit": false,
+      "category": "Flat / metadata",
+      "note": "Already flat. K-ring search now reuses visit stamps and a neighborhood vector across vertices, avoiding V-sized clearing per query. Traversal order, radius rules and fitting math remain unchanged. The sphere helper is unchanged (current method selects K-ring). Older halfedge curvature helper has no active call site.",
+      "access": [
+        "flat read"
+      ]
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 2548,
+      "class": "zFnMesh",
+      "name": "getGaussianCurvature",
+      "signature": "ZSPACE_INLINE void zFnMesh::getGaussianCurvature(zDoubleArray &vertexCurvatures)",
+      "directTopology": false,
+      "faceListRead": true,
+      "faceListEdit": false,
+      "category": "Flat / metadata",
+      "note": "Already flat. Retain boundary-angle and nonmanifold conventions; reusable adjacency can reduce allocation.",
+      "access": [
+        "flat read"
+      ]
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 2632,
+      "class": "zFnMesh",
+      "name": "getPlanarityDeviationPerFace",
+      "signature": "ZSPACE_INLINE void zFnMesh::getPlanarityDeviationPerFace(zDoubleArray& planarityDevs, zPlanarSolverType type, bool colorFaces, double tolerance)",
+      "directTopology": false,
+      "faceListRead": true,
+      "faceListEdit": true,
+      "category": "Flat mutation / mutable view",
+      "note": "Already flat. edit() discards cached topology, including for attributes or requesting a mutable pointer. Separate invalidation classes only with pointer-lifetime tests.",
+      "access": [
+        "flat read",
+        "flat edit/set"
+      ]
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 2693,
+      "class": "zFnMesh",
+      "name": "getEdgeDihedralAngles",
+      "signature": "ZSPACE_INLINE void zFnMesh::getEdgeDihedralAngles(zDoubleArray &dihedralAngles)",
+      "directTopology": false,
+      "faceListRead": true,
+      "faceListEdit": false,
+      "category": "Flat / metadata",
+      "note": "Already flat via edge-face incidence. Boundary/non-two-face sentinel and signed orientation must remain stable.",
+      "access": [
+        "flat read"
+      ]
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 2727,
+      "class": "zFnMesh",
+      "name": "getHalfEdgeLengths",
+      "signature": "ZSPACE_INLINE double zFnMesh::getHalfEdgeLengths(zDoubleArray &halfEdgeLengths)",
+      "directTopology": false,
+      "faceListRead": true,
+      "faceListEdit": false,
+      "category": "Flat / metadata",
+      "note": "Already flat: emits two lengths per unique edge and sums once per edge. Verify ordering against halfedge IDs before changing implementation.",
+      "access": [
+        "flat read"
+      ]
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 2752,
+      "class": "zFnMesh",
+      "name": "getEdgeLengths",
+      "signature": "ZSPACE_INLINE double zFnMesh::getEdgeLengths(zDoubleArray &edgeLengths)",
+      "directTopology": false,
+      "faceListRead": true,
+      "faceListEdit": false,
+      "category": "Flat / metadata",
+      "note": "No full-topology migration needed in the active implementation.",
+      "access": [
+        "flat read"
+      ]
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 2776,
+      "class": "zFnMesh",
+      "name": "getVertexAreas",
+      "signature": "ZSPACE_INLINE double zFnMesh::getVertexAreas(zPointArray &faceCenters, zPointArray &edgeCenters, zFloatArray &vertexAreas)",
+      "directTopology": true,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Lightweight adjacency candidate",
+      "note": "Uses connected halfedges and indexes edgeCenters by halfedge ID. Do not substitute unique-edge IDs. Preserve caller input indexing and signed area convention.",
+      "access": [
+        "direct mutable topology access"
+      ]
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 2830,
+      "class": "zFnMesh",
+      "name": "getPlanarFaceAreas",
+      "signature": "ZSPACE_INLINE double zFnMesh::getPlanarFaceAreas(zDoubleArray &faceAreas)",
+      "directTopology": false,
+      "faceListRead": true,
+      "faceListEdit": false,
+      "category": "Flat / metadata",
+      "note": "No full-topology migration needed in the active implementation.",
+      "access": [
+        "flat read"
+      ]
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 2850,
+      "class": "zFnMesh",
+      "name": "getPolygonData",
+      "signature": "ZSPACE_INLINE void zFnMesh::getPolygonData(zIntArray(&polyConnects), zIntArray(&polyCounts))",
+      "directTopology": false,
+      "faceListRead": true,
+      "faceListEdit": false,
+      "category": "Flat / metadata",
+      "note": "No full-topology migration needed in the active implementation.",
+      "access": [
+        "flat read"
+      ]
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 2855,
+      "class": "zFnMesh",
+      "name": "getMatrices_trimesh",
+      "signature": "ZSPACE_INLINE void zFnMesh::getMatrices_trimesh(MatrixXd& V, MatrixXi& F)",
+      "directTopology": false,
+      "faceListRead": true,
+      "faceListEdit": false,
+      "category": "Flat / metadata",
+      "note": "No full-topology migration needed in the active implementation.",
+      "access": [
+        "flat read"
+      ]
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 2884,
+      "class": "zFnMesh",
+      "name": "getMatrices_quadmesh",
+      "signature": "ZSPACE_INLINE void zFnMesh::getMatrices_quadmesh(MatrixXd& V, MatrixXi& F)",
+      "directTopology": false,
+      "faceListRead": true,
+      "faceListEdit": false,
+      "category": "Flat / metadata",
+      "note": "No full-topology migration needed in the active implementation.",
+      "access": [
+        "flat read"
+      ]
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 2913,
+      "class": "zFnMesh",
+      "name": "getEdgeData",
+      "signature": "ZSPACE_INLINE void zFnMesh::getEdgeData(zIntArray &edgeConnects, bool excludeBoundary)",
+      "directTopology": false,
+      "faceListRead": true,
+      "faceListEdit": false,
+      "category": "Flat / metadata",
+      "note": "Already flat; rebuilds edge-face incidence. Cache incidence behind connectivity revision only after measuring reuse.",
+      "access": [
+        "flat read"
+      ]
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 2931,
+      "class": "zFnMesh",
+      "name": "getDuplicate",
+      "signature": "ZSPACE_INLINE void zFnMesh::getDuplicate(zObjectMesh &out)",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Flat / metadata",
+      "note": "Copies the object, including any cached topology via Impl. Synchronize and preserve activity/IDs before considering a lighter copy.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 2956,
+      "class": "zFnMesh",
+      "name": "splitMesh_Mixed",
+      "signature": "ZSPACE_INLINE void zFnMesh::splitMesh_Mixed(zPointArray& splitPlanes_origins, zVectorArray& splitPlanes_normals, zObjectMesh& resultMeshObj)",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Flat / metadata",
+      "note": "No full-topology migration needed in the active implementation.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 2997,
+      "class": "zFnMesh",
+      "name": "splitMesh_Quad",
+      "signature": "ZSPACE_INLINE void zFnMesh::splitMesh_Quad(vector<zPlane>& splitPlanes, bool invertMesh, zObjectMesh& resultMeshObj)",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Flat / metadata",
+      "note": "No full-topology migration needed in the active implementation.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 3042,
+      "class": "zFnMesh",
+      "name": "getIsoMesh_mixed",
+      "signature": "ZSPACE_INLINE void zFnMesh::getIsoMesh_mixed(zScalarArray& vertexScalars, float threshold, bool invertMesh, zObjectMesh& coutourMeshObj)",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Flat / metadata",
+      "note": "No full-topology migration needed in the active implementation.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 3047,
+      "class": "zFnMesh",
+      "name": "getIsoContour",
+      "signature": "ZSPACE_INLINE void zFnMesh::getIsoContour(zScalarArray& vertexScalars, float threshold, zPointArray& positions, zIntArray& edgeConnects,  zColorArray& cVertexColor, int precision, float distTolerance, bool selectedFaces, zColor selectedFaceColor)",
+      "directTopology": false,
+      "faceListRead": true,
+      "faceListEdit": false,
+      "category": "Flat / metadata",
+      "note": "No full-topology migration needed in the active implementation.",
+      "access": [
+        "flat read"
+      ]
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 3110,
+      "class": "zFnMesh",
+      "name": "getIsoMesh",
+      "signature": "ZSPACE_INLINE void zFnMesh::getIsoMesh(zScalarArray& vertexScalars, float threshold, bool invertMesh, zObjectMesh& coutourMeshObj)",
+      "directTopology": false,
+      "faceListRead": true,
+      "faceListEdit": false,
+      "category": "Flat / metadata",
+      "note": "No full-topology migration needed in the active implementation.",
+      "access": [
+        "flat read"
+      ]
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 3157,
+      "class": "zFnMesh",
+      "name": "getIsobandMesh",
+      "signature": "ZSPACE_INLINE void zFnMesh::getIsobandMesh(zScalarArray& vertexScalars, float inThresholdLow, float inThresholdHigh, zObjectMesh& coutourMeshObj)",
+      "directTopology": false,
+      "faceListRead": true,
+      "faceListEdit": false,
+      "category": "Flat / metadata",
+      "note": "No full-topology migration needed in the active implementation.",
+      "access": [
+        "flat read"
+      ]
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 3203,
+      "class": "zFnMesh",
+      "name": "faceTriangulate",
+      "signature": "ZSPACE_INLINE void zFnMesh::faceTriangulate(zItMeshFace &face)",
+      "directTopology": false,
+      "faceListRead": true,
+      "faceListEdit": true,
+      "category": "Flat mutation / mutable view",
+      "note": "Already flat mutation; preserve unaffected face order and attribute behavior.",
+      "access": [
+        "flat read",
+        "flat edit/set"
+      ]
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 3243,
+      "class": "zFnMesh",
+      "name": "triangulate",
+      "signature": "ZSPACE_INLINE void zFnMesh::triangulate()",
+      "directTopology": false,
+      "faceListRead": true,
+      "faceListEdit": true,
+      "category": "Flat mutation / mutable view",
+      "note": "Already flat mutation; preserve output order and current attribute reset behavior.",
+      "access": [
+        "flat read",
+        "flat edit/set"
+      ]
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 3272,
+      "class": "zFnMesh",
+      "name": "splitEdge",
+      "signature": "ZSPACE_INLINE zItMeshVertex zFnMesh::splitEdge(zItMeshEdge &edge, double edgeFactor, bool checkDuplicates )",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Keep halfedge contract",
+      "note": "Local topology mutation or directed/ordered halfedge API. Retain the backend initially; migration requires explicit identity, activity and ring-order contracts.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 3358,
+      "class": "zFnMesh",
+      "name": "splitHalfEdge",
+      "signature": "ZSPACE_INLINE zItMeshVertex zFnMesh::splitHalfEdge(zItMeshHalfEdge& hEdge, double edgeFactor, bool checkDuplicates)",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Keep halfedge contract",
+      "note": "Local topology mutation or directed/ordered halfedge API. Retain the backend initially; migration requires explicit identity, activity and ring-order contracts.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 3463,
+      "class": "zFnMesh",
+      "name": "subdivide",
+      "signature": "ZSPACE_INLINE void zFnMesh::subdivide(int numDivisions)",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Keep halfedge contract",
+      "note": "Local topology mutation or directed/ordered halfedge API. Retain the backend initially; migration requires explicit identity, activity and ring-order contracts.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 3551,
+      "class": "zFnMesh",
+      "name": "smoothMesh",
+      "signature": "ZSPACE_INLINE void zFnMesh::smoothMesh(int numDivisions, bool smoothCorner)",
+      "directTopology": false,
+      "faceListRead": true,
+      "faceListEdit": false,
+      "category": "Flat / metadata",
+      "note": "Optimized flat implementation: ordered face sums, contiguous sorted corner-edge records and per-corner output point indices preserve lexicographic edge-point numbering. Move completed arrays into storage; flat edge rebuild uses packed hash lookup with first-face order retained. Final-only normals. Validation/default attributes and hash-node allocations remain; ordered adjacency migration is separate. See subdivision-optimization.html for phase timings, parity and actual-viewer observations.",
+      "access": [
+        "flat read"
+      ]
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 3769,
+      "class": "zFnMesh",
+      "name": "extrudeMesh",
+      "signature": "ZSPACE_INLINE void zFnMesh::extrudeMesh(float extrudeThickness,zObjectMesh &out, bool thicknessTris)",
+      "directTopology": false,
+      "faceListRead": true,
+      "faceListEdit": false,
+      "category": "Flat / metadata",
+      "note": "No full-topology migration needed in the active implementation.",
+      "access": [
+        "flat read"
+      ]
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 3827,
+      "class": "zFnMesh",
+      "name": "extrudeVariableMesh",
+      "signature": "ZSPACE_INLINE void zFnMesh::extrudeVariableMesh(zFloatArray extrudeThickness, zObjectMesh& out, bool bothSides, bool thicknessTris)",
+      "directTopology": false,
+      "faceListRead": true,
+      "faceListEdit": false,
+      "category": "Flat / metadata",
+      "note": "No full-topology migration needed in the active implementation.",
+      "access": [
+        "flat read"
+      ]
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 3893,
+      "class": "zFnMesh",
+      "name": "extrudeBoundaryEdge",
+      "signature": "ZSPACE_INLINE void zFnMesh::extrudeBoundaryEdge(float extrudeThickness, zObjectMesh &out, bool thicknessTris)",
+      "directTopology": false,
+      "faceListRead": true,
+      "faceListEdit": false,
+      "category": "Flat / metadata",
+      "note": "No full-topology migration needed in the active implementation.",
+      "access": [
+        "flat read"
+      ]
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 3935,
+      "class": "zFnMesh",
+      "name": "setTransform",
+      "signature": "ZSPACE_INLINE void zFnMesh::setTransform(zTransform &inTransform, bool decompose, bool updatePositions)",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Flat / metadata",
+      "note": "No full-topology migration needed in the active implementation.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 3961,
+      "class": "zFnMesh",
+      "name": "setScale",
+      "signature": "ZSPACE_INLINE void zFnMesh::setScale(zFloat4 &scale)",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Flat / metadata",
+      "note": "No full-topology migration needed in the active implementation.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 3979,
+      "class": "zFnMesh",
+      "name": "setRotation",
+      "signature": "ZSPACE_INLINE void zFnMesh::setRotation(zFloat4 &rotation, bool appendRotations)",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Flat / metadata",
+      "note": "No full-topology migration needed in the active implementation.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 4000,
+      "class": "zFnMesh",
+      "name": "setTranslation",
+      "signature": "ZSPACE_INLINE void zFnMesh::setTranslation(zVector &translation, bool appendTranslations)",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Flat / metadata",
+      "note": "No full-topology migration needed in the active implementation.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 4030,
+      "class": "zFnMesh",
+      "name": "setPivot",
+      "signature": "ZSPACE_INLINE void zFnMesh::setPivot(zVector &pivot)",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Flat / metadata",
+      "note": "No full-topology migration needed in the active implementation.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 4040,
+      "class": "zFnMesh",
+      "name": "getTransform",
+      "signature": "ZSPACE_INLINE void zFnMesh::getTransform(zTransform &transform)",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Flat / metadata",
+      "note": "No full-topology migration needed in the active implementation.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 4047,
+      "class": "zFnMesh",
+      "name": "transformObject",
+      "signature": "ZSPACE_INLINE void zFnMesh::transformObject(zTransform &transform)",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Flat / metadata",
+      "note": "Operates on flat mutable positions. A position mutation currently discards the topology cache; retained pointers need explicit lifetime rules.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 4064,
+      "class": "zFnMesh",
+      "name": "addToHalfEdgesMap",
+      "signature": "ZSPACE_INLINE void zFnMesh::addToHalfEdgesMap(zItMeshHalfEdge &he)",
+      "directTopology": true,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Keep halfedge contract",
+      "note": "Local topology mutation or directed/ordered halfedge API. Retain the backend initially; migration requires explicit identity, activity and ring-order contracts.",
+      "access": [
+        "direct mutable topology access"
+      ]
+    },
+    {
+      "file": "src/zInterface/functionsets/zFnMesh.cpp",
+      "line": 4069,
+      "class": "zFnMesh",
+      "name": "removeFromHalfEdgesMap",
+      "signature": "ZSPACE_INLINE void zFnMesh::removeFromHalfEdgesMap(zItMeshHalfEdge &he)",
+      "directTopology": true,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Keep halfedge contract",
+      "note": "Local topology mutation or directed/ordered halfedge API. Retain the backend initially; migration requires explicit identity, activity and ring-order contracts.",
+      "access": [
+        "direct mutable topology access"
+      ]
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 25,
+      "class": "zItMeshVertex",
+      "name": "zItMeshVertex",
+      "signature": "ZSPACE_INLINE zItMeshVertex::zItMeshVertex()",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Flat / metadata",
+      "note": "No full-topology migration needed in the active implementation.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 31,
+      "class": "zItMeshVertex",
+      "name": "zItMeshVertex",
+      "signature": "ZSPACE_INLINE zItMeshVertex::zItMeshVertex(zObjectMesh &_meshObj)",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Flat / metadata",
+      "note": "No full-topology migration needed in the active implementation.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 37,
+      "class": "zItMeshVertex",
+      "name": "zItMeshVertex",
+      "signature": "ZSPACE_INLINE zItMeshVertex::zItMeshVertex(zObjectMesh &_meshObj, int _index)",
+      "directTopology": false,
+      "faceListRead": true,
+      "faceListEdit": false,
+      "category": "Flat / metadata",
+      "note": "No full-topology migration needed in the active implementation.",
+      "access": [
+        "flat read"
+      ]
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 46,
+      "class": "zItMeshVertex",
+      "name": "begin",
+      "signature": "ZSPACE_INLINE void zItMeshVertex::begin()",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Flat / metadata",
+      "note": "No full-topology migration needed in the active implementation.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 51,
+      "class": "zItMeshVertex",
+      "name": "operator++",
+      "signature": "ZSPACE_INLINE void zItMeshVertex::operator++(int)",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Flat / metadata",
+      "note": "No full-topology migration needed in the active implementation.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 56,
+      "class": "zItMeshVertex",
+      "name": "operator--",
+      "signature": "ZSPACE_INLINE void zItMeshVertex::operator--(int)",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Flat / metadata",
+      "note": "No full-topology migration needed in the active implementation.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 61,
+      "class": "zItMeshVertex",
+      "name": "end",
+      "signature": "ZSPACE_INLINE bool zItMeshVertex::end()",
+      "directTopology": false,
+      "faceListRead": true,
+      "faceListEdit": false,
+      "category": "Flat / metadata",
+      "note": "No full-topology migration needed in the active implementation.",
+      "access": [
+        "flat read"
+      ]
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 66,
+      "class": "zItMeshVertex",
+      "name": "reset",
+      "signature": "ZSPACE_INLINE void zItMeshVertex::reset()",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Flat / metadata",
+      "note": "No full-topology migration needed in the active implementation.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 71,
+      "class": "zItMeshVertex",
+      "name": "size",
+      "signature": "ZSPACE_INLINE int zItMeshVertex::size()",
+      "directTopology": false,
+      "faceListRead": true,
+      "faceListEdit": false,
+      "category": "Flat / metadata",
+      "note": "No full-topology migration needed in the active implementation.",
+      "access": [
+        "flat read"
+      ]
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 77,
+      "class": "zItMeshVertex",
+      "name": "deactivate",
+      "signature": "ZSPACE_INLINE void zItMeshVertex::deactivate()",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Unsupported operation",
+      "note": "Currently throws; preserve the exception contract.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 84,
+      "class": "zItMeshVertex",
+      "name": "getConnectedHalfEdges",
+      "signature": "ZSPACE_INLINE void zItMeshVertex::getConnectedHalfEdges(zItMeshHalfEdgeArray& halfedges)",
+      "directTopology": true,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Keep halfedge contract",
+      "note": "Explicit halfedge accessor/setter. Retain backend and identity semantics.",
+      "access": [
+        "direct mutable topology access"
+      ]
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 103,
+      "class": "zItMeshVertex",
+      "name": "getConnectedHalfEdges",
+      "signature": "ZSPACE_INLINE void zItMeshVertex::getConnectedHalfEdges(zIntArray& halfedgeIndicies)",
+      "directTopology": true,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Keep halfedge contract",
+      "note": "Explicit halfedge accessor/setter. Retain backend and identity semantics.",
+      "access": [
+        "direct mutable topology access"
+      ]
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 123,
+      "class": "zItMeshVertex",
+      "name": "getConnectedEdges",
+      "signature": "ZSPACE_INLINE void zItMeshVertex::getConnectedEdges(zItMeshEdgeArray& edges)",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Lightweight adjacency candidate",
+      "note": "Use reusable incidence/corner adjacency, preserving ring/face order, signs, boundary sentinels and current rejection behavior.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 134,
+      "class": "zItMeshVertex",
+      "name": "getConnectedEdges",
+      "signature": "ZSPACE_INLINE void zItMeshVertex::getConnectedEdges(zIntArray& edgeIndicies)",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Lightweight adjacency candidate",
+      "note": "Use reusable incidence/corner adjacency, preserving ring/face order, signs, boundary sentinels and current rejection behavior.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 145,
+      "class": "zItMeshVertex",
+      "name": "getConnectedVertices",
+      "signature": "ZSPACE_INLINE void zItMeshVertex::getConnectedVertices(zItMeshVertexArray& verticies)",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Lightweight adjacency candidate",
+      "note": "Use reusable incidence/corner adjacency, preserving ring/face order, signs, boundary sentinels and current rejection behavior.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 157,
+      "class": "zItMeshVertex",
+      "name": "getConnectedVertices",
+      "signature": "ZSPACE_INLINE void zItMeshVertex::getConnectedVertices(zIntArray& vertexIndicies)",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Lightweight adjacency candidate",
+      "note": "Use reusable incidence/corner adjacency, preserving ring/face order, signs, boundary sentinels and current rejection behavior.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 169,
+      "class": "zItMeshVertex",
+      "name": "getConnectedFaces",
+      "signature": "ZSPACE_INLINE void zItMeshVertex::getConnectedFaces(zItMeshFaceArray& faces)",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Lightweight adjacency candidate",
+      "note": "Use reusable incidence/corner adjacency, preserving ring/face order, signs, boundary sentinels and current rejection behavior.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 181,
+      "class": "zItMeshVertex",
+      "name": "getConnectedFaces",
+      "signature": "ZSPACE_INLINE void zItMeshVertex::getConnectedFaces(zIntArray& faceIndicies)",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Lightweight adjacency candidate",
+      "note": "Use reusable incidence/corner adjacency, preserving ring/face order, signs, boundary sentinels and current rejection behavior.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 193,
+      "class": "zItMeshVertex",
+      "name": "onBoundary",
+      "signature": "ZSPACE_INLINE bool zItMeshVertex::onBoundary()",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Lightweight adjacency candidate",
+      "note": "Use reusable incidence/corner adjacency, preserving ring/face order, signs, boundary sentinels and current rejection behavior.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 213,
+      "class": "zItMeshVertex",
+      "name": "getValence",
+      "signature": "ZSPACE_INLINE int zItMeshVertex::getValence()",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Lightweight adjacency candidate",
+      "note": "Use reusable incidence/corner adjacency, preserving ring/face order, signs, boundary sentinels and current rejection behavior.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 225,
+      "class": "zItMeshVertex",
+      "name": "checkValency",
+      "signature": "ZSPACE_INLINE bool zItMeshVertex::checkValency(int valence)",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Lightweight adjacency candidate",
+      "note": "Use reusable incidence/corner adjacency, preserving ring/face order, signs, boundary sentinels and current rejection behavior.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 233,
+      "class": "zItMeshVertex",
+      "name": "getPrincipalCurvature",
+      "signature": "ZSPACE_INLINE zCurvature zItMeshVertex::getPrincipalCurvature()",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Lightweight adjacency candidate",
+      "note": "Ordered ring arithmetic. Preserve boundary, degenerate and sign conventions. Gradient mutates positions through edit(), so examine cache rebuilds during evaluation.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 345,
+      "class": "zItMeshVertex",
+      "name": "getGaussianCurvature",
+      "signature": "ZSPACE_INLINE double zItMeshVertex::getGaussianCurvature()",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Lightweight adjacency candidate",
+      "note": "Ordered ring arithmetic. Preserve boundary, degenerate and sign conventions. Gradient mutates positions through edit(), so examine cache rebuilds during evaluation.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 449,
+      "class": "zItMeshVertex",
+      "name": "getGaussianGradient",
+      "signature": "ZSPACE_INLINE zVector zItMeshVertex::getGaussianGradient()",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Lightweight adjacency candidate",
+      "note": "Ordered ring arithmetic. Preserve boundary, degenerate and sign conventions. Gradient mutates positions through edit(), so examine cache rebuilds during evaluation.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 503,
+      "class": "zItMeshVertex",
+      "name": "getArea",
+      "signature": "ZSPACE_INLINE double zItMeshVertex::getArea()",
+      "directTopology": true,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Lightweight adjacency candidate",
+      "note": "Ordered ring arithmetic. Preserve boundary, degenerate and sign conventions. Gradient mutates positions through edit(), so examine cache rebuilds during evaluation.",
+      "access": [
+        "direct mutable topology access"
+      ]
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 555,
+      "class": "zItMeshVertex",
+      "name": "getId",
+      "signature": "ZSPACE_INLINE int zItMeshVertex::getId()",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Flat / metadata",
+      "note": "No full-topology migration needed in the active implementation.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 560,
+      "class": "zItMeshVertex",
+      "name": "getHalfEdge",
+      "signature": "ZSPACE_INLINE zItMeshHalfEdge zItMeshVertex::getHalfEdge()",
+      "directTopology": true,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Keep halfedge contract",
+      "note": "Explicit halfedge accessor/setter. Retain backend and identity semantics.",
+      "access": [
+        "direct mutable topology access"
+      ]
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 569,
+      "class": "zItMeshVertex",
+      "name": "getPosition",
+      "signature": "ZSPACE_INLINE zVector zItMeshVertex::getPosition()",
+      "directTopology": false,
+      "faceListRead": true,
+      "faceListEdit": false,
+      "category": "Flat / metadata",
+      "note": "No full-topology migration needed in the active implementation.",
+      "access": [
+        "flat read"
+      ]
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 574,
+      "class": "zItMeshVertex",
+      "name": "getRawPosition",
+      "signature": "ZSPACE_INLINE zVector* zItMeshVertex::getRawPosition()",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": true,
+      "category": "Flat mutation / mutable view",
+      "note": "Already flat; requesting mutable data invalidates topology. Keep raw-pointer lifetime behavior until a tracked mutation design is verified.",
+      "access": [
+        "flat edit/set"
+      ]
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 579,
+      "class": "zItMeshVertex",
+      "name": "getNormal",
+      "signature": "ZSPACE_INLINE zVector zItMeshVertex::getNormal()",
+      "directTopology": false,
+      "faceListRead": true,
+      "faceListEdit": false,
+      "category": "Flat / metadata",
+      "note": "No full-topology migration needed in the active implementation.",
+      "access": [
+        "flat read"
+      ]
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 584,
+      "class": "zItMeshVertex",
+      "name": "getRawNormal",
+      "signature": "ZSPACE_INLINE zVector* zItMeshVertex::getRawNormal()",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": true,
+      "category": "Flat mutation / mutable view",
+      "note": "Already flat; requesting mutable data invalidates topology. Keep raw-pointer lifetime behavior until a tracked mutation design is verified.",
+      "access": [
+        "flat edit/set"
+      ]
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 589,
+      "class": "zItMeshVertex",
+      "name": "getNormals",
+      "signature": "ZSPACE_INLINE void zItMeshVertex::getNormals(vector<zVector> &vNormals)",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Lightweight adjacency candidate",
+      "note": "Use reusable incidence/corner adjacency, preserving ring/face order, signs, boundary sentinels and current rejection behavior.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 601,
+      "class": "zItMeshVertex",
+      "name": "getColor",
+      "signature": "ZSPACE_INLINE zColor zItMeshVertex::getColor()",
+      "directTopology": false,
+      "faceListRead": true,
+      "faceListEdit": false,
+      "category": "Flat / metadata",
+      "note": "No full-topology migration needed in the active implementation.",
+      "access": [
+        "flat read"
+      ]
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 606,
+      "class": "zItMeshVertex",
+      "name": "getRawColor",
+      "signature": "ZSPACE_INLINE zColor* zItMeshVertex::getRawColor()",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": true,
+      "category": "Flat mutation / mutable view",
+      "note": "Already flat; requesting mutable data invalidates topology. Keep raw-pointer lifetime behavior until a tracked mutation design is verified.",
+      "access": [
+        "flat edit/set"
+      ]
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 613,
+      "class": "zItMeshVertex",
+      "name": "setId",
+      "signature": "ZSPACE_INLINE void zItMeshVertex::setId(int _id)",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Flat / metadata",
+      "note": "No full-topology migration needed in the active implementation.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 619,
+      "class": "zItMeshVertex",
+      "name": "setHalfEdge",
+      "signature": "ZSPACE_INLINE void zItMeshVertex::setHalfEdge(zItMeshHalfEdge &he)",
+      "directTopology": true,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Keep halfedge contract",
+      "note": "Explicit halfedge accessor/setter. Retain backend and identity semantics.",
+      "access": [
+        "direct mutable topology access"
+      ]
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 631,
+      "class": "zItMeshVertex",
+      "name": "setPosition",
+      "signature": "ZSPACE_INLINE void zItMeshVertex::setPosition(zVector pos)",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": true,
+      "category": "Flat mutation / mutable view",
+      "note": "Already flat; requesting mutable data invalidates topology. Keep raw-pointer lifetime behavior until a tracked mutation design is verified.",
+      "access": [
+        "flat edit/set"
+      ]
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 636,
+      "class": "zItMeshVertex",
+      "name": "setColor",
+      "signature": "ZSPACE_INLINE void zItMeshVertex::setColor(zColor col)",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": true,
+      "category": "Flat mutation / mutable view",
+      "note": "Already flat; requesting mutable data invalidates topology. Keep raw-pointer lifetime behavior until a tracked mutation design is verified.",
+      "access": [
+        "flat edit/set"
+      ]
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 643,
+      "class": "zItMeshVertex",
+      "name": "isActive",
+      "signature": "ZSPACE_INLINE bool zItMeshVertex::isActive()",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Flat / metadata",
+      "note": "No full-topology migration needed in the active implementation.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 650,
+      "class": "zItMeshVertex",
+      "name": "operator==",
+      "signature": "ZSPACE_INLINE bool zItMeshVertex::operator==(zItMeshVertex &other)",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Flat / metadata",
+      "note": "No full-topology migration needed in the active implementation.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 655,
+      "class": "zItMeshVertex",
+      "name": "operator!=",
+      "signature": "ZSPACE_INLINE bool zItMeshVertex::operator!=(zItMeshVertex &other)",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Flat / metadata",
+      "note": "No full-topology migration needed in the active implementation.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 668,
+      "class": "zItMeshEdge",
+      "name": "zItMeshEdge",
+      "signature": "ZSPACE_INLINE zItMeshEdge::zItMeshEdge()",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Flat / metadata",
+      "note": "No full-topology migration needed in the active implementation.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 674,
+      "class": "zItMeshEdge",
+      "name": "zItMeshEdge",
+      "signature": "ZSPACE_INLINE zItMeshEdge::zItMeshEdge(zObjectMesh &_meshObj)",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Flat / metadata",
+      "note": "No full-topology migration needed in the active implementation.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 680,
+      "class": "zItMeshEdge",
+      "name": "zItMeshEdge",
+      "signature": "ZSPACE_INLINE zItMeshEdge::zItMeshEdge(zObjectMesh &_meshObj, int _index)",
+      "directTopology": false,
+      "faceListRead": true,
+      "faceListEdit": false,
+      "category": "Flat / metadata",
+      "note": "No full-topology migration needed in the active implementation.",
+      "access": [
+        "flat read"
+      ]
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 691,
+      "class": "zItMeshEdge",
+      "name": "begin",
+      "signature": "ZSPACE_INLINE void zItMeshEdge::begin()",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Flat / metadata",
+      "note": "No full-topology migration needed in the active implementation.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 696,
+      "class": "zItMeshEdge",
+      "name": "operator++",
+      "signature": "ZSPACE_INLINE void zItMeshEdge::operator++(int)",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Flat / metadata",
+      "note": "No full-topology migration needed in the active implementation.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 701,
+      "class": "zItMeshEdge",
+      "name": "operator--",
+      "signature": "ZSPACE_INLINE void zItMeshEdge::operator--(int)",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Flat / metadata",
+      "note": "No full-topology migration needed in the active implementation.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 706,
+      "class": "zItMeshEdge",
+      "name": "end",
+      "signature": "ZSPACE_INLINE bool zItMeshEdge::end()",
+      "directTopology": false,
+      "faceListRead": true,
+      "faceListEdit": false,
+      "category": "Flat / metadata",
+      "note": "No full-topology migration needed in the active implementation.",
+      "access": [
+        "flat read"
+      ]
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 711,
+      "class": "zItMeshEdge",
+      "name": "reset",
+      "signature": "ZSPACE_INLINE void zItMeshEdge::reset()",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Flat / metadata",
+      "note": "No full-topology migration needed in the active implementation.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 716,
+      "class": "zItMeshEdge",
+      "name": "size",
+      "signature": "ZSPACE_INLINE int zItMeshEdge::size()",
+      "directTopology": false,
+      "faceListRead": true,
+      "faceListEdit": false,
+      "category": "Flat / metadata",
+      "note": "No full-topology migration needed in the active implementation.",
+      "access": [
+        "flat read"
+      ]
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 722,
+      "class": "zItMeshEdge",
+      "name": "deactivate",
+      "signature": "ZSPACE_INLINE void zItMeshEdge::deactivate()",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Unsupported operation",
+      "note": "Currently throws; preserve the exception contract.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 729,
+      "class": "zItMeshEdge",
+      "name": "getVertices",
+      "signature": "ZSPACE_INLINE void zItMeshEdge::getVertices(zItMeshVertexArray &verticies)",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Flat / metadata",
+      "note": "No full-topology migration needed in the active implementation.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 737,
+      "class": "zItMeshEdge",
+      "name": "getVertices",
+      "signature": "ZSPACE_INLINE void zItMeshEdge::getVertices(zIntArray &vertexIndicies)",
+      "directTopology": false,
+      "faceListRead": true,
+      "faceListEdit": false,
+      "category": "Flat / metadata",
+      "note": "No full-topology migration needed in the active implementation.",
+      "access": [
+        "flat read"
+      ]
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 744,
+      "class": "zItMeshEdge",
+      "name": "getVertexPositions",
+      "signature": "ZSPACE_INLINE void zItMeshEdge::getVertexPositions(vector<zVector> &vertPositions)",
+      "directTopology": false,
+      "faceListRead": true,
+      "faceListEdit": false,
+      "category": "Flat / metadata",
+      "note": "No full-topology migration needed in the active implementation.",
+      "access": [
+        "flat read"
+      ]
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 756,
+      "class": "zItMeshEdge",
+      "name": "getFaces",
+      "signature": "ZSPACE_INLINE void zItMeshEdge::getFaces(zItMeshFaceArray &faces)",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Lightweight adjacency candidate",
+      "note": "Use reusable incidence/corner adjacency, preserving ring/face order, signs, boundary sentinels and current rejection behavior.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 764,
+      "class": "zItMeshEdge",
+      "name": "getFaces",
+      "signature": "ZSPACE_INLINE void zItMeshEdge::getFaces(zIntArray &faceIndicies)",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Lightweight adjacency candidate",
+      "note": "Use reusable incidence/corner adjacency, preserving ring/face order, signs, boundary sentinels and current rejection behavior.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 772,
+      "class": "zItMeshEdge",
+      "name": "onBoundary",
+      "signature": "ZSPACE_INLINE bool zItMeshEdge::onBoundary()",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Lightweight adjacency candidate",
+      "note": "Use reusable incidence/corner adjacency, preserving ring/face order, signs, boundary sentinels and current rejection behavior.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 777,
+      "class": "zItMeshEdge",
+      "name": "getCenter",
+      "signature": "ZSPACE_INLINE zVector zItMeshEdge::getCenter()",
+      "directTopology": false,
+      "faceListRead": true,
+      "faceListEdit": false,
+      "category": "Flat geometry — migrated",
+      "note": "Migrated to flat storage, preserving mathematical routines and corner order. Edge direction is cached from its first face; existing edited topology remains authoritative without creating a new backend. Native golden digests and focused tests cover direction, local curvature and variable offsets. Volume initializes the supplied/generated triangle counter. See render-export-optimization.html and earlier iterator reports.",
+      "access": [
+        "flat read"
+      ]
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 786,
+      "class": "zItMeshEdge",
+      "name": "getVector",
+      "signature": "ZSPACE_INLINE zVector zItMeshEdge::getVector()",
+      "directTopology": false,
+      "faceListRead": true,
+      "faceListEdit": false,
+      "category": "Flat geometry — migrated",
+      "note": "Migrated to flat storage, preserving mathematical routines and corner order. Edge direction is cached from its first face; existing edited topology remains authoritative without creating a new backend. Native golden digests and focused tests cover direction, local curvature and variable offsets. Volume initializes the supplied/generated triangle counter. See render-export-optimization.html and earlier iterator reports.",
+      "access": [
+        "flat read"
+      ]
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 806,
+      "class": "zItMeshEdge",
+      "name": "getLength",
+      "signature": "ZSPACE_INLINE double zItMeshEdge::getLength()",
+      "directTopology": false,
+      "faceListRead": true,
+      "faceListEdit": false,
+      "category": "Flat geometry — migrated",
+      "note": "Migrated to flat storage, preserving mathematical routines and corner order. Edge direction is cached from its first face; existing edited topology remains authoritative without creating a new backend. Native golden digests and focused tests cover direction, local curvature and variable offsets. Volume initializes the supplied/generated triangle counter. See render-export-optimization.html and earlier iterator reports.",
+      "access": [
+        "flat read"
+      ]
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 815,
+      "class": "zItMeshEdge",
+      "name": "getDihedralAngle",
+      "signature": "ZSPACE_INLINE double zItMeshEdge::getDihedralAngle()",
+      "directTopology": true,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Lightweight adjacency candidate",
+      "note": "Use reusable incidence/corner adjacency, preserving ring/face order, signs, boundary sentinels and current rejection behavior.",
+      "access": [
+        "direct mutable topology access"
+      ]
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 848,
+      "class": "zItMeshEdge",
+      "name": "getId",
+      "signature": "ZSPACE_INLINE int zItMeshEdge::getId()",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Flat / metadata",
+      "note": "No full-topology migration needed in the active implementation.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 853,
+      "class": "zItMeshEdge",
+      "name": "getHalfEdge",
+      "signature": "ZSPACE_INLINE zItMeshHalfEdge zItMeshEdge::getHalfEdge(int _index)",
+      "directTopology": true,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Keep halfedge contract",
+      "note": "Explicit halfedge accessor/setter. Retain backend and identity semantics.",
+      "access": [
+        "direct mutable topology access"
+      ]
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 863,
+      "class": "zItMeshEdge",
+      "name": "getColor",
+      "signature": "ZSPACE_INLINE zColor zItMeshEdge::getColor()",
+      "directTopology": false,
+      "faceListRead": true,
+      "faceListEdit": false,
+      "category": "Flat / metadata",
+      "note": "No full-topology migration needed in the active implementation.",
+      "access": [
+        "flat read"
+      ]
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 868,
+      "class": "zItMeshEdge",
+      "name": "getRawColor",
+      "signature": "ZSPACE_INLINE zColor* zItMeshEdge::getRawColor()",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": true,
+      "category": "Flat mutation / mutable view",
+      "note": "Already flat; requesting mutable data invalidates topology. Keep raw-pointer lifetime behavior until a tracked mutation design is verified.",
+      "access": [
+        "flat edit/set"
+      ]
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 875,
+      "class": "zItMeshEdge",
+      "name": "setId",
+      "signature": "ZSPACE_INLINE void zItMeshEdge::setId(int _id)",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Flat / metadata",
+      "note": "No full-topology migration needed in the active implementation.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 881,
+      "class": "zItMeshEdge",
+      "name": "setHalfEdge",
+      "signature": "ZSPACE_INLINE void zItMeshEdge::setHalfEdge(zItMeshHalfEdge &he, int _index)",
+      "directTopology": true,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Keep halfedge contract",
+      "note": "Explicit halfedge accessor/setter. Retain backend and identity semantics.",
+      "access": [
+        "direct mutable topology access"
+      ]
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 893,
+      "class": "zItMeshEdge",
+      "name": "setColor",
+      "signature": "ZSPACE_INLINE void zItMeshEdge::setColor(zColor col)",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": true,
+      "category": "Flat mutation / mutable view",
+      "note": "Already flat; requesting mutable data invalidates topology. Keep raw-pointer lifetime behavior until a tracked mutation design is verified.",
+      "access": [
+        "flat edit/set"
+      ]
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 898,
+      "class": "zItMeshEdge",
+      "name": "setWeight",
+      "signature": "ZSPACE_INLINE void zItMeshEdge::setWeight(double wt)",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": true,
+      "category": "Flat mutation / mutable view",
+      "note": "Already flat; requesting mutable data invalidates topology. Keep raw-pointer lifetime behavior until a tracked mutation design is verified.",
+      "access": [
+        "flat edit/set"
+      ]
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 905,
+      "class": "zItMeshEdge",
+      "name": "isActive",
+      "signature": "ZSPACE_INLINE bool zItMeshEdge::isActive()",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Flat / metadata",
+      "note": "No full-topology migration needed in the active implementation.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 912,
+      "class": "zItMeshEdge",
+      "name": "operator==",
+      "signature": "ZSPACE_INLINE bool zItMeshEdge::operator==(zItMeshEdge &other)",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Flat / metadata",
+      "note": "No full-topology migration needed in the active implementation.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 917,
+      "class": "zItMeshEdge",
+      "name": "operator!=",
+      "signature": "ZSPACE_INLINE bool zItMeshEdge::operator!=(zItMeshEdge &other)",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Flat / metadata",
+      "note": "No full-topology migration needed in the active implementation.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 931,
+      "class": "zItMeshFace",
+      "name": "zItMeshFace",
+      "signature": "ZSPACE_INLINE zItMeshFace::zItMeshFace()",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Flat / metadata",
+      "note": "No full-topology migration needed in the active implementation.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 937,
+      "class": "zItMeshFace",
+      "name": "zItMeshFace",
+      "signature": "ZSPACE_INLINE zItMeshFace::zItMeshFace(zObjectMesh &_meshObj)",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Flat / metadata",
+      "note": "No full-topology migration needed in the active implementation.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 943,
+      "class": "zItMeshFace",
+      "name": "zItMeshFace",
+      "signature": "ZSPACE_INLINE zItMeshFace::zItMeshFace(zObjectMesh &_meshObj, int _index)",
+      "directTopology": false,
+      "faceListRead": true,
+      "faceListEdit": false,
+      "category": "Flat / metadata",
+      "note": "No full-topology migration needed in the active implementation.",
+      "access": [
+        "flat read"
+      ]
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 952,
+      "class": "zItMeshFace",
+      "name": "begin",
+      "signature": "ZSPACE_INLINE void zItMeshFace::begin()",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Flat / metadata",
+      "note": "No full-topology migration needed in the active implementation.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 957,
+      "class": "zItMeshFace",
+      "name": "operator++",
+      "signature": "ZSPACE_INLINE void zItMeshFace::operator++(int)",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Flat / metadata",
+      "note": "No full-topology migration needed in the active implementation.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 962,
+      "class": "zItMeshFace",
+      "name": "operator--",
+      "signature": "ZSPACE_INLINE void zItMeshFace::operator--(int)",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Flat / metadata",
+      "note": "No full-topology migration needed in the active implementation.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 967,
+      "class": "zItMeshFace",
+      "name": "end",
+      "signature": "ZSPACE_INLINE bool zItMeshFace::end()",
+      "directTopology": false,
+      "faceListRead": true,
+      "faceListEdit": false,
+      "category": "Flat / metadata",
+      "note": "No full-topology migration needed in the active implementation.",
+      "access": [
+        "flat read"
+      ]
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 972,
+      "class": "zItMeshFace",
+      "name": "reset",
+      "signature": "ZSPACE_INLINE void zItMeshFace::reset()",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Flat / metadata",
+      "note": "No full-topology migration needed in the active implementation.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 977,
+      "class": "zItMeshFace",
+      "name": "size",
+      "signature": "ZSPACE_INLINE int zItMeshFace::size()",
+      "directTopology": false,
+      "faceListRead": true,
+      "faceListEdit": false,
+      "category": "Flat / metadata",
+      "note": "No full-topology migration needed in the active implementation.",
+      "access": [
+        "flat read"
+      ]
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 983,
+      "class": "zItMeshFace",
+      "name": "deactivate",
+      "signature": "ZSPACE_INLINE void zItMeshFace::deactivate()",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Unsupported operation",
+      "note": "Currently throws; preserve the exception contract.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 991,
+      "class": "zItMeshFace",
+      "name": "getHalfEdges",
+      "signature": "ZSPACE_INLINE void zItMeshFace::getHalfEdges(zItMeshHalfEdgeArray &halfedges)",
+      "directTopology": true,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Keep halfedge contract",
+      "note": "Explicit halfedge accessor/setter. Retain backend and identity semantics.",
+      "access": [
+        "direct mutable topology access"
+      ]
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 1033,
+      "class": "zItMeshFace",
+      "name": "getHalfEdges",
+      "signature": "ZSPACE_INLINE void zItMeshFace::getHalfEdges(zIntArray &halfedgeIndicies)",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Keep halfedge contract",
+      "note": "Explicit halfedge accessor/setter. Retain backend and identity semantics.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 1045,
+      "class": "zItMeshFace",
+      "name": "getVertices",
+      "signature": "ZSPACE_INLINE void zItMeshFace::getVertices(zItMeshVertexArray &verticies)",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Flat / metadata",
+      "note": "No full-topology migration needed in the active implementation.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 1052,
+      "class": "zItMeshFace",
+      "name": "getVertices",
+      "signature": "ZSPACE_INLINE void zItMeshFace::getVertices(zIntArray &vertexIndicies)",
+      "directTopology": false,
+      "faceListRead": true,
+      "faceListEdit": false,
+      "category": "Flat / metadata",
+      "note": "No full-topology migration needed in the active implementation.",
+      "access": [
+        "flat read"
+      ]
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 1059,
+      "class": "zItMeshFace",
+      "name": "getVertexPositions",
+      "signature": "ZSPACE_INLINE void zItMeshFace::getVertexPositions(vector<zVector> &vertPositions)",
+      "directTopology": false,
+      "faceListRead": true,
+      "faceListEdit": false,
+      "category": "Flat / metadata",
+      "note": "No full-topology migration needed in the active implementation.",
+      "access": [
+        "flat read"
+      ]
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 1071,
+      "class": "zItMeshFace",
+      "name": "getConnectedFaces",
+      "signature": "ZSPACE_INLINE void zItMeshFace::getConnectedFaces(zItMeshFaceArray& faces)",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Lightweight adjacency candidate",
+      "note": "Use reusable incidence/corner adjacency, preserving ring/face order, signs, boundary sentinels and current rejection behavior.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 1092,
+      "class": "zItMeshFace",
+      "name": "getConnectedFaces",
+      "signature": "ZSPACE_INLINE void zItMeshFace::getConnectedFaces(zIntArray& faceIndicies)",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Lightweight adjacency candidate",
+      "note": "Use reusable incidence/corner adjacency, preserving ring/face order, signs, boundary sentinels and current rejection behavior.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 1110,
+      "class": "zItMeshFace",
+      "name": "onBoundary",
+      "signature": "ZSPACE_INLINE bool zItMeshFace::onBoundary()",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Lightweight adjacency candidate",
+      "note": "Use reusable incidence/corner adjacency, preserving ring/face order, signs, boundary sentinels and current rejection behavior.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 1130,
+      "class": "zItMeshFace",
+      "name": "getCenter",
+      "signature": "ZSPACE_INLINE zVector zItMeshFace::getCenter()",
+      "directTopology": false,
+      "faceListRead": true,
+      "faceListEdit": false,
+      "category": "Flat geometry — migrated",
+      "note": "Migrated to flat storage, preserving mathematical routines and corner order. Edge direction is cached from its first face; existing edited topology remains authoritative without creating a new backend. Native golden digests and focused tests cover direction, local curvature and variable offsets. Volume initializes the supplied/generated triangle counter. See render-export-optimization.html and earlier iterator reports.",
+      "access": [
+        "flat read"
+      ]
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 1143,
+      "class": "zItMeshFace",
+      "name": "getNumVertices",
+      "signature": "ZSPACE_INLINE int zItMeshFace::getNumVertices()",
+      "directTopology": false,
+      "faceListRead": true,
+      "faceListEdit": false,
+      "category": "Flat geometry — migrated",
+      "note": "Migrated to flat storage, preserving mathematical routines and corner order. Edge direction is cached from its first face; existing edited topology remains authoritative without creating a new backend. Native golden digests and focused tests cover direction, local curvature and variable offsets. Volume initializes the supplied/generated triangle counter. See render-export-optimization.html and earlier iterator reports.",
+      "access": [
+        "flat read"
+      ]
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 1150,
+      "class": "zItMeshFace",
+      "name": "getTriangles",
+      "signature": "ZSPACE_INLINE void zItMeshFace::getTriangles(int &numTris, zIntArray &tris)",
+      "directTopology": false,
+      "faceListRead": true,
+      "faceListEdit": false,
+      "category": "Flat geometry — migrated",
+      "note": "Migrated to flat storage, preserving mathematical routines and corner order. Edge direction is cached from its first face; existing edited topology remains authoritative without creating a new backend. Native golden digests and focused tests cover direction, local curvature and variable offsets. Volume initializes the supplied/generated triangle counter. See render-export-optimization.html and earlier iterator reports.",
+      "access": [
+        "flat read"
+      ]
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 1369,
+      "class": "zItMeshFace",
+      "name": "getVolume",
+      "signature": "ZSPACE_INLINE double zItMeshFace::getVolume(zIntArray &faceTris, zVector &fCenter, bool absoluteVolume)",
+      "directTopology": false,
+      "faceListRead": true,
+      "faceListEdit": false,
+      "category": "Flat geometry — migrated",
+      "note": "Migrated to flat storage, preserving mathematical routines and corner order. Edge direction is cached from its first face; existing edited topology remains authoritative without creating a new backend. Native golden digests and focused tests cover direction, local curvature and variable offsets. Volume initializes the supplied/generated triangle counter. See render-export-optimization.html and earlier iterator reports.",
+      "access": [
+        "flat read"
+      ]
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 1416,
+      "class": "zItMeshFace",
+      "name": "getPlanarFaceArea",
+      "signature": "ZSPACE_INLINE double zItMeshFace::getPlanarFaceArea()",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Flat / metadata",
+      "note": "No full-topology migration needed in the active implementation.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 1443,
+      "class": "zItMeshFace",
+      "name": "getPrincipalCurvature",
+      "signature": "ZSPACE_INLINE zCurvature zItMeshFace::getPrincipalCurvature()",
+      "directTopology": false,
+      "faceListRead": true,
+      "faceListEdit": false,
+      "category": "Flat geometry — migrated",
+      "note": "Migrated to flat storage, preserving mathematical routines and corner order. Edge direction is cached from its first face; existing edited topology remains authoritative without creating a new backend. Native golden digests and focused tests cover direction, local curvature and variable offsets. Volume initializes the supplied/generated triangle counter. See render-export-optimization.html and earlier iterator reports.",
+      "access": [
+        "flat read"
+      ]
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 1548,
+      "class": "zItMeshFace",
+      "name": "getId",
+      "signature": "ZSPACE_INLINE int zItMeshFace::getId()",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Flat / metadata",
+      "note": "No full-topology migration needed in the active implementation.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 1553,
+      "class": "zItMeshFace",
+      "name": "getHalfEdge",
+      "signature": "ZSPACE_INLINE zItMeshHalfEdge zItMeshFace::getHalfEdge()",
+      "directTopology": true,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Keep halfedge contract",
+      "note": "Explicit halfedge accessor/setter. Retain backend and identity semantics.",
+      "access": [
+        "direct mutable topology access"
+      ]
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 1562,
+      "class": "zItMeshFace",
+      "name": "getOffsetFacePositions",
+      "signature": "ZSPACE_INLINE void zItMeshFace::getOffsetFacePositions(double offset, vector<zVector>& offsetPositions)",
+      "directTopology": false,
+      "faceListRead": true,
+      "faceListEdit": false,
+      "category": "Flat geometry — migrated",
+      "note": "Migrated to flat storage, preserving mathematical routines and corner order. Edge direction is cached from its first face; existing edited topology remains authoritative without creating a new backend. Native golden digests and focused tests cover direction, local curvature and variable offsets. Volume initializes the supplied/generated triangle counter. See render-export-optimization.html and earlier iterator reports.",
+      "access": [
+        "flat read"
+      ]
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 1611,
+      "class": "zItMeshFace",
+      "name": "getOffsetFacePositions_Variable",
+      "signature": "ZSPACE_INLINE void zItMeshFace::getOffsetFacePositions_Variable(vector<double>& offsets, zVector& faceCenter, zVector& faceNormal, vector<zVector>& intersectionPositions)",
+      "directTopology": false,
+      "faceListRead": true,
+      "faceListEdit": false,
+      "category": "Flat geometry — migrated",
+      "note": "Migrated to flat storage, preserving mathematical routines and corner order. Edge direction is cached from its first face; existing edited topology remains authoritative without creating a new backend. Native golden digests and focused tests cover direction, local curvature and variable offsets. Volume initializes the supplied/generated triangle counter. See render-export-optimization.html and earlier iterator reports.",
+      "access": [
+        "flat read"
+      ]
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 1685,
+      "class": "zItMeshFace",
+      "name": "getNormal",
+      "signature": "ZSPACE_INLINE zVector zItMeshFace::getNormal()",
+      "directTopology": false,
+      "faceListRead": true,
+      "faceListEdit": false,
+      "category": "Flat / metadata",
+      "note": "No full-topology migration needed in the active implementation.",
+      "access": [
+        "flat read"
+      ]
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 1690,
+      "class": "zItMeshFace",
+      "name": "getRawNormal",
+      "signature": "ZSPACE_INLINE zVector* zItMeshFace::getRawNormal()",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": true,
+      "category": "Flat mutation / mutable view",
+      "note": "Already flat; requesting mutable data invalidates topology. Keep raw-pointer lifetime behavior until a tracked mutation design is verified.",
+      "access": [
+        "flat edit/set"
+      ]
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 1696,
+      "class": "zItMeshFace",
+      "name": "getColor",
+      "signature": "ZSPACE_INLINE zColor zItMeshFace::getColor()",
+      "directTopology": false,
+      "faceListRead": true,
+      "faceListEdit": false,
+      "category": "Flat / metadata",
+      "note": "No full-topology migration needed in the active implementation.",
+      "access": [
+        "flat read"
+      ]
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 1701,
+      "class": "zItMeshFace",
+      "name": "getRawColor",
+      "signature": "ZSPACE_INLINE zColor* zItMeshFace::getRawColor()",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": true,
+      "category": "Flat mutation / mutable view",
+      "note": "Already flat; requesting mutable data invalidates topology. Keep raw-pointer lifetime behavior until a tracked mutation design is verified.",
+      "access": [
+        "flat edit/set"
+      ]
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 1708,
+      "class": "zItMeshFace",
+      "name": "setId",
+      "signature": "ZSPACE_INLINE void zItMeshFace::setId(int _id)",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Flat / metadata",
+      "note": "No full-topology migration needed in the active implementation.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 1714,
+      "class": "zItMeshFace",
+      "name": "setHalfEdge",
+      "signature": "ZSPACE_INLINE void zItMeshFace::setHalfEdge(zItMeshHalfEdge &he)",
+      "directTopology": true,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Keep halfedge contract",
+      "note": "Explicit halfedge accessor/setter. Retain backend and identity semantics.",
+      "access": [
+        "direct mutable topology access"
+      ]
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 1725,
+      "class": "zItMeshFace",
+      "name": "setColor",
+      "signature": "ZSPACE_INLINE void zItMeshFace::setColor(zColor col)",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": true,
+      "category": "Flat mutation / mutable view",
+      "note": "Already flat; requesting mutable data invalidates topology. Keep raw-pointer lifetime behavior until a tracked mutation design is verified.",
+      "access": [
+        "flat edit/set"
+      ]
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 1730,
+      "class": "zItMeshFace",
+      "name": "setNormal",
+      "signature": "ZSPACE_INLINE void zItMeshFace::setNormal(zVector norm)",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": true,
+      "category": "Flat mutation / mutable view",
+      "note": "Already flat; requesting mutable data invalidates topology. Keep raw-pointer lifetime behavior until a tracked mutation design is verified.",
+      "access": [
+        "flat edit/set"
+      ]
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 1737,
+      "class": "zItMeshFace",
+      "name": "isActive",
+      "signature": "ZSPACE_INLINE bool zItMeshFace::isActive()",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Flat / metadata",
+      "note": "No full-topology migration needed in the active implementation.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 1742,
+      "class": "zItMeshFace",
+      "name": "checkPointInHalfSpace",
+      "signature": "ZSPACE_INLINE bool zItMeshFace::checkPointInHalfSpace(zPoint & pt)",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Flat / metadata",
+      "note": "No full-topology migration needed in the active implementation.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 1755,
+      "class": "zItMeshFace",
+      "name": "updateNormal",
+      "signature": "ZSPACE_INLINE void zItMeshFace::updateNormal()",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Flat geometry — migrated",
+      "note": "Migrated to flat storage, preserving mathematical routines and corner order. Edge direction is cached from its first face; existing edited topology remains authoritative without creating a new backend. Native golden digests and focused tests cover direction, local curvature and variable offsets. Volume initializes the supplied/generated triangle counter. See render-export-optimization.html and earlier iterator reports.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 1785,
+      "class": "zItMeshFace",
+      "name": "operator==",
+      "signature": "ZSPACE_INLINE bool zItMeshFace::operator==(zItMeshFace &other)",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Flat / metadata",
+      "note": "No full-topology migration needed in the active implementation.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 1790,
+      "class": "zItMeshFace",
+      "name": "operator!=",
+      "signature": "ZSPACE_INLINE bool zItMeshFace::operator!=(zItMeshFace &other)",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Flat / metadata",
+      "note": "No full-topology migration needed in the active implementation.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 1804,
+      "class": "zItMeshHalfEdge",
+      "name": "zItMeshHalfEdge",
+      "signature": "ZSPACE_INLINE zItMeshHalfEdge::zItMeshHalfEdge()",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Keep halfedge contract",
+      "note": "Directed topology API or its iterator bookkeeping. Keep explicit halfedge semantics; geometry helpers may be optimized internally without changing IDs.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 1810,
+      "class": "zItMeshHalfEdge",
+      "name": "zItMeshHalfEdge",
+      "signature": "ZSPACE_INLINE zItMeshHalfEdge::zItMeshHalfEdge(zObjectMesh &_meshObj)",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Keep halfedge contract",
+      "note": "Directed topology API or its iterator bookkeeping. Keep explicit halfedge semantics; geometry helpers may be optimized internally without changing IDs.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 1816,
+      "class": "zItMeshHalfEdge",
+      "name": "zItMeshHalfEdge",
+      "signature": "ZSPACE_INLINE zItMeshHalfEdge::zItMeshHalfEdge(zObjectMesh &_meshObj, int _index)",
+      "directTopology": true,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Keep halfedge contract",
+      "note": "Directed topology API or its iterator bookkeeping. Keep explicit halfedge semantics; geometry helpers may be optimized internally without changing IDs.",
+      "access": [
+        "direct mutable topology access"
+      ]
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 1826,
+      "class": "zItMeshHalfEdge",
+      "name": "begin",
+      "signature": "ZSPACE_INLINE void zItMeshHalfEdge::begin()",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Keep halfedge contract",
+      "note": "Directed topology API or its iterator bookkeeping. Keep explicit halfedge semantics; geometry helpers may be optimized internally without changing IDs.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 1831,
+      "class": "zItMeshHalfEdge",
+      "name": "operator++",
+      "signature": "ZSPACE_INLINE void zItMeshHalfEdge::operator++(int)",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Keep halfedge contract",
+      "note": "Directed topology API or its iterator bookkeeping. Keep explicit halfedge semantics; geometry helpers may be optimized internally without changing IDs.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 1836,
+      "class": "zItMeshHalfEdge",
+      "name": "operator--",
+      "signature": "ZSPACE_INLINE void zItMeshHalfEdge::operator--(int)",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Keep halfedge contract",
+      "note": "Directed topology API or its iterator bookkeeping. Keep explicit halfedge semantics; geometry helpers may be optimized internally without changing IDs.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 1841,
+      "class": "zItMeshHalfEdge",
+      "name": "end",
+      "signature": "ZSPACE_INLINE bool zItMeshHalfEdge::end()",
+      "directTopology": true,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Keep halfedge contract",
+      "note": "Directed topology API or its iterator bookkeeping. Keep explicit halfedge semantics; geometry helpers may be optimized internally without changing IDs.",
+      "access": [
+        "direct mutable topology access"
+      ]
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 1846,
+      "class": "zItMeshHalfEdge",
+      "name": "reset",
+      "signature": "ZSPACE_INLINE void zItMeshHalfEdge::reset()",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Keep halfedge contract",
+      "note": "Directed topology API or its iterator bookkeeping. Keep explicit halfedge semantics; geometry helpers may be optimized internally without changing IDs.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 1851,
+      "class": "zItMeshHalfEdge",
+      "name": "size",
+      "signature": "ZSPACE_INLINE int zItMeshHalfEdge::size()",
+      "directTopology": true,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Keep halfedge contract",
+      "note": "Directed topology API or its iterator bookkeeping. Keep explicit halfedge semantics; geometry helpers may be optimized internally without changing IDs.",
+      "access": [
+        "direct mutable topology access"
+      ]
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 1857,
+      "class": "zItMeshHalfEdge",
+      "name": "deactivate",
+      "signature": "ZSPACE_INLINE void zItMeshHalfEdge::deactivate()",
+      "directTopology": true,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Keep halfedge contract",
+      "note": "Directed topology API or its iterator bookkeeping. Keep explicit halfedge semantics; geometry helpers may be optimized internally without changing IDs.",
+      "access": [
+        "direct mutable topology access"
+      ]
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 1867,
+      "class": "zItMeshHalfEdge",
+      "name": "getStartVertex",
+      "signature": "ZSPACE_INLINE zItMeshVertex zItMeshHalfEdge::getStartVertex()",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Keep halfedge contract",
+      "note": "Directed topology API or its iterator bookkeeping. Keep explicit halfedge semantics; geometry helpers may be optimized internally without changing IDs.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 1874,
+      "class": "zItMeshHalfEdge",
+      "name": "getVertices",
+      "signature": "ZSPACE_INLINE void zItMeshHalfEdge::getVertices(zItMeshVertexArray &verticies)",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Keep halfedge contract",
+      "note": "Directed topology API or its iterator bookkeeping. Keep explicit halfedge semantics; geometry helpers may be optimized internally without changing IDs.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 1880,
+      "class": "zItMeshHalfEdge",
+      "name": "getVertices",
+      "signature": "ZSPACE_INLINE void zItMeshHalfEdge::getVertices(zIntArray &vertexIndicies)",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Keep halfedge contract",
+      "note": "Directed topology API or its iterator bookkeeping. Keep explicit halfedge semantics; geometry helpers may be optimized internally without changing IDs.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 1886,
+      "class": "zItMeshHalfEdge",
+      "name": "getVertexPositions",
+      "signature": "ZSPACE_INLINE void zItMeshHalfEdge::getVertexPositions(vector<zVector> &vertPositions)",
+      "directTopology": true,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Keep halfedge contract",
+      "note": "Directed topology API or its iterator bookkeeping. Keep explicit halfedge semantics; geometry helpers may be optimized internally without changing IDs.",
+      "access": [
+        "direct mutable topology access"
+      ]
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 1898,
+      "class": "zItMeshHalfEdge",
+      "name": "getConnectedHalfEdges",
+      "signature": "ZSPACE_INLINE void zItMeshHalfEdge::getConnectedHalfEdges(zItMeshHalfEdgeArray& edgeIndicies)",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Keep halfedge contract",
+      "note": "Directed topology API or its iterator bookkeeping. Keep explicit halfedge semantics; geometry helpers may be optimized internally without changing IDs.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 1920,
+      "class": "zItMeshHalfEdge",
+      "name": "getConnectedHalfEdges",
+      "signature": "ZSPACE_INLINE void zItMeshHalfEdge::getConnectedHalfEdges(zIntArray& edgeIndicies)",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Keep halfedge contract",
+      "note": "Directed topology API or its iterator bookkeeping. Keep explicit halfedge semantics; geometry helpers may be optimized internally without changing IDs.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 1942,
+      "class": "zItMeshHalfEdge",
+      "name": "getFaces",
+      "signature": "ZSPACE_INLINE void zItMeshHalfEdge::getFaces(zItMeshFaceArray &faceIndicies)",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Keep halfedge contract",
+      "note": "Directed topology API or its iterator bookkeeping. Keep explicit halfedge semantics; geometry helpers may be optimized internally without changing IDs.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 1947,
+      "class": "zItMeshHalfEdge",
+      "name": "getFaces",
+      "signature": "ZSPACE_INLINE void zItMeshHalfEdge::getFaces(zIntArray &faceIndicies)",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Keep halfedge contract",
+      "note": "Directed topology API or its iterator bookkeeping. Keep explicit halfedge semantics; geometry helpers may be optimized internally without changing IDs.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 1952,
+      "class": "zItMeshHalfEdge",
+      "name": "onBoundary",
+      "signature": "ZSPACE_INLINE bool zItMeshHalfEdge::onBoundary()",
+      "directTopology": true,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Keep halfedge contract",
+      "note": "Directed topology API or its iterator bookkeeping. Keep explicit halfedge semantics; geometry helpers may be optimized internally without changing IDs.",
+      "access": [
+        "direct mutable topology access"
+      ]
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 1958,
+      "class": "zItMeshHalfEdge",
+      "name": "getCenter",
+      "signature": "ZSPACE_INLINE zVector zItMeshHalfEdge::getCenter()",
+      "directTopology": true,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Keep halfedge contract",
+      "note": "Directed topology API or its iterator bookkeeping. Keep explicit halfedge semantics; geometry helpers may be optimized internally without changing IDs.",
+      "access": [
+        "direct mutable topology access"
+      ]
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 1966,
+      "class": "zItMeshHalfEdge",
+      "name": "getVector",
+      "signature": "ZSPACE_INLINE zVector zItMeshHalfEdge::getVector()",
+      "directTopology": true,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Keep halfedge contract",
+      "note": "Directed topology API or its iterator bookkeeping. Keep explicit halfedge semantics; geometry helpers may be optimized internally without changing IDs.",
+      "access": [
+        "direct mutable topology access"
+      ]
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 1977,
+      "class": "zItMeshHalfEdge",
+      "name": "getLength",
+      "signature": "ZSPACE_INLINE double zItMeshHalfEdge::getLength()",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Keep halfedge contract",
+      "note": "Directed topology API or its iterator bookkeeping. Keep explicit halfedge semantics; geometry helpers may be optimized internally without changing IDs.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 1984,
+      "class": "zItMeshHalfEdge",
+      "name": "getId",
+      "signature": "ZSPACE_INLINE int zItMeshHalfEdge::getId()",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Keep halfedge contract",
+      "note": "Directed topology API or its iterator bookkeeping. Keep explicit halfedge semantics; geometry helpers may be optimized internally without changing IDs.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 1990,
+      "class": "zItMeshHalfEdge",
+      "name": "getSym",
+      "signature": "ZSPACE_INLINE zItMeshHalfEdge zItMeshHalfEdge::getSym()",
+      "directTopology": true,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Keep halfedge contract",
+      "note": "Directed topology API or its iterator bookkeeping. Keep explicit halfedge semantics; geometry helpers may be optimized internally without changing IDs.",
+      "access": [
+        "direct mutable topology access"
+      ]
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 1998,
+      "class": "zItMeshHalfEdge",
+      "name": "getNext",
+      "signature": "ZSPACE_INLINE zItMeshHalfEdge zItMeshHalfEdge::getNext()",
+      "directTopology": true,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Keep halfedge contract",
+      "note": "Directed topology API or its iterator bookkeeping. Keep explicit halfedge semantics; geometry helpers may be optimized internally without changing IDs.",
+      "access": [
+        "direct mutable topology access"
+      ]
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 2006,
+      "class": "zItMeshHalfEdge",
+      "name": "getPrev",
+      "signature": "ZSPACE_INLINE zItMeshHalfEdge zItMeshHalfEdge::getPrev()",
+      "directTopology": true,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Keep halfedge contract",
+      "note": "Directed topology API or its iterator bookkeeping. Keep explicit halfedge semantics; geometry helpers may be optimized internally without changing IDs.",
+      "access": [
+        "direct mutable topology access"
+      ]
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 2014,
+      "class": "zItMeshHalfEdge",
+      "name": "getVertex",
+      "signature": "ZSPACE_INLINE zItMeshVertex zItMeshHalfEdge::getVertex()",
+      "directTopology": true,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Keep halfedge contract",
+      "note": "Directed topology API or its iterator bookkeeping. Keep explicit halfedge semantics; geometry helpers may be optimized internally without changing IDs.",
+      "access": [
+        "direct mutable topology access"
+      ]
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 2022,
+      "class": "zItMeshHalfEdge",
+      "name": "getFace",
+      "signature": "ZSPACE_INLINE zItMeshFace zItMeshHalfEdge::getFace()",
+      "directTopology": true,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Keep halfedge contract",
+      "note": "Directed topology API or its iterator bookkeeping. Keep explicit halfedge semantics; geometry helpers may be optimized internally without changing IDs.",
+      "access": [
+        "direct mutable topology access"
+      ]
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 2030,
+      "class": "zItMeshHalfEdge",
+      "name": "getEdge",
+      "signature": "ZSPACE_INLINE zItMeshEdge zItMeshHalfEdge::getEdge()",
+      "directTopology": true,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Keep halfedge contract",
+      "note": "Directed topology API or its iterator bookkeeping. Keep explicit halfedge semantics; geometry helpers may be optimized internally without changing IDs.",
+      "access": [
+        "direct mutable topology access"
+      ]
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 2038,
+      "class": "zItMeshHalfEdge",
+      "name": "getColor",
+      "signature": "ZSPACE_INLINE zColor zItMeshHalfEdge::getColor()",
+      "directTopology": true,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Keep halfedge contract",
+      "note": "Directed topology API or its iterator bookkeeping. Keep explicit halfedge semantics; geometry helpers may be optimized internally without changing IDs.",
+      "access": [
+        "direct mutable topology access"
+      ]
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 2044,
+      "class": "zItMeshHalfEdge",
+      "name": "getRawColor",
+      "signature": "ZSPACE_INLINE zColor* zItMeshHalfEdge::getRawColor()",
+      "directTopology": true,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Keep halfedge contract",
+      "note": "Directed topology API or its iterator bookkeeping. Keep explicit halfedge semantics; geometry helpers may be optimized internally without changing IDs.",
+      "access": [
+        "direct mutable topology access"
+      ]
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 2052,
+      "class": "zItMeshHalfEdge",
+      "name": "setId",
+      "signature": "ZSPACE_INLINE void zItMeshHalfEdge::setId(int _id)",
+      "directTopology": true,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Keep halfedge contract",
+      "note": "Directed topology API or its iterator bookkeeping. Keep explicit halfedge semantics; geometry helpers may be optimized internally without changing IDs.",
+      "access": [
+        "direct mutable topology access"
+      ]
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 2059,
+      "class": "zItMeshHalfEdge",
+      "name": "setSym",
+      "signature": "ZSPACE_INLINE void zItMeshHalfEdge::setSym(zItMeshHalfEdge &he)",
+      "directTopology": true,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Keep halfedge contract",
+      "note": "Directed topology API or its iterator bookkeeping. Keep explicit halfedge semantics; geometry helpers may be optimized internally without changing IDs.",
+      "access": [
+        "direct mutable topology access"
+      ]
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 2068,
+      "class": "zItMeshHalfEdge",
+      "name": "setNext",
+      "signature": "ZSPACE_INLINE void zItMeshHalfEdge::setNext(zItMeshHalfEdge &he)",
+      "directTopology": true,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Keep halfedge contract",
+      "note": "Directed topology API or its iterator bookkeeping. Keep explicit halfedge semantics; geometry helpers may be optimized internally without changing IDs.",
+      "access": [
+        "direct mutable topology access"
+      ]
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 2084,
+      "class": "zItMeshHalfEdge",
+      "name": "setPrev",
+      "signature": "ZSPACE_INLINE void zItMeshHalfEdge::setPrev(zItMeshHalfEdge &he)",
+      "directTopology": true,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Keep halfedge contract",
+      "note": "Directed topology API or its iterator bookkeeping. Keep explicit halfedge semantics; geometry helpers may be optimized internally without changing IDs.",
+      "access": [
+        "direct mutable topology access"
+      ]
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 2100,
+      "class": "zItMeshHalfEdge",
+      "name": "setVertex",
+      "signature": "ZSPACE_INLINE void zItMeshHalfEdge::setVertex(zItMeshVertex &v)",
+      "directTopology": true,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Keep halfedge contract",
+      "note": "Directed topology API or its iterator bookkeeping. Keep explicit halfedge semantics; geometry helpers may be optimized internally without changing IDs.",
+      "access": [
+        "direct mutable topology access"
+      ]
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 2110,
+      "class": "zItMeshHalfEdge",
+      "name": "setEdge",
+      "signature": "ZSPACE_INLINE void zItMeshHalfEdge::setEdge(zItMeshEdge &e)",
+      "directTopology": true,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Keep halfedge contract",
+      "note": "Directed topology API or its iterator bookkeeping. Keep explicit halfedge semantics; geometry helpers may be optimized internally without changing IDs.",
+      "access": [
+        "direct mutable topology access"
+      ]
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 2120,
+      "class": "zItMeshHalfEdge",
+      "name": "setFace",
+      "signature": "ZSPACE_INLINE void zItMeshHalfEdge::setFace(zItMeshFace &f)",
+      "directTopology": true,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Keep halfedge contract",
+      "note": "Directed topology API or its iterator bookkeeping. Keep explicit halfedge semantics; geometry helpers may be optimized internally without changing IDs.",
+      "access": [
+        "direct mutable topology access"
+      ]
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 2132,
+      "class": "zItMeshHalfEdge",
+      "name": "isActive",
+      "signature": "ZSPACE_INLINE bool zItMeshHalfEdge::isActive()",
+      "directTopology": true,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Keep halfedge contract",
+      "note": "Directed topology API or its iterator bookkeeping. Keep explicit halfedge semantics; geometry helpers may be optimized internally without changing IDs.",
+      "access": [
+        "direct mutable topology access"
+      ]
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 2141,
+      "class": "zItMeshHalfEdge",
+      "name": "operator==",
+      "signature": "ZSPACE_INLINE bool zItMeshHalfEdge::operator==(zItMeshHalfEdge &other)",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Keep halfedge contract",
+      "note": "Directed topology API or its iterator bookkeeping. Keep explicit halfedge semantics; geometry helpers may be optimized internally without changing IDs.",
+      "access": []
+    },
+    {
+      "file": "src/zInterface/iterators/zItMesh.cpp",
+      "line": 2146,
+      "class": "zItMeshHalfEdge",
+      "name": "operator!=",
+      "signature": "ZSPACE_INLINE bool zItMeshHalfEdge::operator!=(zItMeshHalfEdge &other)",
+      "directTopology": false,
+      "faceListRead": false,
+      "faceListEdit": false,
+      "category": "Keep halfedge contract",
+      "note": "Directed topology API or its iterator bookkeeping. Keep explicit halfedge semantics; geometry helpers may be optimized internally without changing IDs.",
+      "access": []
+    }
+  ]
+}

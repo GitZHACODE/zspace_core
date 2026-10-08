@@ -1,0 +1,42 @@
+{
+  "mutable-assignment": {
+    "digest": "87dd2153bc8c4a70",
+    "edges": 4,
+    "vertices": 5
+  },
+  "mutable-copy": {
+    "digest": "87dd2153bc8c4a70",
+    "edges": 4,
+    "vertices": 5
+  },
+  "mutable-retained": {
+    "digest": "87dd2153bc8c4a70",
+    "edges": 4,
+    "vertices": 5
+  },
+  "retained-flat-0": {
+    "digest": "686ccf6d265ef30b",
+    "edges": 4,
+    "vertices": 5
+  },
+  "retained-flat-1": {
+    "digest": "d8bd5b70857f1949",
+    "edges": 4,
+    "vertices": 5
+  },
+  "retained-flat-2": {
+    "digest": "686ccf6d265ef30b",
+    "edges": 4,
+    "vertices": 5
+  },
+  "retained-flat-3": {
+    "digest": "358487eac3f7b70a",
+    "edges": 4,
+    "vertices": 5
+  },
+  "retained-flat-4": {
+    "digest": "4875a02e2bfa1eee",
+    "edges": 4,
+    "vertices": 5
+  }
+}

@@ -15,6 +15,26 @@
 
 namespace zSpace
 {
+ namespace
+ {
+  // Construction knows the final array sizes. Keep insertion, map and fan
+  // ordering unchanged while avoiding repeated growth of parallel storage.
+  void reserveGraphConstruction(zGraph& graph, size_t vertices, size_t halfEdges)
+  {
+   const size_t edges = halfEdges / 2;
+   graph.vertices.reserve(vertices);
+   graph.vertexPositions.reserve(vertices);
+   graph.vertexColors.reserve(vertices);
+   graph.vertexWeights.reserve(vertices);
+   graph.vHandles.reserve(vertices);
+   graph.edges.reserve(edges);
+   graph.edgeColors.reserve(edges);
+   graph.edgeWeights.reserve(edges);
+   graph.eHandles.reserve(edges);
+   graph.halfEdges.reserve(halfEdges);
+   graph.heHandles.reserve(halfEdges);
+  }
+ }
 
 	//---- CONSTRUCTOR
 
@@ -34,9 +54,7 @@ namespace zSpace
 		// clear containers
 		clear();
 
-		/*vertices.reserve(_positions.size());
-		edges.reserve(floor(edgeConnects.size() * 0.5));
-		halfEdges.reserve(edgeConnects.size());*/
+		reserveGraphConstruction(*this, _positions.size(), edgeConnects.size());
 
 
 		//// temp containers
@@ -119,9 +137,7 @@ namespace zSpace
 		// clear containers
 		clear();
 
-		/*vertices.reserve(_positions.size() + 1);
-		edges.reserve(floor(edgeConnects.size() * 0.5) + 1);
-		halfEdges.reserve(edgeConnects.size() + 2);*/
+		reserveGraphConstruction(*this, _positions.size(), edgeConnects.size());
 
 		// temp containers
 		connectedEdgesPerVerts *cEdgesperVert = new connectedEdgesPerVerts[_positions.size()];
@@ -443,20 +459,11 @@ namespace zSpace
 
 
 		vector<int> out;
+		out.reserve(unSortedEdges.size());
 
 		vector<double> angles;
+		angles.reserve(unSortedEdges.size());
 		map< double, int > angle_e_Map;
-
-		// find best fit plane
-		vector<zVector> points;
-
-		for (int i = 0; i < unSortedEdges.size(); i++)
-		{
-
-			zHalfEdge *e = &halfEdges[unSortedEdges[i]];
-
-			points.push_back(vertexPositions[e->getVertex()]);
-		}
 
 
 

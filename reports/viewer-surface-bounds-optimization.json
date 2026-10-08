@@ -1,0 +1,694 @@
+{
+  "date": "2026-10-08",
+  "changes": [
+    "Add opt-in payload-normal, surface-buffer-expansion, surface-bounding-sphere and scene-payload-copy phases. Normal use performs no recording.",
+    "Compute face-color bounds from distinct referenced vertices with a temporary Uint8 marker. Keep THREE box-center and squared-distance arithmetic; exclude unused vertices. Vertex-color geometry still uses THREE unchanged.",
+    "Fall back to THREE for malformed indices/position lengths or nonfinite referenced coordinates, preserving its diagnostics.",
+    "Keep all defensive publication, active-payload and history copies. A measured publication copy was smaller than bounds, and ownership remains essential for mutable sketch inputs. No borrowed payload or shared buffer policy introduced."
+  ],
+  "nodeMedians": [
+    {
+      "faces": 125000,
+      "beforeBoundsMs": 30.38260000000014,
+      "afterBoundsMs": 4.597999999999956
+    },
+    {
+      "faces": 500000,
+      "beforeBoundsMs": 93.23750000000018,
+      "afterBoundsMs": 16.16280000000006
+    }
+  ],
+  "node": {
+    "sphereCases": 428,
+    "surfaceCases": 62,
+    "rendererCases": 60,
+    "cacheContracts": "owned snapshots, content copies, raw mutations, counts/triangle fallback, two-state history reuse, bounded eviction",
+    "method": "Three alternating-order Node surface trials; excludes browser/GPU/history. Cache hit uses full exact connectivity comparison. Copy+hit includes all mesh payload cloning; comparison-only hit is separate.",
+    "timings": [
+      {
+        "faces": 125000,
+        "trial": 0,
+        "beforeBoundsMs": 30.38260000000014,
+        "afterBoundsMs": 29.55210000000011,
+        "beforeSurfaceMs": 13.911299999999983,
+        "afterSurfaceMs": 18.097200000000157,
+        "boundaryRebuildMs": 42.591499999999996,
+        "copyAndBoundaryHitMs": 8.76929999999993,
+        "boundaryComparisonHitMs": 0.717200000000048,
+        "snapshotBytes": 2500000
+      },
+      {
+        "faces": 125000,
+        "trial": 1,
+        "beforeBoundsMs": 28.920499999999947,
+        "afterBoundsMs": 2.929800000000114,
+        "beforeSurfaceMs": 16.148099999999886,
+        "afterSurfaceMs": 12.292100000000119,
+        "boundaryRebuildMs": 60.4212,
+        "copyAndBoundaryHitMs": 10.127900000000182,
+        "boundaryComparisonHitMs": 8.638499999999794,
+        "snapshotBytes": 2500000
+      },
+      {
+        "faces": 125000,
+        "trial": 2,
+        "beforeBoundsMs": 44.65170000000012,
+        "afterBoundsMs": 4.597999999999956,
+        "beforeSurfaceMs": 20.374000000000024,
+        "afterSurfaceMs": 18.038099999999986,
+        "boundaryRebuildMs": 74.21160000000009,
+        "copyAndBoundaryHitMs": 6.642599999999902,
+        "boundaryComparisonHitMs": 0.6876999999999498,
+        "snapshotBytes": 2500000
+      },
+      {
+        "faces": 500000,
+        "trial": 0,
+        "beforeBoundsMs": 78.91130000000021,
+        "afterBoundsMs": 11.776800000000094,
+        "beforeSurfaceMs": 58.991399999999885,
+        "afterSurfaceMs": 63.47510000000011,
+        "boundaryRebuildMs": 182.38189999999986,
+        "copyAndBoundaryHitMs": 17.909999999999854,
+        "boundaryComparisonHitMs": 3.004699999999957,
+        "snapshotBytes": 10000000
+      },
+      {
+        "faces": 500000,
+        "trial": 1,
+        "beforeBoundsMs": 93.23750000000018,
+        "afterBoundsMs": 19.18199999999979,
+        "beforeSurfaceMs": 92.19910000000027,
+        "afterSurfaceMs": 70.72389999999996,
+        "boundaryRebuildMs": 243.39049999999997,
+        "copyAndBoundaryHitMs": 17.228900000000067,
+        "boundaryComparisonHitMs": 4.402100000000246,
+        "snapshotBytes": 10000000
+      },
+      {
+        "faces": 500000,
+        "trial": 2,
+        "beforeBoundsMs": 112.07220000000007,
+        "afterBoundsMs": 16.16280000000006,
+        "beforeSurfaceMs": 65.71569999999974,
+        "afterSurfaceMs": 71.49290000000019,
+        "boundaryRebuildMs": 231.20640000000003,
+        "copyAndBoundaryHitMs": 25.32590000000073,
+        "boundaryComparisonHitMs": 3.7524999999996,
+        "snapshotBytes": 10000000
+      }
+    ]
+  },
+  "browser": {
+    "before": {
+      "capturedAt": "2026-10-08T16:48:05.200Z",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36",
+      "method": "Actual Alice viewer import/Smooth Mesh/history/display. Action times include UI/history, transfers, WASM, readback and publication; presented time adds two rAF callbacks, not GPU completion. Frame-gap samples include VSync/background scheduling and do not establish GPU throughput.",
+      "actions": [
+        {
+          "name": "import 125000 quads",
+          "faces": 125000,
+          "vertices": 125751,
+          "actionMs": 2731.329999998212,
+          "presentedMs": 2801.254999998957
+        },
+        {
+          "name": "smooth 125000 to 500000",
+          "faces": 500000,
+          "vertices": 501501,
+          "actionMs": 1474.414999999106,
+          "presentedMs": 1484.5099999979138
+        }
+      ],
+      "samples": [],
+      "longTasks": [
+        {
+          "startMs": 5636.895000003278,
+          "durationMs": 88
+        },
+        {
+          "startMs": 10203.115000002086,
+          "durationMs": 59
+        },
+        {
+          "startMs": 10753.900000002235,
+          "durationMs": 94
+        },
+        {
+          "startMs": 11362.875,
+          "durationMs": 1071
+        },
+        {
+          "startMs": 12434.160000000149,
+          "durationMs": 61
+        },
+        {
+          "startMs": 16189.85000000149,
+          "durationMs": 250
+        },
+        {
+          "startMs": 16471.72500000149,
+          "durationMs": 2586
+        },
+        {
+          "startMs": 19058.115000002086,
+          "durationMs": 108
+        },
+        {
+          "startMs": 21383.155000001192,
+          "durationMs": 95
+        },
+        {
+          "startMs": 21499.085000000894,
+          "durationMs": 1253
+        },
+        {
+          "startMs": 22752.69000000134,
+          "durationMs": 104
+        }
+      ],
+      "phases": [
+        {
+          "name": "payload-validation",
+          "startMs": 18812.77000000328,
+          "durationMs": 27.674999997019768
+        },
+        {
+          "name": "payload-normals",
+          "startMs": 18840.495000001043,
+          "durationMs": 0.05999999865889549
+        },
+        {
+          "name": "surface-buffer-expansion",
+          "startMs": 18840.79000000283,
+          "durationMs": 24.884999997913837
+        },
+        {
+          "name": "surface-bounding-sphere",
+          "startMs": 18865.77000000328,
+          "durationMs": 55.61999999731779
+        },
+        {
+          "name": "surface-geometry",
+          "startMs": 18840.740000002086,
+          "durationMs": 80.6550000011921
+        },
+        {
+          "name": "edge-geometry",
+          "startMs": 18921.400000002235,
+          "durationMs": 0.1899999976158142
+        },
+        {
+          "name": "boundary-incidence",
+          "startMs": 18922.105000000447,
+          "durationMs": 45.07499999925494
+        },
+        {
+          "name": "wire-geometry-inclusive",
+          "startMs": 18921.810000002384,
+          "durationMs": 70.55499999970198
+        },
+        {
+          "name": "scene-payload-copy",
+          "startMs": 18992.495000001043,
+          "durationMs": 11.33500000089407
+        },
+        {
+          "name": "history-before",
+          "startMs": 21384.21499999985,
+          "durationMs": 10.96000000089407
+        },
+        {
+          "name": "typed-input-allocate-copy",
+          "startMs": 21395.580000001937,
+          "durationMs": 1.5599999986588955
+        },
+        {
+          "name": "native-input-install-and-export",
+          "startMs": 21397.185000002384,
+          "durationMs": 80.48499999940395
+        },
+        {
+          "name": "typed-input-free",
+          "startMs": 21477.679999999702,
+          "durationMs": 0.12000000104308128
+        },
+        {
+          "name": "upload-and-native-install",
+          "startMs": 21395.380000002682,
+          "durationMs": 82.4349999986589
+        },
+        {
+          "name": "cpp-smooth-and-export",
+          "startMs": 21499.220000002533,
+          "durationMs": 570.6649999991059
+        },
+        {
+          "name": "owned-buffer-readback",
+          "startMs": 22069.890000000596,
+          "durationMs": 35.96000000089407
+        },
+        {
+          "name": "payload-validation",
+          "startMs": 22106.04000000283,
+          "durationMs": 73.58499999716878
+        },
+        {
+          "name": "payload-normals",
+          "startMs": 22179.630000002682,
+          "durationMs": 0.015000000596046448
+        },
+        {
+          "name": "surface-buffer-expansion",
+          "startMs": 22179.66500000283,
+          "durationMs": 79.06499999761581
+        },
+        {
+          "name": "surface-bounding-sphere",
+          "startMs": 22258.77000000328,
+          "durationMs": 110.53499999642372
+        },
+        {
+          "name": "surface-geometry",
+          "startMs": 22179.66000000015,
+          "durationMs": 189.6550000011921
+        },
+        {
+          "name": "edge-geometry",
+          "startMs": 22369.32500000298,
+          "durationMs": 0.03500000014901161
+        },
+        {
+          "name": "boundary-incidence",
+          "startMs": 22369.91500000283,
+          "durationMs": 148.36499999836087
+        },
+        {
+          "name": "wire-geometry-inclusive",
+          "startMs": 22369.870000001043,
+          "durationMs": 207.08500000089407
+        },
+        {
+          "name": "scene-payload-copy",
+          "startMs": 22576.98500000313,
+          "durationMs": 41.49499999731779
+        },
+        {
+          "name": "scene-publication-inclusive",
+          "startMs": 22105.91000000015,
+          "durationMs": 548.4000000022352
+        },
+        {
+          "name": "camera-fit",
+          "startMs": 22654.310000002384,
+          "durationMs": 61.91999999806285
+        },
+        {
+          "name": "history-commit-inclusive",
+          "startMs": 22716.925000000745,
+          "durationMs": 35.21499999985099
+        }
+      ],
+      "renderer": "WebGPU \u00c2\u00b7 WGSL",
+      "faces": 500000,
+      "vertices": 501501,
+      "status": "Smoothed current geometry with zFnMesh::smoothMesh. Divisions: 1.",
+      "jsHeapUsedBytes": 624515257,
+      "fixtureGenerationMs": 243.875,
+      "inputBytes": 8115436
+    },
+    "after": {
+      "capturedAt": "2026-10-08T16:50:04.970Z",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36",
+      "method": "Actual Alice viewer import/Smooth Mesh/history/display. Action times include UI/history, transfers, WASM, readback and publication; presented time adds two rAF callbacks, not GPU completion. Frame-gap samples include VSync/background scheduling and do not establish GPU throughput.",
+      "actions": [
+        {
+          "name": "import 125000 quads",
+          "faces": 125000,
+          "vertices": 125751,
+          "actionMs": 2860.550000000745,
+          "presentedMs": 2885.135000001639
+        },
+        {
+          "name": "smooth 125000 to 500000",
+          "faces": 500000,
+          "vertices": 501501,
+          "actionMs": 2741.245000001043,
+          "presentedMs": 2752.545000001788
+        },
+        {
+          "name": "undo smooth",
+          "faces": 125000,
+          "vertices": 125751,
+          "actionMs": 176.95999999716878,
+          "presentedMs": 226.535000000149
+        },
+        {
+          "name": "redo smooth",
+          "faces": 500000,
+          "vertices": 501501,
+          "actionMs": 639.9899999983609,
+          "presentedMs": 833.9400000013411
+        }
+      ],
+      "samples": [
+        {
+          "name": "idle",
+          "faces": 500000,
+          "durationMs": 5012.284999996569,
+          "frames": 298,
+          "inputEvents": 0,
+          "medianGapMs": 16.655000000006112,
+          "p95GapMs": 16.69000000000233,
+          "maxGapMs": 66.625,
+          "gapsOver50Ms": 1,
+          "visible": "visible",
+          "viewport": [
+            1280,
+            720
+          ],
+          "devicePixelRatio": 1.5
+        }
+      ],
+      "longTasks": [
+        {
+          "startMs": 496.89500000327826,
+          "durationMs": 1100
+        },
+        {
+          "startMs": 1647.945000000298,
+          "durationMs": 340
+        },
+        {
+          "startMs": 2010.4750000014901,
+          "durationMs": 2646
+        },
+        {
+          "startMs": 4656.845000002533,
+          "durationMs": 190
+        },
+        {
+          "startMs": 14406.425000000745,
+          "durationMs": 147
+        },
+        {
+          "startMs": 14573.120000001043,
+          "durationMs": 2434
+        },
+        {
+          "startMs": 17007.75,
+          "durationMs": 138
+        },
+        {
+          "startMs": 48801.82500000298,
+          "durationMs": 179
+        },
+        {
+          "startMs": 49026.9450000003,
+          "durationMs": 649
+        },
+        {
+          "startMs": 49677.53500000015,
+          "durationMs": 173
+        }
+      ],
+      "phases": [
+        {
+          "name": "payload-validation",
+          "startMs": 4085.905000001192,
+          "durationMs": 89.50499999895692
+        },
+        {
+          "name": "payload-normals",
+          "startMs": 4175.420000001788,
+          "durationMs": 0.0949999988079071
+        },
+        {
+          "name": "surface-buffer-expansion",
+          "startMs": 4175.595000002533,
+          "durationMs": 155.4049999974668
+        },
+        {
+          "name": "surface-bounding-sphere",
+          "startMs": 4331.070000000298,
+          "durationMs": 13.089999999850988
+        },
+        {
+          "name": "surface-geometry",
+          "startMs": 4175.535000000149,
+          "durationMs": 168.625
+        },
+        {
+          "name": "edge-geometry",
+          "startMs": 4344.170000001788,
+          "durationMs": 0.12000000104308128
+        },
+        {
+          "name": "boundary-incidence",
+          "startMs": 4344.790000002831,
+          "durationMs": 89.22499999776483
+        },
+        {
+          "name": "wire-geometry-inclusive",
+          "startMs": 4344.430000003427,
+          "durationMs": 111.42999999970198
+        },
+        {
+          "name": "scene-payload-copy",
+          "startMs": 4455.97500000149,
+          "durationMs": 83.14000000059605
+        },
+        {
+          "name": "history-before",
+          "startMs": 14406.805000003427,
+          "durationMs": 9.524999998509884
+        },
+        {
+          "name": "typed-input-allocate-copy",
+          "startMs": 14416.589999999851,
+          "durationMs": 1.5150000005960464
+        },
+        {
+          "name": "native-input-install-and-export",
+          "startMs": 14418.115000002086,
+          "durationMs": 134.07000000029802
+        },
+        {
+          "name": "typed-input-free",
+          "startMs": 14552.210000000894,
+          "durationMs": 0.054999999701976776
+        },
+        {
+          "name": "upload-and-native-install",
+          "startMs": 14416.550000000745,
+          "durationMs": 135.8100000023842
+        },
+        {
+          "name": "cpp-smooth-and-export",
+          "startMs": 14573.330000001937,
+          "durationMs": 1370.210000000894
+        },
+        {
+          "name": "owned-buffer-readback",
+          "startMs": 15943.555000003427,
+          "durationMs": 82.01999999955297
+        },
+        {
+          "name": "payload-validation",
+          "startMs": 16025.85000000149,
+          "durationMs": 88.7199999988079
+        },
+        {
+          "name": "payload-normals",
+          "startMs": 16114.589999999851,
+          "durationMs": 0.005000002682209015
+        },
+        {
+          "name": "surface-buffer-expansion",
+          "startMs": 16114.615000002086,
+          "durationMs": 145.24500000104308
+        },
+        {
+          "name": "surface-bounding-sphere",
+          "startMs": 16259.920000001788,
+          "durationMs": 45.230000000447035
+        },
+        {
+          "name": "surface-geometry",
+          "startMs": 16114.615000002086,
+          "durationMs": 190.54499999806285
+        },
+        {
+          "name": "edge-geometry",
+          "startMs": 16305.170000001788,
+          "durationMs": 0.03999999910593033
+        },
+        {
+          "name": "boundary-incidence",
+          "startMs": 16305.690000001341,
+          "durationMs": 225.07000000029802
+        },
+        {
+          "name": "wire-geometry-inclusive",
+          "startMs": 16305.61000000313,
+          "durationMs": 317.69999999925494
+        },
+        {
+          "name": "scene-payload-copy",
+          "startMs": 16623.36000000313,
+          "durationMs": 174.51999999955297
+        },
+        {
+          "name": "scene-publication-inclusive",
+          "startMs": 16025.660000000149,
+          "durationMs": 836.890000000596
+        },
+        {
+          "name": "camera-fit",
+          "startMs": 16862.550000000745,
+          "durationMs": 90.55000000074506
+        },
+        {
+          "name": "history-commit-inclusive",
+          "startMs": 16953.745000001043,
+          "durationMs": 53.100000001490116
+        },
+        {
+          "name": "payload-validation",
+          "startMs": 48817.44000000134,
+          "durationMs": 47.57499999925494
+        },
+        {
+          "name": "payload-normals",
+          "startMs": 48865.025000002235,
+          "durationMs": 0.015000000596046448
+        },
+        {
+          "name": "surface-buffer-expansion",
+          "startMs": 48865.060000002384,
+          "durationMs": 49.4049999974668
+        },
+        {
+          "name": "surface-bounding-sphere",
+          "startMs": 48914.525000002235,
+          "durationMs": 18.344999998807907
+        },
+        {
+          "name": "surface-geometry",
+          "startMs": 48865.060000002384,
+          "durationMs": 67.81499999761581
+        },
+        {
+          "name": "edge-geometry",
+          "startMs": 48932.875,
+          "durationMs": 0.030000001192092896
+        },
+        {
+          "name": "boundary-incidence",
+          "startMs": 48933.185000002384,
+          "durationMs": 2.4149999991059303
+        },
+        {
+          "name": "wire-geometry-inclusive",
+          "startMs": 48933.115000002086,
+          "durationMs": 31.875
+        },
+        {
+          "name": "scene-payload-copy",
+          "startMs": 48965.02000000328,
+          "durationMs": 11.089999999850988
+        },
+        {
+          "name": "history-undo-inclusive",
+          "startMs": 48802.240000002086,
+          "durationMs": 176.4699999988079
+        },
+        {
+          "name": "payload-validation",
+          "startMs": 49078.240000002086,
+          "durationMs": 154.714999999851
+        },
+        {
+          "name": "payload-normals",
+          "startMs": 49232.97000000253,
+          "durationMs": 0.009999997913837433
+        },
+        {
+          "name": "surface-buffer-expansion",
+          "startMs": 49233.00500000268,
+          "durationMs": 209.27499999850988
+        },
+        {
+          "name": "surface-bounding-sphere",
+          "startMs": 49442.34500000253,
+          "durationMs": 84.53500000014901
+        },
+        {
+          "name": "surface-geometry",
+          "startMs": 49233.00500000268,
+          "durationMs": 293.8799999989569
+        },
+        {
+          "name": "edge-geometry",
+          "startMs": 49526.88500000164,
+          "durationMs": 0.03500000014901161
+        },
+        {
+          "name": "boundary-incidence",
+          "startMs": 49527.16500000283,
+          "durationMs": 4.689999997615814
+        },
+        {
+          "name": "wire-geometry-inclusive",
+          "startMs": 49527.125,
+          "durationMs": 77.42000000178814
+        },
+        {
+          "name": "scene-payload-copy",
+          "startMs": 49604.58000000194,
+          "durationMs": 55.71000000089407
+        },
+        {
+          "name": "history-redo-inclusive",
+          "startMs": 49029.435000002384,
+          "durationMs": 639.1699999980628
+        }
+      ],
+      "renderer": "WebGPU \u00c2\u00b7 WGSL",
+      "faces": 500000,
+      "vertices": 501501,
+      "status": "Redo smooth mesh.",
+      "jsHeapUsedBytes": 682139835,
+      "fixtureGenerationMs": 339.17000000178814,
+      "inputBytes": 8115436
+    }
+  },
+  "verification": [
+    "Baseline, diagnostic and post-extraction npm run build passed.",
+    "428 exact sphere comparisons, 62 surface-buffer and 60 renderer cases passed, including existing cache ownership/invalidation/LRU contracts.",
+    "Actual WebGPU viewer import 125k, Smooth to 500k, undo/redo and idle scheduling verified."
+  ],
+  "limitations": [
+    "Three alternating-order Node bounds trials exclude surface allocation/expansion, browser, GPU, history and publication. Full surface-buffer output is unchanged; its timings vary.",
+    "Browser samples are one fresh load before and after, without concurrent compilation/Node tests. No stable action median, FPS guarantee or broad responsiveness claim.",
+    "Marker storage at 500k/501501 vertices is 501501 bytes, local to the bounds call; no cache or total/peak memory reduction claimed.",
+    "The comparison harness uses the preserved ignored renderer snapshot at wasm/tmp/viewer-surface-bounds-before/renderers-profiled.ts.",
+    "Expected THREE diagnostics for nonfinite unused coordinates in vertex-color mode occurred in parity checks and are unchanged.",
+    "Existing bundle-size warning remains. Kernel/ABI, runtime artifacts, sketches and unrelated selection/display behavior were not modified. Other dirty user changes were preserved."
+  ],
+  "changedFiles": [
+    "../zspace_alice_webviewer/src/renderers.ts",
+    "../zspace_alice_webviewer/src/meshSurfaceBounds.ts",
+    "../zspace_alice_webviewer/tests/meshSurfaceBounds.test.mjs",
+    "../zspace_alice_webviewer/reports/Alice-Viewer-Implementation-Roadmap.md",
+    "tests/performance/viewer-surface-bounds-parity.mjs",
+    "reports/generate-surface-bounds-report.py",
+    "reports/viewer-surface-bounds-parity.json",
+    "reports/viewer-surface-bounds-before.json",
+    "reports/viewer-surface-bounds-after.json",
+    "reports/viewer-surface-bounds-optimization.json",
+    "reports/viewer-surface-bounds-optimization.html",
+    "reports/viewer-surface-bounds-500k.png"
+  ],
+  "nextPriority": "Measure stable per-phase action medians on representative meshes before choosing publication validation, transfer/native installation or worker ownership work. Smooth remains synchronous."
+}

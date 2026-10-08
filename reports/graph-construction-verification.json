@@ -1,0 +1,121 @@
+{
+  "paritySamples": 48,
+  "constructionObservations": 30,
+  "large": [
+    {
+      "shape": "chain",
+      "vertices": 500001,
+      "edges": 500000,
+      "trials": 3,
+      "before": {
+        "inputPreparationMs": 6.3434,
+        "storageInstallationMs": 12.7313,
+        "flatLengthsMs": 14.0474,
+        "topologyBuildMs": 3078.8374,
+        "oneHalfedgeVectorMs": 0.0065,
+        "fullHalfedgeScanMs": 130.729,
+        "workingSetBytes": 321204224,
+        "processPeakWorkingSetBytes": 357494784
+      },
+      "after": {
+        "inputPreparationMs": 3.7873,
+        "storageInstallationMs": 9.7172,
+        "flatLengthsMs": 8.5468,
+        "topologyBuildMs": 1896.0904,
+        "oneHalfedgeVectorMs": 0.0043,
+        "fullHalfedgeScanMs": 78.3248,
+        "workingSetBytes": 320872448,
+        "processPeakWorkingSetBytes": 354164736
+      },
+      "topologyPercentChange": -38.415377181009944
+    },
+    {
+      "shape": "loop",
+      "vertices": 500000,
+      "edges": 500000,
+      "trials": 3,
+      "before": {
+        "inputPreparationMs": 6.3298,
+        "storageInstallationMs": 11.12,
+        "flatLengthsMs": 9.8509,
+        "topologyBuildMs": 2867.4524,
+        "oneHalfedgeVectorMs": 0.0051,
+        "fullHalfedgeScanMs": 110.8505,
+        "workingSetBytes": 321470464,
+        "processPeakWorkingSetBytes": 357912576
+      },
+      "after": {
+        "inputPreparationMs": 3.3965,
+        "storageInstallationMs": 9.175,
+        "flatLengthsMs": 7.8656,
+        "topologyBuildMs": 1780.1083,
+        "oneHalfedgeVectorMs": 0.0054,
+        "fullHalfedgeScanMs": 80.0379,
+        "workingSetBytes": 321015808,
+        "processPeakWorkingSetBytes": 354459648
+      },
+      "topologyPercentChange": -37.92021447330739
+    },
+    {
+      "shape": "branch",
+      "vertices": 500001,
+      "edges": 500000,
+      "trials": 3,
+      "before": {
+        "inputPreparationMs": 6.9154,
+        "storageInstallationMs": 9.9363,
+        "flatLengthsMs": 10.438,
+        "topologyBuildMs": 2764.8607,
+        "oneHalfedgeVectorMs": 0.0056,
+        "fullHalfedgeScanMs": 118.7559,
+        "workingSetBytes": 333357056,
+        "processPeakWorkingSetBytes": 361705472
+      },
+      "after": {
+        "inputPreparationMs": 3.7926,
+        "storageInstallationMs": 9.1249,
+        "flatLengthsMs": 9.2974,
+        "topologyBuildMs": 1699.0957,
+        "oneHalfedgeVectorMs": 0.0046,
+        "fullHalfedgeScanMs": 77.8976,
+        "workingSetBytes": 324677632,
+        "processPeakWorkingSetBytes": 358719488
+      },
+      "topologyPercentChange": -38.54678827038194
+    },
+    {
+      "shape": "disconnected",
+      "vertices": 625000,
+      "edges": 500000,
+      "trials": 3,
+      "before": {
+        "inputPreparationMs": 8.5841,
+        "storageInstallationMs": 10.489,
+        "flatLengthsMs": 8.3081,
+        "topologyBuildMs": 2302.2884,
+        "oneHalfedgeVectorMs": 0.0045,
+        "fullHalfedgeScanMs": 80.9305,
+        "workingSetBytes": 362864640,
+        "processPeakWorkingSetBytes": 397012992
+      },
+      "after": {
+        "inputPreparationMs": 8.581,
+        "storageInstallationMs": 10.3698,
+        "flatLengthsMs": 8.1131,
+        "topologyBuildMs": 2053.6657,
+        "oneHalfedgeVectorMs": 0.0043,
+        "fullHalfedgeScanMs": 80.589,
+        "workingSetBytes": 353763328,
+        "processPeakWorkingSetBytes": 393531392
+      },
+      "topologyPercentChange": -10.798938134770598
+    }
+  ],
+  "changedProvenance": [
+    {
+      "path": "C:\\Users\\vishu.b\\source\\repos\\GitZHCODE\\zspace_alice_webviewer\\src\\app.ts",
+      "beforeSha256": "D330F0FB2270A87023B6EFB1A94D9DB240145C1F0BDC8ED7CDF0E07A33DD0D2F",
+      "afterSha256": "47336B06CE3965B1EB96A84A111F11B8C5C2A3F5420AA7AEFA174A6196064C16"
+    }
+  ]
+}

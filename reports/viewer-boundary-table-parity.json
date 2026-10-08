@@ -1,0 +1,49 @@
+{
+  "method": "Node boundary classification only; three alternating-order trials, excludes GPU/browser/renderer. Full renderer parity hashes geometry arrays, ordered wire paths, visibility, colors and widths on small fixtures.",
+  "boundaryParityCases": 209,
+  "renderParityCases": 18,
+  "timings": [
+    {
+      "faces": 125000,
+      "trial": 0,
+      "beforeMs": 176.44880000000012,
+      "afterMs": 64.15830000000005,
+      "boundaryEdges": 1500
+    },
+    {
+      "faces": 125000,
+      "trial": 1,
+      "beforeMs": 141.07589999999982,
+      "afterMs": 41.70100000000002,
+      "boundaryEdges": 1500
+    },
+    {
+      "faces": 125000,
+      "trial": 2,
+      "beforeMs": 154.59449999999993,
+      "afterMs": 43.49510000000009,
+      "boundaryEdges": 1500
+    },
+    {
+      "faces": 500000,
+      "trial": 0,
+      "beforeMs": 814.9243999999999,
+      "afterMs": 214.2483000000002,
+      "boundaryEdges": 3000
+    },
+    {
+      "faces": 500000,
+      "trial": 1,
+      "beforeMs": 647.6824000000001,
+      "afterMs": 168.0282000000002,
+      "boundaryEdges": 3000
+    },
+    {
+      "faces": 500000,
+      "trial": 2,
+      "beforeMs": 627.0967,
+      "afterMs": 180.65939999999955,
+      "boundaryEdges": 3000
+    }
+  ]
+}

@@ -1,0 +1,88 @@
+{
+  "path": "Actual viewer app /src/main.ts, existing sketch-folder File import + Load; unchanged installed runtime. Graph primitives are JS-owned; no native graph ABI on this path.",
+  "samples": [
+    {
+      "vertices": 1001,
+      "edges": 1000,
+      "fullActionToStatusMs": 190.4550000000745,
+      "inputPreparationMs": 0.2350000012665987,
+      "jsGraphStorageInstallationMs": 0.5399999991059303,
+      "heapUsedBytes": 24981250
+    },
+    {
+      "vertices": 100001,
+      "edges": 100000,
+      "fullActionToStatusMs": 327.09999999962747,
+      "inputPreparationMs": 7.269999999552965,
+      "jsGraphStorageInstallationMs": 35.330000000074506,
+      "heapUsedBytes": 87061739
+    },
+    {
+      "kind": "graph-folder-import-and-load",
+      "vertices": 500001,
+      "edges": 500000,
+      "fullActionToStatusMs": 940.785000000149,
+      "inputPreparationMs": 29.12999999895692,
+      "jsGraphStorageInstallationMs": 186.93500000052154,
+      "rafGapsMs": [
+        -5.885000000744185,
+        16.639999999999418,
+        16.650000000001455,
+        16.639999999999418,
+        16.674999999995634,
+        16.67500000000291,
+        16.62000000000262,
+        16.709999999999127,
+        16.635000000002037,
+        16.619999999995343,
+        16.665000000000873,
+        16.67500000000291,
+        16.659999999996217,
+        16.630000000004657,
+        16.68499999999767,
+        16.6449999999968,
+        16.67000000000553,
+        16.62999999999738,
+        16.669999999998254,
+        16.654999999998836
+      ],
+      "notes": "Single browser sample. Full action includes an explicit 150ms metadata wait and polling. rAF measures scheduling, not GPU completion or FPS. JS graph path has no C++ transfer/export.",
+      "status": "Graph Stress 500000 built with JS zSpace API.",
+      "undoDisabled": true,
+      "redoDisabled": true,
+      "heap": {
+        "used": 235206854,
+        "total": 284420862
+      }
+    }
+  ],
+  "method": "Single sample per size. Includes deliberate 150ms metadata wait, polling, graph setup/conversion/publication and scheduling to built status. Earlier 1k/100k results were captured from browser output before dev-page refresh. First large attempt was lost to a page refresh; repeat on idle viewer passed. No controlled browser before/after speedup claim.",
+  "camera": "Wheel zoom visually verified on 500000-edge graph; canvas remained rendered and counts intact.",
+  "history": "Translate X=2 committed via Enter; Undo restored X=0/status Undo channel edit; Redo restored X=2/status Redo channel edit; restored X=0 afterward. Graph counts stayed V=500001/E=500000. Page keyboard shortcuts verified; native-input/button attempts that did not change state were not counted as passes.",
+  "scheduling": {
+    "intervalsMs": [
+      16.639999999999418,
+      16.650000000001455,
+      16.639999999999418,
+      16.674999999995634,
+      16.67500000000291,
+      16.62000000000262,
+      16.709999999999127,
+      16.635000000002037,
+      16.619999999995343,
+      16.665000000000873,
+      16.67500000000291,
+      16.659999999996217,
+      16.630000000004657,
+      16.68499999999767,
+      16.6449999999968,
+      16.67000000000553,
+      16.62999999999738,
+      16.669999999998254,
+      16.654999999998836
+    ],
+    "explanation": "Discard first value: rAF timestamp is frame-start time and can precede status sampling. Remaining entries are callback intervals; no GPU fence/completion/FPS measurement."
+  },
+  "consoleErrors": "No error/warn entries captured during history verification.",
+  "screenshot": "graph-viewer-500k.png"
+}

@@ -776,26 +776,40 @@ namespace zSpace
 
 	ZSPACE_INLINE zVector zItMeshEdge::getCenter()
 	{
-		zIntArray eVerts;
-		getVertices(eVerts);
-
-		return (zMeshObjectStorage::get(*meshObj).vertexPositions[eVerts[0]] + zMeshObjectStorage::get(*meshObj).vertexPositions[eVerts[1]]) * 0.5;
+		const auto& data = zMeshObjectStorage::read(*meshObj);
+		const int v0 = data.edgeVertexIndices[index * 2];
+		const int v1 = data.edgeVertexIndices[index * 2 + 1];
+		zPoint p0 = data.positions[v0];
+		return (p0 + data.positions[v1]) * 0.5;
 	}
 
 	ZSPACE_INLINE zVector zItMeshEdge::getVector()
 	{
-
-		int v1 = getHalfEdge(0).getVertex().getId();
-		int v2 = getHalfEdge(1).getVertex().getId();
-
-		zVector out = zMeshObjectStorage::get(*meshObj).vertexPositions[v1] - (zMeshObjectStorage::get(*meshObj).vertexPositions[v2]);
-
-		return out;
+		if (const auto* existing = zMeshObjectStorage::readTopologyIfPresent(*meshObj))
+		{
+			// Keep explicit edits/halfedge IDs authoritative when already present.
+			const auto& topology = *existing;
+			auto edge = topology.edges[index];
+			auto first = topology.halfEdges[edge.getHalfEdge(0)];
+			auto second = topology.halfEdges[edge.getHalfEdge(1)];
+			zPoint end = topology.vertexPositions[first.getVertex()];
+			return end - topology.vertexPositions[second.getVertex()];
+		}
+		const auto& data = zMeshObjectStorage::read(*meshObj);
+		const int start = data.edgeFirstVertices[index];
+		const int a = data.edgeVertexIndices[index * 2];
+		const int b = data.edgeVertexIndices[index * 2 + 1];
+		zPoint end = data.positions[start == a ? b : a];
+		return end - data.positions[start];
 	}
 
 	ZSPACE_INLINE double zItMeshEdge::getLength()
 	{
-		return getVector().length();
+		const auto& data = zMeshObjectStorage::read(*meshObj);
+		const int v0 = data.edgeVertexIndices[index * 2];
+		const int v1 = data.edgeVertexIndices[index * 2 + 1];
+		zPoint p0 = data.positions[v0];
+		return (p0 - data.positions[v1]).length();
 	}
 
 	ZSPACE_INLINE double zItMeshEdge::getDihedralAngle()
@@ -1115,26 +1129,28 @@ namespace zSpace
 
 	ZSPACE_INLINE zVector zItMeshFace::getCenter()
 	{
-		zIntArray fVerts;
-		getVertices(fVerts);
+		const auto& data = zMeshObjectStorage::read(*meshObj);
+		const int begin = data.faceOffsets[index];
+		const int end = data.faceOffsets[index + 1];
 		zVector cen;
 
-		for (int j = 0; j < fVerts.size(); j++) cen += zMeshObjectStorage::get(*meshObj).vertexPositions[fVerts[j]];
-		cen /= fVerts.size();
+		for (int j = begin; j < end; j++) cen += data.positions[data.faceVertexIndices[j]];
+		cen /= end - begin;
 
 		return cen;
 	}
 
 	ZSPACE_INLINE int zItMeshFace::getNumVertices()
 	{
-		zIntArray fEdges;
-		getHalfEdges(fEdges);
-
-		return fEdges.size();
+		if (!isActive()) return 0;
+		const auto& data = zMeshObjectStorage::read(*meshObj);
+		return data.faceOffsets[index + 1] - data.faceOffsets[index];
 	}
 
 	ZSPACE_INLINE void zItMeshFace::getTriangles(int &numTris, zIntArray &tris)
 	{
+		const auto& data = zMeshObjectStorage::read(*meshObj);
+		zUtilsCore coreUtils;
 		double angle_Max = 90;
 		bool noEars = true; // check for if there are no ears
 
@@ -1157,7 +1173,7 @@ namespace zSpace
 		if (fVerts.size() < 3) throw std::invalid_argument(" error: invalid face, triangulation is not succesful.");
 
 		// compute 			
-		zVector norm = zMeshObjectStorage::get(*meshObj).faceNormals[faceIndex];
+		zVector norm = data.faceNormals[faceIndex];
 
 		// compute ears
 
@@ -1167,8 +1183,10 @@ namespace zSpace
 			int prevId = (i - 1 + vertexIndices.size()) % vertexIndices.size();
 
 			// Triangle edges - e1 and e2 defined above
-			zVector v1 = zMeshObjectStorage::get(*meshObj).vertexPositions[vertexIndices[nextId]] - zMeshObjectStorage::get(*meshObj).vertexPositions[vertexIndices[i]];
-			zVector v2 = zMeshObjectStorage::get(*meshObj).vertexPositions[vertexIndices[prevId]] - zMeshObjectStorage::get(*meshObj).vertexPositions[vertexIndices[i]];
+			zVector v1 = data.positions[vertexIndices[nextId]];
+			v1 -= data.positions[vertexIndices[i]];
+			zVector v2 = data.positions[vertexIndices[prevId]];
+			v2 -= data.positions[vertexIndices[i]];
 
 			zVector cross = v1 ^ v2;
 			double ang = v1.angle(v2);
@@ -1183,9 +1201,9 @@ namespace zSpace
 			{
 				bool ear = true;
 
-				zVector p0 = zMeshObjectStorage::get(*meshObj).vertexPositions[fVerts[i]];
-				zVector p1 = zMeshObjectStorage::get(*meshObj).vertexPositions[fVerts[nextId]];
-				zVector p2 = zMeshObjectStorage::get(*meshObj).vertexPositions[fVerts[prevId]];
+				zVector p0 = data.positions[fVerts[i]];
+				zVector p1 = data.positions[fVerts[nextId]];
+				zVector p2 = data.positions[fVerts[prevId]];
 
 				bool CheckPtTri = false;
 
@@ -1196,9 +1214,9 @@ namespace zSpace
 						if (j != i && j != nextId && j != prevId)
 						{
 							// vector to point to be checked
-							zVector pt = zMeshObjectStorage::get(*meshObj).vertexPositions[fVerts[j]];
+							zVector pt = data.positions[fVerts[j]];
 
-							bool Chk = zMeshObjectStorage::get(*meshObj).coreUtils.pointInTriangle(pt, p0, p1, p2);
+							bool Chk = coreUtils.pointInTriangle(pt, p0, p1, p2);
 							CheckPtTri = Chk;
 
 						}
@@ -1275,8 +1293,10 @@ namespace zSpace
 					int prevId = (i - 1 + vertexIndices.size()) % vertexIndices.size();
 
 					// Triangle edges - e1 and e2 defined above
-					zVector v1 = zMeshObjectStorage::get(*meshObj).vertexPositions[vertexIndices[nextId]] - zMeshObjectStorage::get(*meshObj).vertexPositions[vertexIndices[i]];
-					zVector v2 = zMeshObjectStorage::get(*meshObj).vertexPositions[vertexIndices[prevId]] - zMeshObjectStorage::get(*meshObj).vertexPositions[vertexIndices[i]];
+					zVector v1 = data.positions[vertexIndices[nextId]];
+					v1 -= data.positions[vertexIndices[i]];
+					zVector v2 = data.positions[vertexIndices[prevId]];
+					v2 -= data.positions[vertexIndices[i]];
 
 					zVector cross = v1 ^ v2;
 					double ang = v1.angle(v2);
@@ -1291,9 +1311,9 @@ namespace zSpace
 					{
 						bool ear = true;
 
-						zVector p0 = zMeshObjectStorage::get(*meshObj).vertexPositions[vertexIndices[i]];
-						zVector p1 = zMeshObjectStorage::get(*meshObj).vertexPositions[vertexIndices[nextId]];
-						zVector p2 = zMeshObjectStorage::get(*meshObj).vertexPositions[vertexIndices[prevId]];
+						zVector p0 = data.positions[vertexIndices[i]];
+						zVector p1 = data.positions[vertexIndices[nextId]];
+						zVector p2 = data.positions[vertexIndices[prevId]];
 
 						bool CheckPtTri = false;
 
@@ -1304,9 +1324,9 @@ namespace zSpace
 								if (j != i && j != nextId && j != prevId)
 								{
 									// vector to point to be checked
-									zVector pt = zMeshObjectStorage::get(*meshObj).vertexPositions[vertexIndices[j]];
+									zVector pt = data.positions[vertexIndices[j]];
 
-									bool Chk = zMeshObjectStorage::get(*meshObj).coreUtils.pointInTriangle(pt, p0, p1, p2);
+									bool Chk = coreUtils.pointInTriangle(pt, p0, p1, p2);
 									CheckPtTri = Chk;
 								}
 							}
@@ -1349,7 +1369,7 @@ namespace zSpace
 	ZSPACE_INLINE double zItMeshFace::getVolume(zIntArray &faceTris, zVector &fCenter, bool absoluteVolume)
 	{
 
-		int faceNumTris;
+		int faceNumTris = static_cast<int>(faceTris.size() / 3);
 
 		if (faceTris.size() == 0) 	getTriangles(faceNumTris, faceTris);
 
@@ -1360,12 +1380,15 @@ namespace zSpace
 
 		double out = 0;
 
-		int index = getId();
-
 		// add volume of face tris			
+		const auto& data = zMeshObjectStorage::read(*meshObj);
+		zUtilsCore coreUtils;
 		for (int j = 0; j < faceTris.size(); j += 3)
 		{
-			double vol = zMeshObjectStorage::get(*meshObj).coreUtils.getSignedTriangleVolume(zMeshObjectStorage::get(*meshObj).vertexPositions[faceTris[j + 0]], zMeshObjectStorage::get(*meshObj).vertexPositions[faceTris[j + 1]], zMeshObjectStorage::get(*meshObj).vertexPositions[faceTris[j + 2]]);
+			zPoint a = data.positions[faceTris[j + 0]];
+			zPoint b = data.positions[faceTris[j + 1]];
+			zPoint c = data.positions[faceTris[j + 2]];
+			double vol = coreUtils.getSignedTriangleVolume(a, b, c);
 
 			out += vol;
 		}
@@ -1379,7 +1402,7 @@ namespace zSpace
 		{
 			int prevId = (j - 1 + fVerts.size()) % fVerts.size();
 
-			double vol = zMeshObjectStorage::get(*meshObj).coreUtils.getSignedTriangleVolume(fVerts[j], fVerts[prevId], fCenter);
+			double vol = coreUtils.getSignedTriangleVolume(fVerts[j], fVerts[prevId], fCenter);
 
 			out += vol;
 		}
@@ -1438,10 +1461,17 @@ namespace zSpace
 		zPoint fCenter = getCenter();
 
 		zPointArray eCenters;
-		zItMeshHalfEdgeArray fHEdges;
-		getHalfEdges(fHEdges);
-
-		for (auto& he : fHEdges) eCenters.push_back(he.getCenter());
+		const auto& data = zMeshObjectStorage::read(*meshObj);
+		const int begin = data.faceOffsets[index], end = data.faceOffsets[index + 1];
+		eCenters.reserve(end - begin);
+		for (int j = begin; j < end; ++j)
+		{
+			const int next = j + 1 < end ? j + 1 : begin;
+			zPoint start = data.positions[data.faceVertexIndices[j]];
+			zPoint finish = data.positions[data.faceVertexIndices[next]];
+			// Halfedge center adds its end vertex before its start vertex.
+			eCenters.push_back((finish + start) * 0.5);
+		}
 
 		int i = 0;
 		for (auto &v : eCenters)
@@ -1531,6 +1561,7 @@ namespace zSpace
 
 	ZSPACE_INLINE void zItMeshFace::getOffsetFacePositions(double offset, vector<zVector>& offsetPositions)
 	{
+		const auto& data = zMeshObjectStorage::read(*meshObj);
 		vector<zVector> out;
 
 		zIntArray fVerts;
@@ -1542,11 +1573,13 @@ namespace zSpace
 			int prev = (j - 1 + fVerts.size()) % fVerts.size();
 
 
-			zVector Ori = zMeshObjectStorage::get(*meshObj).vertexPositions[fVerts[j]];;
-			zVector v1 = zMeshObjectStorage::get(*meshObj).vertexPositions[fVerts[prev]] - zMeshObjectStorage::get(*meshObj).vertexPositions[fVerts[j]];
+			zVector Ori = data.positions[fVerts[j]];;
+			zVector v1 = data.positions[fVerts[prev]];
+			v1 -= data.positions[fVerts[j]];
 			v1.normalize();
 
-			zVector v2 = zMeshObjectStorage::get(*meshObj).vertexPositions[fVerts[next]] - zMeshObjectStorage::get(*meshObj).vertexPositions[fVerts[j]];
+			zVector v2 = data.positions[fVerts[next]];
+			v2 -= data.positions[fVerts[j]];
 			v2.normalize();
 
 			zVector v3 = v1;
@@ -1564,7 +1597,7 @@ namespace zSpace
 
 			double length = offset / alpha;
 
-			zVector mPos = zMeshObjectStorage::get(*meshObj).vertexPositions[fVerts[j]];
+			zVector mPos = data.positions[fVerts[j]];
 			zVector offPos = mPos + (v3 * length);
 
 			out.push_back(offPos);
@@ -1577,17 +1610,17 @@ namespace zSpace
 
 	ZSPACE_INLINE void zItMeshFace::getOffsetFacePositions_Variable(vector<double>& offsets, zVector& faceCenter, zVector& faceNormal, vector<zVector>& intersectionPositions)
 	{
+		if (!isActive()) return;
 		vector<zVector> offsetPoints;
-		zIntArray fEdges;
-		getHalfEdges(fEdges);
+		const auto& data = zMeshObjectStorage::read(*meshObj);
+		zUtilsCore coreUtils;
+		const int begin = data.faceOffsets[index], end = data.faceOffsets[index + 1];
+		const int count = end - begin;
 
-		for (int j = 0; j < fEdges.size(); j++)
+		for (int j = 0; j < count; j++)
 		{
-			zItMeshHalfEdge he(*meshObj, fEdges[j]);
-
-
-			zVector p2 = zMeshObjectStorage::get(*meshObj).vertexPositions[he.getVertex().getId()];
-			zVector p1 = zMeshObjectStorage::get(*meshObj).vertexPositions[he.getSym().getVertex().getId()];
+			zVector p2 = data.positions[data.faceVertexIndices[begin + (j + 1) % count]];
+			zVector p1 = data.positions[data.faceVertexIndices[begin + j]];
 
 			zVector norm1 = ((p1 - p2) ^ faceNormal);
 			norm1.normalize();
@@ -1600,9 +1633,9 @@ namespace zSpace
 		}
 
 
-		for (int j = 0; j < fEdges.size(); j++)
+		for (int j = 0; j < count; j++)
 		{
-			int prevId = (j - 1 + fEdges.size()) % fEdges.size();
+			int prevId = (j - 1 + count) % count;
 
 			zVector a0 = offsetPoints[j * 2];
 			zVector a1 = offsetPoints[j * 2 + 1];
@@ -1614,7 +1647,7 @@ namespace zSpace
 
 			double uA = -1;
 			double uB = -1;
-			bool intersect = zMeshObjectStorage::get(*meshObj).coreUtils.line_lineClosestPoints(a0, a1, b0, b1, uA, uB);
+			bool intersect = coreUtils.line_lineClosestPoints(a0, a1, b0, b1, uA, uB);
 
 			if (intersect)
 			{

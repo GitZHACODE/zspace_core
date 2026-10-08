@@ -1,0 +1,965 @@
+{
+  "samples": [
+    {
+      "edges": 1000,
+      "flatDigest": "9e075df7f1f19a1",
+      "flatLengthsMs": 0.0358,
+      "fullHalfedgeScanMs": 1056.882,
+      "lengthTotal": 31963.533849596977,
+      "oneHalfedgeVectorMs": 2.2396,
+      "prepareAndInstallMs": 0.1352,
+      "scanDigest": 1773313566834556880,
+      "shape": "chain",
+      "topologyBuildMs": 5.5547,
+      "topologyVertices": 1001,
+      "trial": 0,
+      "vector": [
+        1.0,
+        1.0,
+        0.125
+      ],
+      "vertices": 1001
+    },
+    {
+      "edges": 1000,
+      "flatDigest": "9e075df7f1f19a1",
+      "flatLengthsMs": 0.05,
+      "fullHalfedgeScanMs": 1309.4815,
+      "lengthTotal": 31963.533849596977,
+      "oneHalfedgeVectorMs": 0.8694,
+      "prepareAndInstallMs": 0.0613,
+      "scanDigest": 1773313566834556880,
+      "shape": "chain",
+      "topologyBuildMs": 3.4667,
+      "topologyVertices": 1001,
+      "trial": 1,
+      "vector": [
+        1.0,
+        1.0,
+        0.125
+      ],
+      "vertices": 1001
+    },
+    {
+      "edges": 1000,
+      "flatDigest": "9e075df7f1f19a1",
+      "flatLengthsMs": 0.0406,
+      "fullHalfedgeScanMs": 1149.6174,
+      "lengthTotal": 31963.533849596977,
+      "oneHalfedgeVectorMs": 0.7295,
+      "prepareAndInstallMs": 0.0612,
+      "scanDigest": 1773313566834556880,
+      "shape": "chain",
+      "topologyBuildMs": 3.298,
+      "topologyVertices": 1001,
+      "trial": 2,
+      "vector": [
+        1.0,
+        1.0,
+        0.125
+      ],
+      "vertices": 1001
+    },
+    {
+      "edges": 10000,
+      "flatDigest": "64f694c92a31dd34",
+      "flatLengthsMs": 0.1848,
+      "fullHalfedgeScanMs": -1.0,
+      "lengthTotal": 318880.32233023643,
+      "oneHalfedgeVectorMs": 7.5611,
+      "prepareAndInstallMs": 0.4846,
+      "scanDigest": 0,
+      "shape": "chain",
+      "topologyBuildMs": 37.1389,
+      "topologyVertices": 10001,
+      "trial": 0,
+      "vector": [
+        1.0,
+        1.0,
+        0.125
+      ],
+      "vertices": 10001
+    },
+    {
+      "edges": 10000,
+      "flatDigest": "64f694c92a31dd34",
+      "flatLengthsMs": 0.1928,
+      "fullHalfedgeScanMs": -1.0,
+      "lengthTotal": 318880.32233023643,
+      "oneHalfedgeVectorMs": 5.5305,
+      "prepareAndInstallMs": 0.5656,
+      "scanDigest": 0,
+      "shape": "chain",
+      "topologyBuildMs": 36.0301,
+      "topologyVertices": 10001,
+      "trial": 1,
+      "vector": [
+        1.0,
+        1.0,
+        0.125
+      ],
+      "vertices": 10001
+    },
+    {
+      "edges": 10000,
+      "flatDigest": "64f694c92a31dd34",
+      "flatLengthsMs": 0.1252,
+      "fullHalfedgeScanMs": -1.0,
+      "lengthTotal": 318880.32233023643,
+      "oneHalfedgeVectorMs": 5.5886,
+      "prepareAndInstallMs": 0.1336,
+      "scanDigest": 0,
+      "shape": "chain",
+      "topologyBuildMs": 34.7856,
+      "topologyVertices": 10001,
+      "trial": 2,
+      "vector": [
+        1.0,
+        1.0,
+        0.125
+      ],
+      "vertices": 10001
+    },
+    {
+      "edges": 100000,
+      "flatDigest": "c043fd2c69f8b27e",
+      "flatLengthsMs": 2.2445,
+      "fullHalfedgeScanMs": -1.0,
+      "lengthTotal": 3191028.809484601,
+      "oneHalfedgeVectorMs": 139.0782,
+      "prepareAndInstallMs": 4.0196,
+      "scanDigest": 0,
+      "shape": "chain",
+      "topologyBuildMs": 439.2083,
+      "topologyVertices": 100001,
+      "trial": 0,
+      "vector": [
+        1.0,
+        1.0,
+        0.125
+      ],
+      "vertices": 100001
+    },
+    {
+      "edges": 100000,
+      "flatDigest": "c043fd2c69f8b27e",
+      "flatLengthsMs": 1.9124,
+      "fullHalfedgeScanMs": -1.0,
+      "lengthTotal": 3191028.809484601,
+      "oneHalfedgeVectorMs": 134.2651,
+      "prepareAndInstallMs": 3.9099,
+      "scanDigest": 0,
+      "shape": "chain",
+      "topologyBuildMs": 470.5055,
+      "topologyVertices": 100001,
+      "trial": 1,
+      "vector": [
+        1.0,
+        1.0,
+        0.125
+      ],
+      "vertices": 100001
+    },
+    {
+      "edges": 100000,
+      "flatDigest": "c043fd2c69f8b27e",
+      "flatLengthsMs": 2.0548,
+      "fullHalfedgeScanMs": -1.0,
+      "lengthTotal": 3191028.809484601,
+      "oneHalfedgeVectorMs": 208.0515,
+      "prepareAndInstallMs": 3.9553,
+      "scanDigest": 0,
+      "shape": "chain",
+      "topologyBuildMs": 514.9717,
+      "topologyVertices": 100001,
+      "trial": 2,
+      "vector": [
+        1.0,
+        1.0,
+        0.125
+      ],
+      "vertices": 100001
+    },
+    {
+      "edges": 500000,
+      "flatDigest": "b83b2f63b9f6228f",
+      "flatLengthsMs": 20.2275,
+      "fullHalfedgeScanMs": -1.0,
+      "lengthTotal": 15954159.369490385,
+      "oneHalfedgeVectorMs": 929.1408,
+      "prepareAndInstallMs": 22.6642,
+      "scanDigest": 0,
+      "shape": "chain",
+      "topologyBuildMs": 3608.9471,
+      "topologyVertices": 500001,
+      "trial": 0,
+      "vector": [
+        1.0,
+        1.0,
+        0.125
+      ],
+      "vertices": 500001
+    },
+    {
+      "edges": 500000,
+      "flatDigest": "b83b2f63b9f6228f",
+      "flatLengthsMs": 9.856,
+      "fullHalfedgeScanMs": -1.0,
+      "lengthTotal": 15954159.369490385,
+      "oneHalfedgeVectorMs": 712.198,
+      "prepareAndInstallMs": 19.3133,
+      "scanDigest": 0,
+      "shape": "chain",
+      "topologyBuildMs": 2510.9017,
+      "topologyVertices": 500001,
+      "trial": 1,
+      "vector": [
+        1.0,
+        1.0,
+        0.125
+      ],
+      "vertices": 500001
+    },
+    {
+      "edges": 500000,
+      "flatDigest": "b83b2f63b9f6228f",
+      "flatLengthsMs": 8.4055,
+      "fullHalfedgeScanMs": -1.0,
+      "lengthTotal": 15954159.369490385,
+      "oneHalfedgeVectorMs": 638.143,
+      "prepareAndInstallMs": 15.4388,
+      "scanDigest": 0,
+      "shape": "chain",
+      "topologyBuildMs": 2105.4488,
+      "topologyVertices": 500001,
+      "trial": 2,
+      "vector": [
+        1.0,
+        1.0,
+        0.125
+      ],
+      "vertices": 500001
+    },
+    {
+      "edges": 1000,
+      "flatDigest": "34a6122137b7bc42",
+      "flatLengthsMs": 0.1453,
+      "fullHalfedgeScanMs": 883.1323,
+      "lengthTotal": 32926.63285243511,
+      "oneHalfedgeVectorMs": 0.9931,
+      "prepareAndInstallMs": 0.0434,
+      "scanDigest": 13750352855108945557,
+      "shape": "loop",
+      "topologyBuildMs": 5.2891,
+      "topologyVertices": 1000,
+      "trial": 0,
+      "vector": [
+        1.0,
+        1.0,
+        0.125
+      ],
+      "vertices": 1000
+    },
+    {
+      "edges": 1000,
+      "flatDigest": "34a6122137b7bc42",
+      "flatLengthsMs": 0.0163,
+      "fullHalfedgeScanMs": 851.6324,
+      "lengthTotal": 32926.63285243511,
+      "oneHalfedgeVectorMs": 0.6915,
+      "prepareAndInstallMs": 0.0282,
+      "scanDigest": 13750352855108945557,
+      "shape": "loop",
+      "topologyBuildMs": 3.3107,
+      "topologyVertices": 1000,
+      "trial": 1,
+      "vector": [
+        1.0,
+        1.0,
+        0.125
+      ],
+      "vertices": 1000
+    },
+    {
+      "edges": 1000,
+      "flatDigest": "34a6122137b7bc42",
+      "flatLengthsMs": 0.0155,
+      "fullHalfedgeScanMs": 899.5091,
+      "lengthTotal": 32926.63285243511,
+      "oneHalfedgeVectorMs": 0.5235,
+      "prepareAndInstallMs": 0.0367,
+      "scanDigest": 13750352855108945557,
+      "shape": "loop",
+      "topologyBuildMs": 2.9387,
+      "topologyVertices": 1000,
+      "trial": 2,
+      "vector": [
+        1.0,
+        1.0,
+        0.125
+      ],
+      "vertices": 1000
+    },
+    {
+      "edges": 10000,
+      "flatDigest": "f81ee10fe68a6210",
+      "flatLengthsMs": 0.178,
+      "fullHalfedgeScanMs": -1.0,
+      "lengthTotal": 328862.4975640774,
+      "oneHalfedgeVectorMs": 5.6876,
+      "prepareAndInstallMs": 0.4525,
+      "scanDigest": 0,
+      "shape": "loop",
+      "topologyBuildMs": 32.0769,
+      "topologyVertices": 10000,
+      "trial": 0,
+      "vector": [
+        1.0,
+        1.0,
+        0.125
+      ],
+      "vertices": 10000
+    },
+    {
+      "edges": 10000,
+      "flatDigest": "f81ee10fe68a6210",
+      "flatLengthsMs": 0.1668,
+      "fullHalfedgeScanMs": -1.0,
+      "lengthTotal": 328862.4975640774,
+      "oneHalfedgeVectorMs": 5.3857,
+      "prepareAndInstallMs": 0.2374,
+      "scanDigest": 0,
+      "shape": "loop",
+      "topologyBuildMs": 32.4924,
+      "topologyVertices": 10000,
+      "trial": 1,
+      "vector": [
+        1.0,
+        1.0,
+        0.125
+      ],
+      "vertices": 10000
+    },
+    {
+      "edges": 10000,
+      "flatDigest": "f81ee10fe68a6210",
+      "flatLengthsMs": 0.1168,
+      "fullHalfedgeScanMs": -1.0,
+      "lengthTotal": 328862.4975640774,
+      "oneHalfedgeVectorMs": 5.08,
+      "prepareAndInstallMs": 0.1266,
+      "scanDigest": 0,
+      "shape": "loop",
+      "topologyBuildMs": 29.7772,
+      "topologyVertices": 10000,
+      "trial": 2,
+      "vector": [
+        1.0,
+        1.0,
+        0.125
+      ],
+      "vertices": 10000
+    },
+    {
+      "edges": 100000,
+      "flatDigest": "a3f1d039a3ad026e",
+      "flatLengthsMs": 1.5873,
+      "fullHalfedgeScanMs": -1.0,
+      "lengthTotal": 3291012.7991057634,
+      "oneHalfedgeVectorMs": 111.8852,
+      "prepareAndInstallMs": 4.0328,
+      "scanDigest": 0,
+      "shape": "loop",
+      "topologyBuildMs": 340.6872,
+      "topologyVertices": 100000,
+      "trial": 0,
+      "vector": [
+        1.0,
+        1.0,
+        0.125
+      ],
+      "vertices": 100000
+    },
+    {
+      "edges": 100000,
+      "flatDigest": "a3f1d039a3ad026e",
+      "flatLengthsMs": 1.9659,
+      "fullHalfedgeScanMs": -1.0,
+      "lengthTotal": 3291012.7991057634,
+      "oneHalfedgeVectorMs": 110.6214,
+      "prepareAndInstallMs": 3.6066,
+      "scanDigest": 0,
+      "shape": "loop",
+      "topologyBuildMs": 363.2831,
+      "topologyVertices": 100000,
+      "trial": 1,
+      "vector": [
+        1.0,
+        1.0,
+        0.125
+      ],
+      "vertices": 100000
+    },
+    {
+      "edges": 100000,
+      "flatDigest": "a3f1d039a3ad026e",
+      "flatLengthsMs": 1.3128,
+      "fullHalfedgeScanMs": -1.0,
+      "lengthTotal": 3291012.7991057634,
+      "oneHalfedgeVectorMs": 109.0793,
+      "prepareAndInstallMs": 2.6758,
+      "scanDigest": 0,
+      "shape": "loop",
+      "topologyBuildMs": 366.7715,
+      "topologyVertices": 100000,
+      "trial": 2,
+      "vector": [
+        1.0,
+        1.0,
+        0.125
+      ],
+      "vertices": 100000
+    },
+    {
+      "edges": 500000,
+      "flatDigest": "685766113d533656",
+      "flatLengthsMs": 7.9221,
+      "fullHalfedgeScanMs": -1.0,
+      "lengthTotal": 16454132.349966764,
+      "oneHalfedgeVectorMs": 636.5794,
+      "prepareAndInstallMs": 17.7,
+      "scanDigest": 0,
+      "shape": "loop",
+      "topologyBuildMs": 2051.2535,
+      "topologyVertices": 500000,
+      "trial": 0,
+      "vector": [
+        1.0,
+        1.0,
+        0.125
+      ],
+      "vertices": 500000
+    },
+    {
+      "edges": 500000,
+      "flatDigest": "685766113d533656",
+      "flatLengthsMs": 7.0507,
+      "fullHalfedgeScanMs": -1.0,
+      "lengthTotal": 16454132.349966764,
+      "oneHalfedgeVectorMs": 635.867,
+      "prepareAndInstallMs": 13.6509,
+      "scanDigest": 0,
+      "shape": "loop",
+      "topologyBuildMs": 1954.987,
+      "topologyVertices": 500000,
+      "trial": 1,
+      "vector": [
+        1.0,
+        1.0,
+        0.125
+      ],
+      "vertices": 500000
+    },
+    {
+      "edges": 500000,
+      "flatDigest": "685766113d533656",
+      "flatLengthsMs": 8.1066,
+      "fullHalfedgeScanMs": -1.0,
+      "lengthTotal": 16454132.349966764,
+      "oneHalfedgeVectorMs": 661.2295,
+      "prepareAndInstallMs": 14.8237,
+      "scanDigest": 0,
+      "shape": "loop",
+      "topologyBuildMs": 2083.6929,
+      "topologyVertices": 500000,
+      "trial": 2,
+      "vector": [
+        1.0,
+        1.0,
+        0.125
+      ],
+      "vertices": 500000
+    },
+    {
+      "edges": 1000,
+      "flatDigest": "ab98ad2cbd36b8e1",
+      "flatLengthsMs": 0.0646,
+      "fullHalfedgeScanMs": 824.5881,
+      "lengthTotal": 256922.10831046104,
+      "oneHalfedgeVectorMs": 0.5778,
+      "prepareAndInstallMs": 0.0285,
+      "scanDigest": 14655491067358630304,
+      "shape": "branch",
+      "topologyBuildMs": 3.2401,
+      "topologyVertices": 1001,
+      "trial": 0,
+      "vector": [
+        1.0,
+        1.0,
+        0.125
+      ],
+      "vertices": 1001
+    },
+    {
+      "edges": 1000,
+      "flatDigest": "ab98ad2cbd36b8e1",
+      "flatLengthsMs": 0.0198,
+      "fullHalfedgeScanMs": 823.5879,
+      "lengthTotal": 256922.10831046104,
+      "oneHalfedgeVectorMs": 0.5143,
+      "prepareAndInstallMs": 0.0378,
+      "scanDigest": 14655491067358630304,
+      "shape": "branch",
+      "topologyBuildMs": 2.8986,
+      "topologyVertices": 1001,
+      "trial": 1,
+      "vector": [
+        1.0,
+        1.0,
+        0.125
+      ],
+      "vertices": 1001
+    },
+    {
+      "edges": 1000,
+      "flatDigest": "ab98ad2cbd36b8e1",
+      "flatLengthsMs": 0.013,
+      "fullHalfedgeScanMs": 864.7791,
+      "lengthTotal": 256922.10831046104,
+      "oneHalfedgeVectorMs": 0.515,
+      "prepareAndInstallMs": 0.0176,
+      "scanDigest": 14655491067358630304,
+      "shape": "branch",
+      "topologyBuildMs": 2.7634,
+      "topologyVertices": 1001,
+      "trial": 2,
+      "vector": [
+        1.0,
+        1.0,
+        0.125
+      ],
+      "vertices": 1001
+    },
+    {
+      "edges": 10000,
+      "flatDigest": "1a86bb1c5e5e3f84",
+      "flatLengthsMs": 0.259,
+      "fullHalfedgeScanMs": -1.0,
+      "lengthTotal": 25020034.78223014,
+      "oneHalfedgeVectorMs": 8.4344,
+      "prepareAndInstallMs": 0.9134,
+      "scanDigest": 0,
+      "shape": "branch",
+      "topologyBuildMs": 35.9529,
+      "topologyVertices": 10001,
+      "trial": 0,
+      "vector": [
+        1.0,
+        1.0,
+        0.125
+      ],
+      "vertices": 10001
+    },
+    {
+      "edges": 10000,
+      "flatDigest": "1a86bb1c5e5e3f84",
+      "flatLengthsMs": 0.1285,
+      "fullHalfedgeScanMs": -1.0,
+      "lengthTotal": 25020034.78223014,
+      "oneHalfedgeVectorMs": 5.8668,
+      "prepareAndInstallMs": 0.1608,
+      "scanDigest": 0,
+      "shape": "branch",
+      "topologyBuildMs": 31.329,
+      "topologyVertices": 10001,
+      "trial": 1,
+      "vector": [
+        1.0,
+        1.0,
+        0.125
+      ],
+      "vertices": 10001
+    },
+    {
+      "edges": 10000,
+      "flatDigest": "1a86bb1c5e5e3f84",
+      "flatLengthsMs": 0.1194,
+      "fullHalfedgeScanMs": -1.0,
+      "lengthTotal": 25020034.78223014,
+      "oneHalfedgeVectorMs": 5.7178,
+      "prepareAndInstallMs": 0.1368,
+      "scanDigest": 0,
+      "shape": "branch",
+      "topologyBuildMs": 30.7166,
+      "topologyVertices": 10001,
+      "trial": 2,
+      "vector": [
+        1.0,
+        1.0,
+        0.125
+      ],
+      "vertices": 10001
+    },
+    {
+      "edges": 100000,
+      "flatDigest": "a33463fc81254a3a",
+      "flatLengthsMs": 2.5018,
+      "fullHalfedgeScanMs": -1.0,
+      "lengthTotal": 2500114150.099125,
+      "oneHalfedgeVectorMs": 115.789,
+      "prepareAndInstallMs": 4.0365,
+      "scanDigest": 0,
+      "shape": "branch",
+      "topologyBuildMs": 364.2869,
+      "topologyVertices": 100001,
+      "trial": 0,
+      "vector": [
+        1.0,
+        1.0,
+        0.125
+      ],
+      "vertices": 100001
+    },
+    {
+      "edges": 100000,
+      "flatDigest": "a33463fc81254a3a",
+      "flatLengthsMs": 1.4595,
+      "fullHalfedgeScanMs": -1.0,
+      "lengthTotal": 2500114150.099125,
+      "oneHalfedgeVectorMs": 110.7562,
+      "prepareAndInstallMs": 2.8142,
+      "scanDigest": 0,
+      "shape": "branch",
+      "topologyBuildMs": 358.9637,
+      "topologyVertices": 100001,
+      "trial": 1,
+      "vector": [
+        1.0,
+        1.0,
+        0.125
+      ],
+      "vertices": 100001
+    },
+    {
+      "edges": 100000,
+      "flatDigest": "a33463fc81254a3a",
+      "flatLengthsMs": 1.3608,
+      "fullHalfedgeScanMs": -1.0,
+      "lengthTotal": 2500114150.099125,
+      "oneHalfedgeVectorMs": 106.7918,
+      "prepareAndInstallMs": 2.7244,
+      "scanDigest": 0,
+      "shape": "branch",
+      "topologyBuildMs": 330.9571,
+      "topologyVertices": 100001,
+      "trial": 2,
+      "vector": [
+        1.0,
+        1.0,
+        0.125
+      ],
+      "vertices": 100001
+    },
+    {
+      "edges": 500000,
+      "flatDigest": "fc27feacd4172477",
+      "flatLengthsMs": 9.0662,
+      "fullHalfedgeScanMs": -1.0,
+      "lengthTotal": 62500516895.57959,
+      "oneHalfedgeVectorMs": 730.5997,
+      "prepareAndInstallMs": 15.2705,
+      "scanDigest": 0,
+      "shape": "branch",
+      "topologyBuildMs": 2172.4949,
+      "topologyVertices": 500001,
+      "trial": 0,
+      "vector": [
+        1.0,
+        1.0,
+        0.125
+      ],
+      "vertices": 500001
+    },
+    {
+      "edges": 500000,
+      "flatDigest": "fc27feacd4172477",
+      "flatLengthsMs": 9.2044,
+      "fullHalfedgeScanMs": -1.0,
+      "lengthTotal": 62500516895.57959,
+      "oneHalfedgeVectorMs": 667.5118,
+      "prepareAndInstallMs": 18.2012,
+      "scanDigest": 0,
+      "shape": "branch",
+      "topologyBuildMs": 2199.8037,
+      "topologyVertices": 500001,
+      "trial": 1,
+      "vector": [
+        1.0,
+        1.0,
+        0.125
+      ],
+      "vertices": 500001
+    },
+    {
+      "edges": 500000,
+      "flatDigest": "fc27feacd4172477",
+      "flatLengthsMs": 8.3559,
+      "fullHalfedgeScanMs": -1.0,
+      "lengthTotal": 62500516895.57959,
+      "oneHalfedgeVectorMs": 630.861,
+      "prepareAndInstallMs": 14.5535,
+      "scanDigest": 0,
+      "shape": "branch",
+      "topologyBuildMs": 2162.7379,
+      "topologyVertices": 500001,
+      "trial": 2,
+      "vector": [
+        1.0,
+        1.0,
+        0.125
+      ],
+      "vertices": 500001
+    },
+    {
+      "edges": 1000,
+      "flatDigest": "b72317f9d3100fd1",
+      "flatLengthsMs": 0.0577,
+      "fullHalfedgeScanMs": 1017.2677,
+      "lengthTotal": 2081.8160709142685,
+      "oneHalfedgeVectorMs": 0.6977,
+      "prepareAndInstallMs": 0.0392,
+      "scanDigest": 971036822849327929,
+      "shape": "disconnected",
+      "topologyBuildMs": 2.9076,
+      "topologyVertices": 1250,
+      "trial": 0,
+      "vector": [
+        1.0,
+        1.0,
+        0.0
+      ],
+      "vertices": 1250
+    },
+    {
+      "edges": 1000,
+      "flatDigest": "b72317f9d3100fd1",
+      "flatLengthsMs": 0.0166,
+      "fullHalfedgeScanMs": 1022.806,
+      "lengthTotal": 2081.8160709142685,
+      "oneHalfedgeVectorMs": 0.7814,
+      "prepareAndInstallMs": 0.0288,
+      "scanDigest": 971036822849327929,
+      "shape": "disconnected",
+      "topologyBuildMs": 3.8173,
+      "topologyVertices": 1250,
+      "trial": 1,
+      "vector": [
+        1.0,
+        1.0,
+        0.0
+      ],
+      "vertices": 1250
+    },
+    {
+      "edges": 1000,
+      "flatDigest": "b72317f9d3100fd1",
+      "flatLengthsMs": 0.0238,
+      "fullHalfedgeScanMs": 1028.558,
+      "lengthTotal": 2081.8160709142685,
+      "oneHalfedgeVectorMs": 0.8795,
+      "prepareAndInstallMs": 0.0442,
+      "scanDigest": 971036822849327929,
+      "shape": "disconnected",
+      "topologyBuildMs": 4.0689,
+      "topologyVertices": 1250,
+      "trial": 2,
+      "vector": [
+        1.0,
+        1.0,
+        0.0
+      ],
+      "vertices": 1250
+    },
+    {
+      "edges": 10000,
+      "flatDigest": "bf089fcd1cb8d9bf",
+      "flatLengthsMs": 0.101,
+      "fullHalfedgeScanMs": -1.0,
+      "lengthTotal": 20808.823610782623,
+      "oneHalfedgeVectorMs": 5.1636,
+      "prepareAndInstallMs": 0.266,
+      "scanDigest": 0,
+      "shape": "disconnected",
+      "topologyBuildMs": 34.2979,
+      "topologyVertices": 12500,
+      "trial": 0,
+      "vector": [
+        1.0,
+        1.0,
+        0.0
+      ],
+      "vertices": 12500
+    },
+    {
+      "edges": 10000,
+      "flatDigest": "bf089fcd1cb8d9bf",
+      "flatLengthsMs": 0.1184,
+      "fullHalfedgeScanMs": -1.0,
+      "lengthTotal": 20808.823610782623,
+      "oneHalfedgeVectorMs": 5.7341,
+      "prepareAndInstallMs": 0.2302,
+      "scanDigest": 0,
+      "shape": "disconnected",
+      "topologyBuildMs": 33.9421,
+      "topologyVertices": 12500,
+      "trial": 1,
+      "vector": [
+        1.0,
+        1.0,
+        0.0
+      ],
+      "vertices": 12500
+    },
+    {
+      "edges": 10000,
+      "flatDigest": "bf089fcd1cb8d9bf",
+      "flatLengthsMs": 0.1158,
+      "fullHalfedgeScanMs": -1.0,
+      "lengthTotal": 20808.823610782623,
+      "oneHalfedgeVectorMs": 9.6731,
+      "prepareAndInstallMs": 0.2229,
+      "scanDigest": 0,
+      "shape": "disconnected",
+      "topologyBuildMs": 32.2213,
+      "topologyVertices": 12500,
+      "trial": 2,
+      "vector": [
+        1.0,
+        1.0,
+        0.0
+      ],
+      "vertices": 12500
+    },
+    {
+      "edges": 100000,
+      "flatDigest": "44d865605deeccab",
+      "flatLengthsMs": 1.6151,
+      "fullHalfedgeScanMs": -1.0,
+      "lengthTotal": 208116.24740290642,
+      "oneHalfedgeVectorMs": 114.9984,
+      "prepareAndInstallMs": 4.8286,
+      "scanDigest": 0,
+      "shape": "disconnected",
+      "topologyBuildMs": 397.9415,
+      "topologyVertices": 125000,
+      "trial": 0,
+      "vector": [
+        1.0,
+        1.0,
+        0.0
+      ],
+      "vertices": 125000
+    },
+    {
+      "edges": 100000,
+      "flatDigest": "44d865605deeccab",
+      "flatLengthsMs": 1.7654,
+      "fullHalfedgeScanMs": -1.0,
+      "lengthTotal": 208116.24740290642,
+      "oneHalfedgeVectorMs": 106.6405,
+      "prepareAndInstallMs": 5.5116,
+      "scanDigest": 0,
+      "shape": "disconnected",
+      "topologyBuildMs": 381.4507,
+      "topologyVertices": 125000,
+      "trial": 1,
+      "vector": [
+        1.0,
+        1.0,
+        0.0
+      ],
+      "vertices": 125000
+    },
+    {
+      "edges": 100000,
+      "flatDigest": "44d865605deeccab",
+      "flatLengthsMs": 1.6188,
+      "fullHalfedgeScanMs": -1.0,
+      "lengthTotal": 208116.24740290642,
+      "oneHalfedgeVectorMs": 107.1891,
+      "prepareAndInstallMs": 5.0438,
+      "scanDigest": 0,
+      "shape": "disconnected",
+      "topologyBuildMs": 382.6628,
+      "topologyVertices": 125000,
+      "trial": 2,
+      "vector": [
+        1.0,
+        1.0,
+        0.0
+      ],
+      "vertices": 125000
+    },
+    {
+      "edges": 500000,
+      "flatDigest": "9fde0f7f82439d17",
+      "flatLengthsMs": 11.6864,
+      "fullHalfedgeScanMs": -1.0,
+      "lengthTotal": 1040571.899916172,
+      "oneHalfedgeVectorMs": 687.0873,
+      "prepareAndInstallMs": 22.2291,
+      "scanDigest": 0,
+      "shape": "disconnected",
+      "topologyBuildMs": 2404.8891,
+      "topologyVertices": 625000,
+      "trial": 0,
+      "vector": [
+        1.0,
+        1.0,
+        0.0
+      ],
+      "vertices": 625000
+    },
+    {
+      "edges": 500000,
+      "flatDigest": "9fde0f7f82439d17",
+      "flatLengthsMs": 9.3775,
+      "fullHalfedgeScanMs": -1.0,
+      "lengthTotal": 1040571.899916172,
+      "oneHalfedgeVectorMs": 790.2932,
+      "prepareAndInstallMs": 21.5958,
+      "scanDigest": 0,
+      "shape": "disconnected",
+      "topologyBuildMs": 2460.2276,
+      "topologyVertices": 625000,
+      "trial": 1,
+      "vector": [
+        1.0,
+        1.0,
+        0.0
+      ],
+      "vertices": 625000
+    },
+    {
+      "edges": 500000,
+      "flatDigest": "9fde0f7f82439d17",
+      "flatLengthsMs": 11.3945,
+      "fullHalfedgeScanMs": -1.0,
+      "lengthTotal": 1040571.899916172,
+      "oneHalfedgeVectorMs": 706.0717,
+      "prepareAndInstallMs": 20.2767,
+      "scanDigest": 0,
+      "shape": "disconnected",
+      "topologyBuildMs": 2582.4468,
+      "topologyVertices": 625000,
+      "trial": 2,
+      "vector": [
+        1.0,
+        1.0,
+        0.0
+      ],
+      "vertices": 625000
+    }
+  ],
+  "scope": "Native Release; phase timings exclude JS/WASM/render. Large baseline full halfedge scans bounded to avoid quadratic runtime; one geometry sample at large sizes."
+}

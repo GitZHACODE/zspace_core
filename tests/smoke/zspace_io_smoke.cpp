@@ -37,19 +37,25 @@ namespace
 		zColorArray edgeColors = {
 			zColor(1, 0, 0, 1),
 			zColor(0, 1, 0, 1),
-			zColor(0, 0, 1, 1),
+			zColor(0, 0, 1, 0.5f),
 			zColor(1, 1, 0, 1)
 		};
 		sourceFn.setEdgeColors(edgeColors, false);
 		zDoubleArray edgeWeights = { 0.5, 1.5, 2.5, 3.5 };
 		sourceFn.setEdgeWeights(edgeWeights);
+		zColorArray faceColors = { zColor(0.2f, 0.4f, 0.6f, 0.25f) };
+		sourceFn.setFaceColors(faceColors);
 
 		const auto objPath = directory / "mesh.obj";
 		const auto jsonPath = directory / "mesh.json";
 		const auto usdPath = directory / "mesh.usda";
 		requireSuccess(zIO::writeMesh(objPath.string(), source));
 		requireSuccess(zIO::writeMesh(jsonPath.string(), source));
+#if defined(ZSPACE_TEST_OPENUSD)
 		requireSuccess(zIO::writeMesh(usdPath.string(), source));
+#else
+		require(!zIO::writeMesh(usdPath.string(), source), "disabled USD reports unsupported");
+#endif
 
 		nlohmann::json document;
 		{
@@ -68,14 +74,18 @@ namespace
 		zObjectMesh fromUsd;
 		requireSuccess(zIO::readMesh(objPath.string(), fromObj));
 		requireSuccess(zIO::readMesh(jsonPath.string(), fromJson));
+#if defined(ZSPACE_TEST_OPENUSD)
 		requireSuccess(zIO::readMesh(usdPath.string(), fromUsd));
+#endif
 
 		zFnMesh objFn(fromObj);
 		zFnMesh jsonFn(fromJson);
 		zFnMesh usdFn(fromUsd);
 		require(objFn.numVertices() == 4 && objFn.numPolygons() == 1, "OBJ mesh round trip");
 		require(jsonFn.numVertices() == 4 && jsonFn.numPolygons() == 1, "JSON mesh round trip");
+#if defined(ZSPACE_TEST_OPENUSD)
 		require(usdFn.numVertices() == 4 && usdFn.numPolygons() == 1, "USD mesh round trip");
+#endif
 
 		zColorArray roundTripEdgeColors;
 		jsonFn.getEdgeColors(roundTripEdgeColors);
@@ -87,10 +97,15 @@ namespace
 		require(roundTripEdgeWeights.size() == edgeWeights.size(), "JSON mesh edge weight count");
 		require(roundTripEdgeWeights[2] == 2.5, "JSON mesh edge weight round trip");
 
+#if defined(ZSPACE_TEST_OPENUSD)
 		zColorArray usdEdgeColors;
 		usdFn.getEdgeColors(usdEdgeColors);
 		require(usdEdgeColors.size() == edgeColors.size(), "USD mesh edge color count");
 		require(usdEdgeColors[2].b == 1.0f, "USD mesh edge color round trip");
+		require(usdEdgeColors[2].a == 0.5f, "USD edge opacity round trip");
+		zColorArray usdFaceColors;
+		usdFn.getFaceColors(usdFaceColors);
+		require(usdFaceColors.size() == 1 && usdFaceColors[0].a == 0.25f, "USD face opacity round trip");
 
 		zDoubleArray usdEdgeWeights;
 		usdFn.getEdgeWeights(usdEdgeWeights);
@@ -106,8 +121,28 @@ namespace
 			"USD writes edge color primvar");
 		require(usdText.find("primvars:zspace:edgeWeight") != std::string::npos,
 			"USD writes edge weight primvar");
-		require(!zIO::writeMesh((directory / "mesh.usdc").string(), source),
-			"USD binary writing reports unsupported");
+		require(usdText.find("subdivisionScheme = \"none\"") != std::string::npos, "USD exports polygon mesh semantics");
+		require(usdText.find("normal3f[] normals") != std::string::npos, "USD exports standard normals");
+		for (const auto* extension : { ".usd", ".usdc", ".usdz" })
+		{
+			const auto binaryPath = directory / (std::string("mesh") + extension);
+			requireSuccess(zIO::writeMesh(binaryPath.string(), source));
+			zObjectMesh restored;
+			requireSuccess(zIO::readMesh(binaryPath.string(), restored));
+			zFnMesh restoredFn(restored);
+			require(restoredFn.numVertices() == 4 && restoredFn.numPolygons() == 1, "USD format round trip");
+			zColorArray restoredColors;
+			restoredFn.getEdgeColors(restoredColors);
+			require(restoredColors.size() == 4 && restoredColors[2].a == 0.5f, "USD binary edge opacity");
+			if (std::string(extension) == ".usd")
+			{
+				std::ifstream textFile(binaryPath);
+				std::string header;
+				std::getline(textFile, header);
+				require(header == "#usda 1.0", ".usd preserves text writing");
+			}
+		}
+#endif
 
 		std::ifstream objInput(objPath);
 		const std::string objText(
@@ -116,6 +151,68 @@ namespace
 		require(objText.find("\nvn ") != std::string::npos, "OBJ writes normals");
 		require(objText.find("//1") != std::string::npos, "OBJ faces reference normals");
 	}
+
+#if defined(ZSPACE_TEST_OPENUSD)
+	void testExternalUSD(const std::filesystem::path& directory)
+	{
+		const auto asset = directory / "asset.usda";
+		{
+			std::ofstream output(asset);
+			output << R"USD(#usda 1.0
+( defaultPrim = "Asset" )
+def Xform "Asset" {
+    double3 xformOp:translate = (100, 200, 300)
+    uniform token[] xformOpOrder = ["xformOp:translate"]
+    def Mesh "First" {
+        point3f[] points = [(0,0,0), (1,0,0), (0,1,0)]
+        int[] faceVertexCounts = [3]
+        int[] faceVertexIndices = [0,1,2]
+        color3f[] primvars:displayColor = [(1,0,0), (0,1,0)] ( interpolation = "vertex" )
+        int[] primvars:displayColor:indices = [1,0,1]
+        float[] primvars:displayOpacity = [0.5] ( interpolation = "constant" )
+        color3f[] primvars:zspace:faceColor = [(0,0,1)] ( interpolation = "uniform" )
+        float[] primvars:zspace:faceColorOpacity = [0.25] ( interpolation = "uniform" )
+        normal3f[] primvars:normals = [(0,0,1)] ( interpolation = "uniform" )
+    }
+    def Mesh "Second" {
+        point3f[] points = [(10,0,0), (11,0,0), (10,1,0)]
+        int[] faceVertexCounts = [3]
+        int[] faceVertexIndices = [0,1,2]
+    }
+}
+)USD";
+		}
+		const auto stage = directory / "reference.usda";
+		{
+			std::ofstream output(stage);
+			output << "#usda 1.0\ndef Xform \"Reference\" ( prepend references = @asset.usda@ ) {}\n";
+		}
+		zObjectMesh mesh;
+		requireSuccess(zIO::readMesh(stage.string(), mesh));
+		zFnMesh fn(mesh);
+		zPointArray positions;
+		fn.getVertexPositions(positions);
+		require(positions.size() == 3 && positions[0].x == 0 && positions[0].y == 0,
+			"composed USD selects first mesh in object space");
+		zColorArray colors;
+		fn.getVertexColors(colors);
+		require(colors.size() == 3 && colors[0].g == 1 && colors[1].r == 1 && colors[0].a == 0.5f,
+			"indexed USD colors and constant opacity");
+		fn.getFaceColors(colors);
+		require(colors.size() == 1 && colors[0].a == 0.25f, "legacy TinyUSDZ opacity names remain readable");
+		zVectorArray normals;
+		fn.getFaceNormals(normals);
+		require(normals.size() == 1 && normals[0].z == 1, "legacy normals primvar remains readable");
+		const auto invalid = directory / "invalid.usda";
+		{
+			std::ofstream output(invalid);
+			output << "#usda 1.0\ndef Mesh \"Invalid\" {\npoint3f[] points = [(0,0,0)]\n"
+				<< "int[] faceVertexCounts = [3]\nint[] faceVertexIndices = [0,1,2]\n}\n";
+		}
+		require(!zIO::readMesh(invalid.string(), mesh), "invalid USD topology returns an error");
+		require(fn.numVertices() == 3, "failed USD read preserves destination");
+	}
+#endif
 
 	void testExternalOBJ(const std::filesystem::path& directory)
 	{
@@ -244,6 +341,9 @@ int main()
 		std::filesystem::create_directories(directory);
 
 		testMesh(directory);
+#if defined(ZSPACE_TEST_OPENUSD)
+		testExternalUSD(directory);
+#endif
 		testExternalOBJ(directory);
 		testNonManifoldMeshIO(directory);
 		testGraph(directory);

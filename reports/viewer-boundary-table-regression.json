@@ -1,0 +1,68 @@
+{
+  "surfaceCases": 62,
+  "rendererCases": 60,
+  "cacheContracts": "owned snapshots, content copies, raw mutations, counts/triangle fallback, two-state history reuse, bounded eviction",
+  "method": "Three alternating-order Node surface trials; excludes browser/GPU/history. Cache hit uses full exact connectivity comparison. Copy+hit includes all mesh payload cloning; comparison-only hit is separate.",
+  "timings": [
+    {
+      "faces": 125000,
+      "trial": 0,
+      "beforeSurfaceMs": 52.42529999999999,
+      "afterSurfaceMs": 17.383500000000026,
+      "boundaryRebuildMs": 24.55200000000002,
+      "copyAndBoundaryHitMs": 7.9103999999999814,
+      "boundaryComparisonHitMs": 3.0306000000000495,
+      "snapshotBytes": 2500000
+    },
+    {
+      "faces": 125000,
+      "trial": 1,
+      "beforeSurfaceMs": 22.533900000000017,
+      "afterSurfaceMs": 10.328200000000038,
+      "boundaryRebuildMs": 36.73789999999997,
+      "copyAndBoundaryHitMs": 4.488399999999956,
+      "boundaryComparisonHitMs": 0.6204999999999927,
+      "snapshotBytes": 2500000
+    },
+    {
+      "faces": 125000,
+      "trial": 2,
+      "beforeSurfaceMs": 29.133699999999976,
+      "afterSurfaceMs": 15.842100000000073,
+      "boundaryRebuildMs": 43.52120000000002,
+      "copyAndBoundaryHitMs": 4.282200000000103,
+      "boundaryComparisonHitMs": 0.5897999999999683,
+      "snapshotBytes": 2500000
+    },
+    {
+      "faces": 500000,
+      "trial": 0,
+      "beforeSurfaceMs": 64.57670000000007,
+      "afterSurfaceMs": 47.297399999999925,
+      "boundaryRebuildMs": 167.35359999999991,
+      "copyAndBoundaryHitMs": 14.801799999999957,
+      "boundaryComparisonHitMs": 2.440399999999954,
+      "snapshotBytes": 10000000
+    },
+    {
+      "faces": 500000,
+      "trial": 1,
+      "beforeSurfaceMs": 73.14260000000013,
+      "afterSurfaceMs": 44.64359999999988,
+      "boundaryRebuildMs": 154.49009999999998,
+      "copyAndBoundaryHitMs": 16.302700000000186,
+      "boundaryComparisonHitMs": 2.4114999999997053,
+      "snapshotBytes": 10000000
+    },
+    {
+      "faces": 500000,
+      "trial": 2,
+      "beforeSurfaceMs": 63.065700000000106,
+      "afterSurfaceMs": 42.30020000000013,
+      "boundaryRebuildMs": 163.6635000000001,
+      "copyAndBoundaryHitMs": 14.517499999999927,
+      "boundaryComparisonHitMs": 2.271400000000085,
+      "snapshotBytes": 10000000
+    }
+  ]
+}

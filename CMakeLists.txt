@@ -6,13 +6,16 @@ project(zspace_core
 )
 
 option(ZSPACE_BUILD_INTERFACE "Build zSpace interface DLL" ON)
+option(ZSPACE_GRAPH_PROFILE "Enable internal graph benchmark counters" OFF)
 option(ZSPACE_BUILD_IO "Build zSpace IO DLL" ON)
 option(ZSPACE_BUILD_DISPLAY "Build zSpace display DLL" ON)
 option(ZSPACE_BUILD_INTEROP "Build zSpace interop DLL" OFF)
 option(ZSPACE_BUILD_TESTS "Build zSpace CLI smoke tests" OFF)
 option(ZSPACE_BUILD_SHARED "Build zSpace libraries as DLLs" ON)
 option(ZSPACE_WITH_OPENGL "Link bundled OpenGL helper libraries" ON)
-option(ZSPACE_IO_WITH_TINYUSDZ "Enable TinyUSDZ mesh IO" ON)
+option(ZSPACE_IO_WITH_OPENUSD "Enable OpenUSD mesh IO (requires an external SDK)" OFF)
+set(ZSPACE_OPENUSD_ROOT "" CACHE PATH "OpenUSD SDK installation root")
+set(ZSPACE_OPENUSD_RUNTIME_ROOT "" CACHE PATH "Optional runtime root for a split OpenUSD devkit")
 option(ZSPACE_WITH_MAYA "Enable Autodesk Maya interop code" OFF)
 option(ZSPACE_WITH_RHINO "Enable Rhino interop code" OFF)
 option(ZSPACE_WITH_UNREAL "Enable Unreal interop code" OFF)
@@ -115,6 +118,7 @@ if(ZSPACE_BUILD_INTERFACE)
 
   target_compile_definitions(zSpace_Interface
     PUBLIC
+      $<$<BOOL:${ZSPACE_GRAPH_PROFILE}>:ZSPACE_GRAPH_PROFILE>
       $<$<BOOL:${ZSPACE_BUILD_SHARED}>:ZSPACE_DYNAMIC_LIBRARY>
       $<$<NOT:$<BOOL:${ZSPACE_BUILD_SHARED}>>:ZSPACE_STATIC_LIBRARY>
     PRIVATE
@@ -160,36 +164,10 @@ if(ZSPACE_BUILD_IO)
 
   target_link_libraries(zSpace_IO PUBLIC zspace::interface)
 
-  if(ZSPACE_IO_WITH_TINYUSDZ)
-    include(FetchContent)
-
-    set(TINYUSDZ_BUILD_SHARED_LIBS OFF CACHE BOOL "" FORCE)
-    set(TINYUSDZ_BUILD_TESTS OFF CACHE BOOL "" FORCE)
-    set(TINYUSDZ_BUILD_BENCHMARKS OFF CACHE BOOL "" FORCE)
-    set(TINYUSDZ_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
-    set(TINYUSDZ_WITH_C_API OFF CACHE BOOL "" FORCE)
-    set(TINYUSDZ_WITH_BUILTIN_IMAGE_LOADER OFF CACHE BOOL "" FORCE)
-    set(TINYUSDZ_WITH_TYDRA OFF CACHE BOOL "" FORCE)
-    set(TINYUSDZ_WITH_USDMTLX OFF CACHE BOOL "" FORCE)
-    set(TINYUSDZ_WITH_JSON OFF CACHE BOOL "" FORCE)
-    set(TINYUSDZ_WITH_USD_TO_GLTF OFF CACHE BOOL "" FORCE)
-    set(TINYUSDZ_WITH_USDOBJ OFF CACHE BOOL "" FORCE)
-    set(TINYUSDZ_WITH_USDFBX OFF CACHE BOOL "" FORCE)
-    set(TINYUSDZ_WITH_AUDIO OFF CACHE BOOL "" FORCE)
-    set(TINYUSDZ_WITH_ALAC_AUDIO OFF CACHE BOOL "" FORCE)
-    set(TINYUSDZ_WITH_PXR_COMPAT_API OFF CACHE BOOL "" FORCE)
-
-    FetchContent_Declare(tinyusdz
-      GIT_REPOSITORY https://github.com/lighttransport/tinyusdz.git
-      GIT_TAG 11a2d361a9b6a0c4bf8918027233858d80ed17c5
-      GIT_SHALLOW TRUE
-      EXCLUDE_FROM_ALL
-    )
-    FetchContent_MakeAvailable(tinyusdz)
-
-    target_compile_definitions(zSpace_IO PRIVATE ZSPACE_IO_TINYUSDZ)
-    target_include_directories(zSpace_IO PRIVATE "${tinyusdz_SOURCE_DIR}/src")
-    target_link_libraries(zSpace_IO PRIVATE tinyusdz::tinyusdz_static)
+  if(ZSPACE_IO_WITH_OPENUSD)
+    include(cmake/ZSpaceOpenUSD.cmake)
+    zspace_link_openusd(zSpace_IO)
+    target_compile_definitions(zSpace_IO PRIVATE ZSPACE_IO_OPENUSD)
   endif()
 endif()
 
@@ -293,6 +271,18 @@ if(ZSPACE_BUILD_TESTS)
   )
   target_link_libraries(zspace_smoke PRIVATE zspace::interface)
 
+  add_executable(zspace_mesh_benchmark "${ZSPACE_ROOT}/tests/performance/mesh_functionset_benchmark.cpp")
+  target_link_libraries(zspace_mesh_benchmark PRIVATE zspace::interface)
+
+  add_executable(zspace_graph_benchmark "${ZSPACE_ROOT}/tests/performance/graph_functionset_benchmark.cpp")
+  target_link_libraries(zspace_graph_benchmark PRIVATE zspace::interface)
+  add_test(NAME zspace.graph.parity COMMAND zspace_graph_benchmark --verify "${ZSPACE_ROOT}/tests/smoke/graph-query-golden.json")
+  set_tests_properties(zspace.graph.parity PROPERTIES TIMEOUT 30)
+  add_test(NAME zspace.graph.retained-views COMMAND zspace_graph_benchmark --verify-public "${ZSPACE_ROOT}/tests/smoke/graph-public-query-golden.json")
+  set_tests_properties(zspace.graph.retained-views PROPERTIES TIMEOUT 30)
+  add_test(NAME zspace.graph.construction COMMAND zspace_graph_benchmark --verify-construction "${ZSPACE_ROOT}/tests/smoke/graph-construction-golden.json")
+  set_tests_properties(zspace.graph.construction PROPERTIES TIMEOUT 30)
+
   add_executable(zspace_display_smoke
     "${ZSPACE_ROOT}/tests/smoke/zspace_display_smoke.cpp"
   )
@@ -303,6 +293,8 @@ if(ZSPACE_BUILD_TESTS)
       "${ZSPACE_ROOT}/tests/smoke/zspace_io_smoke.cpp"
     )
     target_link_libraries(zspace_io_smoke PRIVATE zspace::io)
+    target_compile_definitions(zspace_io_smoke PRIVATE
+      $<$<BOOL:${ZSPACE_IO_WITH_OPENUSD}>:ZSPACE_TEST_OPENUSD>)
   endif()
 
   add_library(zspace_display_headers OBJECT

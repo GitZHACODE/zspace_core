@@ -1,0 +1,542 @@
+{
+  "capturedAt": "2026-10-08T16:57:13.946Z",
+  "method": "Node WASM output equivalence and C++ call durations, not a browser/FPS benchmark. Fresh cube per trial; alternate before/after call order across trials. First trial includes cold heap growth; later trials reuse warm modules. Calls include subdivision, normals and render export; exclude JS upload/readback/renderer/history. Twelve exported buffers are byte-identical at every stage and floating outputs finite.",
+  "trials": 1,
+  "profiles": [],
+  "beforeWasmSha256": "03a5ec65d71f4260312c1f516a092ad753947084497b975310ec45f065d7d768",
+  "afterWasmSha256": "fdbab2d1c97b116f872755ae85591b92f7a49c9718e6aa9fa406054df35ec344",
+  "runs": [
+    {
+      "trial": 1,
+      "step": 0,
+      "faces": 6,
+      "beforeCallMs": 0,
+      "afterCallMs": 0,
+      "beforeHeapBytes": 16908288,
+      "afterHeapBytes": 16908288,
+      "buffers": {
+        "positions": {
+          "count": 24,
+          "sha256": "faed3d19837fc4d9d2152d03f1eb0f7dafa90c7cf1cd3a778b6cf8fc1f7c58b5"
+        },
+        "normals": {
+          "count": 24,
+          "sha256": "d7d793651d4d226d3b8ffc103ad3ac0130061a55847d5b5eb14ba01a36919b97"
+        },
+        "colors": {
+          "count": 24,
+          "sha256": "2ac0b6f6afc7f7ed5f0128ea68286b2ec3739bc7f4a41f3ce263e29da3c917a3"
+        },
+        "face_colors": {
+          "count": 36,
+          "sha256": "97d24fcc250f687b7f8c56eaea9f4305a9301cbbe86de76d7c3b34c503b23b9f"
+        },
+        "face_centers": {
+          "count": 18,
+          "sha256": "0821d229ccc8bae13b3fa79510371abc6fac6b96e8147d03917587c24881aef5"
+        },
+        "face_normals": {
+          "count": 18,
+          "sha256": "0821d229ccc8bae13b3fa79510371abc6fac6b96e8147d03917587c24881aef5"
+        },
+        "edge_centers": {
+          "count": 36,
+          "sha256": "c27ae59aa7cec7504e43fb5921d4491a7184a9b8def32663f671f3cf1cadfee6"
+        },
+        "edge_weights": {
+          "count": 12,
+          "sha256": "6ea78411bee8a810b9a18819c5a4ac7c827e71678cc4d1db9a0ab8c8d8a9b2e2"
+        },
+        "indices": {
+          "count": 36,
+          "sha256": "1dcf46b9f2e44757cd6c2c0206c234a74a030cdcf8cff1472749adfea31e105d"
+        },
+        "edges": {
+          "count": 24,
+          "sha256": "a9eb44d81e6220cb3904c6c4d3b8a0a449f9e49f79fbb2cb33fa216ad9467919"
+        },
+        "face_counts": {
+          "count": 6,
+          "sha256": "2faa22b347b8490cb98efe94c89904376c04e9c2dcebf68ae81a247d842f26d0"
+        },
+        "face_connects": {
+          "count": 24,
+          "sha256": "ea974ac5576419c0b9b5ead32dcec483fbcb8290c2a96aac283574de4f26c083"
+        }
+      }
+    },
+    {
+      "trial": 1,
+      "step": 1,
+      "faces": 24,
+      "beforeCallMs": 1.008199999999988,
+      "afterCallMs": 0.9757999999999925,
+      "beforeHeapBytes": 16908288,
+      "afterHeapBytes": 16908288,
+      "buffers": {
+        "positions": {
+          "count": 78,
+          "sha256": "8728f897bc7106b8fa5b9d26fe63efba937eb0316ab24313faad4b1ae7d01e04"
+        },
+        "normals": {
+          "count": 78,
+          "sha256": "47f5b629b1fd14b99d1cdc7e439dc94c748e7966545052946579adf6f9396003"
+        },
+        "colors": {
+          "count": 78,
+          "sha256": "8d7f4004a3a382d1cb60af6f6a94cd9054bf74c95968d1f3cec8a8c33d4f8cb9"
+        },
+        "face_colors": {
+          "count": 144,
+          "sha256": "9527cc034598b033ddf77b80367adae4697d57aa1b7613a86f426ba4489ae693"
+        },
+        "face_centers": {
+          "count": 72,
+          "sha256": "3278b5f6829b7808a2be768482c54edc744ee1df619081473add16b996227cc2"
+        },
+        "face_normals": {
+          "count": 72,
+          "sha256": "da5648e8c2c22623b684df0a28be01ca5849c18e5327aa78480ef3de45dd38e8"
+        },
+        "edge_centers": {
+          "count": 144,
+          "sha256": "02a8f48049111d2f965fef26dfd475d6ca035a86c106c748953a1fab9684fc33"
+        },
+        "edge_weights": {
+          "count": 48,
+          "sha256": "c90489868a1a64a74239d5331b18d608ef69e28579f36f3ae1949cfe7354907a"
+        },
+        "indices": {
+          "count": 144,
+          "sha256": "cd22a2d5266aa2d57253fce02de590ff7588aa3741bf6a931bd6e3b048ad6fe1"
+        },
+        "edges": {
+          "count": 96,
+          "sha256": "c74543d5f2cfb3046bc2fbd136e86f1740443d4fb95b02c9c5735044cf5f69bd"
+        },
+        "face_counts": {
+          "count": 24,
+          "sha256": "da6f092a98f701a01090080b70cf8d5b463c891eef0206d94dd481ea87af7c8e"
+        },
+        "face_connects": {
+          "count": 96,
+          "sha256": "4240ea758f541c805d1b470211bdf9135115c4d4d87b5b20945cc6fcdfb765f2"
+        }
+      }
+    },
+    {
+      "trial": 1,
+      "step": 2,
+      "faces": 96,
+      "beforeCallMs": 0.2494000000000085,
+      "afterCallMs": 0.2757999999999754,
+      "beforeHeapBytes": 16908288,
+      "afterHeapBytes": 16908288,
+      "buffers": {
+        "positions": {
+          "count": 294,
+          "sha256": "3983ebe243853431b1ef653758eb26c3c40e52e826b09d45ec12249c4c7b5994"
+        },
+        "normals": {
+          "count": 294,
+          "sha256": "6e81cfe47468bcd6b7c9279341404780eb8642553b156ffb3f2325935562db3d"
+        },
+        "colors": {
+          "count": 294,
+          "sha256": "e098cbd1ccb083bc98fc7c6cb44e123a83031fb20d58f5ebbdaf6c428009ef7b"
+        },
+        "face_colors": {
+          "count": 576,
+          "sha256": "15bc0838ee6e002f83a5eea4aeddf22552f0eb9dbd6bcc808336ef26bb245501"
+        },
+        "face_centers": {
+          "count": 288,
+          "sha256": "ef7031120bd8cab4ad051e04b7fc3f48807db858018d0a6f2e7ceececa80c2fd"
+        },
+        "face_normals": {
+          "count": 288,
+          "sha256": "f5b4eb775da7fa7c5a4ed0e846373d50308c815b560b2b2fa711a84d2cb61bce"
+        },
+        "edge_centers": {
+          "count": 576,
+          "sha256": "079ae187cb7dfa450f0c93eeca317a53c3c9168421b92a319cbc27f6539bb90a"
+        },
+        "edge_weights": {
+          "count": 192,
+          "sha256": "5ce183e97a10e7aeeeecc15c49c055053961896c1d5d514d6e4c59dfd0544310"
+        },
+        "indices": {
+          "count": 576,
+          "sha256": "e8b3c7c1c682dcfa9bbc68ea3641c1019920a769ff5023d12fefcdd1779d9a8b"
+        },
+        "edges": {
+          "count": 384,
+          "sha256": "f970be4fc6f4d6adac677e222c422bcdda0a4f7473880516aa4ce7b74a22fe10"
+        },
+        "face_counts": {
+          "count": 96,
+          "sha256": "92d476870865d5709db9962150e22844eca718b746e2dc0b38d7351c4b42382c"
+        },
+        "face_connects": {
+          "count": 384,
+          "sha256": "b83449597a9cfb8ea8341c63ba11e5e8b8c5a37b68afb0b0e0c7779d71cc9d43"
+        }
+      }
+    },
+    {
+      "trial": 1,
+      "step": 3,
+      "faces": 384,
+      "beforeCallMs": 1.200400000000002,
+      "afterCallMs": 0.5384999999999991,
+      "beforeHeapBytes": 16908288,
+      "afterHeapBytes": 16908288,
+      "buffers": {
+        "positions": {
+          "count": 1158,
+          "sha256": "eb45e79df16ef3492caa1540e3dbec1c38b4cf5fe009ed1441144723fc9d75b4"
+        },
+        "normals": {
+          "count": 1158,
+          "sha256": "920e085205111cbf86fe8e59b0e43229e7b2d937b3c36c624a6a94cc62a0c740"
+        },
+        "colors": {
+          "count": 1158,
+          "sha256": "7bef7801b79ff3fc4d918a8774fb954616be6b207be8f24f6ecc133e71e1ff11"
+        },
+        "face_colors": {
+          "count": 2304,
+          "sha256": "076dbd65bf78f43cc152c34f6d65a703c5c9b769dd324df2dc6ac2c10bdc3e64"
+        },
+        "face_centers": {
+          "count": 1152,
+          "sha256": "5f121ff791826d8d89305bafafacae4be68b78cc14dc30c1368b103bfe8f54ee"
+        },
+        "face_normals": {
+          "count": 1152,
+          "sha256": "0d9da7580d5a60dd2b053b82c59a1e628f5e601e212dfc5b169343b9bb62b3ce"
+        },
+        "edge_centers": {
+          "count": 2304,
+          "sha256": "f5c3f258c094724d53ff95f1a835ecc550ba251fb4a663a2808008d612882e27"
+        },
+        "edge_weights": {
+          "count": 768,
+          "sha256": "9107f3ba55602154349710bf6dfd7b861c4c17f8b61b9f542e5d3301ef6f9a5a"
+        },
+        "indices": {
+          "count": 2304,
+          "sha256": "ac9c316ff1b3a7f536bcbdd6c2c86f4c7ce9e32669b1192eb177433588177476"
+        },
+        "edges": {
+          "count": 1536,
+          "sha256": "37321fa8c1b23aadde4e05ed12609b8050f5306f1e977bbb93ed19a8ab11c94c"
+        },
+        "face_counts": {
+          "count": 384,
+          "sha256": "bbaafb3510d131954f154092dc9d9d600be854d9e351ec20b7973f59cb2704e8"
+        },
+        "face_connects": {
+          "count": 1536,
+          "sha256": "21e6ad151c945f0add341edc402cab4c0dea1769a7245ef45c8f8a74ec42c250"
+        }
+      }
+    },
+    {
+      "trial": 1,
+      "step": 4,
+      "faces": 1536,
+      "beforeCallMs": 1.8892999999999915,
+      "afterCallMs": 1.8529999999999802,
+      "beforeHeapBytes": 16908288,
+      "afterHeapBytes": 16908288,
+      "buffers": {
+        "positions": {
+          "count": 4614,
+          "sha256": "b30d0388d8ff821aefa6ce08eda4337c5c44f24bc9ffdbc11e6a7ecdfe15ccef"
+        },
+        "normals": {
+          "count": 4614,
+          "sha256": "7db4854618eb9c6cf9956a5f720b86a9aafac1aaef746130004697a997745a35"
+        },
+        "colors": {
+          "count": 4614,
+          "sha256": "243fcb9310c25397ca3c508e500fe0c9b9bc01585e26ce63a6431cfe6de74441"
+        },
+        "face_colors": {
+          "count": 9216,
+          "sha256": "6049b1924b161832aa1de798a8a33c8efaca8315629530fcb2f54d9413d90771"
+        },
+        "face_centers": {
+          "count": 4608,
+          "sha256": "ea0ab507a68106c2229f809e0be43955d2506e3b47623563a46c993b56bc64c9"
+        },
+        "face_normals": {
+          "count": 4608,
+          "sha256": "aa2bcf227c07f94da3001c4302629e8a97c55855dc28506e9fca99a78c05efe1"
+        },
+        "edge_centers": {
+          "count": 9216,
+          "sha256": "2e76a04413b4b579514cfcdf12df41a63fc4c39c10a1cb4e007f0b32e89ae0cd"
+        },
+        "edge_weights": {
+          "count": 3072,
+          "sha256": "83343ed0f6123c1b9be3da8f7d30468fb4a3c49efd0ec60439ce0bd703a49b4d"
+        },
+        "indices": {
+          "count": 9216,
+          "sha256": "db669ea7222c5ea9998bdd2a06e6bf98c019c909fdc11eee2b6a7897543ad66c"
+        },
+        "edges": {
+          "count": 6144,
+          "sha256": "1b76ded152388386b2bb4fed8182caf0a0673516eb7a0f0dd02e147959dfc516"
+        },
+        "face_counts": {
+          "count": 1536,
+          "sha256": "8c863c66636047a53775bd73b86210b47498da90983be4b74c95a496436b8c63"
+        },
+        "face_connects": {
+          "count": 6144,
+          "sha256": "ea34660f17c379476415db75e59ca93142d7f25285f5c3ee4c144acf9f5762da"
+        }
+      }
+    },
+    {
+      "trial": 1,
+      "step": 5,
+      "faces": 6144,
+      "beforeCallMs": 7.196300000000008,
+      "afterCallMs": 7.765199999999993,
+      "beforeHeapBytes": 16908288,
+      "afterHeapBytes": 16908288,
+      "buffers": {
+        "positions": {
+          "count": 18438,
+          "sha256": "552644780903c834fd2c1fbbb40836937210017e36c877a42f99e8e547e3564a"
+        },
+        "normals": {
+          "count": 18438,
+          "sha256": "ac10aeb695cb12d44ad047a05299bde1f22c46583c4c247f07d0fcbe366defbf"
+        },
+        "colors": {
+          "count": 18438,
+          "sha256": "391475e05f87242d12b9d393624937485129ee558464f39ebd597ef9fc498afe"
+        },
+        "face_colors": {
+          "count": 36864,
+          "sha256": "f8a32eb19a8a059acafd6ae86abd202d2054a7cc9bd33a72306368a74d5122ea"
+        },
+        "face_centers": {
+          "count": 18432,
+          "sha256": "514eb8e9207711a1c8a160fc73d4ad1db3f5648c324901337803a5ad7fa1bca4"
+        },
+        "face_normals": {
+          "count": 18432,
+          "sha256": "0004695fe8660db3105b339ba4c86379090a3e8834615421aba0fa46223c84c9"
+        },
+        "edge_centers": {
+          "count": 36864,
+          "sha256": "ceec71f192cec42292e52b28eae5c3de61a247acfed7f447a3c1462324c3874f"
+        },
+        "edge_weights": {
+          "count": 12288,
+          "sha256": "42bd22a7ff7abb6fc4b3a3acd20c9a5d7900742b1fc8b229c19b22af9e0fde3e"
+        },
+        "indices": {
+          "count": 36864,
+          "sha256": "a921308788ba389a5cd1366284177f7d82606a43b20feca1e6bab98e6769a22c"
+        },
+        "edges": {
+          "count": 24576,
+          "sha256": "0b999af5fc70ca834fde3ecd0c6050ae828800c306acee425f1b797c0783dd26"
+        },
+        "face_counts": {
+          "count": 6144,
+          "sha256": "d38cd3988924b0c7f9d11f0c098f418ce642f0e3e03e111588539a59c108f27f"
+        },
+        "face_connects": {
+          "count": 24576,
+          "sha256": "6551cfcbf813641f8bbaef38ad56696a3977dd2c497269a79ddcfce76d816c8d"
+        }
+      }
+    },
+    {
+      "trial": 1,
+      "step": 6,
+      "faces": 24576,
+      "beforeCallMs": 15.392600000000016,
+      "afterCallMs": 15.222199999999987,
+      "beforeHeapBytes": 16908288,
+      "afterHeapBytes": 16908288,
+      "buffers": {
+        "positions": {
+          "count": 73734,
+          "sha256": "82ffcc9c265f5292dadb41302ffc6822dc69c5551f5a2815cf7af73c8a1c187a"
+        },
+        "normals": {
+          "count": 73734,
+          "sha256": "da5e7f6311bac6f9e976a86400b67c0d618cc986e0fa669f0a3e1cc27c1dc972"
+        },
+        "colors": {
+          "count": 73734,
+          "sha256": "a32a29e5ab4270e075ca69cc113f22ff5d9b4c29f66839e3d92ee86aedf807d4"
+        },
+        "face_colors": {
+          "count": 147456,
+          "sha256": "dd0ff30ca38fcb697e13bd2ab0f24aad18617a2f6b979f662d0f687bf53b330f"
+        },
+        "face_centers": {
+          "count": 73728,
+          "sha256": "fe863afb8a8ea77d4c75a0411311fd2548dda0c832897b1a88cd4ea522ac57c7"
+        },
+        "face_normals": {
+          "count": 73728,
+          "sha256": "f6c6cbc5a35b05dce010333c25ce59b9288f9e2e167a4b08d5756a4917a67dc7"
+        },
+        "edge_centers": {
+          "count": 147456,
+          "sha256": "8059fd391ff0069084a19ee11bafc583259ce24fd83f7199c6d0848dceab7411"
+        },
+        "edge_weights": {
+          "count": 49152,
+          "sha256": "26c0417ccc34ee4e71842942561d0bfed76fb701454da823b3d1882d573c3d77"
+        },
+        "indices": {
+          "count": 147456,
+          "sha256": "53ed96326fc125cc803890c75e12d7a7cc25582f8948a30dea9b081f8d2c81a7"
+        },
+        "edges": {
+          "count": 98304,
+          "sha256": "663abf06c3b1a9a884ec226e6ca95fd1d2b62dc7ac3e6e4e8efd2e3e155d95e6"
+        },
+        "face_counts": {
+          "count": 24576,
+          "sha256": "3e95620e01d685c80a118aed150455b305d3d4d9e273cdd4ca839719021693d5"
+        },
+        "face_connects": {
+          "count": 98304,
+          "sha256": "783683a3b0d3ef5b0b170ae68f1e251d525fc4827a4acb8811c0fe4ba6fabf0d"
+        }
+      }
+    },
+    {
+      "trial": 1,
+      "step": 7,
+      "faces": 98304,
+      "beforeCallMs": 68.1839,
+      "afterCallMs": 66.4239,
+      "beforeHeapBytes": 50724864,
+      "afterHeapBytes": 50724864,
+      "buffers": {
+        "positions": {
+          "count": 294918,
+          "sha256": "c2146a2f2f0153f878140dabaf3c1964249c6023f768f9eedede74b1dd70990b"
+        },
+        "normals": {
+          "count": 294918,
+          "sha256": "768aba6240ce6f0ebb5f6af8bbb032f4dc434dc82c3f5707dfb50792aae480a0"
+        },
+        "colors": {
+          "count": 294918,
+          "sha256": "a68cc7314221042fea192be488d254972c5cd7ae42dc2fbcb636f73659f8fc42"
+        },
+        "face_colors": {
+          "count": 589824,
+          "sha256": "d95ebaa382f9362bbb5e5428f1d8f4798cdc0989f596d958e670c02f55f5d8dc"
+        },
+        "face_centers": {
+          "count": 294912,
+          "sha256": "41f8251996f281902f08b6d56e4b52f1f3b9b56110d3754b67d26ee83c65ab89"
+        },
+        "face_normals": {
+          "count": 294912,
+          "sha256": "288acddf7f53dbcf76e18ee52dba5056f5acd2ce8ad4826f9e5e2194075bfa97"
+        },
+        "edge_centers": {
+          "count": 589824,
+          "sha256": "840dadda65d2a99e4b41b27d83cfe0eb37a2fadd2826b4830138444f4535a1bf"
+        },
+        "edge_weights": {
+          "count": 196608,
+          "sha256": "d36953d67ef06acd7ef32e8db47ef075fa0bb8f8a1d2e639e09d61c3bc6c7f48"
+        },
+        "indices": {
+          "count": 589824,
+          "sha256": "42aa53a0f9f3c59c8da743ce1f735461398f966103ab2600dbbef858374d648a"
+        },
+        "edges": {
+          "count": 393216,
+          "sha256": "00e6865b53eaac393f133bb881249645da97c25259ad367990b5723cbc81f6d5"
+        },
+        "face_counts": {
+          "count": 98304,
+          "sha256": "99fdb5a43c3decd52035ffb4c9d256a71ff5f11fd323ac0bf5820d4354d2bbd1"
+        },
+        "face_connects": {
+          "count": 393216,
+          "sha256": "da3b7e7203e43db0918d774f55b37aed76f75bed61b2783062cfe10dc7dd310d"
+        }
+      }
+    },
+    {
+      "trial": 1,
+      "step": 8,
+      "faces": 393216,
+      "beforeCallMs": 328.8188,
+      "afterCallMs": 361.6131999999999,
+      "beforeHeapBytes": 218431488,
+      "afterHeapBytes": 218431488,
+      "buffers": {
+        "positions": {
+          "count": 1179654,
+          "sha256": "5f46e9b19e3ca1bcc6b1b0aba16258319af8ad7a0ceec70c65ac7327f16e530b"
+        },
+        "normals": {
+          "count": 1179654,
+          "sha256": "4180eea3307a99ee2e77965186bcd9ffa685ed41876d892210cb7352462c1ce2"
+        },
+        "colors": {
+          "count": 1179654,
+          "sha256": "f9843b8f36509a3ed687ad5b0018d9b588d32ccf2e7337a2a592c470be0141e0"
+        },
+        "face_colors": {
+          "count": 2359296,
+          "sha256": "4d875f755efe9fac8e8ab87c0a81c5d48a9c417b283ea08b3696c2c9629d8cda"
+        },
+        "face_centers": {
+          "count": 1179648,
+          "sha256": "5a8b6bd818d8c5242580cab8521c2437dfe5d72087fd952a504cb439346fee0a"
+        },
+        "face_normals": {
+          "count": 1179648,
+          "sha256": "4974d87379b84d56309cfbf0d7ef948f053211e0a46f5b4f00f249c6c0f34384"
+        },
+        "edge_centers": {
+          "count": 2359296,
+          "sha256": "c24fba52c54ebf838b7d35ade44b3fda344843a21f32c80359a0b498e27e2e10"
+        },
+        "edge_weights": {
+          "count": 786432,
+          "sha256": "c92c83257ebee207e2ca7d495cd12254513713c8b8489bd5a219d14b03d81549"
+        },
+        "indices": {
+          "count": 2359296,
+          "sha256": "5f5185b39e8be8f61a3544ee12ea563cd977c5760aad49b0880beb3073e93060"
+        },
+        "edges": {
+          "count": 1572864,
+          "sha256": "eabcc21d630fcda3edd2f3a68c4ce6200a9603d4a422ce37e1b483048ff144db"
+        },
+        "face_counts": {
+          "count": 393216,
+          "sha256": "2b7d5e04d457614979a58faa0507b61c1c9545ed61890e61963dc580b3d588b7"
+        },
+        "face_connects": {
+          "count": 1572864,
+          "sha256": "26f331fbfc6a788e7697efa2c0e00cfe3b44ab110254f2775555cc27d678e730"
+        }
+      }
+    }
+  ],
+  "fixtures": []
+}

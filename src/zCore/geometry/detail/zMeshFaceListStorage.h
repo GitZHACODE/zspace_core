@@ -16,6 +16,10 @@ namespace zSpace::detail
 		zIntArray faceOffsets;
 		zIntArray faceVertexIndices;
 		zIntArray edgeVertexIndices;
+		// Unique edges remain in first-face encounter order. Geometry/export
+		// queries can recover that direction and incidence without halfedges.
+		zIntArray edgeFirstVertices;
+		zIntArray edgeUseCounts;
 
 		zVectorArray vertexNormals;
 		zVectorArray faceNormals;
@@ -28,6 +32,8 @@ namespace zSpace::detail
 		void clear();
 		void set(const zPointArray& positions, const zIntArray& polygonCounts,
 			const zIntArray& polygonConnects);
+		void setMoved(zPointArray&& positions, const zIntArray& polygonCounts,
+			zIntArray&& polygonConnects);
 		void polygonData(zIntArray& polygonConnects, zIntArray& polygonCounts) const;
 		void rebuildEdges();
 		bool validate(std::string* error = nullptr) const;
@@ -35,6 +41,8 @@ namespace zSpace::detail
 		int numVertices() const { return static_cast<int>(positions.size()); }
 		int numEdges() const { return static_cast<int>(edgeVertexIndices.size() / 2); }
 		int numFaces() const { return faceOffsets.empty() ? 0 : static_cast<int>(faceOffsets.size() - 1); }
+	private:
+		void initializeFaces(const zIntArray& polygonCounts);
 	};
 }
 

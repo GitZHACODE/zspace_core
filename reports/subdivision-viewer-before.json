@@ -1,0 +1,21 @@
+{
+  "capturedAt": "2026-10-08T12:54:36.768Z",
+  "captureMethod": "Transcribed from the isolated test page's visible JSON after compilation completed; one browser run, not a median. Wheel input occurred briefly within the eight-second sample, not continuously.",
+  "runtimeSha256": "e5ec2946bfa730443008f4aba0cc5eeda0f056f501d17bbe9cf926cc8fb22b43",
+  "renderer": "WebGPU · WGSL",
+  "viewport": [1280,720], "devicePixelRatio": 1.5,
+  "faces": 500000, "vertices": 501501,
+  "actions": [
+    {"name":"import 125000 quads","actionMs":2073.10000000149,"presentedMs":2083.7000000011176},
+    {"name":"smooth 125000 to 500000","actionMs":3912.7000000011176,"presentedMs":4000.5}
+  ],
+  "samples": [
+    {"name":"idle","durationMs":5002.4,"frames":286,"inputEvents":0,"medianGapMs":17.4,"p95GapMs":18.1,"maxGapMs":36.2,"gapsOver50Ms":0,"visible":"visible"},
+    {"name":"camera interaction","durationMs":8007.4,"frames":457,"inputEvents":4,"medianGapMs":17.5,"p95GapMs":18.1,"maxGapMs":27.2,"gapsOver50Ms":0,"visible":"visible"}
+  ],
+  "longTasks": [
+    {"startMs":36445.7,"durationMs":90},{"startMs":36561.5,"durationMs":1972},{"startMs":38533.7,"durationMs":74},
+    {"startMs":41288.6,"durationMs":122},{"startMs":41431.3,"durationMs":3545},{"startMs":44977.3,"durationMs":220}
+  ],
+  "jsHeapUsedBytes":489675950,"inputBytes":8115436,"fixtureGenerationMs":89
+}

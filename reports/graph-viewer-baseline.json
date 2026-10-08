@@ -1,0 +1,232 @@
+{
+  "date": "2026-10-08",
+  "scope": "Node actual viewer graph conversion and primitive clone only. No browser, WASM transfer, C++, renderer, GPU or full history action. Five sequential measured trials after one warm-up per case; GC before each trial. Heap/RSS are sampled deltas, not peak or total memory.",
+  "node": "v24.21.0",
+  "sourceSHA256": "07387bc952bfe6b94a291f126c47596f30b79e9a7c0c687f3b07083a44d5dc55",
+  "cases": [
+    {
+      "shape": "open chain",
+      "vertices": 1001,
+      "edges": 1000,
+      "inputBytes": 20012,
+      "trials": [
+        {
+          "trial": 0,
+          "conversionMs": 0.8843999999999994,
+          "onePrimitiveCloneMs": 0.10349999999999682,
+          "heapUsedDelta": 1437224,
+          "arrayBuffersDelta": 168056,
+          "rssDelta": 356352,
+          "outputBytes": 80028
+        },
+        {
+          "trial": 1,
+          "conversionMs": 0.9718999999999767,
+          "onePrimitiveCloneMs": 0.025300000000015643,
+          "heapUsedDelta": 1455696,
+          "arrayBuffersDelta": 168056,
+          "rssDelta": 1167360,
+          "outputBytes": 80028
+        },
+        {
+          "trial": 2,
+          "conversionMs": 0.7206000000000188,
+          "onePrimitiveCloneMs": 0.04579999999998563,
+          "heapUsedDelta": 1455112,
+          "arrayBuffersDelta": 168056,
+          "rssDelta": 397312,
+          "outputBytes": 80028
+        },
+        {
+          "trial": 3,
+          "conversionMs": 0.7683999999999855,
+          "onePrimitiveCloneMs": 0.023800000000022692,
+          "heapUsedDelta": 1455800,
+          "arrayBuffersDelta": 168056,
+          "rssDelta": 241664,
+          "outputBytes": 80028
+        },
+        {
+          "trial": 4,
+          "conversionMs": 0.7584000000000231,
+          "onePrimitiveCloneMs": 0.04059999999998354,
+          "heapUsedDelta": 1455184,
+          "arrayBuffersDelta": 168056,
+          "rssDelta": 978944,
+          "outputBytes": 80028
+        }
+      ],
+      "medianConversionMs": 0.7683999999999855,
+      "medianOnePrimitiveCloneMs": 0.04059999999998354,
+      "endpointChecks": "All endpoints exactly equal in original edge order across five trials; conversion float32 input. This is baseline sanity, not before/after parity."
+    },
+    {
+      "shape": "open chain",
+      "vertices": 10001,
+      "edges": 10000,
+      "inputBytes": 200012,
+      "trials": [
+        {
+          "trial": 0,
+          "conversionMs": 5.990199999999987,
+          "onePrimitiveCloneMs": 0.3836000000000013,
+          "heapUsedDelta": 6246768,
+          "arrayBuffersDelta": 1680056,
+          "rssDelta": 8114176,
+          "outputBytes": 800028
+        },
+        {
+          "trial": 1,
+          "conversionMs": 8.0334,
+          "onePrimitiveCloneMs": 0.7280000000000086,
+          "heapUsedDelta": 6247336,
+          "arrayBuffersDelta": 959996,
+          "rssDelta": 7516160,
+          "outputBytes": 800028
+        },
+        {
+          "trial": 2,
+          "conversionMs": 5.695600000000013,
+          "onePrimitiveCloneMs": 0.29359999999996944,
+          "heapUsedDelta": 6270584,
+          "arrayBuffersDelta": 1400056,
+          "rssDelta": 3399680,
+          "outputBytes": 800028
+        },
+        {
+          "trial": 3,
+          "conversionMs": 7.954999999999984,
+          "onePrimitiveCloneMs": 0.6896000000000413,
+          "heapUsedDelta": 6247704,
+          "arrayBuffersDelta": -1000028,
+          "rssDelta": 2535424,
+          "outputBytes": 800028
+        },
+        {
+          "trial": 4,
+          "conversionMs": 5.469100000000026,
+          "onePrimitiveCloneMs": 0.36829999999997654,
+          "heapUsedDelta": 6247056,
+          "arrayBuffersDelta": 600028,
+          "rssDelta": 4284416,
+          "outputBytes": 800028
+        }
+      ],
+      "medianConversionMs": 5.990199999999987,
+      "medianOnePrimitiveCloneMs": 0.3836000000000013,
+      "endpointChecks": "All endpoints exactly equal in original edge order across five trials; conversion float32 input. This is baseline sanity, not before/after parity."
+    },
+    {
+      "shape": "open chain",
+      "vertices": 100001,
+      "edges": 100000,
+      "inputBytes": 2000012,
+      "trials": [
+        {
+          "trial": 0,
+          "conversionMs": 53.6293,
+          "onePrimitiveCloneMs": 2.078300000000013,
+          "heapUsedDelta": 16909568,
+          "arrayBuffersDelta": 16000056,
+          "rssDelta": 65400832,
+          "outputBytes": 8000028
+        },
+        {
+          "trial": 1,
+          "conversionMs": 56.43009999999998,
+          "onePrimitiveCloneMs": 2.1714000000000055,
+          "heapUsedDelta": 16969464,
+          "arrayBuffersDelta": 16000056,
+          "rssDelta": 46804992,
+          "outputBytes": 8000028
+        },
+        {
+          "trial": 2,
+          "conversionMs": 54.30220000000003,
+          "onePrimitiveCloneMs": 2.3320999999999685,
+          "heapUsedDelta": 16909200,
+          "arrayBuffersDelta": 4599988,
+          "rssDelta": 23408640,
+          "outputBytes": 8000028
+        },
+        {
+          "trial": 3,
+          "conversionMs": 52.095800000000054,
+          "onePrimitiveCloneMs": 2.18119999999999,
+          "heapUsedDelta": 12874104,
+          "arrayBuffersDelta": 15600052,
+          "rssDelta": 45236224,
+          "outputBytes": 8000028
+        },
+        {
+          "trial": 4,
+          "conversionMs": 48.711400000000026,
+          "onePrimitiveCloneMs": 2.070799999999963,
+          "heapUsedDelta": 12874104,
+          "arrayBuffersDelta": 9200040,
+          "rssDelta": 21602304,
+          "outputBytes": 8000028
+        }
+      ],
+      "medianConversionMs": 53.6293,
+      "medianOnePrimitiveCloneMs": 2.1714000000000055,
+      "endpointChecks": "All endpoints exactly equal in original edge order across five trials; conversion float32 input. This is baseline sanity, not before/after parity."
+    },
+    {
+      "shape": "open chain",
+      "vertices": 500001,
+      "edges": 500000,
+      "inputBytes": 10000012,
+      "trials": [
+        {
+          "trial": 0,
+          "conversionMs": 231.95670000000007,
+          "onePrimitiveCloneMs": 9.222499999999854,
+          "heapUsedDelta": 143082352,
+          "arrayBuffersDelta": 84000056,
+          "rssDelta": 227397632,
+          "outputBytes": 40000028
+        },
+        {
+          "trial": 1,
+          "conversionMs": 244.65049999999997,
+          "onePrimitiveCloneMs": 9.0003999999999,
+          "heapUsedDelta": 143082400,
+          "arrayBuffersDelta": 84000056,
+          "rssDelta": 227311616,
+          "outputBytes": 40000028
+        },
+        {
+          "trial": 2,
+          "conversionMs": 228.55470000000014,
+          "onePrimitiveCloneMs": 8.554399999999987,
+          "heapUsedDelta": 143082496,
+          "arrayBuffersDelta": 84000056,
+          "rssDelta": 224968704,
+          "outputBytes": 40000028
+        },
+        {
+          "trial": 3,
+          "conversionMs": 242.1739,
+          "onePrimitiveCloneMs": 8.903999999999996,
+          "heapUsedDelta": 142008136,
+          "arrayBuffersDelta": 84000056,
+          "rssDelta": 224862208,
+          "outputBytes": 40000028
+        },
+        {
+          "trial": 4,
+          "conversionMs": 220.33929999999987,
+          "onePrimitiveCloneMs": 9.067200000000412,
+          "heapUsedDelta": 143082480,
+          "arrayBuffersDelta": 84000056,
+          "rssDelta": 224792576,
+          "outputBytes": 40000028
+        }
+      ],
+      "medianConversionMs": 231.95670000000007,
+      "medianOnePrimitiveCloneMs": 9.0003999999999,
+      "endpointChecks": "All endpoints exactly equal in original edge order across five trials; conversion float32 input. This is baseline sanity, not before/after parity."
+    }
+  ]
+}

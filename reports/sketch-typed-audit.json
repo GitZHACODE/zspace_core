@@ -1,0 +1,126 @@
+{
+  "date": "2026-10-08",
+  "registeredSketches": 9,
+  "liveOperators": 0,
+  "inventory": [
+    {
+      "script": "sketch_importPanelisation.js",
+      "registered": true,
+      "path": "JSON to separate toolsets WASM; owned typed mesh output",
+      "viewer": "All mesh outputs use shared optimized renderer; graph outputs use graph rendering",
+      "note": "Shared create/payload conversion now uses owned typed fast copies"
+    },
+    {
+      "script": "sketch_createPrimaryArch.js",
+      "registered": true,
+      "path": "JS authoring to owned typed mesh/graph output",
+      "viewer": "All mesh outputs use shared optimized renderer; graph outputs use graph rendering",
+      "note": "Source assets are JSON files; computation is JS"
+    },
+    {
+      "script": "sketch_createVaultExample.js",
+      "registered": true,
+      "path": "JS authoring to owned typed mesh/graph output",
+      "viewer": "All mesh outputs use shared optimized renderer; graph outputs use graph rendering",
+      "note": "Shared create/payload conversion now uses owned typed fast copies"
+    },
+    {
+      "script": "sketch_createCTube.js",
+      "registered": true,
+      "path": "JSON to separate toolsets WASM; owned typed mesh output",
+      "viewer": "All mesh outputs use shared optimized renderer; graph outputs use graph rendering",
+      "note": "Shared create/payload conversion now uses owned typed fast copies"
+    },
+    {
+      "script": "sketch_nanshaRoof.js",
+      "registered": true,
+      "path": "JS authoring to owned typed mesh/graph output",
+      "viewer": "All mesh outputs use shared optimized renderer; graph outputs use graph rendering",
+      "note": "Source assets are JSON files; computation is JS; planarity constraints use typed native upload when exported, with JSON stored in JS settings"
+    },
+    {
+      "script": "sketch_origamiSheet.js",
+      "registered": true,
+      "path": "JS authoring to owned typed mesh/graph output",
+      "viewer": "All mesh outputs use shared optimized renderer; graph outputs use graph rendering",
+      "note": "Shared create/payload conversion now uses owned typed fast copies"
+    },
+    {
+      "script": "sketch_createCube.js",
+      "registered": true,
+      "path": "JS authoring to owned typed mesh/graph output",
+      "viewer": "All mesh outputs use shared optimized renderer; graph outputs use graph rendering",
+      "note": "Shared create/payload conversion now uses owned typed fast copies"
+    },
+    {
+      "script": "sketch_createGraph.js",
+      "registered": true,
+      "path": "JS authoring to owned typed mesh/graph output",
+      "viewer": "All mesh outputs use shared optimized renderer; graph outputs use graph rendering",
+      "note": "Shared create/payload conversion now uses owned typed fast copies; JS graph creation does not execute C++ zFnGraph"
+    },
+    {
+      "script": "sketch_createBranchCTube.js",
+      "registered": true,
+      "path": "JSON to separate toolsets WASM; owned typed mesh output",
+      "viewer": "All mesh outputs use shared optimized renderer; graph outputs use graph rendering",
+      "note": "Shared create/payload conversion now uses owned typed fast copies"
+    },
+    {
+      "script": "sketch_bestFitForceDensity.js",
+      "registered": false,
+      "path": "JSON input to separate vault/toolsets WASM; owned typed mesh output",
+      "viewer": "Published mesh uses shared renderer",
+      "note": "Present on disk but not listed in current sketch manifest; vault diagram/result metadata and branch result metadata still use JSON"
+    }
+  ],
+  "findings": [
+    "All nine registered sketches publish owned Float32/Uint32 geometry through zspace-js objects; ordinary arrays used during authoring are normalized before viewer publication. JSON source files are not evidence of JSON geometry upload to core.",
+    "Shared JS mesh/graph create and viewer payload conversions unnecessarily boxed typed input using Array.from and sometimes mapped it again. Fixed centrally in numericBuffers.ts, retaining owned copies and numeric conversion/uint clamp-floor behavior. Removed four materialized arrays used only for length checks.",
+    "Built-in Smooth, triangulate and mesh-analysis/replay load paths use loadPayloadIntoWasm -> uploadMeshBuffers. Installed core exposes typed buffer upload. Older runtime compatibility keeps the OBJ fallback; typed native failures are not silently retried as OBJ.",
+    "Nansha planarity uses uploadPlanarityBuffers when exports are available; constraints are still serialized/stored in JS parameters then parsed to typed buffers. The old-runtime fallback uses JSON FS input. This is not fully JSON-free.",
+    "C-Tubes, branch optimizer, panelisation and vault computation use a separate zspace_toolsets runtime with JSON inputs. Main mesh outputs are copied from typed WASM heap views. Diagnostics, diagrams, strip/branch result metadata can still use JSON.",
+    "Core mesh C++ optimizations are exercised when invoking current core WASM mesh operations. JS object creation does not run C++ mesh/graph methods. Separate toolsets runtime does not automatically inherit core binary changes; its linked mesh/topology implementation was not verified or rebuilt in this audit.",
+    "All published meshes use the shared optimized surface expansion, referenced-vertex bounds and cold boundary/cache paths for standard renderer callbacks. Solver dynamic update path remains available when its conditions hold. Graph display is a separate path.",
+    "Current live operator manifest has zero entries and operators/ contains only the manifest. Built-in operator execution/replay was audited; no unregistered custom operator can be claimed verified."
+  ],
+  "verification": [
+    "Baseline and post-extraction npm run build passed (existing bundle-size warning).",
+    "30 targeted tests passed, zero failed/skipped: numerical conversion and owned buffers, four existing generator sketches, actual installed core typed upload/smooth, transfer heap growth/free/fallback contracts, C-Tubes, real panelisation WASM, primary arch/deck, Nansha/planarity, origami, vault/statics and module loading.",
+    "Three alternating-order Node typed conversion trials on 500k-grid-sized inputs matched prior finite output bytes. These exclude triangulation/edge/normal computation, WASM, browser, history and GPU.",
+    "Installed core SHA256 unchanged: 27daad481b9c4a5d6b403b2cf15f79f4f2d7bcd066e3bbefb624d30c57799653. No native/runtime rebuild or sketch script edits."
+  ],
+  "limitations": [
+    "All nine manifest entries and the extra FDM script were inspected; targeted tests are not a full interactive run of every sketch/action. C-Tubes tests use a session test double; panelisation test executes real toolsets WASM.",
+    "Source asset JSON, metadata JSON, authoring arrays and internal JS triangulation/edge/color work remain. The audit did not convert every local array or redesign geometry derivation.",
+    "Snapshot-based parity tests require the retained pre-change files in wasm/tmp/sketch-typed-audit-before; installed runtime is needed for the real core test.",
+    "Separate toolsets typed input migration and verification/rebuild against current optimized core remain pending. No claim that all sketches are typed end to end or that every C++ optimization reaches toolsets.",
+    "Existing dirty user/sketch/operator/core/IO/graph work was preserved; no commit/push."
+  ],
+  "conversionMedians": [
+    {
+      "name": "positions",
+      "beforeMs": 57.59140000000002,
+      "afterMs": 1.3482999999999947
+    },
+    {
+      "name": "connects",
+      "beforeMs": 85.33620000000008,
+      "afterMs": 1.620900000000006
+    }
+  ],
+  "changedFiles": [
+    "../zspace_alice_webviewer/src/numericBuffers.ts",
+    "../zspace_alice_webviewer/src/objects.ts",
+    "../zspace_alice_webviewer/src/kernels/zspaceJsKernel.ts",
+    "../zspace_alice_webviewer/tests/sketchTypedBuffers.test.mjs",
+    "../zspace_alice_webviewer/tests/sketchTypedBufferBenchmark.mjs",
+    "../zspace_alice_webviewer/reports/Alice-Viewer-Implementation-Roadmap.md",
+    "tests/performance/sketch-typed-buffer-benchmark.mjs",
+    "reports/generate-sketch-typed-audit.py",
+    "reports/sketch-typed-buffer-timings.json",
+    "reports/sketch-typed-audit.json",
+    "reports/sketch-typed-audit.html"
+  ],
+  "nextStep": "Prioritize typed toolsets geometry input and verify/rebuild the toolsets-linked core in its own repository; retain separate structured metadata where appropriate."
+}

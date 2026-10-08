@@ -1,0 +1,113 @@
+{
+  "fixtureCases": 50,
+  "benchmarkSamples": 48,
+  "primaryDefinitions": 162,
+  "inlineDefinitions": 17,
+  "publicSignaturesUnchanged": true,
+  "large": [
+    {
+      "shape": "chain",
+      "vertices": 500001,
+      "edges": 500000,
+      "trials": 3,
+      "before": {
+        "prepareAndInstallMs": 13.7887,
+        "flatLengthsMs": 7.8381,
+        "topologyBuildMs": 2358.4442,
+        "oneHalfedgeVectorMs": 835.7661,
+        "fullHalfedgeScanMs": -1
+      },
+      "after": {
+        "prepareAndInstallMs": 15.3056,
+        "inputPreparationMs": 3.9441,
+        "storageInstallationMs": 10.039,
+        "flatLengthsMs": 9.2368,
+        "topologyBuildMs": 2189.9576,
+        "oneHalfedgeVectorMs": 0.0048,
+        "fullHalfedgeScanMs": 85.0202
+      },
+      "workingSetBytesRange": [
+        321003520,
+        321286144
+      ]
+    },
+    {
+      "shape": "loop",
+      "vertices": 500000,
+      "edges": 500000,
+      "trials": 3,
+      "before": {
+        "prepareAndInstallMs": 15.9126,
+        "flatLengthsMs": 9.2648,
+        "topologyBuildMs": 2567.74,
+        "oneHalfedgeVectorMs": 817.8378,
+        "fullHalfedgeScanMs": -1
+      },
+      "after": {
+        "prepareAndInstallMs": 19.5317,
+        "inputPreparationMs": 7.2865,
+        "storageInstallationMs": 10.6697,
+        "flatLengthsMs": 11.5567,
+        "topologyBuildMs": 2987.8544,
+        "oneHalfedgeVectorMs": 0.0056,
+        "fullHalfedgeScanMs": 128.1396
+      },
+      "workingSetBytesRange": [
+        321327104,
+        321585152
+      ]
+    },
+    {
+      "shape": "branch",
+      "vertices": 500001,
+      "edges": 500000,
+      "trials": 3,
+      "before": {
+        "prepareAndInstallMs": 22.9161,
+        "flatLengthsMs": 10.4874,
+        "topologyBuildMs": 2476.0522,
+        "oneHalfedgeVectorMs": 878.4694,
+        "fullHalfedgeScanMs": -1
+      },
+      "after": {
+        "prepareAndInstallMs": 19.9145,
+        "inputPreparationMs": 8.0322,
+        "storageInstallationMs": 10.2439,
+        "flatLengthsMs": 11.8061,
+        "topologyBuildMs": 2973.4685,
+        "oneHalfedgeVectorMs": 0.0056,
+        "fullHalfedgeScanMs": 133.5437
+      },
+      "workingSetBytesRange": [
+        333348864,
+        333717504
+      ]
+    },
+    {
+      "shape": "disconnected",
+      "vertices": 625000,
+      "edges": 500000,
+      "trials": 3,
+      "before": {
+        "prepareAndInstallMs": 22.0048,
+        "flatLengthsMs": 8.8845,
+        "topologyBuildMs": 3061.0091,
+        "oneHalfedgeVectorMs": 817.3237,
+        "fullHalfedgeScanMs": -1
+      },
+      "after": {
+        "prepareAndInstallMs": 29.4544,
+        "inputPreparationMs": 15.5656,
+        "storageInstallationMs": 11.6389,
+        "flatLengthsMs": 11.1783,
+        "topologyBuildMs": 3371.217,
+        "oneHalfedgeVectorMs": 0.0056,
+        "fullHalfedgeScanMs": 128.6114
+      },
+      "workingSetBytesRange": [
+        353161216,
+        362729472
+      ]
+    }
+  ]
+}

@@ -8,10 +8,12 @@
 #include <zspace/zInterface/objects/zObjectMesh.h>
 
 #include <algorithm>
+#include <cmath>
 #include <map>
 #include <memory>
 #include <stdexcept>
 #include <utility>
+#include <unordered_map>
 
 namespace zSpace
 {
@@ -22,6 +24,8 @@ namespace zSpace
 		mutable std::unique_ptr<zMesh> topology;
 		mutable bool topologyDirty = true;
 		mutable bool faceListDirty = false;
+		mutable std::unordered_map<std::string, int> positionLookup;
+		mutable bool positionLookupDirty = true;
 
 		Impl() = default;
 		Impl(const Impl& other)
@@ -181,11 +185,52 @@ namespace zSpace
 			}
 
 			impl.faceList = std::move(rebuilt);
+			impl.positionLookupDirty = true;
 			impl.faceListDirty = false;
 			impl.topologyDirty = false;
 		}
 
 	public:
+		static bool hasTopology(const zObjectMesh& object)
+		{
+			return object.impl->topology && !object.impl->topologyDirty;
+		}
+
+		static const zMesh* readTopologyIfPresent(const zObjectMesh& object)
+		{
+			if (!hasTopology(object)) return nullptr;
+			syncFaceList(object);
+			return object.impl->topology.get();
+		}
+
+		static bool vertexExists(const zObjectMesh& object, zPoint position, int& id, int precision)
+		{
+			// A live edited topology owns the legacy position hash. Reading it
+			// preserves its existing lookup semantics without creating topology.
+			if (hasTopology(object)) return object.impl->topology->vertexExists(position, id, precision);
+			auto& impl = *object.impl;
+			const auto& data = read(object);
+			auto key = [](zPoint p, int digits)
+			{
+				const double factor = std::pow(10, digits);
+				return std::to_string(std::round(p.x * factor) / factor) + "," +
+					std::to_string(std::round(p.y * factor) / factor) + "," +
+					std::to_string(std::round(p.z * factor) / factor);
+			};
+			if (impl.positionLookupDirty)
+			{
+				impl.positionLookup.clear();
+				impl.positionLookup.reserve(data.positions.size());
+				// zMesh::create inserts at precision 6; duplicate keys select the
+				// last vertex. Query precision changes only the queried key.
+				for (int i = 0; i < data.numVertices(); ++i) impl.positionLookup[key(data.positions[i], 6)] = i;
+				impl.positionLookupDirty = false;
+			}
+			const auto match = impl.positionLookup.find(key(position, precision));
+			id = match == impl.positionLookup.end() ? -1 : match->second;
+			return match != impl.positionLookup.end();
+		}
+
 		static zMesh& get(zObjectMesh& object)
 		{
 			buildTopology(object);
@@ -210,6 +255,7 @@ namespace zSpace
 			syncFaceList(object);
 			object.impl->topologyDirty = true;
 			object.impl->topology.reset();
+			object.impl->positionLookupDirty = true;
 			return object.impl->faceList;
 		}
 
@@ -220,6 +266,17 @@ namespace zSpace
 			object.impl->topology.reset();
 			object.impl->topologyDirty = true;
 			object.impl->faceListDirty = false;
+			object.impl->positionLookupDirty = true;
+		}
+
+		static void setMoved(zObjectMesh& object, zPointArray&& positions,
+			const zIntArray& polygonCounts, zIntArray&& polygonConnects)
+		{
+			object.impl->faceList.setMoved(std::move(positions), polygonCounts, std::move(polygonConnects));
+			object.impl->topology.reset();
+			object.impl->topologyDirty = true;
+			object.impl->faceListDirty = false;
+			object.impl->positionLookupDirty = true;
 		}
 	};
 }

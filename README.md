@@ -113,14 +113,24 @@ zSpace::zIO::writeGraph("graph.json", graph);
 ```
 
 Formats are selected from the file extension. OBJ, JSON, and graph TXT codecs are
-built into `zSpace_IO`. TinyUSDZ provides mesh reading for USDA, USDC, and USDZ,
-plus robust USDA writing. Binary USDC and USDZ writing is intentionally disabled
-until TinyUSDZ's writers are production-ready. Configure with
-`ZSPACE_IO_WITH_TINYUSDZ=OFF` to build without USD support.
+built into `zSpace_IO`. Optional OpenUSD support reads and writes USDA, USDC,
+and USDZ. `.usd` writing remains USDA text for compatibility. TinyUSDZ has been
+replaced; the default SDK-free build disables USD. Enable it with an external
+headless OpenUSD SDK:
 
-USD mesh import currently reads the first mesh prim in object space. Scene
-composition, transforms, animation, and multi-mesh stage import remain outside
-the single-object `zIO::readMesh` contract.
+```powershell
+cmake --preset ninja-msvc -DZSPACE_IO_WITH_OPENUSD=ON -DZSPACE_OPENUSD_ROOT="C:/SDKs/OpenUSD"
+cmake --build --preset ninja-msvc-release --parallel
+```
+
+The SDK's runtime libraries and plugin/schema resources must remain available
+when running applications. No Git submodule or OpenUSD source checkout is
+required in this repository. See [OpenUSD setup and validation](docs/architecture/openusd-io.md)
+for native SDK layouts, compatibility details, and the separate WASM build.
+
+USD mesh import reads the first composed mesh prim in object space. OpenUSD
+resolves layers and references; transform baking, animation, and multi-mesh
+stage import remain outside the single-object `zIO::readMesh` contract.
 
 The generated binaries and import libraries are placed under the selected CMake preset directory:
 
@@ -238,7 +248,7 @@ vendored under `third_party/depends` or fetched at a pinned revision by CMake.
 | [QuickHull](https://github.com/karimnaaji/quickhull) | Convex hull computation | MIT |
 | [LodePNG](https://lodev.org/lodepng/) | PNG encoding | Zlib |
 | [TooJPEG](https://create.stephan-brumme.com/toojpeg/) | JPEG encoding | Zlib |
-| [TinyUSDZ](https://github.com/lighttransport/tinyusdz) | USDA/USDC/USDZ mesh IO | Apache-2.0 |
+| [OpenUSD](https://github.com/PixarAnimationStudios/OpenUSD) (optional external SDK) | USDA/USDC/USDZ mesh IO | Modified Apache-2.0; see SDK license |
 
 The optional Display module adds the following graphics dependencies:
 

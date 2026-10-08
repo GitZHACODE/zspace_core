@@ -1,0 +1,6 @@
+{
+  "viewerBuild": "npm run build passed (tsc --noEmit and vite build)",
+  "backup": "wasm/tmp/render-export-install-before",
+  "runtimeSha256": "e5ec2946bfa730443008f4aba0cc5eeda0f056f501d17bbe9cf926cc8fb22b43",
+  "capturedAt": "2026-10-08T12:24:51.0631274Z"
+}

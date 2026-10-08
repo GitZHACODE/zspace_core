@@ -1,0 +1,650 @@
+{
+  "date": "2026-10-08",
+  "scope": "Completed phase 1 and focused native phase 2 cleanup. No broader graph redesign, new public API, selection/display fix, commit or push.",
+  "changes": [
+    "src/zInterface/objects/zGraphObjectStorage.h",
+    "src/zInterface/iterators/zItGraph.cpp",
+    "src/zInterface/functionsets/zFnGraph.cpp",
+    "CMakeLists.txt",
+    "tests/performance/graph_functionset_benchmark.cpp",
+    "tests/smoke/graph-query-golden.json",
+    "tests/smoke/graph-public-query-golden.json"
+  ],
+  "inventory": "graph-topology-inventory-after.json",
+  "parity": {
+    "fixtureCases": 50,
+    "standardFixtureCases": 42,
+    "retainedViewCases": 8,
+    "fixtureOutputs": "Exact JSON plus FNV-1a digests of scalar bytes, including floating geometry/colors/weights. No epsilon comparison. Hash evidence is not collision-proof full byte storage.",
+    "benchmarkSamples": 48,
+    "fullBaselineScanDigestMatches": 12,
+    "largeScan": "All optimized full scans additionally validate every directed ID/head/sym in original flat endpoint order through E=500000 (2E halfedges). Baseline full scans above E=1000 intentionally not run; large baseline captures geometry vector, exact flat digest, counts and length total.",
+    "nativeTests": "4/4 CTest passed; required Release script passed; profiling OFF in final production build.",
+    "coverage": "Empty, chains, loops, branches, disconnected components, isolated vertices, duplicate/reversed edges, self edges, duplicate positions/signed zero, deferred malformed-input errors, inactive vertex/edge/halfedge, escaped raw color and mutable topology, link/endpoint/ID edits, copies/assignment/move/getDuplicate, reacquired raw positions, alias bounds, averaging/colors and ribbon geometry/normals."
+  },
+  "summaries": [
+    {
+      "shape": "chain",
+      "vertices": 1001,
+      "edges": 1000,
+      "trials": 3,
+      "before": {
+        "prepareAndInstallMs": 0.0878,
+        "flatLengthsMs": 0.0396,
+        "topologyBuildMs": 4.0689,
+        "oneHalfedgeVectorMs": 0.8752,
+        "fullHalfedgeScanMs": 1030.1297
+      },
+      "after": {
+        "prepareAndInstallMs": 0.0447,
+        "inputPreparationMs": 0.0125,
+        "storageInstallationMs": 0.0303,
+        "flatLengthsMs": 0.0186,
+        "topologyBuildMs": 2.9642,
+        "oneHalfedgeVectorMs": 0.0007,
+        "fullHalfedgeScanMs": 0.1635
+      },
+      "workingSetBytesRange": [
+        4943872,
+        5156864
+      ]
+    },
+    {
+      "shape": "chain",
+      "vertices": 10001,
+      "edges": 10000,
+      "trials": 3,
+      "before": {
+        "prepareAndInstallMs": 0.543,
+        "flatLengthsMs": 0.1683,
+        "topologyBuildMs": 34.3612,
+        "oneHalfedgeVectorMs": 6.1046,
+        "fullHalfedgeScanMs": -1
+      },
+      "after": {
+        "prepareAndInstallMs": 0.4352,
+        "inputPreparationMs": 0.1061,
+        "storageInstallationMs": 0.3064,
+        "flatLengthsMs": 0.206,
+        "topologyBuildMs": 30.6618,
+        "oneHalfedgeVectorMs": 0.0036,
+        "fullHalfedgeScanMs": 1.6842
+      },
+      "workingSetBytesRange": [
+        11350016,
+        11513856
+      ]
+    },
+    {
+      "shape": "chain",
+      "vertices": 100001,
+      "edges": 100000,
+      "trials": 3,
+      "before": {
+        "prepareAndInstallMs": 4.4689,
+        "flatLengthsMs": 2.4678,
+        "topologyBuildMs": 432.7143,
+        "oneHalfedgeVectorMs": 117.2641,
+        "fullHalfedgeScanMs": -1
+      },
+      "after": {
+        "prepareAndInstallMs": 3.283,
+        "inputPreparationMs": 0.7401,
+        "storageInstallationMs": 2.3389,
+        "flatLengthsMs": 1.7779,
+        "topologyBuildMs": 347.1016,
+        "oneHalfedgeVectorMs": 0.0042,
+        "fullHalfedgeScanMs": 15.8067
+      },
+      "workingSetBytesRange": [
+        68337664,
+        68444160
+      ]
+    },
+    {
+      "shape": "chain",
+      "vertices": 500001,
+      "edges": 500000,
+      "trials": 3,
+      "before": {
+        "prepareAndInstallMs": 13.7887,
+        "flatLengthsMs": 7.8381,
+        "topologyBuildMs": 2358.4442,
+        "oneHalfedgeVectorMs": 835.7661,
+        "fullHalfedgeScanMs": -1
+      },
+      "after": {
+        "prepareAndInstallMs": 15.3056,
+        "inputPreparationMs": 3.9441,
+        "storageInstallationMs": 10.039,
+        "flatLengthsMs": 9.2368,
+        "topologyBuildMs": 2189.9576,
+        "oneHalfedgeVectorMs": 0.0048,
+        "fullHalfedgeScanMs": 85.0202
+      },
+      "workingSetBytesRange": [
+        321003520,
+        321286144
+      ]
+    },
+    {
+      "shape": "loop",
+      "vertices": 1000,
+      "edges": 1000,
+      "trials": 3,
+      "before": {
+        "prepareAndInstallMs": 0.037,
+        "flatLengthsMs": 0.0343,
+        "topologyBuildMs": 2.9581,
+        "oneHalfedgeVectorMs": 0.5445,
+        "fullHalfedgeScanMs": 1049.465
+      },
+      "after": {
+        "prepareAndInstallMs": 0.0693,
+        "inputPreparationMs": 0.0242,
+        "storageInstallationMs": 0.0429,
+        "flatLengthsMs": 0.0229,
+        "topologyBuildMs": 4.5705,
+        "oneHalfedgeVectorMs": 0.0012,
+        "fullHalfedgeScanMs": 0.2776
+      },
+      "workingSetBytesRange": [
+        8019968,
+        8069120
+      ]
+    },
+    {
+      "shape": "loop",
+      "vertices": 10000,
+      "edges": 10000,
+      "trials": 3,
+      "before": {
+        "prepareAndInstallMs": 0.383,
+        "flatLengthsMs": 0.1581,
+        "topologyBuildMs": 30.982,
+        "oneHalfedgeVectorMs": 5.0571,
+        "fullHalfedgeScanMs": -1
+      },
+      "after": {
+        "prepareAndInstallMs": 0.4062,
+        "inputPreparationMs": 0.1074,
+        "storageInstallationMs": 0.2844,
+        "flatLengthsMs": 0.2153,
+        "topologyBuildMs": 48.8088,
+        "oneHalfedgeVectorMs": 0.0044,
+        "fullHalfedgeScanMs": 2.0855
+      },
+      "workingSetBytesRange": [
+        12066816,
+        12107776
+      ]
+    },
+    {
+      "shape": "loop",
+      "vertices": 100000,
+      "edges": 100000,
+      "trials": 3,
+      "before": {
+        "prepareAndInstallMs": 2.7242,
+        "flatLengthsMs": 1.3377,
+        "topologyBuildMs": 408.155,
+        "oneHalfedgeVectorMs": 115.6217,
+        "fullHalfedgeScanMs": -1
+      },
+      "after": {
+        "prepareAndInstallMs": 5.2696,
+        "inputPreparationMs": 1.8291,
+        "storageInstallationMs": 3.124,
+        "flatLengthsMs": 3.2886,
+        "topologyBuildMs": 522.5172,
+        "oneHalfedgeVectorMs": 0.0047,
+        "fullHalfedgeScanMs": 23.5803
+      },
+      "workingSetBytesRange": [
+        68759552,
+        68923392
+      ]
+    },
+    {
+      "shape": "loop",
+      "vertices": 500000,
+      "edges": 500000,
+      "trials": 3,
+      "before": {
+        "prepareAndInstallMs": 15.9126,
+        "flatLengthsMs": 9.2648,
+        "topologyBuildMs": 2567.74,
+        "oneHalfedgeVectorMs": 817.8378,
+        "fullHalfedgeScanMs": -1
+      },
+      "after": {
+        "prepareAndInstallMs": 19.5317,
+        "inputPreparationMs": 7.2865,
+        "storageInstallationMs": 10.6697,
+        "flatLengthsMs": 11.5567,
+        "topologyBuildMs": 2987.8544,
+        "oneHalfedgeVectorMs": 0.0056,
+        "fullHalfedgeScanMs": 128.1396
+      },
+      "workingSetBytesRange": [
+        321327104,
+        321585152
+      ]
+    },
+    {
+      "shape": "branch",
+      "vertices": 1001,
+      "edges": 1000,
+      "trials": 3,
+      "before": {
+        "prepareAndInstallMs": 0.0331,
+        "flatLengthsMs": 0.0164,
+        "topologyBuildMs": 3.9909,
+        "oneHalfedgeVectorMs": 0.7848,
+        "fullHalfedgeScanMs": 1054.401
+      },
+      "after": {
+        "prepareAndInstallMs": 0.0614,
+        "inputPreparationMs": 0.0231,
+        "storageInstallationMs": 0.0353,
+        "flatLengthsMs": 0.0259,
+        "topologyBuildMs": 4.5841,
+        "oneHalfedgeVectorMs": 0.0021,
+        "fullHalfedgeScanMs": 0.2771
+      },
+      "workingSetBytesRange": [
+        10575872,
+        10858496
+      ]
+    },
+    {
+      "shape": "branch",
+      "vertices": 10001,
+      "edges": 10000,
+      "trials": 3,
+      "before": {
+        "prepareAndInstallMs": 0.2762,
+        "flatLengthsMs": 0.1738,
+        "topologyBuildMs": 42.3614,
+        "oneHalfedgeVectorMs": 8.1209,
+        "fullHalfedgeScanMs": -1
+      },
+      "after": {
+        "prepareAndInstallMs": 0.7951,
+        "inputPreparationMs": 0.2173,
+        "storageInstallationMs": 0.5402,
+        "flatLengthsMs": 0.3184,
+        "topologyBuildMs": 44.5815,
+        "oneHalfedgeVectorMs": 0.005,
+        "fullHalfedgeScanMs": 2.7713
+      },
+      "workingSetBytesRange": [
+        14241792,
+        17596416
+      ]
+    },
+    {
+      "shape": "branch",
+      "vertices": 100001,
+      "edges": 100000,
+      "trials": 3,
+      "before": {
+        "prepareAndInstallMs": 4.1655,
+        "flatLengthsMs": 2.3321,
+        "topologyBuildMs": 489.4454,
+        "oneHalfedgeVectorMs": 146.472,
+        "fullHalfedgeScanMs": -1
+      },
+      "after": {
+        "prepareAndInstallMs": 5.4289,
+        "inputPreparationMs": 1.9417,
+        "storageInstallationMs": 3.1697,
+        "flatLengthsMs": 3.0145,
+        "topologyBuildMs": 552.183,
+        "oneHalfedgeVectorMs": 0.0049,
+        "fullHalfedgeScanMs": 24.8235
+      },
+      "workingSetBytesRange": [
+        76288000,
+        76345344
+      ]
+    },
+    {
+      "shape": "branch",
+      "vertices": 500001,
+      "edges": 500000,
+      "trials": 3,
+      "before": {
+        "prepareAndInstallMs": 22.9161,
+        "flatLengthsMs": 10.4874,
+        "topologyBuildMs": 2476.0522,
+        "oneHalfedgeVectorMs": 878.4694,
+        "fullHalfedgeScanMs": -1
+      },
+      "after": {
+        "prepareAndInstallMs": 19.9145,
+        "inputPreparationMs": 8.0322,
+        "storageInstallationMs": 10.2439,
+        "flatLengthsMs": 11.8061,
+        "topologyBuildMs": 2973.4685,
+        "oneHalfedgeVectorMs": 0.0056,
+        "fullHalfedgeScanMs": 133.5437
+      },
+      "workingSetBytesRange": [
+        333348864,
+        333717504
+      ]
+    },
+    {
+      "shape": "disconnected",
+      "vertices": 1250,
+      "edges": 1000,
+      "trials": 3,
+      "before": {
+        "prepareAndInstallMs": 0.0319,
+        "flatLengthsMs": 0.0146,
+        "topologyBuildMs": 3.4198,
+        "oneHalfedgeVectorMs": 0.8327,
+        "fullHalfedgeScanMs": 1097.8649
+      },
+      "after": {
+        "prepareAndInstallMs": 0.1047,
+        "inputPreparationMs": 0.0503,
+        "storageInstallationMs": 0.0506,
+        "flatLengthsMs": 0.0321,
+        "topologyBuildMs": 5.028,
+        "oneHalfedgeVectorMs": 0.0025,
+        "fullHalfedgeScanMs": 0.2777
+      },
+      "workingSetBytesRange": [
+        12484608,
+        12959744
+      ]
+    },
+    {
+      "shape": "disconnected",
+      "vertices": 12500,
+      "edges": 10000,
+      "trials": 3,
+      "before": {
+        "prepareAndInstallMs": 0.1667,
+        "flatLengthsMs": 0.0822,
+        "topologyBuildMs": 33.158,
+        "oneHalfedgeVectorMs": 6.2627,
+        "fullHalfedgeScanMs": -1
+      },
+      "after": {
+        "prepareAndInstallMs": 0.9405,
+        "inputPreparationMs": 0.3708,
+        "storageInstallationMs": 0.5327,
+        "flatLengthsMs": 0.2325,
+        "topologyBuildMs": 51.337,
+        "oneHalfedgeVectorMs": 0.0049,
+        "fullHalfedgeScanMs": 2.6104
+      },
+      "workingSetBytesRange": [
+        20074496,
+        20193280
+      ]
+    },
+    {
+      "shape": "disconnected",
+      "vertices": 125000,
+      "edges": 100000,
+      "trials": 3,
+      "before": {
+        "prepareAndInstallMs": 5.1833,
+        "flatLengthsMs": 1.5338,
+        "topologyBuildMs": 442.2738,
+        "oneHalfedgeVectorMs": 125.3034,
+        "fullHalfedgeScanMs": -1
+      },
+      "after": {
+        "prepareAndInstallMs": 7.7867,
+        "inputPreparationMs": 3.7759,
+        "storageInstallationMs": 3.5978,
+        "flatLengthsMs": 3.018,
+        "topologyBuildMs": 566.6784,
+        "oneHalfedgeVectorMs": 0.0054,
+        "fullHalfedgeScanMs": 27.159
+      },
+      "workingSetBytesRange": [
+        81920000,
+        82276352
+      ]
+    },
+    {
+      "shape": "disconnected",
+      "vertices": 625000,
+      "edges": 500000,
+      "trials": 3,
+      "before": {
+        "prepareAndInstallMs": 22.0048,
+        "flatLengthsMs": 8.8845,
+        "topologyBuildMs": 3061.0091,
+        "oneHalfedgeVectorMs": 817.3237,
+        "fullHalfedgeScanMs": -1
+      },
+      "after": {
+        "prepareAndInstallMs": 29.4544,
+        "inputPreparationMs": 15.5656,
+        "storageInstallationMs": 11.6389,
+        "flatLengthsMs": 11.1783,
+        "topologyBuildMs": 3371.217,
+        "oneHalfedgeVectorMs": 0.0056,
+        "fullHalfedgeScanMs": 128.6114
+      },
+      "workingSetBytesRange": [
+        353161216,
+        362729472
+      ]
+    }
+  ],
+  "browser": {
+    "path": "Actual viewer app /src/main.ts, existing sketch-folder File import + Load; unchanged installed runtime. Graph primitives are JS-owned; no native graph ABI on this path.",
+    "samples": [
+      {
+        "vertices": 1001,
+        "edges": 1000,
+        "fullActionToStatusMs": 190.4550000000745,
+        "inputPreparationMs": 0.2350000012665987,
+        "jsGraphStorageInstallationMs": 0.5399999991059303,
+        "heapUsedBytes": 24981250
+      },
+      {
+        "vertices": 100001,
+        "edges": 100000,
+        "fullActionToStatusMs": 327.09999999962747,
+        "inputPreparationMs": 7.269999999552965,
+        "jsGraphStorageInstallationMs": 35.330000000074506,
+        "heapUsedBytes": 87061739
+      },
+      {
+        "kind": "graph-folder-import-and-load",
+        "vertices": 500001,
+        "edges": 500000,
+        "fullActionToStatusMs": 940.785000000149,
+        "inputPreparationMs": 29.12999999895692,
+        "jsGraphStorageInstallationMs": 186.93500000052154,
+        "rafGapsMs": [
+          -5.885000000744185,
+          16.639999999999418,
+          16.650000000001455,
+          16.639999999999418,
+          16.674999999995634,
+          16.67500000000291,
+          16.62000000000262,
+          16.709999999999127,
+          16.635000000002037,
+          16.619999999995343,
+          16.665000000000873,
+          16.67500000000291,
+          16.659999999996217,
+          16.630000000004657,
+          16.68499999999767,
+          16.6449999999968,
+          16.67000000000553,
+          16.62999999999738,
+          16.669999999998254,
+          16.654999999998836
+        ],
+        "notes": "Single browser sample. Full action includes an explicit 150ms metadata wait and polling. rAF measures scheduling, not GPU completion or FPS. JS graph path has no C++ transfer/export.",
+        "status": "Graph Stress 500000 built with JS zSpace API.",
+        "undoDisabled": true,
+        "redoDisabled": true,
+        "heap": {
+          "used": 235206854,
+          "total": 284420862
+        }
+      }
+    ],
+    "method": "Single sample per size. Includes deliberate 150ms metadata wait, polling, graph setup/conversion/publication and scheduling to built status. Earlier 1k/100k results were captured from browser output before dev-page refresh. First large attempt was lost to a page refresh; repeat on idle viewer passed. No controlled browser before/after speedup claim.",
+    "camera": "Wheel zoom visually verified on 500000-edge graph; canvas remained rendered and counts intact.",
+    "history": "Translate X=2 committed via Enter; Undo restored X=0/status Undo channel edit; Redo restored X=2/status Redo channel edit; restored X=0 afterward. Graph counts stayed V=500001/E=500000. Page keyboard shortcuts verified; native-input/button attempts that did not change state were not counted as passes.",
+    "scheduling": {
+      "intervalsMs": [
+        16.639999999999418,
+        16.650000000001455,
+        16.639999999999418,
+        16.674999999995634,
+        16.67500000000291,
+        16.62000000000262,
+        16.709999999999127,
+        16.635000000002037,
+        16.619999999995343,
+        16.665000000000873,
+        16.67500000000291,
+        16.659999999996217,
+        16.630000000004657,
+        16.68499999999767,
+        16.6449999999968,
+        16.67000000000553,
+        16.62999999999738,
+        16.669999999998254,
+        16.654999999998836
+      ],
+      "explanation": "Discard first value: rAF timestamp is frame-start time and can precede status sampling. Remaining entries are callback intervals; no GPU fence/completion/FPS measurement."
+    },
+    "consoleErrors": "No error/warn entries captured during history verification.",
+    "screenshot": "graph-viewer-500k.png"
+  },
+  "finalCounters": {
+    "branch": {
+      "edgeListSyncs": 0,
+      "topologyBuilds": 1
+    },
+    "chain": {
+      "edgeListSyncs": 0,
+      "topologyBuilds": 1
+    },
+    "disconnected": {
+      "edgeListSyncs": 0,
+      "topologyBuilds": 1
+    },
+    "escaped-flat": {
+      "edgeListSyncs": 1,
+      "topologyBuilds": 1
+    },
+    "loop": {
+      "edgeListSyncs": 0,
+      "topologyBuilds": 1
+    }
+  },
+  "retainedViewCorrection": {
+    "finding": "Five retained-flat-pointer sequences differed from the saved DLL baseline; the original 42 cases did not exercise them.",
+    "fix": "All six flat raw-pointer accessors use internal expose(); inspect falls back after backend or flat pointer escape. Flat escape flag is copied and retained across same-size set/edit until synchronization replaces flat storage.",
+    "verification": "All eight public-only pointer/copy cases match old DLLs exactly. The supplemental mode never accesses Impl or internal storage, allowing safe comparison across private-layout changes.",
+    "before": "graph-public-fixtures-before.json",
+    "firstPatch": "graph-public-fixtures-first-patch.json",
+    "after": "graph-public-fixtures-after.json"
+  },
+  "wasm": {
+    "requiredBuild": "wasm/scripts/build-wasm.bat passed before and after.",
+    "baselineSha256": "3279794344d160faa6d6b6630b29f8e1d7c834b1d73dd19b1dfc83bc37c5a2b4",
+    "afterSha256": "f60e36697d449a5164af46930c8a426c53a8b23c8313495962d558dbf850778c",
+    "bytes": 692661,
+    "baselineBytes": 675911,
+    "exportParity": "12 buffers byte-identical at cube stages 0-8, through 393216 quads. This checks the reachable mesh/default ABI, not a direct native graph WASM fixture.",
+    "installation": "No installed runtime replacement. Final rebuilt WASM differs from the saved build and installed viewer runtime; twelve reachable buffer outputs match exactly. Neither module exposes a direct graph ABI. The rebuilt default module also contains USD scene exports absent from the installed default module, so replacement would bundle unrelated bridge/OpenUSD work. The tested viewer graph path is JS-owned and does not consume these native iterator reads. Existing installed runtime and OpenUSD module preserved.",
+    "installedWasmSha256": "27daad481b9c4a5d6b403b2cf15f79f4f2d7bcd066e3bbefb624d30c57799653",
+    "installedJsSha256": "1a8baa8704284f1aa18784d9f4e3212fb1edd891bf4bfdeed8122166c41dc106",
+    "baselineBackups": "build/graph-optimization-before/ contains source/native/runtime baseline copies; no installed-artifact replacement occurred."
+  },
+  "viewerBuild": "npm run build passed before work and after report-only harness installation. No viewer implementation/sketch/runtime edits or extraction.",
+  "memory": "After native working set sampled at end of queries; process peak is cumulative across cases and includes allocator retention, not per-graph peak. No native before memory sample. Cached full topology and flat storage remain; no claim of eliminating persistent topology memory. Node JS conversion baseline records ArrayBuffer/RSS deltas; browser heap is sampled, not peak/GPU memory.",
+  "phaseBoundaries": {
+    "input": "Native input preparation and storage installation split in after harness; baseline recorded combined prepareAndInstall only.",
+    "topology": "Native first materialization separate from flat lengths and read-only vector/scan.",
+    "jsCppTransfer": "Not applicable to actual viewer graph path: JS-owned graph arrays. No direct graph handle ABI.",
+    "cppExportAndReadback": "Not applicable on this graph viewer path. Existing WASM mesh buffer parity measured separately; no fabricated graph transfer/export timing.",
+    "jsConversion": "Existing Node actual primitivePayloadFromGraphPayload/clone benchmark in graph-viewer-baseline.json, five trials/size through E=500000; no viewer conversion change in this patch.",
+    "viewer": "Full action-to-status and rAF callback scheduling recorded separately from graph input/JS storage; conversion/history/GPU subphases not instrumented in actual UI."
+  },
+  "limitations": [
+    "Backend and flat raw-view escape intentionally keeps the legacy expensive sync path. Backend flag resets on topology discard; flat flag persists across same-size assignments until synchronization replaces its storage. Copies retain flags conservatively.",
+    "First topology construction remains the next measured native cost; no construction, map, angular fan, incidence, BFS or algorithm redesign in this patch.",
+    "Unsupported pathological traversal and preexisting invalid guards/removeInactive behavior were preserved; this does not certify all degenerate self/duplicate-edge cyclic traversals.",
+    "Three sequential native trials, fixed before/after order, no confidence intervals. Microsecond vector figures approach timer/dispatch overhead; avoided copies and zero sync counts are the stronger evidence.",
+    "First topology timings vary with allocator/cache/system state; no construction speedup claimed.",
+    "Native smoke headers emitted existing conversion warnings; WASM emitted existing deprecation/duplicate-inline warnings; viewer build reports existing bundle-size warning.",
+    "No roadmap checkbox changed: persistent graph handles/bulk ABI milestones remain unimplemented.",
+    "Browser tool blocked file-protocol HTML preview; native app file opening is queued. Offline HTML structure/links and inline script syntax were checked; actual viewer UI and screenshot were verified over localhost."
+  ],
+  "nextBoundary": "Profile and reserve first-materialization storage/maps while keeping exact construction order; then first-match flat edge lookup and insertion-order incidence/BFS membership. Viewer pre-sized primitive conversion remains a separately measured JS boundary.",
+  "unrelatedSourceChangesSinceAudit": [
+    "wasm/bridge/zspace_core_wasm_bridge.cpp",
+    "wasm/scripts/build-wasm.bat",
+    "../zspace_alice_webviewer/reports/Alice-Viewer-Implementation-Roadmap.md",
+    "../zspace_alice_webviewer/src/kernels/zspaceCoreWasmAdapter.ts",
+    "../zspace_alice_webviewer/src/renderers.ts",
+    "../zspace_alice_webviewer/src/app.ts"
+  ],
+  "preservationNote": "Source hash changes outside the four edited implementation/build files were observed since the original audit and preserved. Final rebuilt WASM can include concurrent bridge/build inputs; its byte difference is not attributed solely to graph changes. This task did not edit viewer production code, installed runtime or roadmap.",
+  "additionalTimingRuns": {
+    "before": "graph-native-before-initial.json",
+    "after": "graph-native-after-initial.json",
+    "reason": "Unchanged first-construction/flat phases varied substantially; retained initial runs and repeated both production binaries sequentially. Final comparison is a repeat, not cherry-picked minimum. No first-construction speedup claimed.",
+    "large": [
+      {
+        "shape": "chain",
+        "vertices": 500001,
+        "edges": 500000,
+        "beforeTopologyMs": 2510.9017,
+        "afterTopologyMs": 6866.925,
+        "beforeVectorMs": 712.198,
+        "afterVectorMs": 0.0057,
+        "afterScanMs": 174.8457
+      },
+      {
+        "shape": "loop",
+        "vertices": 500000,
+        "edges": 500000,
+        "beforeTopologyMs": 2051.2535,
+        "afterTopologyMs": 5384.7785,
+        "beforeVectorMs": 636.5794,
+        "afterVectorMs": 0.0076,
+        "afterScanMs": 202.1042
+      },
+      {
+        "shape": "branch",
+        "vertices": 500001,
+        "edges": 500000,
+        "beforeTopologyMs": 2172.4949,
+        "afterTopologyMs": 2394.4354,
+        "beforeVectorMs": 667.5118,
+        "afterVectorMs": 0.0068,
+        "afterScanMs": 132.4382
+      },
+      {
+        "shape": "disconnected",
+        "vertices": 625000,
+        "edges": 500000,
+        "beforeTopologyMs": 2460.2276,
+        "afterTopologyMs": 2959.056,
+        "beforeVectorMs": 706.0717,
+        "afterVectorMs": 0.0056,
+        "afterScanMs": 106.1039
+      }
+    ]
+  }
+}

@@ -9,8 +9,10 @@
 
 #include <src/zIO/codecs/zCodecJSON.h>
 #include <src/zIO/codecs/zCodecOBJ.h>
+#include <src/zIO/codecs/zCodecUSD.h>
 #include <src/zIO/internal/zIOData.h>
 #include <src/zInterface/objects/zMeshObjectStorage.h>
+#include <src/zCore/geometry/detail/zMeshProfile.h>
 
 #include <algorithm>
 #include <cctype>
@@ -23,6 +25,7 @@
 #include <utility>
 #include <vector>
 #include "planarity_solver.h"
+#include <cstdlib>
 
 #ifdef __EMSCRIPTEN__
 #include <emscripten/emscripten.h>
@@ -69,6 +72,8 @@ namespace
 	};
 
 	RenderBuffers gBuffers;
+	RenderBuffers gUSDMeshBuffers;
+	zSpace::io_detail::USDSceneData gUSDScene;
 	zSpace::zOrigamiSettings gOrigamiSettings;
 	zSpace::zOrigamiDiagnostics gOrigamiDiagnostics;
 	std::map<int, std::pair<int, double>> gOrigamiCreases;
@@ -710,21 +715,21 @@ namespace
 		return extension;
 	}
 
-	void clearMeshBuffers()
+	void clearMeshBuffers(RenderBuffers& buffers = gBuffers)
 	{
-		gBuffers.positions.clear();
-		gBuffers.normals.clear();
-		gBuffers.colors.clear();
-		gBuffers.faceColors.clear();
-		gBuffers.faceCenters.clear();
-		gBuffers.faceNormals.clear();
-		gBuffers.edgeCenters.clear();
-		gBuffers.edgeWeights.clear();
-		gBuffers.indices.clear();
-		gBuffers.edgeIndices.clear();
-		gBuffers.faceCounts.clear();
-		gBuffers.faceConnects.clear();
-		gBuffers.faceCount = 0;
+		buffers.positions.clear();
+		buffers.normals.clear();
+		buffers.colors.clear();
+		buffers.faceColors.clear();
+		buffers.faceCenters.clear();
+		buffers.faceNormals.clear();
+		buffers.edgeCenters.clear();
+		buffers.edgeWeights.clear();
+		buffers.indices.clear();
+		buffers.edgeIndices.clear();
+		buffers.faceCounts.clear();
+		buffers.faceConnects.clear();
+		buffers.faceCount = 0;
 	}
 
 	void clearPrimitiveBuffers()
@@ -744,13 +749,12 @@ namespace
 		gBuffers.polygonIndices.clear();
 	}
 
-	zSpace::zIOResult applyMeshData(zSpace::io_detail::MeshData& data)
+	zSpace::zIOResult installMeshData(zSpace::io_detail::MeshData& data, zSpace::zObjectMesh& object)
 	{
 		if (data.polygonCounts.empty() || data.polygonConnects.empty())
 			return zSpace::zIOResult::error("Mesh data contains no polygons.");
 
-		gActiveMeshObject = &gMeshObject;
-		zSpace::zFnMesh meshFn(gMeshObject);
+		zSpace::zFnMesh meshFn(object);
 		meshFn.create(data.positions, data.polygonCounts, data.polygonConnects);
 
 		if (data.edgeConnects.size() % 2 == 0 && !data.edgeConnects.empty())
@@ -794,9 +798,17 @@ namespace
 		if (data.faceNormals.size() == data.polygonCounts.size())
 			meshFn.setFaceNormals(data.faceNormals);
 
+		return zSpace::zIOResult::ok();
+	}
+
+	zSpace::zIOResult applyMeshData(zSpace::io_detail::MeshData& data)
+	{
+		const auto result = installMeshData(data, gMeshObject);
+		if (!result) return result;
+		gActiveMeshObject = &gMeshObject;
 		gHasMesh = true;
 		resetSolverState();
-		return zSpace::zIOResult::ok();
+		return result;
 	}
 
 	zSpace::zIOResult extractMeshData(zSpace::io_detail::MeshData& data)
@@ -844,75 +856,71 @@ namespace
 		}
 	}
 
-	void copyMeshToRenderBuffers(zSpace::zFnMesh& meshFn, const std::vector<float>& scalars, float minScalar, float maxScalar)
+	void copyMeshToRenderBuffers(zSpace::zFnMesh& meshFn, const std::vector<float>& scalars, float minScalar, float maxScalar, RenderBuffers& buffers = gBuffers)
 	{
-		zSpace::zPointArray meshPositions;
-		zSpace::zVectorArray meshNormals;
-		zSpace::zVectorArray meshFaceNormals;
-		zSpace::zColorArray meshColors;
-		zSpace::zColorArray meshFaceColors;
-		zSpace::zDoubleArray meshEdgeWeights;
-		zSpace::zIntArray meshEdgeConnects;
-		zSpace::zIntArray polyConnects;
+		const auto& data = zSpace::zMeshObjectStorage::read(*meshFn.object());
+		const auto& meshPositions = data.positions;
+		const auto& meshNormals = data.vertexNormals;
+		const auto& meshFaceNormals = data.faceNormals;
+		const auto& meshColors = data.vertexColors;
+		const auto& meshFaceColors = data.faceColors;
+		const auto& polyConnects = data.faceVertexIndices;
 		zSpace::zIntArray polyCounts;
+		polyCounts.reserve(data.numFaces());
+		for (int f = 0; f < data.numFaces(); ++f) polyCounts.push_back(data.faceOffsets[f + 1] - data.faceOffsets[f]);
 
-		meshFn.getVertexPositions(meshPositions);
-		meshFn.getVertexNormals(meshNormals);
-		meshFn.getFaceNormals(meshFaceNormals);
-		meshFn.getVertexColors(meshColors);
-		meshFn.getFaceColors(meshFaceColors);
-		meshFn.getEdgeWeights(meshEdgeWeights);
-		meshFn.getEdgeData(meshEdgeConnects);
-		meshFn.getPolygonData(polyConnects, polyCounts);
+		clearMeshBuffers(buffers);
+		buffers.faceCount = static_cast<std::uint32_t>(polyCounts.size());
 
-		clearMeshBuffers();
-		gBuffers.faceCount = static_cast<std::uint32_t>(polyCounts.size());
-
-		gBuffers.positions.reserve(meshPositions.size() * 3);
-		gBuffers.normals.reserve(meshPositions.size() * 3);
-		gBuffers.colors.reserve(meshPositions.size() * 3);
-		gBuffers.faceCenters.reserve(polyCounts.size() * 3);
-		gBuffers.faceNormals.reserve(polyCounts.size() * 3);
-		gBuffers.edgeIndices.reserve(polyConnects.size() * 2);
-		gBuffers.edgeCenters.reserve(polyConnects.size() * 3);
-		gBuffers.edgeWeights.reserve(polyConnects.size());
-		gBuffers.faceCounts.reserve(polyCounts.size());
-		gBuffers.faceConnects.reserve(polyConnects.size());
+		buffers.positions.reserve(meshPositions.size() * 3);
+		buffers.normals.reserve(meshPositions.size() * 3);
+		buffers.colors.reserve(meshPositions.size() * 3);
+		buffers.faceCenters.reserve(polyCounts.size() * 3);
+		buffers.faceNormals.reserve(polyCounts.size() * 3);
+		buffers.edgeIndices.reserve(data.numEdges() * 2);
+		buffers.edgeCenters.reserve(data.numEdges() * 3);
+		buffers.edgeWeights.reserve(data.numEdges());
+		buffers.faceCounts.reserve(polyCounts.size());
+		buffers.faceConnects.reserve(polyConnects.size());
 		const bool hasFaceColors = meshFaceColors.size() == polyCounts.size();
+		std::size_t triangleCount = 0;
+		for (int count : polyCounts) if (count >= 3) triangleCount += count - 2;
+		buffers.indices.reserve(triangleCount * 3);
+		if (hasFaceColors) buffers.faceColors.reserve(triangleCount * 3);
 
 		for (int count : polyCounts)
 		{
-			gBuffers.faceCounts.push_back(static_cast<std::uint32_t>(std::max(count, 0)));
+			buffers.faceCounts.push_back(static_cast<std::uint32_t>(std::max(count, 0)));
 		}
 		for (int index : polyConnects)
 		{
-			gBuffers.faceConnects.push_back(static_cast<std::uint32_t>(std::max(index, 0)));
+			buffers.faceConnects.push_back(static_cast<std::uint32_t>(std::max(index, 0)));
 		}
 
 		for (std::size_t i = 0; i < meshPositions.size(); ++i)
 		{
 			const zSpace::zPoint& position = meshPositions[i];
-			gBuffers.positions.push_back(position.x);
-			gBuffers.positions.push_back(position.y);
-			gBuffers.positions.push_back(position.z);
+			buffers.positions.push_back(position.x);
+			buffers.positions.push_back(position.y);
+			buffers.positions.push_back(position.z);
 
 			const zSpace::zVector normal = i < meshNormals.size() ? meshNormals[i] : zSpace::zVector(0, 0, 1);
-			gBuffers.normals.push_back(normal.x);
-			gBuffers.normals.push_back(normal.y);
-			gBuffers.normals.push_back(normal.z);
+			buffers.normals.push_back(normal.x);
+			buffers.normals.push_back(normal.y);
+			buffers.normals.push_back(normal.z);
 
 			if (i < meshColors.size())
 			{
-				gBuffers.colors.push_back(meshColors[i].r);
-				gBuffers.colors.push_back(meshColors[i].g);
-				gBuffers.colors.push_back(meshColors[i].b);
+				buffers.colors.push_back(meshColors[i].r);
+				buffers.colors.push_back(meshColors[i].g);
+				buffers.colors.push_back(meshColors[i].b);
 			}
 			else
 			{
 				const float scalar = i < scalars.size() ? scalars[i] : position.z;
-				gBuffers.colors.push_back(ramp(scalar, minScalar, maxScalar, 0));
-				gBuffers.colors.push_back(ramp(scalar, minScalar, maxScalar, 1));
-				gBuffers.colors.push_back(ramp(scalar, minScalar, maxScalar, 2));
+				buffers.colors.push_back(ramp(scalar, minScalar, maxScalar, 0));
+				buffers.colors.push_back(ramp(scalar, minScalar, maxScalar, 1));
+				buffers.colors.push_back(ramp(scalar, minScalar, maxScalar, 2));
 			}
 		}
 
@@ -936,30 +944,21 @@ namespace
 					a >= static_cast<int>(meshPositions.size()) ||
 					b >= static_cast<int>(meshPositions.size())) continue;
 
-				gBuffers.indices.push_back(static_cast<std::uint32_t>(first));
-				gBuffers.indices.push_back(static_cast<std::uint32_t>(a));
-				gBuffers.indices.push_back(static_cast<std::uint32_t>(b));
+				buffers.indices.push_back(static_cast<std::uint32_t>(first));
+				buffers.indices.push_back(static_cast<std::uint32_t>(a));
+				buffers.indices.push_back(static_cast<std::uint32_t>(b));
 
 				if (hasFaceColors)
 				{
 					const zSpace::zColor& color = meshFaceColors[faceIndex];
-					gBuffers.faceColors.push_back(color.r);
-					gBuffers.faceColors.push_back(color.g);
-					gBuffers.faceColors.push_back(color.b);
+					buffers.faceColors.push_back(color.r);
+					buffers.faceColors.push_back(color.g);
+					buffers.faceColors.push_back(color.b);
 				}
 			}
 			cursor += static_cast<std::size_t>(count);
 		}
 
-		std::map<std::pair<int, int>, double> edgeWeightsByVertices;
-		for (std::size_t i = 0; i + 1 < meshEdgeConnects.size(); i += 2)
-		{
-			const auto edge = std::minmax(meshEdgeConnects[i], meshEdgeConnects[i + 1]);
-			const std::size_t edgeId = i / 2;
-			if (edgeId < meshEdgeWeights.size()) edgeWeightsByVertices[edge] = meshEdgeWeights[edgeId];
-		}
-
-		std::map<std::pair<int, int>, int> edgeUseCounts;
 		cursor = 0;
 		for (std::size_t faceIndex = 0; faceIndex < polyCounts.size(); ++faceIndex)
 		{
@@ -978,71 +977,45 @@ namespace
 					center += meshPositions[vertexIndex];
 			}
 			center /= static_cast<float>(count);
-			gBuffers.faceCenters.push_back(center.x);
-			gBuffers.faceCenters.push_back(center.y);
-			gBuffers.faceCenters.push_back(center.z);
+			buffers.faceCenters.push_back(center.x);
+			buffers.faceCenters.push_back(center.y);
+			buffers.faceCenters.push_back(center.z);
 
 			const zSpace::zVector faceNormal = faceIndex < meshFaceNormals.size()
 				? meshFaceNormals[faceIndex]
 				: zSpace::zVector(0, 0, 1);
-			gBuffers.faceNormals.push_back(faceNormal.x);
-			gBuffers.faceNormals.push_back(faceNormal.y);
-			gBuffers.faceNormals.push_back(faceNormal.z);
+			buffers.faceNormals.push_back(faceNormal.x);
+			buffers.faceNormals.push_back(faceNormal.y);
+			buffers.faceNormals.push_back(faceNormal.z);
 
-			for (int i = 0; i < count; ++i)
-			{
-				const int a = polyConnects[cursor + i];
-				const int b = polyConnects[cursor + ((i + 1) % count)];
-				const auto edge = std::minmax(a, b);
-				if (edge.first < 0 || edge.second < 0 || edge.first == edge.second) continue;
-				edgeUseCounts[edge] += 1;
-			}
 			cursor += static_cast<std::size_t>(count);
 		}
 
-		std::map<std::pair<int, int>, bool> uniqueEdges;
-		cursor = 0;
-		for (std::size_t faceIndex = 0; faceIndex < polyCounts.size(); ++faceIndex)
+		// Flat storage already deduplicates in first-face encounter order and
+		// records the original direction and number of corner uses.
+		for (int edgeId = 0; edgeId < data.numEdges(); ++edgeId)
 		{
-			const int count = polyCounts[faceIndex];
-			if (count < 2 || cursor + static_cast<std::size_t>(count) > polyConnects.size())
-			{
-				cursor += std::max(count, 0);
-				continue;
-			}
-
-			for (int i = 0; i < count; ++i)
-			{
-				const int a = polyConnects[cursor + i];
-				const int b = polyConnects[cursor + ((i + 1) % count)];
-				const auto edge = std::minmax(a, b);
-				if (edge.first < 0 || edge.second < 0 || edge.first == edge.second) continue;
-				if (edge.second >= static_cast<int>(meshPositions.size())) continue;
-				if (uniqueEdges.insert({ { edge.first, edge.second }, true }).second)
-				{
-					gBuffers.edgeIndices.push_back(static_cast<std::uint32_t>(a));
-					gBuffers.edgeIndices.push_back(static_cast<std::uint32_t>(b));
-					const auto weight = edgeWeightsByVertices.find(edge);
-					const double storedWeight = weight != edgeWeightsByVertices.end() ? weight->second : 1.0;
-					const double displayWeight = std::abs(storedWeight - 1.0) > 1.0e-6
-						? storedWeight
-						: (edgeUseCounts[edge] <= 1 ? 3.0 : 1.0);
-					gBuffers.edgeWeights.push_back(static_cast<float>(displayWeight));
-					const zSpace::zPoint center = (meshPositions[a] + meshPositions[b]) * 0.5f;
-					gBuffers.edgeCenters.push_back(center.x);
-					gBuffers.edgeCenters.push_back(center.y);
-					gBuffers.edgeCenters.push_back(center.z);
-				}
-			}
-			cursor += static_cast<std::size_t>(count);
+			const int v0 = data.edgeVertexIndices[edgeId * 2], v1 = data.edgeVertexIndices[edgeId * 2 + 1];
+			if (v0 < 0 || v0 == v1 || v1 >= static_cast<int>(meshPositions.size())) continue;
+			const int a = data.edgeFirstVertices[edgeId], b = a == v0 ? v1 : v0;
+			buffers.edgeIndices.push_back(static_cast<std::uint32_t>(a));
+			buffers.edgeIndices.push_back(static_cast<std::uint32_t>(b));
+			const double storedWeight = edgeId < static_cast<int>(data.edgeWeights.size()) ? data.edgeWeights[edgeId] : 1.0;
+			const double displayWeight = std::abs(storedWeight - 1.0) > 1.0e-6
+				? storedWeight : (data.edgeUseCounts[edgeId] <= 1 ? 3.0 : 1.0);
+			buffers.edgeWeights.push_back(static_cast<float>(displayWeight));
+			zSpace::zPoint start = meshPositions[a];
+			const zSpace::zPoint center = (start + meshPositions[b]) * 0.5f;
+			buffers.edgeCenters.push_back(center.x);
+			buffers.edgeCenters.push_back(center.y);
+			buffers.edgeCenters.push_back(center.z);
 		}
 	}
 
 	void copyActiveMeshToRenderBuffers()
 	{
 		zSpace::zFnMesh meshFn(activeMeshObject());
-		zSpace::zPointArray positions;
-		meshFn.getVertexPositions(positions);
+		const auto& positions = zSpace::zMeshObjectStorage::read(activeMeshObject()).positions;
 
 		float minScalar = 1.0e9f;
 		float maxScalar = -1.0e9f;
@@ -1734,6 +1707,41 @@ extern "C"
 		return 0;
 	}
 
+	ZSPACE_WASM_EXPORT void* zspace_alloc(std::size_t bytes) { return std::malloc(bytes); }
+	ZSPACE_WASM_EXPORT void zspace_free(void* pointer) { std::free(pointer); }
+
+	ZSPACE_WASM_EXPORT int zspace_mesh_set_from_buffers(const float* positions, int positionCount,
+		const std::uint32_t* counts, int faceCount, const std::uint32_t* connects, int connectCount)
+	{
+		try {
+			gBuffers.lastError.clear();
+			if (!positions || !counts || !connects || positionCount <= 0 || positionCount % 3 || faceCount <= 0 || connectCount <= 0)
+				throw std::invalid_argument("Invalid mesh buffers.");
+			zSpace::io_detail::MeshData data;
+			data.positions.reserve(positionCount / 3);
+			for (int i = 0; i < positionCount; i += 3) {
+				for (int j = 0; j < 3; ++j) if (!std::isfinite(positions[i + j])) throw std::invalid_argument("Invalid mesh position.");
+				data.positions.emplace_back(positions[i], positions[i + 1], positions[i + 2]);
+			}
+			std::size_t total = 0;
+			for (int i = 0; i < faceCount; ++i) {
+				if (counts[i] < 3 || counts[i] > static_cast<std::uint32_t>(connectCount)) throw std::invalid_argument("Invalid mesh face size.");
+				total += counts[i];
+				data.polygonCounts.push_back(static_cast<int>(counts[i]));
+			}
+			if (total != static_cast<std::size_t>(connectCount)) throw std::invalid_argument("Mesh connectivity length mismatch.");
+			for (int i = 0; i < connectCount; ++i) {
+				if (connects[i] >= data.positions.size()) throw std::invalid_argument("Mesh vertex ID out of range.");
+				data.polygonConnects.push_back(static_cast<int>(connects[i]));
+			}
+			const auto result = applyMeshData(data);
+			if (!result) throw std::runtime_error(result.message());
+			clearPrimitiveBuffers();
+			copyActiveMeshToRenderBuffers();
+			return 1;
+		} catch (const std::exception& e) { gBuffers.lastError = e.what(); return 0; }
+	}
+
 	ZSPACE_WASM_EXPORT int zspace_mesh_read(const char* path)
 	{
 		try
@@ -1770,9 +1778,13 @@ extern "C"
 			gBuffers.lastError.clear();
 
 			zSpace::zFnMesh meshFn(activeMeshObject());
+			ZSPACE_MESH_TIMER(smoothTimer);
 			meshFn.smoothMesh(std::clamp(iterations, 1, 6), false);
-			meshFn.computeMeshNormals();
+			ZSPACE_MESH_STAGE(smoothTimer, "smooth-call", meshFn.numPolygons());
+			// smoothMesh leaves final normals ready; preserve the empty-mesh path.
+			if (meshFn.numPolygons() == 0 || meshFn.numVertices() == 0) meshFn.computeMeshNormals();
 			copyActiveMeshToRenderBuffers();
+			ZSPACE_MESH_STAGE(smoothTimer, "render-export", meshFn.numPolygons());
 			return 1;
 		}
 		catch (const std::exception& error)
@@ -2121,6 +2133,47 @@ extern "C"
 			return 1;
 		} catch (const std::exception& e) { gBuffers.lastError = e.what(); return 0; }
 	}
+	ZSPACE_WASM_EXPORT int zspace_planarity_constraints_from_buffers(
+		const std::uint32_t* offsets, int groupCount, const std::uint32_t* vertices, int vertexIdCount,
+		const double* origins, const double* normals, const std::uint32_t* pairs, const double* lengths, int pairCount)
+	{
+		try {
+			gBuffers.lastError.clear();
+			if (groupCount < 0 || vertexIdCount < 0 || pairCount < 0 || !offsets || offsets[0] != 0 ||
+				offsets[groupCount] != static_cast<std::uint32_t>(vertexIdCount) ||
+				(groupCount && (!vertices || !origins || !normals)) || (pairCount && (!pairs || !lengths)))
+				throw std::invalid_argument("Invalid planarity buffers.");
+			PlanaritySettings config;
+			auto validId = [&](std::uint32_t id) {
+				if (id >= gMeshDynamics.dynamicPositions.size()) throw std::invalid_argument("Planarity vertex ID out of range.");
+				return static_cast<int>(id);
+			};
+			for (int i = 0; i < groupCount; ++i) {
+				if (offsets[i] >= offsets[i + 1] || offsets[i + 1] > static_cast<std::uint32_t>(vertexIdCount))
+					throw std::invalid_argument("Empty or invalid plane group.");
+				zSpace::zIntArray ids;
+				for (std::uint32_t j = offsets[i]; j < offsets[i + 1]; ++j) ids.push_back(validId(vertices[j]));
+				for (int j = 0; j < 3; ++j) if (!std::isfinite(origins[3*i+j]) || !std::isfinite(normals[3*i+j]))
+					throw std::invalid_argument("Invalid plane origin or normal.");
+				zSpace::zVector normal(normals[3*i], normals[3*i+1], normals[3*i+2]);
+				if (normal.length() < 1e-9) throw std::invalid_argument("Zero plane normal.");
+				normal.normalize();
+				config.groups.push_back(std::move(ids));
+				config.origins.emplace_back(origins[3*i], origins[3*i+1], origins[3*i+2]);
+				config.normals.push_back(normal);
+			}
+			for (int i = 0; i < pairCount; ++i) {
+				const int a = validId(pairs[2*i]), b = validId(pairs[2*i+1]);
+				if (a == b || !std::isfinite(lengths[i]) || lengths[i] < 0) throw std::invalid_argument("Invalid rigid pair.");
+				config.pairs.emplace_back(a, b); config.lengths.push_back(lengths[i]);
+			}
+			gPlanarity.groups = std::move(config.groups); gPlanarity.origins = std::move(config.origins);
+			gPlanarity.normals = std::move(config.normals); gPlanarity.pairs = std::move(config.pairs);
+			gPlanarity.lengths = std::move(config.lengths); gSolverEquilibriumReached = false;
+			return 1;
+		} catch (const std::exception& e) { gBuffers.lastError = e.what(); return 0; }
+	}
+
 	ZSPACE_WASM_EXPORT int zspace_planarity_params(int mask, int quad, double strength, double tolerance,
 		double groupStrength, double groupTolerance, double pairStrength, double pairTolerance)
 	{
@@ -2669,7 +2722,11 @@ extern "C"
 			if (extension == ".obj") result = zSpace::io_detail::writeOBJ(outputPath, data);
 			else if (extension == ".json") result = zSpace::io_detail::writeMeshJSON(outputPath, data);
 			else if (extension == ".usd" || extension == ".usda" || extension == ".usdc" || extension == ".usdz")
+#if defined(ZSPACE_IO_OPENUSD)
+				result = zSpace::io_detail::writeMeshUSD(outputPath, data);
+#else
 				result = zSpace::zIOResult::error("USD mesh IO is not enabled in the WASM build yet.");
+#endif
 			else result = zSpace::zIOResult::error("Unsupported mesh extension: " + extension);
 
 			if (!result) throw std::runtime_error(result.message());
@@ -2683,6 +2740,197 @@ extern "C"
 		{
 			gBuffers.lastError = "Unknown zSpace mesh write error.";
 		}
+		return 0;
+	}
+
+	// Typed USD scene storage and render buffers are independent of active mesh/solver.
+	ZSPACE_WASM_EXPORT int zspace_usd_initialize()
+	{
+		try {
+			gBuffers.lastError.clear();
+			// Host budget: main thread plus the two preallocated pthread workers.
+			// Apply only after SDK/TBB static initialization has completed.
+			zSpace::io_detail::setUSDConcurrencyLimit(3);
+			const char* path = "/tmp/zspace_usd_warmup.usda";
+			{ std::ofstream file(path); file << "#usda 1.0\ndef Mesh \"Warmup\" {\n point3f[] points = [(0,0,0),(1,0,0),(0,1,0)]\n int[] faceVertexCounts = [3]\n int[] faceVertexIndices = [0,1,2]\n}\n"; }
+			zSpace::io_detail::USDSceneData scene;
+			const auto result = zSpace::io_detail::readSceneUSD(path, scene);
+			std::remove(path);
+			if (!result) throw std::runtime_error(result.message());
+			return 1;
+		} catch (const std::exception& error) { gBuffers.lastError = error.what(); return 0; }
+	}
+
+	ZSPACE_WASM_EXPORT void zspace_usd_scene_clear() { gUSDScene = {}; clearMeshBuffers(gUSDMeshBuffers); }
+	ZSPACE_WASM_EXPORT int zspace_usd_scene_open(const char* path)
+	{
+		zspace_usd_scene_clear();
+		try {
+			gBuffers.lastError.clear();
+			if (!path || !*path) throw std::runtime_error("Missing USD scene path.");
+			zSpace::io_detail::USDSceneData scene;
+			const auto result = zSpace::io_detail::readSceneUSD(path, scene);
+			if (!result) throw std::runtime_error(result.message());
+			gUSDScene = std::move(scene);
+			return 1;
+		} catch (const std::exception& error) { gBuffers.lastError = error.what(); return 0; }
+	}
+	ZSPACE_WASM_EXPORT int zspace_usd_scene_mesh_count() { return static_cast<int>(gUSDScene.meshes.size()); }
+	ZSPACE_WASM_EXPORT const char* zspace_usd_scene_name(int index) { return index >= 0 && index < static_cast<int>(gUSDScene.meshes.size()) ? gUSDScene.meshes[index].name.c_str() : ""; }
+	ZSPACE_WASM_EXPORT const char* zspace_usd_scene_path(int index) { return index >= 0 && index < static_cast<int>(gUSDScene.meshes.size()) ? gUSDScene.meshes[index].path.c_str() : ""; }
+	ZSPACE_WASM_EXPORT int zspace_usd_scene_visible(int index) { return index >= 0 && index < static_cast<int>(gUSDScene.meshes.size()) && gUSDScene.meshes[index].visible; }
+	ZSPACE_WASM_EXPORT int zspace_usd_scene_warning_count() { return static_cast<int>(gUSDScene.warnings.size()); }
+	ZSPACE_WASM_EXPORT const char* zspace_usd_scene_warning(int index) { return index >= 0 && index < static_cast<int>(gUSDScene.warnings.size()) ? gUSDScene.warnings[index].c_str() : ""; }
+	ZSPACE_WASM_EXPORT int zspace_usd_scene_select(int index)
+	{
+		clearMeshBuffers(gUSDMeshBuffers);
+		try {
+			gBuffers.lastError.clear();
+			if (index < 0 || index >= static_cast<int>(gUSDScene.meshes.size())) throw std::runtime_error("USD mesh index out of range.");
+			zSpace::zObjectMesh object;
+			auto data = gUSDScene.meshes[index].mesh;
+			data.faceNormals.clear(); // Baked world geometry needs newly computed normals.
+			const auto result = installMeshData(data, object);
+			if (!result) throw std::runtime_error(result.message());
+			zSpace::zFnMesh fn(object);
+			copyMeshToRenderBuffers(fn, {}, 0, 1, gUSDMeshBuffers);
+			return 1;
+		} catch (const std::exception& error) { gBuffers.lastError = error.what(); return 0; }
+	}
+	// Slots 0..7: float positions, normals, vertex RGB, triangle RGB, face centers,
+	// face normals, edge centers, edge weights. Slots 8..11: uint32 triangles,
+	// edge endpoints, polygon counts, polygon connects. Counts are scalar counts.
+	ZSPACE_WASM_EXPORT const void* zspace_usd_buffer_ptr(int slot)
+	{
+		switch (slot) {
+		case 0: return gUSDMeshBuffers.positions.data(); case 1: return gUSDMeshBuffers.normals.data();
+		case 2: return gUSDMeshBuffers.colors.data(); case 3: return gUSDMeshBuffers.faceColors.data();
+		case 4: return gUSDMeshBuffers.faceCenters.data(); case 5: return gUSDMeshBuffers.faceNormals.data();
+		case 6: return gUSDMeshBuffers.edgeCenters.data(); case 7: return gUSDMeshBuffers.edgeWeights.data();
+		case 8: return gUSDMeshBuffers.indices.data(); case 9: return gUSDMeshBuffers.edgeIndices.data();
+		case 10: return gUSDMeshBuffers.faceCounts.data(); case 11: return gUSDMeshBuffers.faceConnects.data();
+		default: return nullptr;
+		}
+	}
+	ZSPACE_WASM_EXPORT int zspace_usd_buffer_count(int slot)
+	{
+		switch (slot) {
+		case 0: return gUSDMeshBuffers.positions.size(); case 1: return gUSDMeshBuffers.normals.size();
+		case 2: return gUSDMeshBuffers.colors.size(); case 3: return gUSDMeshBuffers.faceColors.size();
+		case 4: return gUSDMeshBuffers.faceCenters.size(); case 5: return gUSDMeshBuffers.faceNormals.size();
+		case 6: return gUSDMeshBuffers.edgeCenters.size(); case 7: return gUSDMeshBuffers.edgeWeights.size();
+		case 8: return gUSDMeshBuffers.indices.size(); case 9: return gUSDMeshBuffers.edgeIndices.size();
+		case 10: return gUSDMeshBuffers.faceCounts.size(); case 11: return gUSDMeshBuffers.faceConnects.size();
+		default: return 0;
+		}
+	}
+	ZSPACE_WASM_EXPORT int zspace_usd_scene_add_mesh(const char* name, const char* path, int visible,
+		const float* positions, int positionCount, const std::uint32_t* counts, int faceCount,
+		const std::uint32_t* connects, int connectCount)
+	{
+		try {
+			gBuffers.lastError.clear();
+			if (!positions || !counts || !connects || positionCount <= 0 || positionCount % 3 || faceCount <= 0 || connectCount <= 0)
+				throw std::runtime_error("Invalid USD mesh buffers.");
+			zSpace::io_detail::USDMeshData object;
+			object.name = name ? name : "Mesh"; object.path = path ? path : ""; object.visible = visible != 0;
+			auto& data = object.mesh;
+			for (int i = 0; i < positionCount; i += 3) {
+				if (!std::isfinite(positions[i]) || !std::isfinite(positions[i+1]) || !std::isfinite(positions[i+2])) throw std::runtime_error("Non-finite USD mesh positions.");
+				data.positions.emplace_back(positions[i], positions[i+1], positions[i+2]);
+			}
+			std::size_t cursor = 0;
+			for (int i = 0; i < faceCount; ++i) {
+				if (counts[i] < 3 || counts[i] > static_cast<std::uint32_t>(connectCount) || cursor + counts[i] > static_cast<std::size_t>(connectCount)) throw std::runtime_error("Invalid USD polygon counts.");
+				data.polygonCounts.push_back(static_cast<int>(counts[i])); cursor += counts[i];
+			}
+			if (cursor != static_cast<std::size_t>(connectCount)) throw std::runtime_error("USD polygon connect count mismatch.");
+			for (int i = 0; i < connectCount; ++i) {
+				if (connects[i] >= static_cast<std::uint32_t>(positionCount / 3)) throw std::runtime_error("USD polygon vertex index out of range.");
+				data.polygonConnects.push_back(static_cast<int>(connects[i]));
+			}
+			gUSDScene.meshes.push_back(std::move(object));
+			return 1;
+		} catch (const std::exception& error) { gBuffers.lastError = error.what(); return 0; }
+	}
+	// Upload attribute slots: 0 vertex RGBA, 1 polygon RGBA, 2 uint32 edge pairs,
+	// 3 edge RGBA, 4 float edge weights. Data is copied before the call returns.
+	ZSPACE_WASM_EXPORT int zspace_usd_scene_set_attribute(int index, int slot, const void* pointer, int count)
+	{
+		try {
+			gBuffers.lastError.clear();
+			if (index < 0 || index >= static_cast<int>(gUSDScene.meshes.size()) || count < 0 || (count && !pointer)) throw std::runtime_error("Invalid USD attribute buffer.");
+			auto& data = gUSDScene.meshes[index].mesh;
+			if (slot == 2) {
+				if (count % 2) throw std::runtime_error("USD edges require endpoint pairs.");
+				zSpace::zIntArray edges;
+				const auto* values = static_cast<const std::uint32_t*>(pointer);
+				for (int i = 0; i < count; ++i) { if (values[i] >= data.positions.size()) throw std::runtime_error("USD edge vertex out of range."); edges.push_back(static_cast<int>(values[i])); }
+				data.edgeConnects = std::move(edges);
+			} else if (slot == 4) {
+				if (count != static_cast<int>(data.edgeConnects.size()/2)) throw std::runtime_error("USD edge weight count mismatch.");
+				zSpace::zDoubleArray weights;
+				const auto* values = static_cast<const float*>(pointer);
+				for (int i = 0; i < count; ++i) { if (!std::isfinite(values[i])) throw std::runtime_error("Non-finite USD edge weight."); weights.push_back(values[i]); }
+				data.edgeWeights = std::move(weights);
+			} else if (slot == 0 || slot == 1 || slot == 3) {
+				const auto expected = slot == 0 ? data.positions.size() : slot == 1 ? data.polygonCounts.size() : data.edgeConnects.size()/2;
+				if (count % 4 || static_cast<std::size_t>(count/4) != expected) throw std::runtime_error("USD color count mismatch.");
+				zSpace::zColorArray colors;
+				const auto* values = static_cast<const float*>(pointer);
+				for (int i = 0; i < count; i += 4) { for(int c=0;c<4;++c) if (!std::isfinite(values[i+c])) throw std::runtime_error("Non-finite USD color."); colors.emplace_back(values[i],values[i+1],values[i+2],values[i+3]); }
+				(slot == 0 ? data.vertexColors : slot == 1 ? data.faceColors : data.edgeColors) = std::move(colors);
+			} else throw std::runtime_error("Unknown USD attribute slot.");
+			return 1;
+		} catch (const std::exception& error) { gBuffers.lastError = error.what(); return 0; }
+	}
+	ZSPACE_WASM_EXPORT int zspace_usd_scene_save(const char* path)
+	{
+		try {
+			gBuffers.lastError.clear();
+			if (!path || !*path) throw std::runtime_error("Missing USD output path.");
+			const auto result = zSpace::io_detail::writeSceneUSD(path, gUSDScene);
+			if (!result) throw std::runtime_error(result.message());
+			return 1;
+		} catch (const std::exception& error) { gBuffers.lastError = error.what(); return 0; }
+	}
+
+	// Document IO uses a separate JSON/file boundary and does not mutate the
+	// bridge's active mesh or solver. The viewer uses an isolated USD runtime.
+	ZSPACE_WASM_EXPORT int zspace_usd_scene_read(const char* path, const char* jsonPath)
+	{
+		try
+		{
+			gBuffers.lastError.clear();
+			if (!path || !jsonPath) throw std::runtime_error("Missing USD scene path.");
+			std::string document;
+			const auto result = zSpace::io_detail::readSceneUSD(path, document);
+			if (!result) throw std::runtime_error(result.message());
+			std::ofstream output(jsonPath);
+			output << document;
+			if (!output) throw std::runtime_error("Could not write USD scene JSON.");
+			return 1;
+		}
+		catch (const std::exception& error) { gBuffers.lastError = error.what(); }
+		catch (...) { gBuffers.lastError = "Unknown USD scene read error."; }
+		return 0;
+	}
+
+	ZSPACE_WASM_EXPORT int zspace_usd_scene_write(const char* jsonPath, const char* path)
+	{
+		try
+		{
+			gBuffers.lastError.clear();
+			if (!path || !jsonPath) throw std::runtime_error("Missing USD scene path.");
+			std::ifstream input(jsonPath);
+			if (!input) throw std::runtime_error("Could not open USD scene JSON.");
+			const std::string document((std::istreambuf_iterator<char>(input)), std::istreambuf_iterator<char>());
+			const auto result = zSpace::io_detail::writeSceneUSD(path, document);
+			if (!result) throw std::runtime_error(result.message());
+			return 1;
+		}
+		catch (const std::exception& error) { gBuffers.lastError = error.what(); }
+		catch (...) { gBuffers.lastError = "Unknown USD scene write error."; }
 		return 0;
 	}
 

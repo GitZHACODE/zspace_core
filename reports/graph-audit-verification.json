@@ -1,0 +1,60 @@
+{
+  "date": "2026-10-08",
+  "phase": "Audit only",
+  "checks": {
+    "headerDeclarations": 162,
+    "primaryDefinitions": 162,
+    "dependencyDefinitions": 90,
+    "inlineDefinitions": 14,
+    "sourceHashesUnchanged": 55,
+    "inventoryIdsUnique": true,
+    "htmlInventoryPresent": true,
+    "baseline": "Actual Node viewer functions, five trials/size, exact endpoint sanity checks through 500000 edges",
+    "measuredViewerSourceMatchesAudit": true
+  },
+  "changedByThisTask": [
+    "reports/generate-graph-audit.mjs",
+    "reports/measure-graph-viewer-baseline.mjs",
+    "reports/graph-topology-audit.html",
+    "reports/graph-topology-audit.json",
+    "reports/graph-optimization-sequence.json",
+    "reports/graph-viewer-baseline.json"
+  ],
+  "nativeBuild": "Not run: no implementation changes; required at approved implementation",
+  "wasmBuild": "Not run: no implementation or bridge changes; no artifact replacement",
+  "viewerBuild": "Not run: viewer source/runtime unchanged",
+  "browser": "Graph import/display/camera/undo/redo and GPU completion remain unverified; implementation approval required",
+  "preservation": "Task wrote only new graph audit reports/scripts. Source SHA256 checked unchanged since inventory capture; existing mesh reports, dirty source, sketches, OpenUSD work, viewer runtime and roadmap untouched. Concurrent unrelated source edits were observed in final git status and preserved; recheck state before implementation.",
+  "files": [
+    {
+      "file": "reports/generate-graph-audit.mjs",
+      "bytes": 45852,
+      "sha256": "95c6c39f3479efea144c0125e6f988b0d81cc35a9cafcf11d6a995379023ecfd"
+    },
+    {
+      "file": "reports/measure-graph-viewer-baseline.mjs",
+      "bytes": 3397,
+      "sha256": "51449926531466e8b28761af0c9bdb7c17e4d57e5aeea02c432c2743cfb28781"
+    },
+    {
+      "file": "reports/graph-topology-audit.html",
+      "bytes": 225582,
+      "sha256": "a84c0171fa211c5694186d3b1f0bbd57b8f066ca82f825f0dc4fdd193fd0f2be"
+    },
+    {
+      "file": "reports/graph-topology-audit.json",
+      "bytes": 567859,
+      "sha256": "04c7f68fb0b50198efe2ab7b373a1fee84612418b96faa628504fc6146381afa"
+    },
+    {
+      "file": "reports/graph-optimization-sequence.json",
+      "bytes": 6613,
+      "sha256": "11d446be6fffc739e8563f10de89490381de2fdfa9eb894ae3fc241864e71d9f"
+    },
+    {
+      "file": "reports/graph-viewer-baseline.json",
+      "bytes": 7717,
+      "sha256": "58aeb9f3ad15395f72b01f4e4783d76ac3df33cb7827ca888c4f6e2f607d1575"
+    }
+  ]
+}

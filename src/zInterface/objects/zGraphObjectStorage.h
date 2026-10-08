@@ -9,6 +9,7 @@
 
 #include <memory>
 #include <stdexcept>
+#include <utility>
 
 namespace zSpace
 {
@@ -19,13 +20,25 @@ namespace zSpace
 		mutable std::unique_ptr<zGraph> topology;
 		mutable bool topologyDirty = true;
 		mutable bool edgeListDirty = false;
+		// Once writable topology escapes, queries retain the legacy synchronization
+		// path: a caller may write through that reference again after a query.
+		mutable bool topologyMutableAccess = false;
+		// A flat pointer can remain valid through first materialization. Keep
+		// legacy read/sync side effects until that storage is actually replaced.
+		mutable bool flatMutableAccess = false;
+#ifdef ZSPACE_GRAPH_PROFILE
+		mutable std::size_t topologyBuilds = 0;
+		mutable std::size_t edgeListSyncs = 0;
+#endif
 
 		Impl() = default;
 		Impl(const Impl& other)
 			: edgeList(other.edgeList),
 			  topology(other.topology ? std::make_unique<zGraph>(*other.topology) : nullptr),
 			  topologyDirty(other.topologyDirty),
-			  edgeListDirty(other.edgeListDirty)
+			  edgeListDirty(other.edgeListDirty),
+			  topologyMutableAccess(other.topologyMutableAccess),
+			  flatMutableAccess(other.flatMutableAccess)
 		{
 		}
 	};
@@ -51,6 +64,10 @@ namespace zSpace
 			topology->edgeWeights = impl.edgeList.edgeWeights;
 
 			impl.topology = std::move(topology);
+			impl.topologyMutableAccess = false;
+#ifdef ZSPACE_GRAPH_PROFILE
+			++impl.topologyBuilds;
+#endif
 			impl.topologyDirty = false;
 			impl.edgeListDirty = false;
 		}
@@ -59,6 +76,9 @@ namespace zSpace
 		{
 			auto& impl = *object.impl;
 			if (!impl.edgeListDirty || !impl.topology) return;
+#ifdef ZSPACE_GRAPH_PROFILE
+			++impl.edgeListSyncs;
+#endif
 			zGraph& topology = *impl.topology;
 
 			zPointArray positions;
@@ -107,15 +127,32 @@ namespace zSpace
 			if (edgeWeights.size() == rebuilt.numEdges()) rebuilt.edgeWeights = std::move(edgeWeights);
 
 			impl.edgeList = std::move(rebuilt);
+			impl.flatMutableAccess = false;
 			impl.edgeListDirty = false;
 			impl.topologyDirty = false;
 		}
 
 	public:
+#ifdef ZSPACE_GRAPH_PROFILE
+		static std::pair<std::size_t, std::size_t> profileCounts(const zObjectGraph& object)
+		{
+			return { object.impl->topologyBuilds, object.impl->edgeListSyncs };
+		}
+#endif
 		static zGraph& get(zObjectGraph& object)
 		{
 			buildTopology(object);
+			object.impl->topologyMutableAccess = true;
 			object.impl->edgeListDirty = true;
+			return *object.impl->topology;
+		}
+
+		// Internal read-only access. zHEGeomTypes getters are not const, hence
+		// the reference type; callers must neither modify nor expose it.
+		static zGraph& inspect(zObjectGraph& object)
+		{
+			if (object.impl->topologyMutableAccess || object.impl->flatMutableAccess) return get(object);
+			buildTopology(object);
 			return *object.impl->topology;
 		}
 
@@ -136,13 +173,22 @@ namespace zSpace
 			syncEdgeList(object);
 			object.impl->topologyDirty = true;
 			object.impl->topology.reset();
+			object.impl->topologyMutableAccess = false;
 			return object.impl->edgeList;
+		}
+
+		static detail::zGraphEdgeListStorage& expose(zObjectGraph& object)
+		{
+			auto& data = edit(object);
+			object.impl->flatMutableAccess = true;
+			return data;
 		}
 
 		static void set(zObjectGraph& object, const zPointArray& positions, const zIntArray& edgeConnects)
 		{
 			object.impl->edgeList.set(positions, edgeConnects);
 			object.impl->topology.reset();
+			object.impl->topologyMutableAccess = false;
 			object.impl->topologyDirty = true;
 			object.impl->edgeListDirty = false;
 		}

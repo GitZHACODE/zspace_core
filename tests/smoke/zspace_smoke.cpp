@@ -16,6 +16,8 @@ namespace
 		if (!condition) throw std::runtime_error(message);
 	}
 
+#include "mesh_iterator_geometry_fixture.h"
+
 	void testOrigami()
 	{
 		zObjectMesh mesh;
@@ -192,6 +194,13 @@ namespace
 			zIntArray vertices;
 			edge.getVertices(vertices);
 			require(vertices.size() == 2, "non-manifold edge endpoints");
+			// Vertex 4 was moved above; obtain the current positions for this check.
+			zPointArray current; fnMesh.getVertexPositions(current);
+			auto expectedCenter = (current[vertices[0]] + current[vertices[1]]) * 0.5;
+			require((edge.getCenter()-expectedCenter).length()<1e-6,
+				"non-manifold edge center without topology");
+			require(std::abs(edge.getLength()-current[vertices[0]].distanceTo(current[vertices[1]]))<1e-6,
+				"non-manifold edge length without topology");
 			edgeCount++;
 		}
 		require(edgeCount == 7, "non-manifold edge iteration");
@@ -202,6 +211,21 @@ namespace
 			zIntArray vertices;
 			face.getVertices(vertices);
 			require(vertices.size() == 3, "non-manifold face vertices");
+			require(face.getNumVertices()==3, "non-manifold face corner count without topology");
+			zPointArray current; fnMesh.getVertexPositions(current);
+			zVector expected;
+			for (int id : vertices) expected += current[id];
+			expected /= 3;
+			require((face.getCenter()-expected).length()<1e-6, "non-manifold face center without topology");
+			int numTris=0; zIntArray tris;
+			face.getTriangles(numTris,tris);
+			require(numTris==1 && tris==vertices, "non-manifold triangle iterator without topology");
+			zVector center;
+			require(face.getVolume(tris,center,false)==0,"non-manifold triangle volume without topology");
+			zPointArray offsets; face.getOffsetFacePositions(.1,offsets);
+			require(offsets.size()==3, "non-manifold face offset without topology");
+			face.updateNormal();
+			require(std::isfinite(face.getNormal().length()), "non-manifold face normal update without topology");
 			faceCount++;
 		}
 		require(faceCount == 3, "non-manifold face iteration");
@@ -440,6 +464,9 @@ int main(int argc, char** argv)
 		testNonManifoldMesh();
 		testFaceListMeshAlgorithms();
 		testMeshMigrationCoverage();
+		testMeshIteratorGeometry();
+		testSmoothBatchAndBounds();
+		testFlatGeometryTopologyMigration();
 		testFields();
 		testPointCloud();
 		testTransformationMatrixCopy();

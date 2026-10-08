@@ -1,0 +1,115 @@
+{
+  "date": "2026-10-08",
+  "method": "Node WASM output equivalence and C++ call durations, not a browser/FPS benchmark. Fresh cube per trial; alternate before/after call order across trials. First trial includes cold heap growth; later trials reuse warm modules. Calls include subdivision, normals and render export; exclude JS upload/readback/renderer/history. Twelve exported buffers are byte-identical at every stage and floating outputs finite.",
+  "wasmSteps": [
+    {
+      "step": 1,
+      "faces": 24,
+      "beforeMs": 0.15459999999984575,
+      "afterMs": 0.07369999999900756
+    },
+    {
+      "step": 2,
+      "faces": 96,
+      "beforeMs": 0.3349999999991269,
+      "afterMs": 0.1592000000000553
+    },
+    {
+      "step": 3,
+      "faces": 384,
+      "beforeMs": 1.306800000000294,
+      "afterMs": 0.8327000000008411
+    },
+    {
+      "step": 4,
+      "faces": 1536,
+      "beforeMs": 6.024699999999939,
+      "afterMs": 2.4270999999989726
+    },
+    {
+      "step": 5,
+      "faces": 6144,
+      "beforeMs": 27.424600000000282,
+      "afterMs": 9.679999999999382
+    },
+    {
+      "step": 6,
+      "faces": 24576,
+      "beforeMs": 121.77089999999953,
+      "afterMs": 38.313200000000506
+    },
+    {
+      "step": 7,
+      "faces": 98304,
+      "beforeMs": 601.6456000000001,
+      "afterMs": 238.49049999999988
+    },
+    {
+      "step": 8,
+      "faces": 393216,
+      "beforeMs": 3034.0396,
+      "afterMs": 1063.8201
+    }
+  ],
+  "wasm500k": {
+    "faces": 500000,
+    "beforeMs": 1976.6729000000014,
+    "afterMs": 738.874200000002
+  },
+  "native500k": {
+    "faces": 500000,
+    "beforeMs": 613.2989,
+    "afterMs": 673.9445
+  },
+  "allDigestsMatch": true,
+  "geometryQueriesHash": "bb116cc397113451",
+  "runtimeSha256": "e5ec2946bfa730443008f4aba0cc5eeda0f056f501d17bbe9cf926cc8fb22b43",
+  "changes": [
+    "Fuse face-normal computation with ordered vertex-normal accumulation; preserve floating accumulation and normalization math. Keep the independent vertex-normal API.",
+    "Render export reads flat arrays by reference, reserves triangle output and reuses unique-edge direction/use counts/weights instead of copying arrays and building three ordered maps.",
+    "Remove the redundant post-smooth normal recomputation; keep the empty-mesh behavior and original ABI iteration clamp.",
+    "Migrate position lookup, directed edge vectors, face-local principal curvature and variable offsets to flat storage. Lookup preserves precision-six insertion, requested query precision, signed zero and last duplicate. Existing topology identity remains authoritative without creating topology."
+  ],
+  "topologyStatus": "The migrated geometry paths do not create halfedges. Ordered vertex rings/incidence, vertex curvature/areas, edge face/boundary/dihedral queries, face adjacency, explicit halfedge APIs and local topology edits retain the lazy backend. Replacing ordered incidence and all SDK topology use remains incomplete; APIs and ID semantics are preserved.",
+  "validation": [
+    "Final isolated native Release build and focused zspace.smoke CTest passed. Native before/after cube 1–8, batch 8, curvature and 500000-quad geometry/normal/connectivity digests match; edge-vector/face-curvature/variable-offset digests match.",
+    "Focused tests verify lookup precision/duplicate/signed-zero behavior, mutation and copy cache invalidation, preserved edge direction/offset order, no topology materialization for migrated geometry, and explicit halfedge materialization.",
+    "Final WASM build passed. Three alternating-order cube trials through eight divisions: twelve exported buffers byte-identical at all 27 stages. Mixed colored/custom-weight faces, nonmanifold faces, repeated-corner/self-edge faces, and three exact 500000-quad grid trials also match byte-for-byte; all exported floats finite.",
+    "Pre-existing typed-upload and planarity buffer exports are preserved; the bridge diff against the saved dirty source is confined to render export and normal recomputation.",
+    "Verified runtime installed in viewer; prior runtime backed up under wasm/tmp/render-export-install-before. npm run build passed after installation. No UI/sketch/API changes, commit or push."
+  ],
+  "limitations": [
+    "Three trials are exploratory. Timed WASM calls include subdivision, final normals and render export. They exclude JS upload/readback, history, renderer and GPU; end-to-end 500000-face viewer responsiveness remains unverified.",
+    "Caching two integers per unique edge adds flat-storage memory/work. Native kernel-only grid timing is included separately; bridge improvements do not imply every native workload improves.",
+    "Native verification used the isolated configuration with optional TinyUSDZ disabled after the earlier default-build dependency failure. Separate OpenUSD/CMake/codec changes appeared during this work and were left untouched. The current default build, USD IO and native OpenGL runtime are not verified by this milestone."
+  ],
+  "changedFiles": [
+    "src/zCore/geometry/detail/zMeshFaceListStorage.h",
+    "src/zCore/geometry/detail/zMeshFaceListStorage.cpp",
+    "src/zInterface/objects/zMeshObjectStorage.h",
+    "src/zInterface/functionsets/zFnMesh.cpp",
+    "src/zInterface/iterators/zItMesh.cpp",
+    "wasm/bridge/zspace_core_wasm_bridge.cpp",
+    "tests/smoke/mesh_iterator_geometry_fixture.h",
+    "tests/performance/mesh_functionset_benchmark.cpp",
+    "tests/mesh-iterator-runtime-parity.mjs",
+    "reports/generate-mesh-audit.mjs",
+    "reports/mesh-topology-audit.html",
+    "reports/mesh-topology-audit.json",
+    "reports/generate-render-export-report.mjs",
+    "reports/render-export-native-before.json",
+    "reports/render-export-native-after.json",
+    "reports/render-export-runtime-parity.json",
+    "reports/render-export-optimization.json",
+    "reports/render-export-optimization.html",
+    "../zspace_alice_webviewer/wasm/zspace_core.js",
+    "../zspace_alice_webviewer/wasm/zspace_core.wasm",
+    "../zspace_alice_webviewer/reports/Alice-Viewer-Implementation-Roadmap.md"
+  ],
+  "installation": {
+    "viewerBuild": "npm run build passed (tsc --noEmit and vite build)",
+    "backup": "wasm/tmp/render-export-install-before",
+    "runtimeSha256": "e5ec2946bfa730443008f4aba0cc5eeda0f056f501d17bbe9cf926cc8fb22b43",
+    "capturedAt": "2026-10-08T12:24:51.0631274Z"
+  }
+}

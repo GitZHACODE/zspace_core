@@ -1,0 +1,237 @@
+{
+  "batch": [
+    {
+      "faces": 393216,
+      "hash": "19806f488e9dd568",
+      "ms": 1297.5555,
+      "trial": 0
+    },
+    {
+      "faces": 393216,
+      "hash": "19806f488e9dd568",
+      "ms": 1561.41,
+      "trial": 1
+    },
+    {
+      "faces": 393216,
+      "hash": "19806f488e9dd568",
+      "ms": 1100.0625,
+      "trial": 2
+    }
+  ],
+  "curvature": [
+    {
+      "hash": "c83eeba364b0381b",
+      "ms": 7.5019,
+      "trial": 0,
+      "vertices": 1089
+    },
+    {
+      "hash": "c83eeba364b0381b",
+      "ms": 7.2723,
+      "trial": 1,
+      "vertices": 1089
+    },
+    {
+      "hash": "c83eeba364b0381b",
+      "ms": 5.9186,
+      "trial": 2,
+      "vertices": 1089
+    }
+  ],
+  "geometryQueriesHash": "bb116cc397113451",
+  "method": "Native Release smoothMesh only; no bridge/export/render. Three trials; exact mesh digest includes positions, normals, face corners/counts and edge endpoints.",
+  "steps": [
+    {
+      "faces": 24,
+      "hash": "990f88d4a3151155",
+      "ms": 0.5028,
+      "step": 1,
+      "trial": 0
+    },
+    {
+      "faces": 96,
+      "hash": "f722ba493d9f1721",
+      "ms": 0.2944,
+      "step": 2,
+      "trial": 0
+    },
+    {
+      "faces": 384,
+      "hash": "b09682d430b8ce5d",
+      "ms": 0.8564,
+      "step": 3,
+      "trial": 0
+    },
+    {
+      "faces": 1536,
+      "hash": "4aa63374f98b6ce6",
+      "ms": 3.3672,
+      "step": 4,
+      "trial": 0
+    },
+    {
+      "faces": 6144,
+      "hash": "f43643e3884bcc0d",
+      "ms": 8.2574,
+      "step": 5,
+      "trial": 0
+    },
+    {
+      "faces": 24576,
+      "hash": "b10da3ea2a8850eb",
+      "ms": 40.831,
+      "step": 6,
+      "trial": 0
+    },
+    {
+      "faces": 98304,
+      "hash": "1d7de4a035414c19",
+      "ms": 209.1086,
+      "step": 7,
+      "trial": 0
+    },
+    {
+      "faces": 393216,
+      "hash": "19806f488e9dd568",
+      "ms": 1202.6125,
+      "step": 8,
+      "trial": 0
+    },
+    {
+      "faces": 24,
+      "hash": "990f88d4a3151155",
+      "ms": 0.1588,
+      "step": 1,
+      "trial": 1
+    },
+    {
+      "faces": 96,
+      "hash": "f722ba493d9f1721",
+      "ms": 0.207,
+      "step": 2,
+      "trial": 1
+    },
+    {
+      "faces": 384,
+      "hash": "b09682d430b8ce5d",
+      "ms": 0.7271,
+      "step": 3,
+      "trial": 1
+    },
+    {
+      "faces": 1536,
+      "hash": "4aa63374f98b6ce6",
+      "ms": 2.4736,
+      "step": 4,
+      "trial": 1
+    },
+    {
+      "faces": 6144,
+      "hash": "f43643e3884bcc0d",
+      "ms": 6.6334,
+      "step": 5,
+      "trial": 1
+    },
+    {
+      "faces": 24576,
+      "hash": "b10da3ea2a8850eb",
+      "ms": 41.7349,
+      "step": 6,
+      "trial": 1
+    },
+    {
+      "faces": 98304,
+      "hash": "1d7de4a035414c19",
+      "ms": 251.7456,
+      "step": 7,
+      "trial": 1
+    },
+    {
+      "faces": 393216,
+      "hash": "19806f488e9dd568",
+      "ms": 1101.0125,
+      "step": 8,
+      "trial": 1
+    },
+    {
+      "faces": 24,
+      "hash": "990f88d4a3151155",
+      "ms": 0.2342,
+      "step": 1,
+      "trial": 2
+    },
+    {
+      "faces": 96,
+      "hash": "f722ba493d9f1721",
+      "ms": 0.1292,
+      "step": 2,
+      "trial": 2
+    },
+    {
+      "faces": 384,
+      "hash": "b09682d430b8ce5d",
+      "ms": 0.4893,
+      "step": 3,
+      "trial": 2
+    },
+    {
+      "faces": 1536,
+      "hash": "4aa63374f98b6ce6",
+      "ms": 1.9106,
+      "step": 4,
+      "trial": 2
+    },
+    {
+      "faces": 6144,
+      "hash": "f43643e3884bcc0d",
+      "ms": 9.14,
+      "step": 5,
+      "trial": 2
+    },
+    {
+      "faces": 24576,
+      "hash": "b10da3ea2a8850eb",
+      "ms": 39.7433,
+      "step": 6,
+      "trial": 2
+    },
+    {
+      "faces": 98304,
+      "hash": "1d7de4a035414c19",
+      "ms": 201.0606,
+      "step": 7,
+      "trial": 2
+    },
+    {
+      "faces": 393216,
+      "hash": "19806f488e9dd568",
+      "ms": 1060.3017,
+      "step": 8,
+      "trial": 2
+    }
+  ],
+  "target500k": [
+    {
+      "faces": 500000,
+      "hash": "c61ed1b10e659538",
+      "inputFaces": 125000,
+      "ms": 660.9322,
+      "trial": 0
+    },
+    {
+      "faces": 500000,
+      "hash": "c61ed1b10e659538",
+      "inputFaces": 125000,
+      "ms": 628.9613,
+      "trial": 1
+    },
+    {
+      "faces": 500000,
+      "hash": "c61ed1b10e659538",
+      "inputFaces": 125000,
+      "ms": 587.9986,
+      "trial": 2
+    }
+  ]
+}

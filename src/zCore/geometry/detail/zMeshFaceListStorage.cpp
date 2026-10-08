@@ -1,7 +1,8 @@
 #include <src/zCore/geometry/detail/zMeshFaceListStorage.h>
 
 #include <algorithm>
-#include <map>
+#include <unordered_map>
+#include <cstdint>
 #include <stdexcept>
 #include <utility>
 
@@ -13,6 +14,8 @@ namespace zSpace::detail
 		faceOffsets.clear();
 		faceVertexIndices.clear();
 		edgeVertexIndices.clear();
+		edgeFirstVertices.clear();
+		edgeUseCounts.clear();
 		vertexNormals.clear();
 		faceNormals.clear();
 		vertexColors.clear();
@@ -28,6 +31,20 @@ namespace zSpace::detail
 		clear();
 		positions = newPositions;
 		faceVertexIndices = polygonConnects;
+		initializeFaces(polygonCounts);
+	}
+
+	void zMeshFaceListStorage::setMoved(zPointArray&& newPositions,
+		const zIntArray& polygonCounts, zIntArray&& polygonConnects)
+	{
+		clear();
+		positions = std::move(newPositions);
+		faceVertexIndices = std::move(polygonConnects);
+		initializeFaces(polygonCounts);
+	}
+
+	void zMeshFaceListStorage::initializeFaces(const zIntArray& polygonCounts)
+	{
 		faceOffsets.reserve(polygonCounts.size() + 1);
 		faceOffsets.push_back(0);
 		for (int count : polygonCounts)
@@ -60,20 +77,27 @@ namespace zSpace::detail
 
 	void zMeshFaceListStorage::rebuildEdges()
 	{
-		std::map<std::pair<int, int>, int> oldEdges;
+		auto keyOf = [](int a, int b) {
+			return (std::uint64_t(std::uint32_t(a)) << 32) | std::uint32_t(b);
+		};
+		std::unordered_map<std::uint64_t, int> oldEdges;
+		oldEdges.reserve(numEdges());
 		for (std::size_t i = 0; i + 1 < edgeVertexIndices.size(); i += 2)
 		{
 			const auto endpoints = std::minmax(edgeVertexIndices[i], edgeVertexIndices[i + 1]);
-			oldEdges[{ endpoints.first, endpoints.second }] = static_cast<int>(i / 2);
+			oldEdges[keyOf(endpoints.first, endpoints.second)] = static_cast<int>(i / 2);
 		}
 
 		const zColorArray previousColors = edgeColors;
 		const zDoubleArray previousWeights = edgeWeights;
 		edgeVertexIndices.clear();
+		edgeFirstVertices.clear();
+		edgeUseCounts.clear();
 		edgeColors.clear();
 		edgeWeights.clear();
 
-		std::map<std::pair<int, int>, int> edges;
+		std::unordered_map<std::uint64_t, int> edges;
+		edges.reserve(faceVertexIndices.size());
 		for (int faceId = 0; faceId < numFaces(); ++faceId)
 		{
 			const int begin = faceOffsets[faceId];
@@ -82,12 +106,19 @@ namespace zSpace::detail
 			{
 				const int next = (i + 1 < end) ? i + 1 : begin;
 				const auto endpoints = std::minmax(faceVertexIndices[i], faceVertexIndices[next]);
-				const std::pair<int, int> key{ endpoints.first, endpoints.second };
-				if (edges.find(key) != edges.end()) continue;
+				const auto key = keyOf(endpoints.first, endpoints.second);
+				// Shared corners must not allocate a temporary node on a hit.
+				const auto inserted = edges.try_emplace(key, static_cast<int>(edges.size()));
+				if (!inserted.second)
+				{
+					edgeUseCounts[inserted.first->second]++;
+					continue;
+				}
 
-				edges[key] = static_cast<int>(edges.size());
-				edgeVertexIndices.push_back(key.first);
-				edgeVertexIndices.push_back(key.second);
+				edgeVertexIndices.push_back(endpoints.first);
+				edgeVertexIndices.push_back(endpoints.second);
+				edgeFirstVertices.push_back(faceVertexIndices[i]);
+				edgeUseCounts.push_back(1);
 				const auto old = oldEdges.find(key);
 				edgeColors.push_back(old != oldEdges.end() && old->second < static_cast<int>(previousColors.size())
 					? previousColors[old->second] : zColor(0, 0, 0, 0));

@@ -1,0 +1,30 @@
+<!doctype html><meta charset="utf-8"><title>Surface bounds and publication profiling</title><style>body{font:16px system-ui;max-width:1000px;margin:40px auto;padding:0 24px;line-height:1.6;background:#f7f9fb;color:#17212b}table{border-collapse:collapse;background:white}td,th{border:1px solid #ccd5df;padding:8px 16px;text-align:left}img{max-width:100%}</style><h1>Surface bounds and publication profiling</h1><p>08 October 2026 - viewer only; exact sphere/output parity</p><h2>Changes</h2><ul><li>Add opt-in payload-normal, surface-buffer-expansion, surface-bounding-sphere and scene-payload-copy phases. Normal use performs no recording.</li><li>Compute face-color bounds from distinct referenced vertices with a temporary Uint8 marker. Keep THREE box-center and squared-distance arithmetic; exclude unused vertices. Vertex-color geometry still uses THREE unchanged.</li><li>Fall back to THREE for malformed indices/position lengths or nonfinite referenced coordinates, preserving its diagnostics.</li><li>Keep all defensive publication, active-payload and history copies. A measured publication copy was smaller than bounds, and ownership remains essential for mutable sketch inputs. No borrowed payload or shared buffer policy introduced.</li></ul><h2>Node bounds medians (ms)</h2><table><tr><th>Quads</th><th>Before</th><th>After</th></tr><tr><td>125,000</td><td>30.38</td><td>4.60</td></tr><tr><td>500,000</td><td>93.24</td><td>16.16</td></tr></table><h2>Browser Smooth phase samples (ms)</h2><table><tr><th>Capture</th><th>Phase</th><th>Time</th></tr><tr><td>before</td><td>surface-buffer-expansion</td><td>79.06</td></tr><tr><td>before</td><td>surface-bounding-sphere</td><td>110.53</td></tr><tr><td>before</td><td>scene-payload-copy</td><td>41.49</td></tr><tr><td>before</td><td>scene-publication-inclusive</td><td>548.40</td></tr><tr><td>before</td><td>cpp-smooth-and-export</td><td>570.66</td></tr><tr><td>after</td><td>surface-buffer-expansion</td><td>145.25</td></tr><tr><td>after</td><td>surface-bounding-sphere</td><td>45.23</td></tr><tr><td>after</td><td>scene-payload-copy</td><td>174.52</td></tr><tr><td>after</td><td>scene-publication-inclusive</td><td>836.89</td></tr><tr><td>after</td><td>cpp-smooth-and-export</td><td>1370.21</td></tr></table><p>Inclusive phases contain their child phases. Do not sum them together.</p><h2>Verification</h2><ul><li>Baseline, diagnostic and post-extraction npm run build passed.</li><li>428 exact sphere comparisons, 62 surface-buffer and 60 renderer cases passed, including existing cache ownership/invalidation/LRU contracts.</li><li>Actual WebGPU viewer import 125k, Smooth to 500k, undo/redo and idle scheduling verified.</li></ul><pre>[
+  {
+    &quot;name&quot;: &quot;import 125000 quads&quot;,
+    &quot;faces&quot;: 125000,
+    &quot;vertices&quot;: 125751,
+    &quot;actionMs&quot;: 2860.550000000745,
+    &quot;presentedMs&quot;: 2885.135000001639
+  },
+  {
+    &quot;name&quot;: &quot;smooth 125000 to 500000&quot;,
+    &quot;faces&quot;: 500000,
+    &quot;vertices&quot;: 501501,
+    &quot;actionMs&quot;: 2741.245000001043,
+    &quot;presentedMs&quot;: 2752.545000001788
+  },
+  {
+    &quot;name&quot;: &quot;undo smooth&quot;,
+    &quot;faces&quot;: 125000,
+    &quot;vertices&quot;: 125751,
+    &quot;actionMs&quot;: 176.95999999716878,
+    &quot;presentedMs&quot;: 226.535000000149
+  },
+  {
+    &quot;name&quot;: &quot;redo smooth&quot;,
+    &quot;faces&quot;: 500000,
+    &quot;vertices&quot;: 501501,
+    &quot;actionMs&quot;: 639.9899999983609,
+    &quot;presentedMs&quot;: 833.9400000013411
+  }
+]</pre><img src="viewer-surface-bounds-500k.png" alt="Verified actual 500k viewer"><h2>Limitations</h2><ul><li>Three alternating-order Node bounds trials exclude surface allocation/expansion, browser, GPU, history and publication. Full surface-buffer output is unchanged; its timings vary.</li><li>Browser samples are one fresh load before and after, without concurrent compilation/Node tests. No stable action median, FPS guarantee or broad responsiveness claim.</li><li>Marker storage at 500k/501501 vertices is 501501 bytes, local to the bounds call; no cache or total/peak memory reduction claimed.</li><li>The comparison harness uses the preserved ignored renderer snapshot at wasm/tmp/viewer-surface-bounds-before/renderers-profiled.ts.</li><li>Expected THREE diagnostics for nonfinite unused coordinates in vertex-color mode occurred in parity checks and are unchanged.</li><li>Existing bundle-size warning remains. Kernel/ABI, runtime artifacts, sketches and unrelated selection/display behavior were not modified. Other dirty user changes were preserved.</li></ul><h2>Next priority</h2><p>Measure stable per-phase action medians on representative meshes before choosing publication validation, transfer/native installation or worker ownership work. Smooth remains synchronous.</p><h2>Changed files</h2><ul><li>../zspace_alice_webviewer/src/renderers.ts</li><li>../zspace_alice_webviewer/src/meshSurfaceBounds.ts</li><li>../zspace_alice_webviewer/tests/meshSurfaceBounds.test.mjs</li><li>../zspace_alice_webviewer/reports/Alice-Viewer-Implementation-Roadmap.md</li><li>tests/performance/viewer-surface-bounds-parity.mjs</li><li>reports/generate-surface-bounds-report.py</li><li>reports/viewer-surface-bounds-parity.json</li><li>reports/viewer-surface-bounds-before.json</li><li>reports/viewer-surface-bounds-after.json</li><li>reports/viewer-surface-bounds-optimization.json</li><li>reports/viewer-surface-bounds-optimization.html</li><li>reports/viewer-surface-bounds-500k.png</li></ul><p>No commit or push.</p>

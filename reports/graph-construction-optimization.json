@@ -1,0 +1,477 @@
+{
+  "date": "2026-10-08",
+  "scope": "Approved focused construction allocation cleanup; earlier phase 1 and 2 results remain in graph-optimization.html.",
+  "changes": [
+    "src/zCore/geometry/zGraph.cpp",
+    "tests/performance/graph_functionset_benchmark.cpp",
+    "tests/smoke/graph-construction-golden.json",
+    "CMakeLists.txt"
+  ],
+  "sourceSha256": "eccef9506bde3a32914941b6dd1d437fc55eafabf911c05aa69ba6901b04c1eb",
+  "inventory": "graph-construction-inventory.json",
+  "verified": {
+    "nativeBuild": "scripts/build.ps1 -Configuration Release passed",
+    "nativeTests": "5/5 CTest passed; profiling OFF",
+    "legacyFixtures": 50,
+    "constructionObservations": 30,
+    "benchmarkSamples": 48,
+    "parity": "Exact JSON for links, IDs, handles, activity, map entries, return values; FNV-1a scalar-byte digests for attributes/geometry and large scans, identical numeric totals/vectors; no epsilon. Digests do not prove collision-free equality.",
+    "wasmBuild": "wasm/scripts/build-wasm.bat passed",
+    "wasmParity": {
+      "stages": 9,
+      "buffersPerStage": 12,
+      "beforeSha256": "03a5ec65d71f4260312c1f516a092ad753947084497b975310ec45f065d7d768",
+      "afterSha256": "fdbab2d1c97b116f872755ae85591b92f7a49c9718e6aa9fa406054df35ec344"
+    }
+  },
+  "summaries": [
+    {
+      "shape": "chain",
+      "vertices": 1001,
+      "edges": 1000,
+      "trials": 3,
+      "before": {
+        "inputPreparationMs": 0.0111,
+        "storageInstallationMs": 0.0368,
+        "flatLengthsMs": 0.0146,
+        "topologyBuildMs": 3.0294,
+        "oneHalfedgeVectorMs": 0.0014,
+        "fullHalfedgeScanMs": 0.1655,
+        "workingSetBytes": 4968448,
+        "processPeakWorkingSetBytes": 5144576
+      },
+      "after": {
+        "inputPreparationMs": 0.0122,
+        "storageInstallationMs": 0.0331,
+        "flatLengthsMs": 0.0173,
+        "topologyBuildMs": 2.7673,
+        "oneHalfedgeVectorMs": 0.0009,
+        "fullHalfedgeScanMs": 0.1703,
+        "workingSetBytes": 4964352,
+        "processPeakWorkingSetBytes": 4988928
+      },
+      "topologyPercentChange": -8.651878259721391
+    },
+    {
+      "shape": "chain",
+      "vertices": 10001,
+      "edges": 10000,
+      "trials": 3,
+      "before": {
+        "inputPreparationMs": 0.1031,
+        "storageInstallationMs": 0.3297,
+        "flatLengthsMs": 0.2057,
+        "topologyBuildMs": 31.461,
+        "oneHalfedgeVectorMs": 0.0042,
+        "fullHalfedgeScanMs": 1.6755,
+        "workingSetBytes": 11382784,
+        "processPeakWorkingSetBytes": 13791232
+      },
+      "after": {
+        "inputPreparationMs": 0.1027,
+        "storageInstallationMs": 0.3001,
+        "flatLengthsMs": 0.1915,
+        "topologyBuildMs": 26.5395,
+        "oneHalfedgeVectorMs": 0.0038,
+        "fullHalfedgeScanMs": 1.5672,
+        "workingSetBytes": 11157504,
+        "processPeakWorkingSetBytes": 12005376
+      },
+      "topologyPercentChange": -15.64317726709259
+    },
+    {
+      "shape": "chain",
+      "vertices": 100001,
+      "edges": 100000,
+      "trials": 3,
+      "before": {
+        "inputPreparationMs": 0.9854,
+        "storageInstallationMs": 2.5705,
+        "flatLengthsMs": 2.1548,
+        "topologyBuildMs": 395.7045,
+        "oneHalfedgeVectorMs": 0.0051,
+        "fullHalfedgeScanMs": 20.9948,
+        "workingSetBytes": 68419584,
+        "processPeakWorkingSetBytes": 75300864
+      },
+      "after": {
+        "inputPreparationMs": 0.842,
+        "storageInstallationMs": 2.3245,
+        "flatLengthsMs": 2.1902,
+        "topologyBuildMs": 343.2173,
+        "oneHalfedgeVectorMs": 0.0042,
+        "fullHalfedgeScanMs": 16.5816,
+        "workingSetBytes": 67899392,
+        "processPeakWorkingSetBytes": 74678272
+      },
+      "topologyPercentChange": -13.264241372033926
+    },
+    {
+      "shape": "chain",
+      "vertices": 500001,
+      "edges": 500000,
+      "trials": 3,
+      "before": {
+        "inputPreparationMs": 6.3434,
+        "storageInstallationMs": 12.7313,
+        "flatLengthsMs": 14.0474,
+        "topologyBuildMs": 3078.8374,
+        "oneHalfedgeVectorMs": 0.0065,
+        "fullHalfedgeScanMs": 130.729,
+        "workingSetBytes": 321204224,
+        "processPeakWorkingSetBytes": 357494784
+      },
+      "after": {
+        "inputPreparationMs": 3.7873,
+        "storageInstallationMs": 9.7172,
+        "flatLengthsMs": 8.5468,
+        "topologyBuildMs": 1896.0904,
+        "oneHalfedgeVectorMs": 0.0043,
+        "fullHalfedgeScanMs": 78.3248,
+        "workingSetBytes": 320872448,
+        "processPeakWorkingSetBytes": 354164736
+      },
+      "topologyPercentChange": -38.415377181009944
+    },
+    {
+      "shape": "loop",
+      "vertices": 1000,
+      "edges": 1000,
+      "trials": 3,
+      "before": {
+        "inputPreparationMs": 0.0187,
+        "storageInstallationMs": 0.0462,
+        "flatLengthsMs": 0.0231,
+        "topologyBuildMs": 4.2958,
+        "oneHalfedgeVectorMs": 0.0018,
+        "fullHalfedgeScanMs": 0.2481,
+        "workingSetBytes": 8323072,
+        "processPeakWorkingSetBytes": 357494784
+      },
+      "after": {
+        "inputPreparationMs": 0.0106,
+        "storageInstallationMs": 0.0268,
+        "flatLengthsMs": 0.0147,
+        "topologyBuildMs": 2.2782,
+        "oneHalfedgeVectorMs": 0.0012,
+        "fullHalfedgeScanMs": 0.1508,
+        "workingSetBytes": 7872512,
+        "processPeakWorkingSetBytes": 354246656
+      },
+      "topologyPercentChange": -46.966804786070114
+    },
+    {
+      "shape": "loop",
+      "vertices": 10000,
+      "edges": 10000,
+      "trials": 3,
+      "before": {
+        "inputPreparationMs": 0.2094,
+        "storageInstallationMs": 0.6443,
+        "flatLengthsMs": 0.3211,
+        "topologyBuildMs": 62.8875,
+        "oneHalfedgeVectorMs": 0.0063,
+        "fullHalfedgeScanMs": 3.4958,
+        "workingSetBytes": 12255232,
+        "processPeakWorkingSetBytes": 357494784
+      },
+      "after": {
+        "inputPreparationMs": 0.0913,
+        "storageInstallationMs": 0.2557,
+        "flatLengthsMs": 0.1824,
+        "topologyBuildMs": 25.4728,
+        "oneHalfedgeVectorMs": 0.003,
+        "fullHalfedgeScanMs": 1.578,
+        "workingSetBytes": 11907072,
+        "processPeakWorkingSetBytes": 354246656
+      },
+      "topologyPercentChange": -59.494653150467116
+    },
+    {
+      "shape": "loop",
+      "vertices": 100000,
+      "edges": 100000,
+      "trials": 3,
+      "before": {
+        "inputPreparationMs": 1.7023,
+        "storageInstallationMs": 3.1863,
+        "flatLengthsMs": 2.7936,
+        "topologyBuildMs": 611.9816,
+        "oneHalfedgeVectorMs": 0.0063,
+        "fullHalfedgeScanMs": 32.1821,
+        "workingSetBytes": 68890624,
+        "processPeakWorkingSetBytes": 357494784
+      },
+      "after": {
+        "inputPreparationMs": 0.8053,
+        "storageInstallationMs": 2.1741,
+        "flatLengthsMs": 1.8832,
+        "topologyBuildMs": 298.1957,
+        "oneHalfedgeVectorMs": 0.0041,
+        "fullHalfedgeScanMs": 16.1038,
+        "workingSetBytes": 68472832,
+        "processPeakWorkingSetBytes": 354246656
+      },
+      "topologyPercentChange": -51.273747446001636
+    },
+    {
+      "shape": "loop",
+      "vertices": 500000,
+      "edges": 500000,
+      "trials": 3,
+      "before": {
+        "inputPreparationMs": 6.3298,
+        "storageInstallationMs": 11.12,
+        "flatLengthsMs": 9.8509,
+        "topologyBuildMs": 2867.4524,
+        "oneHalfedgeVectorMs": 0.0051,
+        "fullHalfedgeScanMs": 110.8505,
+        "workingSetBytes": 321470464,
+        "processPeakWorkingSetBytes": 357912576
+      },
+      "after": {
+        "inputPreparationMs": 3.3965,
+        "storageInstallationMs": 9.175,
+        "flatLengthsMs": 7.8656,
+        "topologyBuildMs": 1780.1083,
+        "oneHalfedgeVectorMs": 0.0054,
+        "fullHalfedgeScanMs": 80.0379,
+        "workingSetBytes": 321015808,
+        "processPeakWorkingSetBytes": 354459648
+      },
+      "topologyPercentChange": -37.92021447330739
+    },
+    {
+      "shape": "branch",
+      "vertices": 1001,
+      "edges": 1000,
+      "trials": 3,
+      "before": {
+        "inputPreparationMs": 0.0224,
+        "storageInstallationMs": 0.0517,
+        "flatLengthsMs": 0.0221,
+        "topologyBuildMs": 4.8063,
+        "oneHalfedgeVectorMs": 0.0022,
+        "fullHalfedgeScanMs": 0.2777,
+        "workingSetBytes": 11149312,
+        "processPeakWorkingSetBytes": 358002688
+      },
+      "after": {
+        "inputPreparationMs": 0.0097,
+        "storageInstallationMs": 0.0112,
+        "flatLengthsMs": 0.0141,
+        "topologyBuildMs": 2.1869,
+        "oneHalfedgeVectorMs": 0.0006,
+        "fullHalfedgeScanMs": 0.1462,
+        "workingSetBytes": 10383360,
+        "processPeakWorkingSetBytes": 354467840
+      },
+      "topologyPercentChange": -54.499302998148266
+    },
+    {
+      "shape": "branch",
+      "vertices": 10001,
+      "edges": 10000,
+      "trials": 3,
+      "before": {
+        "inputPreparationMs": 0.2146,
+        "storageInstallationMs": 0.4895,
+        "flatLengthsMs": 0.1795,
+        "topologyBuildMs": 52.5485,
+        "oneHalfedgeVectorMs": 0.0044,
+        "fullHalfedgeScanMs": 2.77,
+        "workingSetBytes": 18059264,
+        "processPeakWorkingSetBytes": 358002688
+      },
+      "after": {
+        "inputPreparationMs": 0.0989,
+        "storageInstallationMs": 0.2571,
+        "flatLengthsMs": 0.1747,
+        "topologyBuildMs": 24.5438,
+        "oneHalfedgeVectorMs": 0.0035,
+        "fullHalfedgeScanMs": 1.5996,
+        "workingSetBytes": 14041088,
+        "processPeakWorkingSetBytes": 354467840
+      },
+      "topologyPercentChange": -53.293053084293554
+    },
+    {
+      "shape": "branch",
+      "vertices": 100001,
+      "edges": 100000,
+      "trials": 3,
+      "before": {
+        "inputPreparationMs": 2.0193,
+        "storageInstallationMs": 3.2097,
+        "flatLengthsMs": 3.0665,
+        "topologyBuildMs": 563.8341,
+        "oneHalfedgeVectorMs": 0.0049,
+        "fullHalfedgeScanMs": 26.6358,
+        "workingSetBytes": 74993664,
+        "processPeakWorkingSetBytes": 358002688
+      },
+      "after": {
+        "inputPreparationMs": 0.8164,
+        "storageInstallationMs": 2.2006,
+        "flatLengthsMs": 2.1703,
+        "topologyBuildMs": 292.1265,
+        "oneHalfedgeVectorMs": 0.0048,
+        "fullHalfedgeScanMs": 15.9286,
+        "workingSetBytes": 72065024,
+        "processPeakWorkingSetBytes": 354467840
+      },
+      "topologyPercentChange": -48.1892812087811
+    },
+    {
+      "shape": "branch",
+      "vertices": 500001,
+      "edges": 500000,
+      "trials": 3,
+      "before": {
+        "inputPreparationMs": 6.9154,
+        "storageInstallationMs": 9.9363,
+        "flatLengthsMs": 10.438,
+        "topologyBuildMs": 2764.8607,
+        "oneHalfedgeVectorMs": 0.0056,
+        "fullHalfedgeScanMs": 118.7559,
+        "workingSetBytes": 333357056,
+        "processPeakWorkingSetBytes": 361705472
+      },
+      "after": {
+        "inputPreparationMs": 3.7926,
+        "storageInstallationMs": 9.1249,
+        "flatLengthsMs": 9.2974,
+        "topologyBuildMs": 1699.0957,
+        "oneHalfedgeVectorMs": 0.0046,
+        "fullHalfedgeScanMs": 77.8976,
+        "workingSetBytes": 324677632,
+        "processPeakWorkingSetBytes": 358719488
+      },
+      "topologyPercentChange": -38.54678827038194
+    },
+    {
+      "shape": "disconnected",
+      "vertices": 1250,
+      "edges": 1000,
+      "trials": 3,
+      "before": {
+        "inputPreparationMs": 0.0177,
+        "storageInstallationMs": 0.0073,
+        "flatLengthsMs": 0.0135,
+        "topologyBuildMs": 2.5895,
+        "oneHalfedgeVectorMs": 0.001,
+        "fullHalfedgeScanMs": 0.1431,
+        "workingSetBytes": 12795904,
+        "processPeakWorkingSetBytes": 361783296
+      },
+      "after": {
+        "inputPreparationMs": 0.0142,
+        "storageInstallationMs": 0.0045,
+        "flatLengthsMs": 0.016,
+        "topologyBuildMs": 2.3597,
+        "oneHalfedgeVectorMs": 0.0005,
+        "fullHalfedgeScanMs": 0.1533,
+        "workingSetBytes": 12480512,
+        "processPeakWorkingSetBytes": 358719488
+      },
+      "topologyPercentChange": -8.874300057926243
+    },
+    {
+      "shape": "disconnected",
+      "vertices": 12500,
+      "edges": 10000,
+      "trials": 3,
+      "before": {
+        "inputPreparationMs": 0.1917,
+        "storageInstallationMs": 0.3105,
+        "flatLengthsMs": 0.1526,
+        "topologyBuildMs": 28.1248,
+        "oneHalfedgeVectorMs": 0.0035,
+        "fullHalfedgeScanMs": 1.4284,
+        "workingSetBytes": 20307968,
+        "processPeakWorkingSetBytes": 361783296
+      },
+      "after": {
+        "inputPreparationMs": 0.1976,
+        "storageInstallationMs": 0.3337,
+        "flatLengthsMs": 0.1737,
+        "topologyBuildMs": 27.2494,
+        "oneHalfedgeVectorMs": 0.0032,
+        "fullHalfedgeScanMs": 1.654,
+        "workingSetBytes": 17661952,
+        "processPeakWorkingSetBytes": 358719488
+      },
+      "topologyPercentChange": -3.1125554670610955
+    },
+    {
+      "shape": "disconnected",
+      "vertices": 125000,
+      "edges": 100000,
+      "trials": 3,
+      "before": {
+        "inputPreparationMs": 1.7946,
+        "storageInstallationMs": 2.4235,
+        "flatLengthsMs": 1.8836,
+        "topologyBuildMs": 360.7065,
+        "oneHalfedgeVectorMs": 0.0048,
+        "fullHalfedgeScanMs": 15.0356,
+        "workingSetBytes": 81866752,
+        "processPeakWorkingSetBytes": 361783296
+      },
+      "after": {
+        "inputPreparationMs": 1.69,
+        "storageInstallationMs": 2.4071,
+        "flatLengthsMs": 1.735,
+        "topologyBuildMs": 321.9031,
+        "oneHalfedgeVectorMs": 0.0042,
+        "fullHalfedgeScanMs": 16.1931,
+        "workingSetBytes": 74567680,
+        "processPeakWorkingSetBytes": 358719488
+      },
+      "topologyPercentChange": -10.757610411789088
+    },
+    {
+      "shape": "disconnected",
+      "vertices": 625000,
+      "edges": 500000,
+      "trials": 3,
+      "before": {
+        "inputPreparationMs": 8.5841,
+        "storageInstallationMs": 10.489,
+        "flatLengthsMs": 8.3081,
+        "topologyBuildMs": 2302.2884,
+        "oneHalfedgeVectorMs": 0.0045,
+        "fullHalfedgeScanMs": 80.9305,
+        "workingSetBytes": 362864640,
+        "processPeakWorkingSetBytes": 397012992
+      },
+      "after": {
+        "inputPreparationMs": 8.581,
+        "storageInstallationMs": 10.3698,
+        "flatLengthsMs": 8.1131,
+        "topologyBuildMs": 2053.6657,
+        "oneHalfedgeVectorMs": 0.0043,
+        "fullHalfedgeScanMs": 80.589,
+        "workingSetBytes": 353763328,
+        "processPeakWorkingSetBytes": 393531392
+      },
+      "topologyPercentChange": -10.798938134770598
+    }
+  ],
+  "sourceProvenanceChanges": [
+    {
+      "path": "C:\\Users\\vishu.b\\source\\repos\\GitZHCODE\\zspace_alice_webviewer\\src\\app.ts",
+      "beforeSha256": "D330F0FB2270A87023B6EFB1A94D9DB240145C1F0BDC8ED7CDF0E07A33DD0D2F",
+      "afterSha256": "47336B06CE3965B1EB96A84A111F11B8C5C2A3F5420AA7AEFA174A6196064C16"
+    }
+  ],
+  "limitations": [
+    "Native Release phases exclude JS transfer, C++→JS export and viewer latency. Actual current viewer graph path remains JS-owned and has no direct native graph ABI.",
+    "Working set sampled after queries/scan, not allocation accounting; process peak is cumulative across the entire benchmark, not per-graph peak. Both flat and topology copies remain.",
+    "Three repeat samples per size/shape; sequential before/after runs, OS/compiler/thermal noise uncontrolled. Overlapping initial runs retained separately and excluded.",
+    "WASM exported mesh-buffer parity verifies reachable bridge compatibility, not direct graph execution. Generated runtime backed up; viewer runtime not replaced because graph path does not consume it and installation would mix unrelated OpenUSD changes.",
+    "Prior verified viewer import/display/camera/undo/redo evidence retained in graph-viewer-verification.json; not rerun in this native-only phase. No viewer source/sketch/UI/roadmap edits.",
+    "Concurrent viewer app.ts edits were observed and preserved. Prior UI verification does not cover those newer changes. Generated WASM baseline was a saved earlier build, not a freshly rebuilt identical-source control; binary changes alone cannot be attributed solely to this graph patch."
+  ],
+  "nextBoundary": "Construction string-key map insertion and per-vertex incidence allocations remain; profile them before changing representations. First-match flat lookup cache and insertion-order incidence/BFS membership remain pending."
+}

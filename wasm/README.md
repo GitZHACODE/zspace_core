@@ -48,6 +48,17 @@ repo.
 
 ## Build
 
+For the optional OpenUSD-enabled runtime, build a headless Emscripten SDK with
+`wasm/scripts/build-openusd-sdk.ps1`, then run
+`wasm/scripts/build-openusd-wasm.ps1`. The reusable SDK defaults to
+`$env:USERPROFILE/source/sdks/OpenUSD/wasm-26.08`, outside the repository;
+use `-OpenUSDRoot` to select another installed SDK. The SDK builder accepts
+`-SdkRoot`, `-CacheRoot` and `-Rebuild`; source/build caches are separate from
+the reusable installation.
+This writes to `wasm/out/openusd/` and leaves the existing runtime intact.
+See [OpenUSD IO](../docs/architecture/openusd-io.md) for dependencies, browser
+threading requirements, and tests. The standard build below remains SDK-free.
+
 From this repository root:
 
 ```bat

@@ -1,0 +1,98 @@
+{
+  "date": "2026-10-08",
+  "phase": "Phase 1 and focused phase 2 verified; construction allocation subset of phase 3 verified",
+  "sequence": [
+    {
+      "phase": 0,
+      "title": "Capture baseline and approve compatibility scope",
+      "changes": "Add report/test-only fixtures and phase instrumentation; reproduce sync counts, activity/ID observations, exceptions and pathological cases using bounded subprocesses. Build current native Release and tests; save source/runtime hashes before any implementation.",
+      "gate": "No algorithm/output changes. Decide separately whether correctness repairs are authorized; user constraint currently requires existing exceptions/numerical behavior.",
+      "status": "verified"
+    },
+    {
+      "phase": 1,
+      "title": "Small read-only topology boundary patch",
+      "changes": "Introduce internal read access only where full sync was caused by a pure read, keeping mutation and pointer-escape paths explicit. Begin with halfedge loop bounds/activity/navigation on validated all-active graphs; retain legacy fallback wherever compact-ID behavior differs.",
+      "gate": "Exact pre/post ID/link/activity/attribute/exception parity across mixed sequences and inactive fixtures. Preserve synchronization side effects observable by public flat calls; no blanket const replacement. Instrument builds/syncs and reject patch if parity cannot be preserved.",
+      "status": "verified"
+    },
+    {
+      "phase": 2,
+      "title": "Remove local allocations and copies",
+      "changes": "Direct scalar flat endpoint reads for edge geometry without temporary zIntArray; bounds reference fast path with alias fallback; reserve bulk outputs internally where clear/append semantics allow. Separately propose viewer pre-sized typed line buffers only if viewer scope is approved.",
+      "gate": "Byte/exact numerical parity, edge vector a-b versus even halfedge b-a, output append behavior, aliases, invalid-input exceptions. Viewer conversion baseline supports this candidate; core gains remain unmeasured.",
+      "status": "native edge geometry and alias-safe bounds verified; remaining bulk/viewer candidates pending"
+    },
+    {
+      "phase": 3,
+      "title": "First-match flat lookup cache and construction reservations",
+      "changes": "Packed unordered endpoint index storing first edge; optional quantized position candidate buckets with original ordered distance checks. Reserve topology arrays/handles/maps before create; internal move storage installation only after profiling.",
+      "gate": "Duplicates, reversed pairs, self edges, signed zero/precision, last-versus-first semantics, retained raw writes, invalidation/copy; identical IDs/directions/default attrs. Position hash cannot replace exact distance search without proof.",
+      "status": "array/sort-buffer reservations and unused fan-point allocation removal verified; map reservations, first-match cache and position candidates pending"
+    },
+    {
+      "phase": 4,
+      "title": "Two incidence contracts, then BFS membership",
+      "changes": "Reuse compact insertion-order incidence for averageVertices/color/dynamics. Keep cyclic adjacency backed by authoritative directed links; consider lightweight cyclic records only after exact angle/order tests. Replace BFS membership scans with stamps while preserving level/discovery/parent order.",
+      "gate": "Exact sum order/self incidence and duplicate multiplicity; geometric order with angle ties, loops, branches, 3D/XY normal behavior, local edits and isolated exceptions. No full topology redesign.",
+      "status": "pending"
+    },
+    {
+      "phase": 5,
+      "title": "Measured remaining boundaries",
+      "changes": "Only after earlier evidence: native display copy reduction, dynamics hinge incidence, separate eccentricity algorithm proposal, toolsets runtime consumer rebuild, viewer reconstruction/history. Keep unrelated selection/display fixes excluded.",
+      "gate": "Rebuild reachable WASM consumers; backup installed runtime; verify actual viewer import/display/camera/undo/redo. Do not mark roadmap until checks pass or infer FPS from Node/rAF.",
+      "status": "pending"
+    }
+  ],
+  "verification": {
+    "fixtures": [
+      "empty graph",
+      "open chain (forward/reverse alternating edges)",
+      "closed loop",
+      "branch/star, high-degree equal-angle fan",
+      "disconnected components",
+      "isolated vertices incl. isolated-only graph",
+      "duplicate positions incl. signed zero and precision boundaries",
+      "duplicate edge pairs and reverse duplicates",
+      "self edges (flat accepted; lazy fan behavior baseline, do not assume traversal safety)",
+      "invalid odd/out-of-range connectivity and deferred exceptions",
+      "custom sym/next/prev/vertex/edge links and halfedge IDs",
+      "vertex/edge/halfedge deactivation and mixed compact/backend IDs",
+      "colors RGBA/weights/defaults and same-size create",
+      "copy/move/assignment/getDuplicate while dirty",
+      "raw pointer aliases/retained writes and alternating representations"
+    ],
+    "sizes": [
+      1000,
+      10000,
+      100000,
+      500000
+    ],
+    "reportCounts": "Report V and E separately; chain E=500000 has V=500001, loop V=E; branch/disconnected grid counts differ.",
+    "parity": "Capture exact array bytes/scalars, NaN/signed-zero behavior where applicable, directed IDs/endpoints/links, sequence/parent order, active flags, normals/cross-product ribbon geometry, transforms, outputs appended/cleared, exception type/message/timing. No epsilon shortcut or reordered sums.",
+    "phases": [
+      "JS input preparation (separate)",
+      "JS→C++ serialization/copy",
+      "algorithm/incidence/topology",
+      "storage/default attributes/install",
+      "C++ render export",
+      "C++→JS owned readback",
+      "viewer reconstruction/history",
+      "full UI action",
+      "rAF scheduling gaps (not GPU completion/FPS)"
+    ],
+    "memory": "Native allocation/high-water RSS and WASM heap growth/peak when possible; report cached incidence/map bytes and retained flat+backend copies. JS sampled heap/ArrayBuffer/RSS is not peak/GPU memory.",
+    "commands": [
+      ".\\scripts\\build.ps1 -Configuration Release",
+      "ctest --test-dir build\\ninja-msvc -C Release --output-on-failure",
+      "wasm\\scripts\\build-wasm.bat",
+      "npm run build in viewer before viewer changes and after every extraction/runtime install"
+    ],
+    "installation": "Copy current installed JS/WASM to a fresh named backup and save SHA256 before replacement. Verify matching rebuilt runtime consumers; core bridge does not currently expose direct graph operations.",
+    "viewer": "Actual current viewer graph import/sketch publication, default display, brief wheel/orbit interaction and graph undo/redo. Include single samples versus repeat medians/p95 explicitly; do not equate two rAF callbacks with GPU completion.",
+    "roadmap": "No checkbox updated in this audit. Update only the exact verified approved milestone."
+  },
+  "results": "graph-optimization.html",
+  "constructionResults": "graph-construction-optimization.html"
+}

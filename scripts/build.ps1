@@ -1,6 +1,7 @@
 param(
   [ValidateSet("Debug", "Release")]
-  [string]$Configuration = "Release"
+  [string]$Configuration = "Release",
+  [string]$OpenUSDRoot = ""
 )
 
 $ErrorActionPreference = "Stop"
@@ -25,7 +26,12 @@ if (!(Test-Path $vcvars)) {
   throw "vcvars64.bat was not found. Install Visual Studio Build Tools or update scripts/build.ps1 with your compiler environment setup."
 }
 
-$command = "`"$vcvars`" && `"$cmakeExe`" --preset $preset -DCMAKE_BUILD_TYPE=$Configuration && `"$cmakeExe`" --build --preset $buildPreset --parallel"
+$usdArgument = ""
+if ($OpenUSDRoot) {
+  $usdRootPath = (Resolve-Path -LiteralPath $OpenUSDRoot).Path
+  $usdArgument = " -DZSPACE_IO_WITH_OPENUSD=ON -DZSPACE_OPENUSD_ROOT=`"$usdRootPath`""
+}
+$command = "`"$vcvars`" && `"$cmakeExe`" --preset $preset -DCMAKE_BUILD_TYPE=$Configuration$usdArgument && `"$cmakeExe`" --build --preset $buildPreset --parallel"
 Push-Location $repoRoot
 try {
   cmd.exe /d /s /c $command

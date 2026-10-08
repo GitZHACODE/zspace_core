@@ -1,0 +1,329 @@
+{
+  "date": "2026-10-08",
+  "nativeMethod": "Native Release with opt-in stage timers; three sequential trials before/after, no concurrent compilation. Timers are disabled in the production build. Individual phase medians do not necessarily sum to the median total.",
+  "native": {
+    "eighth": {
+      "beforeMs": 1101.0125,
+      "afterMs": 458.3877
+    },
+    "batch": {
+      "beforeMs": 1297.5555,
+      "afterMs": 523.8944
+    },
+    "grid500k": {
+      "beforeMs": 628.9613,
+      "afterMs": 489.7563
+    },
+    "phases": [
+      {
+        "phase": "face-edge-collection",
+        "beforeMs": 60.3102,
+        "afterMs": 39.0908
+      },
+      {
+        "phase": "subdivision-output",
+        "beforeMs": 100.2565,
+        "afterMs": 17.0827
+      },
+      {
+        "phase": "storage-install",
+        "beforeMs": 397.6285,
+        "afterMs": 370.6004
+      },
+      {
+        "phase": "normals",
+        "beforeMs": 47.4441,
+        "afterMs": 50.3241
+      }
+    ]
+  },
+  "wasm": {
+    "method": "Node WASM output equivalence and C++ call durations, not a browser/FPS benchmark. Fresh cube per trial; alternate before/after call order across trials. First trial includes cold heap growth; later trials reuse warm modules. Calls include subdivision, normals and render export; exclude JS upload/readback/renderer/history. Twelve exported buffers are byte-identical at every stage and floating outputs finite.",
+    "eighth": {
+      "beforeMs": 662.2825000000003,
+      "afterMs": 355.1247000000003
+    },
+    "grid500k": {
+      "beforeMs": 532.4965000000002,
+      "afterMs": 470.5149000000001
+    },
+    "runtimeSha256": "27daad481b9c4a5d6b403b2cf15f79f4f2d7bcd066e3bbefb624d30c57799653",
+    "profile": [
+      {
+        "phase": "face-edge-collection",
+        "afterMs": 32.6045
+      },
+      {
+        "phase": "subdivision-output",
+        "afterMs": 14.8413
+      },
+      {
+        "phase": "storage-install",
+        "afterMs": 275.8504
+      },
+      {
+        "phase": "normals",
+        "afterMs": 34.2427
+      },
+      {
+        "phase": "render-export",
+        "afterMs": 60.8691
+      }
+    ]
+  },
+  "changes": [
+    "Replace smoothMesh tree nodes/repeated lookups with contiguous corner-edge records sorted by endpoints, face and corner. Preserve lexicographic edge-point numbering, ordered floating sums, duplicate-face handling, boundary neighbor order and first-two-face nonmanifold formula.",
+    "Generate output faces using per-corner edge-point indices. Move completed position/connectivity arrays into internal storage while retaining validation, default attributes and cache invalidation; public create/set APIs are unchanged.",
+    "Flat edge rebuild uses packed endpoint hash lookup, preserving first-face edge IDs, direction, use counts and endpoint-matched attributes; try_emplace avoids temporary nodes for shared-edge hits.",
+    "Add opt-in native/WASM phase instrumentation and an isolated actual-viewer stress page. Production runtime has profiling disabled; no viewer source, sketch, selection or display behavior changed."
+  ],
+  "verification": [
+    "Native geometry/normal/connectivity/edge digests match for cube divisions 1–8, batch 8, curvature and exactly 500000 quads. Edge direction/local geometry digests also match.",
+    "Final isolated native Release build with profiling disabled passed; full isolated CTest passed 2/2 (core and IO smoke with OpenUSD disabled). Reordered-edge attributes/IDs/direction/use counts tested.",
+    "Repository-prescribed scripts/build.ps1 -Configuration Release passed; default build/ninja-msvc CTest passed 2/2 (core and IO smoke, optional OpenUSD disabled). Earlier dependency-block notes are historical; separate user-authored build/IO changes were preserved.",
+    "Production WASM build passed. Twelve output buffers byte-identical at 27 cube stages, three mixed/nonmanifold/repeated-corner cases before and after smoothing, and three 500000-quad grid trials. Float buffers finite.",
+    "Separate opt-in WASM profiling build passed byte parity against production. Timed phase values include instrumentation and are reported separately from production call medians.",
+    "Verified runtime installed and npm run build passed. Actual WebGPU viewer imported 125000 quads, smoothed to 500000, measured idle/brief wheel zoom, and verified undo/redo face counts."
+  ],
+  "limitations": [
+    "Timings are exploratory, not universal speedups. Native phase measurements and production Node WASM timing have different scopes. Node WASM calls exclude JS transfer, history, UI and GPU rendering.",
+    "Storage installation still performs validation, initializes attributes and builds unique edges. Hash lookup still allocates nodes; reusable scratch or a node-free flat lookup remains a candidate.",
+    "Ordered adjacency/ring migration remains incomplete; explicit halfedge/local-edit contracts retain the backend.",
+    "Native verification uses the isolated OpenUSD-disabled configuration. Unrelated dirty OpenUSD/build/IO changes were preserved; this milestone does not validate USD or native OpenGL runtime.",
+    "Browser action timings are one run before/after, not medians. rAF gaps observe scheduling, not GPU completion. Camera input is a brief wheel-zoom burst within the sample, not continuous orbit. JS heap snapshots fluctuate with GC; they are not peak total/GPU memory."
+  ],
+  "changedFiles": [
+    "src/zCore/geometry/detail/zMeshProfile.h",
+    "src/zCore/geometry/detail/zMeshFaceListStorage.h",
+    "src/zCore/geometry/detail/zMeshFaceListStorage.cpp",
+    "src/zInterface/functionsets/zFnMesh.cpp",
+    "src/zInterface/objects/zMeshObjectStorage.h",
+    "wasm/bridge/zspace_core_wasm_bridge.cpp",
+    "tests/smoke/mesh_iterator_geometry_fixture.h",
+    "tests/mesh-iterator-runtime-parity.mjs",
+    "tests/performance/write-subdivision-profile-build.mjs",
+    "tests/performance/write-viewer-stress-page.mjs",
+    "reports/generate-subdivision-report.mjs",
+    "reports/subdivision-native-before.json",
+    "reports/subdivision-native-after.json",
+    "reports/subdivision-phases-before.csv",
+    "reports/subdivision-phases-after.csv",
+    "reports/subdivision-runtime-parity.json",
+    "reports/subdivision-wasm-profile.json",
+    "reports/subdivision-viewer-before.json",
+    "reports/subdivision-viewer-after.json",
+    "reports/subdivision-optimization.html",
+    "reports/subdivision-optimization.json",
+    "reports/generate-mesh-audit.mjs",
+    "reports/mesh-topology-audit.html",
+    "reports/mesh-topology-audit.json",
+    "../zspace_alice_webviewer/reports/viewer-500k-stress.html",
+    "../zspace_alice_webviewer/reports/Alice-Viewer-Implementation-Roadmap.md",
+    "../zspace_alice_webviewer/wasm/zspace_core.js",
+    "../zspace_alice_webviewer/wasm/zspace_core.wasm",
+    "reports/subdivision-viewer-500k.png"
+  ],
+  "viewer": {
+    "before": {
+      "capturedAt": "2026-10-08T12:54:36.768Z",
+      "captureMethod": "Transcribed from the isolated test page's visible JSON after compilation completed; one browser run, not a median. Wheel input occurred briefly within the eight-second sample, not continuously.",
+      "runtimeSha256": "e5ec2946bfa730443008f4aba0cc5eeda0f056f501d17bbe9cf926cc8fb22b43",
+      "renderer": "WebGPU · WGSL",
+      "viewport": [
+        1280,
+        720
+      ],
+      "devicePixelRatio": 1.5,
+      "faces": 500000,
+      "vertices": 501501,
+      "actions": [
+        {
+          "name": "import 125000 quads",
+          "actionMs": 2073.10000000149,
+          "presentedMs": 2083.7000000011176
+        },
+        {
+          "name": "smooth 125000 to 500000",
+          "actionMs": 3912.7000000011176,
+          "presentedMs": 4000.5
+        }
+      ],
+      "samples": [
+        {
+          "name": "idle",
+          "durationMs": 5002.4,
+          "frames": 286,
+          "inputEvents": 0,
+          "medianGapMs": 17.4,
+          "p95GapMs": 18.1,
+          "maxGapMs": 36.2,
+          "gapsOver50Ms": 0,
+          "visible": "visible"
+        },
+        {
+          "name": "camera interaction",
+          "durationMs": 8007.4,
+          "frames": 457,
+          "inputEvents": 4,
+          "medianGapMs": 17.5,
+          "p95GapMs": 18.1,
+          "maxGapMs": 27.2,
+          "gapsOver50Ms": 0,
+          "visible": "visible"
+        }
+      ],
+      "longTasks": [
+        {
+          "startMs": 36445.7,
+          "durationMs": 90
+        },
+        {
+          "startMs": 36561.5,
+          "durationMs": 1972
+        },
+        {
+          "startMs": 38533.7,
+          "durationMs": 74
+        },
+        {
+          "startMs": 41288.6,
+          "durationMs": 122
+        },
+        {
+          "startMs": 41431.3,
+          "durationMs": 3545
+        },
+        {
+          "startMs": 44977.3,
+          "durationMs": 220
+        }
+      ],
+      "jsHeapUsedBytes": 489675950,
+      "inputBytes": 8115436,
+      "fixtureGenerationMs": 89
+    },
+    "after": {
+      "capturedAt": "2026-10-08T13:06:14.858Z",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36",
+      "method": "Actual Alice viewer import/Smooth Mesh/history/display. Action times include UI/history, transfers, WASM, readback and publication; presented time adds two rAF callbacks, not GPU completion. Frame-gap samples include VSync/background scheduling and do not establish GPU throughput.",
+      "actions": [
+        {
+          "name": "import 125000 quads",
+          "faces": 125000,
+          "vertices": 125751,
+          "actionMs": 1991,
+          "presentedMs": 2015.3999999985099
+        },
+        {
+          "name": "smooth 125000 to 500000",
+          "faces": 500000,
+          "vertices": 501501,
+          "actionMs": 3902.7000000011176,
+          "presentedMs": 3912.10000000149
+        },
+        {
+          "name": "undo smooth",
+          "faces": 125000,
+          "vertices": 125751,
+          "actionMs": 790.5999999996275,
+          "presentedMs": 863.3000000007451
+        },
+        {
+          "name": "redo smooth",
+          "faces": 500000,
+          "vertices": 501501,
+          "actionMs": 2787,
+          "presentedMs": 3089.39999999851
+        }
+      ],
+      "samples": [
+        {
+          "name": "idle",
+          "faces": 500000,
+          "durationMs": 5003.700000000001,
+          "frames": 301,
+          "inputEvents": 0,
+          "medianGapMs": 16.69999999999709,
+          "p95GapMs": 16.799999999999272,
+          "maxGapMs": 18.700000000000728,
+          "gapsOver50Ms": 0,
+          "visible": "visible",
+          "viewport": [
+            1280,
+            720
+          ],
+          "devicePixelRatio": 1.5
+        },
+        {
+          "name": "camera interaction",
+          "faces": 500000,
+          "durationMs": 8002.800000000003,
+          "frames": 481,
+          "inputEvents": 4,
+          "medianGapMs": 16.69999999999709,
+          "p95GapMs": 16.70000000001164,
+          "maxGapMs": 16.80000000000291,
+          "gapsOver50Ms": 0,
+          "visible": "visible",
+          "viewport": [
+            1280,
+            720
+          ],
+          "devicePixelRatio": 1.5
+        }
+      ],
+      "longTasks": [
+        {
+          "startMs": 6398.5,
+          "durationMs": 90
+        },
+        {
+          "startMs": 6502.4000000003725,
+          "durationMs": 1881
+        },
+        {
+          "startMs": 8383.799999998882,
+          "durationMs": 91
+        },
+        {
+          "startMs": 11377,
+          "durationMs": 102
+        },
+        {
+          "startMs": 11502.5,
+          "durationMs": 3480
+        },
+        {
+          "startMs": 14982.799999998882,
+          "durationMs": 286
+        },
+        {
+          "startMs": 111823.19999999925,
+          "durationMs": 794
+        },
+        {
+          "startMs": 112618,
+          "durationMs": 60
+        },
+        {
+          "startMs": 112684.59999999963,
+          "durationMs": 2793
+        },
+        {
+          "startMs": 115482.90000000037,
+          "durationMs": 173
+        }
+      ],
+      "renderer": "WebGPU · WGSL",
+      "faces": 500000,
+      "vertices": 501501,
+      "status": "Redo smooth mesh.",
+      "jsHeapUsedBytes": 936548804,
+      "fixtureGenerationMs": 89.29999999888241,
+      "inputBytes": 8115436,
+      "runtimeSha256": "27daad481b9c4a5d6b403b2cf15f79f4f2d7bcd066e3bbefb624d30c57799653",
+      "captureMethod": "Actual isolated viewer, one run, no concurrent compilation; brief wheel-zoom input during the camera sample."
+    },
+    "jsHeapAfterRedoBytes": 936548804
+  }
+}

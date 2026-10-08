@@ -1,0 +1,81 @@
+{
+  "sphereCases": 428,
+  "surfaceCases": 62,
+  "rendererCases": 60,
+  "cacheContracts": "owned snapshots, content copies, raw mutations, counts/triangle fallback, two-state history reuse, bounded eviction",
+  "method": "Three alternating-order Node surface trials; excludes browser/GPU/history. Cache hit uses full exact connectivity comparison. Copy+hit includes all mesh payload cloning; comparison-only hit is separate.",
+  "timings": [
+    {
+      "faces": 125000,
+      "trial": 0,
+      "beforeBoundsMs": 22.26909999999998,
+      "afterBoundsMs": 21.857800000000225,
+      "beforeSurfaceMs": 16.949600000000373,
+      "afterSurfaceMs": 12.194499999999607,
+      "boundaryRebuildMs": 38.691699999999855,
+      "copyAndBoundaryHitMs": 7.587300000000141,
+      "boundaryComparisonHitMs": 3.3324000000002343,
+      "snapshotBytes": 2500000
+    },
+    {
+      "faces": 125000,
+      "trial": 1,
+      "beforeBoundsMs": 23.790199999999913,
+      "afterBoundsMs": 2.6579999999999018,
+      "beforeSurfaceMs": 11.669399999999769,
+      "afterSurfaceMs": 12.380899999999656,
+      "boundaryRebuildMs": 50.69520000000011,
+      "copyAndBoundaryHitMs": 5.458900000000085,
+      "boundaryComparisonHitMs": 0.6273999999998523,
+      "snapshotBytes": 2500000
+    },
+    {
+      "faces": 125000,
+      "trial": 2,
+      "beforeBoundsMs": 25.11259999999993,
+      "afterBoundsMs": 3.2831999999998516,
+      "beforeSurfaceMs": 12.705899999999929,
+      "afterSurfaceMs": 13.300799999999981,
+      "boundaryRebuildMs": 47.98440000000028,
+      "copyAndBoundaryHitMs": 5.210000000000036,
+      "boundaryComparisonHitMs": 0.6120999999998276,
+      "snapshotBytes": 2500000
+    },
+    {
+      "faces": 500000,
+      "trial": 0,
+      "beforeBoundsMs": 71.91809999999987,
+      "afterBoundsMs": 11.673800000000028,
+      "beforeSurfaceMs": 52.12649999999985,
+      "afterSurfaceMs": 52.10109999999986,
+      "boundaryRebuildMs": 191.81899999999996,
+      "copyAndBoundaryHitMs": 19.949499999999716,
+      "boundaryComparisonHitMs": 2.93100000000004,
+      "snapshotBytes": 10000000
+    },
+    {
+      "faces": 500000,
+      "trial": 1,
+      "beforeBoundsMs": 61.8091000000004,
+      "afterBoundsMs": 11.308700000000044,
+      "beforeSurfaceMs": 61.776600000000144,
+      "afterSurfaceMs": 48.36259999999993,
+      "boundaryRebuildMs": 163.1477,
+      "copyAndBoundaryHitMs": 13.485999999999876,
+      "boundaryComparisonHitMs": 2.2228000000004613,
+      "snapshotBytes": 10000000
+    },
+    {
+      "faces": 500000,
+      "trial": 2,
+      "beforeBoundsMs": 59.70550000000003,
+      "afterBoundsMs": 10.580500000000029,
+      "beforeSurfaceMs": 54.66809999999987,
+      "afterSurfaceMs": 48.599199999999655,
+      "boundaryRebuildMs": 169.96329999999944,
+      "copyAndBoundaryHitMs": 14.635700000000725,
+      "boundaryComparisonHitMs": 2.220800000000054,
+      "snapshotBytes": 10000000
+    }
+  ]
+}
