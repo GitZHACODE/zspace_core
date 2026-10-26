@@ -27,4 +27,4 @@ site:
           default: true
           draft: true
           content:
-            directory: ./geometry-kernel/core-architecture
+            directory: null
