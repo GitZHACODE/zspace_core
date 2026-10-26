@@ -1,7 +1,5 @@
 # Architecture and API ownership
 
-## Architecture and API ownership
-
 zspace\_core is the reusable C++17 geometry kernel. Toolsets build project methods on this kernel; the Web Viewer presents geometry and invokes compiled adapters. Rendering and application state do not belong to the geometry kernel.
 
 {% code collapsedlinecount="10" %}

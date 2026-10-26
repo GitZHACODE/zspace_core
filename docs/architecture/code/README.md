@@ -1,7 +1,5 @@
 # Code Documentation
 
-## Code documentation
-
 Source-derived API reference and code guides for this component. Follow the architecture guide before using the low-level reference.
 
 ### Pages

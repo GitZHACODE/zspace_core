@@ -1,7 +1,5 @@
 # Using geometry and IO APIs
 
-## Using geometry and IO APIs
-
 ### Create geometry through a bound function set
 
 {% code collapsedlinecount="10" %}

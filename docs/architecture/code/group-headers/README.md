@@ -1,7 +1,5 @@
 # Public headers and free declarations
 
-## Public headers and free declarations
-
 Reference pages are generated from the current source snapshot. Source links identify the exact revision and declaration location.
 
 ### Pages

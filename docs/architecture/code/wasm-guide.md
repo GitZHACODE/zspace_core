@@ -1,7 +1,5 @@
 # Core WebAssembly contract
 
-## Core WebAssembly contract
-
 Core owns its C++ to WebAssembly build under wasm/. The Viewer loads a matching JavaScript/WASM pair and calls C bridge exports. The C ABI is a separate integration surface from C++ function sets; its exported signatures are indexed below.
 
 Temporary bulk inputs use zspace\_alloc and zspace\_free when available. Counts describe elements unless the individual declaration explicitly names bytes. The adapter copies validated input into C++ ownership, then releases temporary allocations. Memory growth can replace heap buffers, so callers must reacquire typed heap views after allocation.
