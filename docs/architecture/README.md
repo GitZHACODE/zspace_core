@@ -21,3 +21,13 @@ Core and toolsets browser modules use separate WASM heaps. Data crosses through 
 For graph ribbons, start with [Graph ribbon mesh](graph-mesh.md) and continue to the [Graph Mesh viewer operator](https://app.gitbook.com/s/lxNYT4JxjtqJ22h7b4hp/graph-mesh).
 
 [Source repository and review branch](https://github.com/GitZHACODE/zspace_core/tree/docs/gitbook-site-sync)
+
+### Code documentation
+
+Read the architecture and ownership guides, then use the source-derived API reference. The source-version page records the code revision and generation scope.
+
+[Code Documentation](code/)
+
+[Architecture and API ownership](code/architecture-guide.md)
+
+[Source versions and generation](code/generation.md)
