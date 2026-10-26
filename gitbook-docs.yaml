@@ -1,0 +1,17 @@
+$schema: https://api.gitbook.com/gitbook-docs.yaml
+site:
+  title: zSpace Slicer
+  structure:
+    - type: section
+      key: section-desktop-viewer
+      title: Alice 2 Desktop
+      path: desktop
+      default: true
+      children:
+        - type: space
+          key: space-desktop-slicer
+          title: Desktop Slicer
+          path: slicer
+          default: true
+          content:
+            directory: ./docs/gitbook/slicer
