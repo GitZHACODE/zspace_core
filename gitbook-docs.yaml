@@ -1,0 +1,36 @@
+$schema: https://api.gitbook.com/gitbook-docs.yaml
+version: 1
+site:
+  title: zSpace Core
+  structure:
+    - type: section
+      key: section-core
+      title: Geometry Kernel
+      path: core
+      default: true
+      children:
+        - type: space
+          key: space-core-architecture
+          title: Architecture and Migration
+          path: architecture
+          default: true
+          content:
+            directory: ./docs/architecture
+        - type: space
+          key: space-core-development
+          title: Development and Verification
+          path: development
+          content:
+            directory: ./docs/development
+        - type: space
+          key: space-core-api-guides
+          title: API and Contributor Guides
+          path: api
+          content:
+            directory: ./agents
+        - type: space
+          key: space-core-wasm
+          title: WebAssembly Runtime
+          path: wasm
+          content:
+            directory: ./wasm
