@@ -28,3 +28,29 @@ site:
           draft: true
           content:
             directory: null
+    - type: section
+      key: section-2
+      title: Project Toolsets
+      path: project-toolsets
+      children:
+        - type: space
+          key: space-2
+          title: Project Toolsets
+          path: project-toolsets
+          default: true
+          draft: true
+          content:
+            directory: null
+    - type: section
+      key: section-3
+      title: Web Viewer
+      path: web-viewer
+      children:
+        - type: space
+          key: space-3
+          title: Web Viewer
+          path: web-viewer
+          default: true
+          draft: true
+          content:
+            directory: null
