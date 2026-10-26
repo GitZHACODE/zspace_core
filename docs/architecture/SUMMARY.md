@@ -1,7 +1,7 @@
 # Table of contents
 
 * [Geometry Kernel](README.md)
-* [Code Documentation](code/README.md)
+* [Code documentation](code/README.md)
   * [Core mathematics and storage](code/group-zcore/README.md)
     * [std::hash< zDate >](code/group-zcore/api-std-hash-zdate.md)
     * [zBin](code/group-zcore/api-zbin.md)
@@ -116,3 +116,4 @@
 * [zSpace Public API Migration](api-migration.md)
 * [Graph ribbon mesh](graph-mesh.md)
 * [OpenUSD mesh IO](openusd-io.md)
+* [Documentation visual standards](documentation-visual-standards.md)
