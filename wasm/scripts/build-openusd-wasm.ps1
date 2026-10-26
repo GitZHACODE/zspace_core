@@ -18,6 +18,8 @@ $env:EMSDK = $EmsdkRoot
 $env:EM_CONFIG = Join-Path $EmsdkRoot ".emscripten"
 $env:EMSDK_PYTHON = Join-Path $pythonDir.FullName "python.exe"
 $env:EM_CACHE = Join-Path $repoRoot "wasm/cache"
+$env:EMCC_TEMP_DIR = Join-Path $repoRoot "wasm/tmp"
+New-Item -ItemType Directory -Path $env:EMCC_TEMP_DIR -Force | Out-Null
 $cmake = (Get-Command cmake -ErrorAction Stop).Source
 $toolchain = Join-Path $emscripten "cmake/Modules/Platform/Emscripten.cmake"
 & $cmake -S (Join-Path $repoRoot "wasm/openusd") -B (Join-Path $repoRoot "wasm/build/openusd") `
