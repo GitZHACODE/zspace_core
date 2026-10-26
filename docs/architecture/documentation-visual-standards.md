@@ -19,7 +19,7 @@ Use sentence case for prose headings while preserving API identifiers, product n
 
 ### Reading surfaces and navigation
 
-Use GitBook's clean theme with flat depth, modest rounded corners, line-style sidebar selection and underlined body links. Light mode is the reading default; readers can switch to dark mode. The CODE primary color is read from accent.fill (#874af7). Hint and status colors map to the source's corresponding light/dark semantic text colors.
+Use GitBook's clean theme with flat depth, modest rounded corners, line-style sidebar selection and underlined body links. The site defaults to light mode, ZHA UI’s default work surface. Both logo variants are prepared, but the dark-mode toggle is disabled in the saved configuration until its rendered link contrast is verified. GitBook may retain an existing reader theme preference; review the default in a fresh preview session. The hosted renderer showed the original CODE fill in dark-mode body links at 3.49:1; saved palette values alone are not evidence of acceptable rendered contrast. The enabled light-mode primary maps to CODE accent.fill (#874af7). The source’s dark-surface readable-purple token (#9F7BFF) is configured for future use, but dark reading mode remains disabled pending verification. Hint and status colors map to the source's corresponding light/dark semantic text colors.
 
 Code and API blocks use GitBook's native monochrome light/dark themes as a restrained documentation choice. This is an adaptation rather than a syntax palette prescribed by the company.
 
@@ -38,3 +38,7 @@ Do not upload unlicensed Neue Haas Unica fonts, fabricate new team colors, subst
 [Light theme ZHA/CODE lockup](.gitbook/assets/zha-code-lockup-light.svg)
 
 [Dark theme ZHA/CODE lockup](.gitbook/assets/zha-code-lockup-dark.svg)
+
+### Git Sync arrangement
+
+This site combines three independent repositories. Connect each book directly to its own repository and documentation folder. A site-wide single-repository setup reparents the books under one source and is not the arrangement used here. The review branch is docs/gitbook-site-sync in each repository.

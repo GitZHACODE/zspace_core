@@ -10,9 +10,9 @@ Toolsets run in a separate module and heap. Pass copied geometry buffers or seri
 
 [Core bridge exports](group-bridge/)
 
-[Toolsets bridge contract](https://app.gitbook.com/s/msFQS2BXJST2A9G1WzRj/code/wasm-guide)
+[Toolsets bridge contract](https://app.gitbook.com/s/msFQS2BXJST2A9G1WzRj/docs/code/wasm-guide)
 
-[Viewer adapters and sessions](https://app.gitbook.com/s/lxNYT4JxjtqJ22h7b4hp/code/kernel-guide)
+[Viewer adapters and sessions](https://app.gitbook.com/s/lxNYT4JxjtqJ22h7b4hp/docs/code/kernel-guide)
 
 [wasm/README.md](https://github.com/GitZHACODE/zspace_core/blob/23361dea9708c0ff28cddb98fc8667baa0b18c06/wasm/README.md#L1)
 

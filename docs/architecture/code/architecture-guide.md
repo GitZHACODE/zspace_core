@@ -21,9 +21,9 @@ Objects such as zObjectMesh own identity and geometry. A zFnMesh binds to an obj
 
 [File IO and codecs](group-zio/)
 
-[Toolsets architecture](https://app.gitbook.com/s/msFQS2BXJST2A9G1WzRj/code/architecture-guide)
+[Toolsets architecture](https://app.gitbook.com/s/msFQS2BXJST2A9G1WzRj/docs/code/architecture-guide)
 
-[Viewer architecture](https://app.gitbook.com/s/lxNYT4JxjtqJ22h7b4hp/code/architecture-guide)
+[Viewer architecture](https://app.gitbook.com/s/lxNYT4JxjtqJ22h7b4hp/docs/code/architecture-guide)
 
 [API migration and storage boundaries](../api-migration.md)
 
