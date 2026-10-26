@@ -15,3 +15,16 @@ site:
           default: true
           content:
             directory: ./docs/gitbook/slicer
+    - type: section
+      key: section-1
+      title: Geometry Kernel
+      path: core
+      children:
+        - type: space
+          key: space-1
+          title: Geometry Kernel
+          path: core-architecture
+          default: true
+          draft: true
+          content:
+            directory: ./geometry-kernel/core-architecture
